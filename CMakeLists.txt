@@ -183,9 +183,12 @@ SET(SRC_SDL
 
 SET(SRC_MAIN
     src/main.cpp
+    src/PokemonData.cpp
+    src/PokemonUtils.cpp
 )
 
 INCLUDE_DIRECTORIES(
+    include
     ${ZLIB_INCLUDE_DIR}
     fex
     ${PNG_INCLUDE_DIR}
