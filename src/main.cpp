@@ -19,11 +19,8 @@ void		doLoop()
 	printf("\033[2J\033[0;0H");
 	for (int i = 0; i < 6; i++)
 	  {
-	    PokemonData	*poke = pTeam.list + i;
-
-	    printf("%s's (%d xp) %s\tvs\t", poke->getOtName(), poke->getXP(), poke->getNick());
-	    poke = eTeam.list + i;
-	    printf("%s\n", poke->getNick());
+	    printf("%s's (%d xp) %s", pTeam[i]->getOtName(), pTeam[i]->getXP(), pTeam[i]->getNick());
+	    printf("\tvs\t%s\n", eTeam[i]->getNick());
 	  }
       }
     emulator.emuMain(emulator.emuCount);

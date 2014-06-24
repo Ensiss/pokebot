@@ -14,6 +14,12 @@ public:
   }
 
 public:
+  PokemonData	*operator[](uint8_t i)
+  {
+    return (list + (i >= 0 && i < 6) * i);
+  }
+
+public:
   void		update()
   {
     for (int i = 0; i < 6; i++)
