@@ -29,7 +29,7 @@ private:
   };
 
   struct	Growth {
-    uint16_t	id;
+    uint16_t	species;
     uint16_t	item;
     uint32_t	xp;
     uint8_t	ppUp;
@@ -107,7 +107,17 @@ public:
   uint16_t	getSpeed() const { return (_data->speed); }
   uint16_t	getSpAtk() const { return (_data->spatk); }
   uint16_t	getSpDef() const { return (_data->spdef); }
+
+  uint16_t	getSpecies() const { return (_growth->species); }
+  uint16_t	getItem() const { return (_growth->item); }
   uint32_t	getXP() const { return (_growth->xp); }
+
+  uint8_t	getHPEV() const { return (_evs->hp); }
+  uint8_t	getAtkEV() const { return (_evs->atk); }
+  uint8_t	getDefEV() const { return (_evs->def); }
+  uint8_t	getSpeedEV() const { return (_evs->speed); }
+  uint8_t	getSpAtkEV() const { return (_evs->spatk); }
+  uint8_t	getSpDefEV() const { return (_evs->spdef); }
 
 private:
   void		_decryptSubstructures();
