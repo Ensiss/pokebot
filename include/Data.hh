@@ -3,6 +3,7 @@
 
 #include	"../vbam/gba/Globals.h"
 #include	"PokemonUtils.hh"
+#include	"World.hh"
 #include	"Team.hpp"
 
 class		Data
@@ -19,6 +20,7 @@ public:
   char		*name(uint8_t i) const { return (_names[(i <= 151) * i]); }
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
+  World		&world() { return (_world); }
 
 private:
   void		_loadNames();
@@ -26,6 +28,7 @@ private:
 private:
   // Static
   char		**_names;
+  World		_world;
   // Dynamic
   Team		_pteam;
   Team		_eteam;

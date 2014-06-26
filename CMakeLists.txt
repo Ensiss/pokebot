@@ -184,6 +184,7 @@ SET(SRC_SDL
 SET(SRC_MAIN
     src/main.cpp
     src/Data.cpp
+    src/World.cpp
     src/PokemonData.cpp
     src/PokemonUtils.cpp
 )

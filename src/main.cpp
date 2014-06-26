@@ -22,6 +22,13 @@ void		doLoop()
 	    printf("%s's (%d xp) %s", pTeam[i].getOtName(), pTeam[i].getXP(), data.name(pTeam[i].getSpecies()));
 	    printf("\tvs\t%s\n", eTeam[i].getNick());
 	  }
+	World::Map &m = data.world().getMap(3, 0);
+	for (int y = 0; y < m.height; y++)
+	  {
+	    for (int x = 0; x < m.width; x++)
+	      printf("%02x ", m[y][x]);
+	    printf("\n");
+	  }
       }
     emulator.emuMain(emulator.emuCount);
     sdlPollEvents();
