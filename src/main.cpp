@@ -3,24 +3,24 @@
 #include	"../vbam/gba/GBA.h"
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/sdl/SDLGlobals.h"
-#include	"Team.hpp"
+#include	"Data.hh"
 
 void		doLoop()
 {
-  Team		pTeam((uint64_t) (workRAM + 0x24284));
-  Team		eTeam((uint64_t) (workRAM + 0x2402C));
+  Data		data;
+  Team		&pTeam = data.playerTeam();
+  Team		&eTeam = data.playerTeam();
   int		step = 0;
 
   while (emulating) {
     if (++step % 50 == 0)
       {
-	pTeam.update();
-	eTeam.update();
+	data.update();
 	printf("\033[2J\033[0;0H");
 	for (int i = 0; i < 6; i++)
 	  {
-	    printf("%s's (%d xp) %s", pTeam[i]->getOtName(), pTeam[i]->getXP(), pTeam[i]->getNick());
-	    printf("\tvs\t%s\n", eTeam[i]->getNick());
+	    printf("%s's (%d xp) %s", pTeam[i].getOtName(), pTeam[i].getXP(), data.name(pTeam[i].getSpecies()));
+	    printf("\tvs\t%s\n", eTeam[i].getNick());
 	  }
       }
     emulator.emuMain(emulator.emuCount);

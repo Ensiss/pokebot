@@ -14,9 +14,9 @@ public:
   }
 
 public:
-  PokemonData	*operator[](uint8_t i)
+  PokemonData	&operator[](uint8_t i)
   {
-    return (list + (i >= 0 && i < 6) * i);
+    return (list[(i >= 0 && i < 6) * i]);
   }
 
 public:
