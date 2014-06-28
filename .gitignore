@@ -28,3 +28,8 @@ install_manifest.txt
 # Binaries #
 ############
 pokebot
+
+
+# ROM Files
+*.gba
+*.sav

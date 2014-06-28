@@ -43,16 +43,12 @@ void		doLoop()
 	    for (int x = 0; x < m.width; x++)
 	      {
 		bool	node = false;
+		bool	ppos = (y == data.player().getY() && x == data.player().getX());
 		for (int a = 0; path && !node && a < path->size(); a++)
 		  if (x == (*path)[a]->x && y == (*path)[a]->y)
 		    node = true;
-		if (x == data.player().getX() && y == data.player().getY())
-		  printf("\033[31m");
-		else if (node)
-		  printf("\033[32m");
-		printf("%02x ", m[y][x].status);
-		if (node || (x == data.player().getX() && y == data.player().getY()))
-		  printf("\033[0m");
+		printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
+		       m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
 	      }
 	    printf("\n");
 	  }
