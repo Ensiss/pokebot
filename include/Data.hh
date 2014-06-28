@@ -5,6 +5,7 @@
 #include	"PokemonUtils.hh"
 #include	"World.hh"
 #include	"Team.hpp"
+#include	"Player.hh"
 
 class		Data
 {
@@ -21,6 +22,7 @@ public:
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
   World		&world() { return (_world); }
+  Player	&player() { return (_player); }
 
 private:
   void		_loadNames();
@@ -29,7 +31,8 @@ private:
   // Static
   char		**_names;
   World		_world;
-  // Dynamic
+  // Dynamic*
+  Player	_player;
   Team		_pteam;
   Team		_eteam;
 };

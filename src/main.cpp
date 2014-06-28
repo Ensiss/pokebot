@@ -9,10 +9,9 @@ void		doLoop()
 {
   Data		data;
   Team		&pTeam = data.playerTeam();
-  Team		&eTeam = data.playerTeam();
+  Team		&eTeam = data.enemyTeam();
   int		step = 0;
 
-  printf("%p\n", workRAM);
   while (emulating) {
     if (++step % 40 == 0)
       {
@@ -23,20 +22,15 @@ void		doLoop()
 	    printf("%s's (%d xp) %s", pTeam[i].getOtName(), pTeam[i].getXP(), data.name(pTeam[i].getSpecies()));
 	    printf("\tvs\t%s\n", eTeam[i].getNick());
 	  }
-	uint8_t		bank = *((uint8_t *) (workRAM + 0x031DBC));
-	uint8_t		map = *((uint8_t *) (workRAM + 0x031DBD));
-	World::Map	&m = data.world()[bank][map];
-	uint32_t	offset = *((uint32_t *) (internalRAM + 0x05008)) - 0x2000000;
-	uint16_t	px = *((uint16_t *) (workRAM + offset));
-	uint16_t	py = *((uint16_t *) (workRAM + offset + 2));
+	World::Map	&m = data.world()[data.player().getBank()][data.player().getMap()];
 	for (int y = 0; y < m.height; y++)
 	  {
 	    for (int x = 0; x < m.width; x++)
 	      {
-		if (x == px && y == py)
+		if (x == data.player().getX() && y == data.player().getY())
 		  printf("\033[31m");
 		printf("%02x ", m[y][x]);
-		if (x == px && y == py)
+		if (x == data.player().getX() && y == data.player().getY())
 		  printf("\033[0m");
 	      }
 	    printf("\n");

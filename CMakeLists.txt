@@ -185,6 +185,7 @@ SET(SRC_MAIN
     src/main.cpp
     src/Data.cpp
     src/World.cpp
+    src/Player.cpp
     src/PokemonData.cpp
     src/PokemonUtils.cpp
 )

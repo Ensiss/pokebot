@@ -13,6 +13,7 @@ Data::~Data()
 
 void		Data::update()
 {
+  _player.update();
   _pteam.update();
   _eteam.update();
 }
