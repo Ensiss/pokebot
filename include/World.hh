@@ -54,6 +54,7 @@ public:
   ~World();
 
 public:
+  std::vector<Map>	&operator[](uint8_t bank) { return (_banks[bank]); }
   Map		&getMap(uint8_t bank, uint8_t map) { return (_banks[bank][map]); }
 
 public:
