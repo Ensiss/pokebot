@@ -11,12 +11,11 @@ void		doLoop()
   Team		&pTeam = data.playerTeam();
   Team		&eTeam = data.enemyTeam();
   int		step = 0;
-  std::vector<World::Map::Node*>	*path = NULL;
+  World::Path	*path = NULL;
   bool		pushed = false;
   bool		oldState = false;
   uint16_t	oldx = 0;
   uint16_t	oldy = 0;
-  int		oldstep;
   uint8_t	pathi = 0;
 
   while (emulating) {
@@ -81,7 +80,6 @@ void		doLoop()
 	      k = dx < 0 ? KEY_LEFT : KEY_RIGHT;
 	    sdlSetButton(k, true);
 	    pathi++;
-	    oldstep = step;
     	  }
       }
     if (step > 900)

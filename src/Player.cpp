@@ -1,5 +1,6 @@
 #include	"Player.hh"
 #include	<cstdio>
+
 void		Player::update()
 {
   uint32_t	offset, doffset;

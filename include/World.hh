@@ -75,10 +75,10 @@ public:
 
   private:
     int			_getNextIndex(std::vector<Map::Node*> *set);
-    std::vector<Node*>*	_rebuildPath(std::vector<Map::Node*>* set, Node *node);
+    std::vector<Node*>	*_rebuildPath(std::vector<Map::Node*>* set, Node *node);
 
   public:
-    std::vector<Node*>*	findPath(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye);
+    std::vector<Node*>	*findPath(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye);
     Node		*operator[](uint8_t y) { return (data[y]); }
     inline uint8_t	getMatterColor(uint8_t matter, bool pos) {
       return (pos ? PLAYER:
@@ -90,6 +90,7 @@ public:
 	      matter == 16 ? ROCK : 0);
     }
   };
+  typedef	std::vector<Map::Node*>	Path;
 
 public:
   World();
