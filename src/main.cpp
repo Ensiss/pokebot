@@ -14,6 +14,10 @@ void		doLoop()
   std::vector<World::Map::Node*>	*path = NULL;
   bool		pushed = false;
   bool		oldState = false;
+  uint16_t	oldx = 0;
+  uint16_t	oldy = 0;
+  int		oldstep;
+  uint8_t	pathi = 0;
 
   while (emulating) {
     if (++step < 900)
@@ -31,11 +35,12 @@ void		doLoop()
 	    printf("\tvs\t%s\n", eTeam[i].getNick());
 	  }
 	World::Map	&m = data.world()[data.player().getBank()][data.player().getMap()];
-	if (1)
+	if (pushed)
 	  {
 	    if (path)
 	      delete path;
 	    path = m.findPath(data.player().getX(), data.player().getY(), 2, 2);
+	    pathi = 1;
 	    pushed = false;
 	  }
 	for (int y = 0; y < m.height; y++)
@@ -53,11 +58,43 @@ void		doLoop()
 	    printf("\n");
 	  }
       }
+
+    if (path && pathi == path->size() && (oldx != data.player().getX() || oldy != data.player().getY()))
+      {
+	for (uint8_t i = KEY_LEFT; i <= KEY_DOWN; i++)
+	  sdlSetButton((EKey) i, false);
+	delete path;
+	path = NULL;
+      }
+    if (path && pathi < path->size())
+      {
+    	if (pathi == 1 || (oldx != data.player().getX() || oldy != data.player().getY()))
+    	  {
+    	    for (uint8_t i = KEY_LEFT; i <= KEY_DOWN; i++)
+    	      sdlSetButton((EKey) i, false);
+	    int		dx = (*path)[pathi]->x - data.player().getX();
+	    int		dy = (*path)[pathi]->y - data.player().getY();
+	    EKey	k;
+	    if (!dx)
+	      k = dy < 0 ? KEY_UP : KEY_DOWN;
+	    else
+	      k = dx < 0 ? KEY_LEFT : KEY_RIGHT;
+	    sdlSetButton(k, true);
+	    pathi++;
+	    oldstep = step;
+    	  }
+      }
+    if (step > 900)
+      {
+	oldx = data.player().getX();
+	oldy = data.player().getY();
+      }
+
     emulator.emuMain(emulator.emuCount);
     sdlPollEvents();
-    if (oldState && !sdlGetButton(KEY_BUTTON_SELECT))
+    if (oldState && !sdlGetButton(KEY_BUTTON_B))
       pushed = true;
-    oldState = sdlGetButton(KEY_BUTTON_SELECT);
+    oldState = sdlGetButton(KEY_BUTTON_B);
   }
 }
 
