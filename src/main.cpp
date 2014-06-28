@@ -23,16 +23,12 @@ void		doLoop()
 	    printf("\tvs\t%s\n", eTeam[i].getNick());
 	  }
 	World::Map	&m = data.world()[data.player().getBank()][data.player().getMap()];
+
 	for (int y = 0; y < m.height; y++)
 	  {
 	    for (int x = 0; x < m.width; x++)
-	      {
-		if (x == data.player().getX() && y == data.player().getY())
-		  printf("\033[31m");
-		printf("%02x ", m[y][x]);
-		if (x == data.player().getX() && y == data.player().getY())
-		  printf("\033[0m");
-	      }
+	      printf("\033[1;%dm%02x\033[0m ", m.getMatterColor(m[y][x], (y == data.player().getY() &&
+									  x == data.player().getX())), m[y][x]);
 	    printf("\n");
 	  }
       }

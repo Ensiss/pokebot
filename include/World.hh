@@ -7,6 +7,16 @@
 #include	"../vbam/gba/Globals.h"
 #include	"PokemonUtils.hh"
 
+enum	{
+  ROCK=35,
+  HILL=35,
+  LADDER=34,
+  WATER=36,
+  ROAD=32,
+  WALL=30,
+  PLAYER=31
+};
+
 class		World
 {
 private:
@@ -47,6 +57,15 @@ public:
     uint8_t	**data;
 
     uint8_t	*operator[](uint8_t y) { return (data[y]); }
+    inline uint8_t	getMatterColor(uint8_t matter, bool pos) {
+      return (pos ? PLAYER:
+	      !matter ? LADDER :
+	      matter == 1 ? WALL :
+	      matter == 4 ? WATER :
+	      matter == 12 ? ROAD :
+	      matter == 13 ? HILL :
+	      matter == 16 ? ROCK : 0);
+    }
   };
 
 public:
