@@ -14,6 +14,8 @@
 #define		CURR_BANK_PTR	0x031DBC
 #define		CURR_MAP_PTR	0x031DBD
 
+#define		POW(x)		((x) * (x))
+
 char		pokeCharsetToAscii(uint8_t c);
 
 #endif

@@ -11,9 +11,17 @@ void		doLoop()
   Team		&pTeam = data.playerTeam();
   Team		&eTeam = data.enemyTeam();
   int		step = 0;
+  std::vector<World::Map::Node*>	*path = NULL;
+  bool		pushed = false;
+  bool		oldState = false;
 
   while (emulating) {
-    if (++step % 40 == 0)
+    if (++step < 900)
+      {
+	sdlSetButton(KEY_BUTTON_AUTO_A, step < 899);
+	sdlSetButton(KEY_BUTTON_SPEED, step < 899);
+      }
+    else if (step % 20 == 0)
       {
 	data.update();
 	printf("\033[2J\033[0;0H");
@@ -23,14 +31,27 @@ void		doLoop()
 	    printf("\tvs\t%s\n", eTeam[i].getNick());
 	  }
 	World::Map	&m = data.world()[data.player().getBank()][data.player().getMap()];
+	if (1)
+	  {
+	    if (path)
+	      delete path;
+	    path = m.findPath(data.player().getX(), data.player().getY(), 2, 2);
+	    pushed = false;
+	  }
 	for (int y = 0; y < m.height; y++)
 	  {
 	    for (int x = 0; x < m.width; x++)
 	      {
+		bool	node = false;
+		for (int a = 0; path && !node && a < path->size(); a++)
+		  if (x == (*path)[a]->x && y == (*path)[a]->y)
+		    node = true;
 		if (x == data.player().getX() && y == data.player().getY())
 		  printf("\033[31m");
-		printf("%02x ", m[y][x]);
-		if (x == data.player().getX() && y == data.player().getY())
+		else if (node)
+		  printf("\033[32m");
+		printf("%02x ", m[y][x].status);
+		if (node || (x == data.player().getX() && y == data.player().getY()))
 		  printf("\033[0m");
 	      }
 	    printf("\n");
@@ -38,6 +59,9 @@ void		doLoop()
       }
     emulator.emuMain(emulator.emuCount);
     sdlPollEvents();
+    if (oldState && !sdlGetButton(KEY_BUTTON_SELECT))
+      pushed = true;
+    oldState = sdlGetButton(KEY_BUTTON_SELECT);
   }
 }
 

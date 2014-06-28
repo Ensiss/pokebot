@@ -1,9 +1,11 @@
 #ifndef		__WORLD_HH__
 #define		__WORLD_HH__
 
+#include	<cmath>
 #include	<cstdio>
 #include	<stdint.h>
 #include	<vector>
+#include	<algorithm>
 #include	"../vbam/gba/Globals.h"
 #include	"PokemonUtils.hh"
 
@@ -42,11 +44,31 @@ private:
 public:
   struct	Map
   {
+    struct	Node
+    {
+      uint8_t	status;
+      Node	*from;
+      uint32_t	g;
+      uint32_t	f;
+      uint32_t	x;
+      uint32_t	y;
+
+      Node(uint32_t px = 0, uint32_t py = 0) : status(0), from(NULL), g(0), f(0), x(px), y(py) {}
+      void	setG(uint32_t pg) { g = pg; }
+      void	setF(uint32_t xe, uint32_t ye) { f = g + 10 * sqrt(POW(xe - x) + POW(ye - y)); }
+    };
+
     uint64_t	width;
     uint64_t	height;
-    uint8_t	**data;
+    Node	**data;
 
-    uint8_t	*operator[](uint8_t y) { return (data[y]); }
+  private:
+    int			_getNextIndex(std::vector<Map::Node*> *set);
+    std::vector<Node*>*	_rebuildPath(std::vector<Map::Node*>* set, Node *node);
+
+  public:
+    std::vector<Node*>*	findPath(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye);
+    Node		*operator[](uint8_t y) { return (data[y]); }
   };
 
 public:
@@ -54,8 +76,8 @@ public:
   ~World();
 
 public:
-  std::vector<Map>	&operator[](uint8_t bank) { return (_banks[bank]); }
-  Map		&getMap(uint8_t bank, uint8_t map) { return (_banks[bank][map]); }
+  std::vector<Map>	&operator[](uint8_t bank) { return (_banks[(bank < _banks.size()) * bank]); }
+  Map		&getMap(uint8_t bank, uint8_t map) { return ((*this)[bank][(map < (*this)[bank].size()) * map]); }
 
 public:
   std::vector<std::vector<Map> >	_banks;

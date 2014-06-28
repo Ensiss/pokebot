@@ -38,11 +38,13 @@ public:
   uint16_t	getY() const { return (_loc->y); }
   uint8_t	getBank() const { return (_loc->bank); }
   uint8_t	getMap() const { return (_loc->map); }
+  bool		isValid() const { return (_valid); }
 
 private:
   Internal	*_data;
   MapLoc	*_loc;
   char		_name[9];
+  bool		_valid;
 };
 
 #endif
