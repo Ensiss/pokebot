@@ -2,12 +2,15 @@
 #define		__SDLGLOBALS_H__
 
 #include	"inputSDL.h"
+#include	"Data.hh"
+
+class	Action;
 
 void	sdlSetButton(EKey key, bool state);
 bool	sdlGetButton(EKey key);
 void	initVBAM(int argc, char **argv);
 void	destroyVBAM();
-void	sdlPollEvents();
+void	sdlPollEvents(Data &data, Action &action);
 
 extern int pauseWhenInactive;
 extern int active;

@@ -11,7 +11,7 @@ class		Movement
 {
 public:
   Movement(Data &data)
-    : _data(data)
+    : _data(data), _path(NULL)
   {}
   ~Movement() {}
 
@@ -25,11 +25,11 @@ private:
 
 private:
   Data		&_data;
+  World::Path	*_path;
   uint16_t	_tx;
   uint16_t	_ty;
   uint16_t	_oldx;
   uint16_t	_oldy;
-  World::Path	*_path;
   uint8_t	_pathi;
 };
 

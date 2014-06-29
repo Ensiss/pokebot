@@ -14,8 +14,7 @@ void		doLoop()
   Team		&eTeam = data.enemyTeam();
   int		step = 0;
   World::Path	*path = NULL;
-  bool		pushed = false;
-  bool		oldState = false;
+  // bool		lol = false;
 
   while (emulating) {
     if (++step < 900)
@@ -37,11 +36,6 @@ void		doLoop()
 		printf("\tvs\t%s\n", eTeam[i].getNick());
 	      }
 	    World::Map	&m = data.world()[data.player().getBank()][data.player().getMap()];
-	    if (pushed)
-	      {
-		action.moveTo(2, 2);
-		pushed = false;
-	      }
 	    for (int y = 0; y < m.height; y++)
 	      {
 		for (int x = 0; x < m.width; x++)
@@ -60,10 +54,7 @@ void		doLoop()
       }
 
     emulator.emuMain(emulator.emuCount);
-    sdlPollEvents();
-    if (oldState && !sdlGetButton(KEY_BUTTON_B))
-      pushed = true;
-    oldState = sdlGetButton(KEY_BUTTON_B);
+    sdlPollEvents(data, action);
   }
 }
 

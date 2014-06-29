@@ -50,6 +50,9 @@
 #include "../gb/gbSound.h"
 #include "../Util.h"
 
+#include	"Data.hh"
+#include	"Action.hh"
+
 #include "debugger.h"
 #include "filters.h"
 #include "text.h"
@@ -122,6 +125,10 @@ int destWidth = 0;
 int destHeight = 0;
 int desktopWidth = 0;
 int desktopHeight = 0;
+int winX = 0;
+int winY = 0;
+int winW = 0;
+int winH = 0;
 
 Filter filter = kStretch2x;
 u8 *delta = NULL;
@@ -819,15 +826,18 @@ void sdlOpenGLInit(int w, int h)
   glDisable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
 
-  if(windowAspect == screenAspect)
-    glViewport(0, 0, w, h);
-  else if (windowAspect < screenAspect) {
-    int height = (int)(w / screenAspect);
-    glViewport(0, (h - height) / 2, w, height);
+  winX = 0;
+  winY = 0;
+  winW = w;
+  winH = h;
+  if (windowAspect < screenAspect) {
+    winH = (int)(w / screenAspect);
+    winY = (h - winH) / 2;
   } else {
-    int width = (int)(h * screenAspect);
-    glViewport((w - width) / 2, 0, width, h);
+    winW = (int)(h * screenAspect);
+    winX = (w - winW) / 2;
   }
+  glViewport(winX, winY, winW, winH);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -1359,9 +1369,12 @@ static void sdlHandleSavestateKey(int num, int shifted)
 
 } // sdlHandleSavestateKey
 
-void sdlPollEvents()
+void sdlPollEvents(Data &data, Action &action)
 {
-  SDL_Event event;
+  SDL_Event	event;
+  int		x;
+  int		y;
+
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
     case SDL_QUIT:
@@ -1369,291 +1382,37 @@ void sdlPollEvents()
       break;
     case SDL_VIDEORESIZE:
       if (ignore_first_resize_event)
-      {
-	      ignore_first_resize_event	= 0;
-	      break;
-      }
+	{
+	  ignore_first_resize_event	= 0;
+	  break;
+	}
       if (openGL)
-      {
-        SDL_SetVideoMode(event.resize.w, event.resize.h, 0,
-                       SDL_OPENGL | SDL_RESIZABLE |
-                       (fullscreen ? SDL_FULLSCREEN : 0));
-        sdlOpenGLInit(event.resize.w, event.resize.h);
-      }
+	{
+	  SDL_SetVideoMode(event.resize.w, event.resize.h, 0,
+			   SDL_OPENGL | SDL_RESIZABLE |
+			   (fullscreen ? SDL_FULLSCREEN : 0));
+	  sdlOpenGLInit(event.resize.w, event.resize.h);
+	}
       break;
-    case SDL_ACTIVEEVENT:
-      if(pauseWhenInactive && (event.active.state & SDL_APPINPUTFOCUS)) {
-        active = event.active.gain;
-        if(active) {
-          if(!paused) {
-            if(emulating)
-              soundResume();
-          }
-        } else {
-          wasPaused = true;
-          if(pauseWhenInactive) {
-            if(emulating)
-              soundPause();
-          }
-
-          memset(delta,255,delta_size);
-        }
-      }
-      break;
-    case SDL_MOUSEMOTION:
-    case SDL_MOUSEBUTTONUP:
     case SDL_MOUSEBUTTONDOWN:
-      if(fullscreen) {
-        SDL_ShowCursor(SDL_ENABLE);
-        mouseCounter = 120;
-      }
+      // Coordinates in window size
+      x = event.button.x - winX;
+      y = event.button.y - winY;
+      if (x < 0 || y < 0 || x > winW || y > winH)
+	break;
+      // Coordinates in tiles size
+      x = x / (winW / 15) - 7 + data.player().getX();
+      y = y / (winH / 11) - 5 + data.player().getY();
+      // Go !
+      action.moveTo(x, y);
       break;
-    case SDL_JOYHATMOTION:
-    case SDL_JOYBUTTONDOWN:
-    case SDL_JOYBUTTONUP:
-    case SDL_JOYAXISMOTION:
     case SDL_KEYDOWN:
       inputProcessSDLEvent(event);
       break;
     case SDL_KEYUP:
       switch(event.key.keysym.sym) {
-      case SDLK_r:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-          if(emulating) {
-            emulator.emuReset();
-
-            systemScreenMessage("Reset");
-          }
-        }
-        break;
-      case SDLK_b:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL))
-		change_rewind(-1);
-	break;
-      case SDLK_v:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL))
-		change_rewind(+1);
-	break;
-      case SDLK_h:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL))
-		change_rewind(0);
-	break;
-      case SDLK_j:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL))
-		change_rewind( (rewindTopPos - rewindPos) * ((rewindTopPos>rewindPos) ? +1:-1) );
-	break;
-      case SDLK_e:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-		cheatsEnabled = !cheatsEnabled;
-		systemConsoleMessage(cheatsEnabled?"Cheats on":"Cheats off");
-	}
-	break;
-
-      case SDLK_s:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)
-	) {
-		if (sdlSoundToggledOff) { // was off
-			// restore saved state
-			soundSetEnable( sdlSoundToggledOff );
-			sdlSoundToggledOff = 0;
-			systemConsoleMessage("Sound toggled on");
-		} else { // was on
-			sdlSoundToggledOff = soundGetEnable();
-			soundSetEnable( 0 );
-			systemConsoleMessage("Sound toggled off");
-			if (!sdlSoundToggledOff) {
-				sdlSoundToggledOff = 0x3ff;
-			}
-		}
-	}
-	break;
-      case SDLK_KP_DIVIDE:
-        sdlChangeVolume(-0.1);
-        break;
-      case SDLK_KP_MULTIPLY:
-        sdlChangeVolume(0.1);
-        break;
-      case SDLK_KP_MINUS:
-        if (gb_effects_config.stereo > 0.0) {
-          gb_effects_config.stereo = 0.0;
-          if (gb_effects_config.echo == 0.0 && !gb_effects_config.surround) {
-            gb_effects_config.enabled = 0;
-          }
-          systemScreenMessage("Stereo off");
-        } else {
-          gb_effects_config.stereo = SDL_SOUND_STEREO;
-          gb_effects_config.enabled = true;
-          systemScreenMessage("Stereo on");
-        }
-        break;
-      case SDLK_KP_PLUS:
-        if (gb_effects_config.echo > 0.0) {
-          gb_effects_config.echo = 0.0;
-          if (gb_effects_config.stereo == 0.0 && !gb_effects_config.surround) {
-            gb_effects_config.enabled = false;
-          }
-          systemScreenMessage("Echo off");
-        } else {
-          gb_effects_config.echo = SDL_SOUND_ECHO;
-          gb_effects_config.enabled = true;
-          systemScreenMessage("Echo on");
-        }
-        break;
-      case SDLK_KP_ENTER:
-        if (gb_effects_config.surround) {
-          gb_effects_config.surround = false;
-          if (gb_effects_config.stereo == 0.0 && gb_effects_config.echo == 0.0) {
-            gb_effects_config.enabled = false;
-          }
-          systemScreenMessage("Surround off");
-        } else {
-          gb_effects_config.surround =true;
-          gb_effects_config.enabled = true;
-          systemScreenMessage("Surround on");
-        }
-        break;
-
-      case SDLK_p:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-          paused = !paused;
-          SDL_PauseAudio(paused);
-          if(paused)
-            wasPaused = true;
-	  systemConsoleMessage(paused?"Pause on":"Pause off");
-        }
-        break;
       case SDLK_ESCAPE:
         emulating = 0;
-        break;
-      case SDLK_f:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-          fullscreen = !fullscreen;
-          sdlInitVideo();
-        }
-        break;
-      case SDLK_g:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-		      filterFunction = 0;
-		      while (!filterFunction)
-		      {
-			      filter = (Filter)((filter + 1) % kInvalidFilter);
-		        filterFunction = initFilter(filter, systemColorDepth, srcWidth);
-		      }
-		      if (getFilterEnlargeFactor(filter) != filter_enlarge)
-		        sdlInitVideo();
-		      systemScreenMessage(getFilterName(filter));
-        }
-        break;
-      case SDLK_F11:
-        if(dbgMain != debuggerMain) {
-          if(armState) {
-            armNextPC -= 4;
-            reg[15].I -= 4;
-          } else {
-            armNextPC -= 2;
-            reg[15].I -= 2;
-          }
-        }
-        debugger = true;
-        break;
-      case SDLK_F1:
-      case SDLK_F2:
-      case SDLK_F3:
-      case SDLK_F4:
-      case SDLK_F5:
-      case SDLK_F6:
-      case SDLK_F7:
-      case SDLK_F8:
-        if(!(event.key.keysym.mod & MOD_NOSHIFT) &&
-           (event.key.keysym.mod & KMOD_SHIFT)) {
-		sdlHandleSavestateKey( event.key.keysym.sym - SDLK_F1, 1); // with SHIFT
-        } else if(!(event.key.keysym.mod & MOD_KEYS)) {
-		sdlHandleSavestateKey( event.key.keysym.sym - SDLK_F1, 0); // without SHIFT
-	}
-        break;
-      /* backups - only load */
-      case SDLK_F9:
-        /* F9 is "load backup" - saved state from *just before* the last restore */
-        if ( ! (event.key.keysym.mod & MOD_NOSHIFT) ) /* must work with or without shift, but only without other modifiers*/
-	{
-          sdlReadState(SLOT_POS_LOAD_BACKUP);
-        }
-        break;
-      case SDLK_F10:
-        /* F10 is "save backup" - what was in the last overwritten savestate before we overwrote it*/
-        if ( ! (event.key.keysym.mod & MOD_NOSHIFT) ) /* must work with or without shift, but only without other modifiers*/
-	{
-          sdlReadState(SLOT_POS_SAVE_BACKUP);
-        }
-        break;
-      case SDLK_1:
-      case SDLK_2:
-      case SDLK_3:
-      case SDLK_4:
-        if(!(event.key.keysym.mod & MOD_NOALT) &&
-           (event.key.keysym.mod & KMOD_ALT)) {
-          const char *disableMessages[4] =
-            { "autofire A disabled",
-              "autofire B disabled",
-              "autofire R disabled",
-              "autofire L disabled"};
-          const char *enableMessages[4] =
-            { "autofire A",
-              "autofire B",
-              "autofire R",
-              "autofire L"};
-
-	  EKey k = KEY_BUTTON_A;
-	  if (event.key.keysym.sym == SDLK_1)
-	    k = KEY_BUTTON_A;
-	  else if (event.key.keysym.sym == SDLK_2)
-	    k = KEY_BUTTON_B;
-	  else if (event.key.keysym.sym == SDLK_3)
-	    k = KEY_BUTTON_R;
-	  else if (event.key.keysym.sym == SDLK_4)
-	    k = KEY_BUTTON_L;
-
-          if(inputToggleAutoFire(k)) {
-            systemScreenMessage(enableMessages[event.key.keysym.sym - SDLK_1]);
-          } else {
-            systemScreenMessage(disableMessages[event.key.keysym.sym - SDLK_1]);
-          }
-        } else if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-             (event.key.keysym.mod & KMOD_CTRL)) {
-          int mask = 0x0100 << (event.key.keysym.sym - SDLK_1);
-          layerSettings ^= mask;
-          layerEnable = DISPCNT & layerSettings;
-          CPUUpdateRenderBuffers(false);
-        }
-        break;
-      case SDLK_5:
-      case SDLK_6:
-      case SDLK_7:
-      case SDLK_8:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-          int mask = 0x0100 << (event.key.keysym.sym - SDLK_1);
-          layerSettings ^= mask;
-          layerEnable = DISPCNT & layerSettings;
-        }
-        break;
-      case SDLK_n:
-        if(!(event.key.keysym.mod & MOD_NOCTRL) &&
-           (event.key.keysym.mod & KMOD_CTRL)) {
-          if(paused)
-            paused = false;
-          pauseNextFrame = true;
-        }
         break;
       default:
         break;
