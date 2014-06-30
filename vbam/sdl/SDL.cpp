@@ -1530,6 +1530,7 @@ void	initVBAM(int argc, char **argv)
   emulating = 1;
   renderedFrames = 0;
   autoFrameSkipLastTime = throttleLastTime = systemGetClock();
+  soundSetVolume(0);
 }
 
 void	destroyVBAM()
