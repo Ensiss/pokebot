@@ -41,6 +41,18 @@ private:
     uint8_t	borderH;
   };
 
+  struct	TilesetHeader
+  {
+    uint8_t	compressed;
+    uint8_t	primary;
+    uint16_t	unknown;
+    uint32_t	imgPtr;
+    uint32_t	palettePtr;
+    uint32_t	blocksPtr;
+    uint32_t	animPtr;
+    uint32_t	behaviorPtr;
+  };
+
 public:
   struct	Map
   {
