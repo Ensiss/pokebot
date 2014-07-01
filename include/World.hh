@@ -47,6 +47,7 @@ public:
     struct	Node
     {
       uint8_t	status;
+      uint16_t	tile;
       Node	*from;
       uint32_t	g;
       uint32_t	f;

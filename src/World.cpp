@@ -31,6 +31,7 @@ World::World()
 		{
 		  map.data[y][x] = Map::Node(x, y);
 		  map.data[y][x].status = d[y * map.width + x] >> 10;
+		  map.data[y][x].tile = d[y * map.width + x] & ((1 << 10) - 1);
 		}
 	    }
 	}
