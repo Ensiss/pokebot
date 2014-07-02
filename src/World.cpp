@@ -1,5 +1,16 @@
 #include	"World.hh"
 
+void		manageTileset(uint32_t tilesetPtr)
+{
+  uint16_t	*ptr = (uint16_t *) (rom + tilesetPtr - ROM_OFFSET);
+
+  for (int i = 0; i < 4096; i++)
+    {
+      printf("%04x ", ptr[i]);
+    }
+  printf("\n\n");
+}
+
 World::World()
 {
   int		banki = 0;
@@ -19,6 +30,10 @@ World::World()
 	  uint32_t	mapaddr = *((uint32_t *) (rom + mapi - ROM_OFFSET));
 	  Header	*header = (Header *) (rom + mapaddr - ROM_OFFSET);
 	  DataHeader	*dheader = (DataHeader *) (rom + header->mapPtr - ROM_OFFSET);
+	  TilesetHeader	*global = (TilesetHeader *) (rom + dheader->globalTileset - ROM_OFFSET);
+	  TilesetHeader	*local = (TilesetHeader *) (rom + dheader->localTileset - ROM_OFFSET);
+	  Map::TileAttr	*globPtr = (Map::TileAttr *) (rom + global->behaviorPtr - ROM_OFFSET);
+	  Map::TileAttr	*localPtr = (Map::TileAttr *) (rom + local->behaviorPtr - ROM_OFFSET);
 	  uint16_t	*d = (uint16_t *) (rom + dheader->data - ROM_OFFSET);
 
 	  map.width = dheader->width;
@@ -29,9 +44,12 @@ World::World()
 	      map.data[y] = new Map::Node[map.width]();
 	      for (int x = 0; x <  map.width; x++)
 		{
+		  uint16_t	t = d[y * map.width + x] & ((1 << 10) - 1);
+
 		  map.data[y][x] = Map::Node(x, y);
 		  map.data[y][x].status = d[y * map.width + x] >> 10;
-		  map.data[y][x].tile = d[y * map.width + x] & ((1 << 10) - 1);
+		  map.data[y][x].tile = t;
+		  map.data[y][x].attr = t < 0x280 ? globPtr + t : localPtr + t - 0x280;
 		}
 	    }
 	}

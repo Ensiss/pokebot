@@ -7,23 +7,6 @@
 #include	"Action.hh"
 #include	<list>
 
-struct		Dump
-{
-  int		offset;
-  uint8_t	size;
-  uint8_t	*data;
-
-  Dump(int off, int sz)
-    : offset(off), size(sz), data(new uint8_t[size]())
-  {
-    uint32_t	o = *((uint32_t *) (internalRAM + offset));
-    uint8_t	*ptr = (uint8_t *) (workRAM + o - WRAM_OFFSET);
-
-    for (int i = 0; i < sz; i++)
-      data[i] = ptr[i];
-  }
-};
-
 void		doLoop()
 {
   Data		data;
@@ -66,11 +49,6 @@ void		doLoop()
 	    		node = true;
 	    	    printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
 	    	    	   m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
-		    // if (ppos)
-		    //   printf("\033[31m");
-		    // printf("%04x ", m[y][x].tile);
-		    // if (ppos)
-		    //   printf("\033[0m");
 	    	  }
 	    	printf("\n");
 	      }

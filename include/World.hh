@@ -56,10 +56,17 @@ private:
 public:
   struct	Map
   {
+    struct	TileAttr
+    {
+      uint16_t	behavior;
+      uint16_t	bg;
+    };
+
     struct	Node
     {
       uint8_t	status;
       uint16_t	tile;
+      TileAttr	*attr;
       Node	*from;
       uint32_t	g;
       uint32_t	f;
