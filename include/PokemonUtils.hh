@@ -2,6 +2,7 @@
 #define		__POKEMONUTILS_HH__
 
 #include	<stdint.h>
+#include	"../vbam/gba/Globals.h"
 
 #define		WRAM_OFFSET	0x2000000
 #define		IRAM_OFFSET	0x3000000
@@ -17,5 +18,6 @@
 #define		POW(x)		((x) * (x))
 
 char		pokeCharsetToAscii(uint8_t c);
+void		*gbaMem(uint32_t ptr);
 
 #endif

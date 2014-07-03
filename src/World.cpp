@@ -1,16 +1,5 @@
 #include	"World.hh"
 
-void		manageTileset(uint32_t tilesetPtr)
-{
-  uint16_t	*ptr = (uint16_t *) (rom + tilesetPtr - ROM_OFFSET);
-
-  for (int i = 0; i < 4096; i++)
-    {
-      printf("%04x ", ptr[i]);
-    }
-  printf("\n\n");
-}
-
 World::World()
 {
   int		banki = 0;
@@ -27,16 +16,16 @@ World::World()
 	{
 	  maps.push_back(Map());
 	  Map		&map = maps.back();
-	  uint32_t	mapaddr = *((uint32_t *) (rom + mapi - ROM_OFFSET));
-	  Header	*header = (Header *) (rom + mapaddr - ROM_OFFSET);
-	  DataHeader	*dheader = (DataHeader *) (rom + header->mapPtr - ROM_OFFSET);
-	  TilesetHeader	*global = (TilesetHeader *) (rom + dheader->globalTileset - ROM_OFFSET);
-	  TilesetHeader	*local = (TilesetHeader *) (rom + dheader->localTileset - ROM_OFFSET);
-	  Map::TileAttr	*globPtr = (Map::TileAttr *) (rom + global->behaviorPtr - ROM_OFFSET);
-	  Map::TileAttr	*localPtr = (Map::TileAttr *) (rom + local->behaviorPtr - ROM_OFFSET);
-	  uint16_t	*d = (uint16_t *) (rom + dheader->data - ROM_OFFSET);
+	  uint32_t	mapaddr = *((uint32_t *) gbaMem(mapi));
+	  Header	*header = (Header *) gbaMem(mapaddr);
+	  DataHeader	*dheader = (DataHeader *) gbaMem(header->mapPtr);
+	  TilesetHeader	*global = (TilesetHeader *) gbaMem(dheader->globalTileset);
+	  TilesetHeader	*local = (TilesetHeader *) gbaMem(dheader->localTileset);
+	  Map::TileAttr	*globPtr = (Map::TileAttr *) gbaMem(global->behaviorPtr);
+	  Map::TileAttr	*localPtr = (Map::TileAttr *) gbaMem(local->behaviorPtr);
+	  uint16_t	*d = (uint16_t *) gbaMem(dheader->data);
 
-	  uint8_t	*evtPtr = (uint8_t *) (rom + header->evtPtr - ROM_OFFSET);
+	  uint8_t	*evtPtr = (uint8_t *) gbaMem(header->evtPtr);
 	  if (_banks.size() == 4 && _banks[3].size() == 21)
 	    {
 	      for (int i = 0; i < 80; i++)

@@ -10,3 +10,17 @@ char		pokeCharsetToAscii(uint8_t c)
     return (c - 0xD5 + 'a');
   return ('?');
 }
+
+void		*gbaMem(uint32_t ptr)
+{
+  uint8_t	loc = ptr >> 24;
+  uint8_t	*ret;
+
+  if (loc == 2)
+    ret = workRAM;
+  else if (loc == 3)
+    ret = internalRAM;
+  else if (loc == 8)
+    ret = rom;
+  return (ret + (ptr & 0xFFFFFF));
+}
