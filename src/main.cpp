@@ -60,6 +60,7 @@ void		doLoop()
 	    	  }
 	    	printf("\n");
 	      }
+	    printf("Connection type: %d to map %d:%d\n", m.connects[0].type, m.connects[0].bank, m.connects[0].map);
 	  }
       }
 

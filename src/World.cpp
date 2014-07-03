@@ -36,6 +36,8 @@ World::World()
 	  map.warps = (WarpEvt *) gbaMem(evtPtr->warpsPtr);
 	  map.scripts = (ScriptEvt *) gbaMem(evtPtr->scriptsPtr);
 	  map.signs = (SignEvt *) gbaMem(evtPtr->signsPtr);
+	  map.nbConnects = ((uint32_t *) gbaMem(header->connectPtr))[0];
+	  map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
 	  map.data = new Map::Node*[map.height]();
 	  for (int y = 0; y < map.height; y++)
 	    {

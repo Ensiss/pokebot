@@ -115,6 +115,15 @@ private:
     uint32_t	scriptPtr;
   };
 
+  struct	Connection
+  {
+    uint32_t	type;
+    uint32_t	offset;
+    uint8_t	bank;
+    uint8_t	map;
+    uint16_t	padding;
+  };
+
 public:
   struct	Map
   {
@@ -162,6 +171,8 @@ public:
     WarpEvt	*warps;
     ScriptEvt	*scripts;
     SignEvt	*signs;
+    uint32_t	nbConnects;
+    Connection	*connects;
 
   private:
     int			_getNextIndex(std::vector<Map::Node*> *set);
