@@ -36,6 +36,16 @@ World::World()
 	  Map::TileAttr	*localPtr = (Map::TileAttr *) (rom + local->behaviorPtr - ROM_OFFSET);
 	  uint16_t	*d = (uint16_t *) (rom + dheader->data - ROM_OFFSET);
 
+	  uint8_t	*evtPtr = (uint8_t *) (rom + header->evtPtr - ROM_OFFSET);
+	  if (_banks.size() == 4 && _banks[3].size() == 21)
+	    {
+	      for (int i = 0; i < 80; i++)
+		{
+		  printf("%02x ", evtPtr[i]);
+		}
+	      printf("\n");
+	    }
+
 	  map.width = dheader->width;
 	  map.height = dheader->height;
 	  map.data = new Map::Node*[map.height]();

@@ -49,6 +49,11 @@ void		doLoop()
 	    		node = true;
 	    	    printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
 	    	    	   m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
+		    // if (ppos)
+		    //   printf("\033[31m");
+		    // printf("%04x ", m[y][x].attr->bg);
+		    // if (ppos)
+		    //   printf("\033[0m");
 	    	  }
 	    	printf("\n");
 	      }

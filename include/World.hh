@@ -53,6 +53,18 @@ private:
     uint32_t	behaviorPtr;
   };
 
+  struct	Event
+  {
+    uint8_t	nbPersons;
+    uint8_t	nbWarps;
+    uint8_t	nbScripts;
+    uint8_t	nbSigns;
+    uint32_t	personsPtr;
+    uint32_t	warpsPtr;
+    uint32_t	scriptsPtr;
+    uint32_t	signsPtr;
+  };
+
 public:
   struct	Map
   {
