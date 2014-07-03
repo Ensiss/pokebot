@@ -188,7 +188,7 @@ public:
 	      matter == 4 ? WATER :
 	      matter == 12 ? ROAD :
 	      matter == 13 ? HILL :
-	      matter == 16 ? ROCK : 0);
+	      matter == 16 ? LADDER : 0);
     }
   };
   typedef	std::vector<Map::Node*>	Path;

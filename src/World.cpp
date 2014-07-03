@@ -93,6 +93,10 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, u
 {
   std::vector<Node*>	openset;
   std::vector<Node*>	closedset;
+  static const uint8_t        arr[] = {0x0C,	//Grass/Road
+				       0x00,	//Area around Ladder/Stairs
+				       0x10};	//Ladder/Stairs
+  std::vector<uint8_t>        walkableTiles(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
   openset.push_back(new Node(xs, ys));
   openset.back()->setF(xe, ye);
@@ -115,7 +119,9 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, u
 		  (!i && !j) || (i && j))
 		continue;
 	      // Tile type check
-	      if (!(data[y][x].status == 0x0C ||
+	      if (!(std::find(walkableTiles.begin(),
+			      walkableTiles.end(),
+			      data[y][x].status) != walkableTiles.end() ||
 		    (j == 1 && data[y][x].attr->behavior == 0x3b) ||
 		    (j == 1 && data[curr->y][curr->x].attr->behavior == 0x3b)))
 		continue;
