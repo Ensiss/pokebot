@@ -24,19 +24,18 @@ World::World()
 	  Map::TileAttr	*globPtr = (Map::TileAttr *) gbaMem(global->behaviorPtr);
 	  Map::TileAttr	*localPtr = (Map::TileAttr *) gbaMem(local->behaviorPtr);
 	  uint16_t	*d = (uint16_t *) gbaMem(dheader->data);
-
-	  uint8_t	*evtPtr = (uint8_t *) gbaMem(header->evtPtr);
-	  if (_banks.size() == 4 && _banks[3].size() == 21)
-	    {
-	      for (int i = 0; i < 80; i++)
-		{
-		  printf("%02x ", evtPtr[i]);
-		}
-	      printf("\n");
-	    }
+	  Event		*evtPtr = (Event *) gbaMem(header->evtPtr);
 
 	  map.width = dheader->width;
 	  map.height = dheader->height;
+	  map.nbPersons = evtPtr->nbPersons;
+	  map.nbWarps = evtPtr->nbWarps;
+	  map.nbScripts = evtPtr->nbScripts;
+	  map.nbSigns = evtPtr->nbSigns;
+	  map.persons = (PersonEvt *) gbaMem(evtPtr->personsPtr);
+	  map.warps = (WarpEvt *) gbaMem(evtPtr->warpsPtr);
+	  map.scripts = (ScriptEvt *) gbaMem(evtPtr->scriptsPtr);
+	  map.signs = (SignEvt *) gbaMem(evtPtr->signsPtr);
 	  map.data = new Map::Node*[map.height]();
 	  for (int y = 0; y < map.height; y++)
 	    {

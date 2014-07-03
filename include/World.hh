@@ -65,6 +65,56 @@ private:
     uint32_t	signsPtr;
   };
 
+  struct	SignEvt
+  {
+    uint16_t	x;
+    uint16_t	y;
+    uint8_t	level;
+    uint8_t	type;
+    uint32_t	scriptPtr;
+  };
+
+  struct	WarpEvt
+  {
+    uint16_t	x;
+    uint16_t	y;
+    uint8_t	level;
+    uint8_t	destWarp;
+    uint8_t	destMap;
+    uint8_t	destBank;
+  };
+
+  struct	PersonEvt
+  {
+    uint8_t	evtNb;
+    uint8_t	pictureNb;
+    uint16_t	unknown;
+    uint16_t	x;
+    uint16_t	y;
+    uint8_t	level;
+    uint8_t	mvtType;
+    uint8_t	mvt;
+    uint8_t	unknown2;
+    uint8_t	trainer;
+    uint8_t	unknown3;
+    uint16_t	view;
+    uint32_t	scriptPtr;
+    uint16_t	id;
+    uint16_t	unknown4;
+  };
+
+  struct	ScriptEvt
+  {
+    uint16_t	x;
+    uint16_t	y;
+    uint8_t	level;
+    uint8_t	unknown;
+    uint16_t	varNb;
+    uint16_t	varVal;
+    uint16_t	unknown2;
+    uint32_t	scriptPtr;
+  };
+
 public:
   struct	Map
   {
@@ -104,6 +154,14 @@ public:
     uint64_t	width;
     uint64_t	height;
     Node	**data;
+    uint8_t	nbPersons;
+    uint8_t	nbWarps;
+    uint8_t	nbScripts;
+    uint8_t	nbSigns;
+    PersonEvt	*persons;
+    WarpEvt	*warps;
+    ScriptEvt	*scripts;
+    SignEvt	*signs;
 
   private:
     int			_getNextIndex(std::vector<Map::Node*> *set);
