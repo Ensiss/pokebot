@@ -7,6 +7,17 @@
 #include	"Action.hh"
 #include	<list>
 
+void		printTeam(Team &pTeam, Team &eTeam, Data &data)
+{
+  for (int i = 0; i < 6; i++)
+    {
+      printf("%s's (%d xp) %s",
+	     pTeam[i].getOtName(), pTeam[i].getXP(),
+	     data.name(pTeam[i].getSpecies()));
+      printf("\tvs\t%s\n", eTeam[i].getNick());
+    }
+}
+
 void		doLoop()
 {
   Data		data;
@@ -30,12 +41,7 @@ void		doLoop()
 	if (step % 20 == 0)
 	  {
 	    printf("\033[2J\033[0;0H");
-
-	    for (int i = 0; i < 6; i++)
-	      {
-	    	printf("%s's (%d xp) %s", pTeam[i].getOtName(), pTeam[i].getXP(), data.name(pTeam[i].getSpecies()));
-	    	printf("\tvs\t%s\n", eTeam[i].getNick());
-	      }
+	    printTeam(pTeam, eTeam, data);
 
 	    World::Map	&m = data.world()[data.player().getBank()][data.player().getMap()];
 	    for (int y = 0; y < m.height; y++)
