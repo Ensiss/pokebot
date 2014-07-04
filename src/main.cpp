@@ -5,6 +5,7 @@
 #include	"../vbam/sdl/SDLGlobals.h"
 #include	"Data.hh"
 #include	"Action.hh"
+#include	"PokeScript.hh"
 #include	<list>
 
 void		printTeam(Team &pTeam, Team &eTeam, Data &data)
@@ -26,6 +27,9 @@ void		doLoop()
   Team		&eTeam = data.enemyTeam();
   int		step = 0;
   World::Path	*path = NULL;
+
+  PokeScript	script(data.world()[3][0].persons->scriptPtr);
+  script.print();
 
   while (emulating) {
     if (++step < 900)

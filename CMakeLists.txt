@@ -190,6 +190,9 @@ SET(SRC_MAIN
     src/Action.cpp
     src/Movement.cpp
     src/PokemonUtils.cpp
+    src/PokeScript.cpp
+    src/ScriptArgs.cpp
+    src/PrintInstructions.cpp
 )
 
 INCLUDE_DIRECTORIES(
