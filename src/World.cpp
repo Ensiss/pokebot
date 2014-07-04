@@ -114,6 +114,7 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, u
 	    {
 	      int	x = curr->x + i;
 	      int	y = curr->y + j;
+
 	      // Boundaries check
 	      if (x < 0 || x >= width || y < 0 || y >= height ||
 		  (!i && !j) || (i && j))
@@ -123,8 +124,14 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, u
 			      walkableTiles.end(),
 			      data[y][x].status) != walkableTiles.end() ||
 		    (j == 1 && data[y][x].attr->behavior == 0x3b) ||
-		    (j == 1 && data[curr->y][curr->x].attr->behavior == 0x3b)))
+		    (j == 1 && data[curr->y][curr->x].attr->behavior == 0x3b) ||
+		    (i == 1 && data[y][x].attr->behavior == 0x38) ||
+		    (i == 1 && data[curr->y][curr->x].attr->behavior == 0x38) ||
+		    (i == -1 && data[y][x].attr->behavior == 0x39) ||
+		    (i == -1 && data[curr->y][curr->x].attr->behavior == 0x39))
+		  || data[y][x].attr->behavior == 0x32)
 		continue;
+
 	      Node	*neighbor = &(data[y][x]);
 	      std::vector<Node*>::iterator	it = std::find(closedset.begin(), closedset.end(), neighbor);
 	      uint32_t	g = curr->g + (!i || !j ? 10 : 14);
