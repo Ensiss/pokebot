@@ -120,19 +120,27 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, u
 		  (!i && !j) || (i && j))
 		continue;
 	      // Tile type check
-	      if (!((!j && (data[y][x].attr->behavior == 0x6b ||
+	      if (!(
+		    // Check if escalator is the final tile
+		    (!j && (data[y][x].attr->behavior == 0x6b ||
 			    data[y][x].attr->behavior == 0x6a) && x == xe && y == ye) ||
-		     (j == 1 && data[y][x].attr->behavior == 0x3b) ||
-		     (j == 1 && data[curr->y][curr->x].attr->behavior == 0x3b) ||
-		     (i == 1 && data[y][x].attr->behavior == 0x38) ||
-		     (i == 1 && data[curr->y][curr->x].attr->behavior == 0x38) ||
-		     (i == -1 && data[y][x].attr->behavior == 0x39) ||
-		     (i == -1 && data[curr->y][curr->x].attr->behavior == 0x39) ||
-		     (std::find(walkableTiles.begin(),
+		    // Jump down hill
+		    (j == 1 && data[y][x].attr->behavior == 0x3b) ||
+		    (j == 1 && data[curr->y][curr->x].attr->behavior == 0x3b) ||
+		    // Jump right hill
+		    (i == 1 && data[y][x].attr->behavior == 0x38) ||
+		    (i == 1 && data[curr->y][curr->x].attr->behavior == 0x38) ||
+		    // Jump left hill
+		    (i == -1 && data[y][x].attr->behavior == 0x39) ||
+		    (i == -1 && data[curr->y][curr->x].attr->behavior == 0x39) ||
+		    // Check walkable tiles (grass/tile near escalator, for now)
+		    (std::find(walkableTiles.begin(),
 			       walkableTiles.end(),
-				data[y][x].status) != walkableTiles.end() &&
-		      data[y][x].attr->behavior != 0x6b &&
-		      data[y][x].attr->behavior != 0x6a) ||
+			       data[y][x].status) != walkableTiles.end() &&
+		     // Check that it's not an escalator
+		     data[y][x].attr->behavior != 0x6b &&
+		     data[y][x].attr->behavior != 0x6a) ||
+		    // Block access to hill from a lower level
 		    data[y][x].attr->behavior == 0x32))
 		continue;
 
