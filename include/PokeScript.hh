@@ -37,19 +37,32 @@ private:
 private:
   void		_initInstructions();
   void		_print(const char *s, ...);
-  void		_nop() { _print("nop"); }
-  void		_end() { _print("end"); }
-  void		_return() { _print("return"); }
-  void		_call() { _print("call %#08x", _readPointer()); }
-  void		_goto() { _print("goto %#08x", _readPointer()); }
-  void		_if1() { _print("if %#02x goto %#08x", _readByte(), _readPointer()); }
-  void		_if2() { _print("if %#02x call %#08x", _readByte(), _readPointer()); }
-  void		_gotostd() { _print("gotostd %#02x", _readByte()); }
-  void		_callstd() { _print("callstd %#02x", _readByte()); }
-  void		_gotostdif() { _print("if %#02x gotostd %#02x", _readByte(), _readByte()); }
-  void		_callstdif() { _print("if %#02x callstd %#02x", _readByte(), _readByte()); }
-  void		_compare() { _print("compare %#04x %#04x", _readVariable(), _readWord()); }
-  void		_lock() { _print("lock"); }
+  void		_nop() {
+    _print("nop"); }
+  void		_end() {
+    _print("end"); }
+  void		_return() {
+    _print("return"); }
+  void		_call() {
+    _print("call %#08x", _readPointer()); }
+  void		_goto() {
+    _print("goto %#08x", _readPointer()); }
+  void		_if1() { uint8_t b = _readByte();
+    _print("if %#02x goto %#08x", b, _readPointer()); }
+  void		_if2() { uint8_t b = _readByte();
+    _print("if %#02x call %#08x", b, _readPointer()); }
+  void		_gotostd() {
+    _print("gotostd %#02x", _readByte()); }
+  void		_callstd() {
+    _print("callstd %#02x", _readByte()); }
+  void		_gotostdif() { uint8_t b = _readByte();
+    _print("if %#02x gotostd %#02x", b, _readByte()); }
+  void		_callstdif() { uint8_t b = _readByte();
+    _print("if %#02x callstd %#02x", b, _readByte()); }
+  void		_compare() { uint16_t v = _readVariable();
+    _print("compare %#04x %#04x", v, _readWord()); }
+  void		_lock() {
+    _print("lock"); }
 
 private:
   typedef void		(PokeScript::*Instruction)();

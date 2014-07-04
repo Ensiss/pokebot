@@ -29,7 +29,6 @@ void		PokeScript::print()
   reset();
   do
     {
-      printf("PC = %d\n", _pc);
       _oldpc = _pc;
       id = _ptr[_pc++];
       if (_inst[id])
