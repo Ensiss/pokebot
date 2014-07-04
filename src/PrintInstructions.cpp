@@ -22,7 +22,13 @@ void		PokeScript::_initInstructions()
   _inst[++i] = &PokeScript::_callstd;
   _inst[++i] = &PokeScript::_gotostdif;
   _inst[++i] = &PokeScript::_callstdif;
+  _inst[i = 0x0F] = &PokeScript::_loadpointer;
   _inst[i = 0x21] = &PokeScript::_compare;
+  _inst[i = 0x2B] = &PokeScript::_checkflag;
+  _inst[i = 0x2F] = &PokeScript::_sound;
+  _inst[i = 0x4F] = &PokeScript::_applymovement;
+  _inst[i = 0x51] = &PokeScript::_waitmovement;
+  _inst[i = 0x68] = &PokeScript::_closeonkeypress;
   _inst[i = 0x6A] = &PokeScript::_lock;
 }
 

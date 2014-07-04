@@ -59,8 +59,20 @@ private:
     _print("if %#02x gotostd %#02x", b, _readByte()); }
   void		_callstdif() { uint8_t b = _readByte();
     _print("if %#02x callstd %#02x", b, _readByte()); }
+  void		_loadpointer() { uint8_t b = _readBank();
+    _print("loadpointer %d %#08x", b, _readDword()); }
   void		_compare() { uint16_t v = _readVariable();
     _print("compare %#04x %#04x", v, _readWord()); }
+  void		_checkflag() {
+    _print("checkflag %x", _readFlagOrVar()); }
+  void		_sound() {
+    _print("sound %#04x", _readWord()); }
+  void		_applymovement() { uint8_t id = _readByteOrVar();
+    _print("applymovement %d %#08x", id, _readPointer()); }
+  void		_waitmovement() {
+    _print("waitmovement %d", _readByteOrVar()); }
+  void		_closeonkeypress() {
+    _print("closeonkeypress"); }
   void		_lock() {
     _print("lock"); }
 
