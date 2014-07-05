@@ -56,3 +56,8 @@ void		PokeScript::_print(const char *s, ...)
   va_end(list);
   printf("\n");
 }
+
+const char	*PokeScript::_cmpOp(uint8_t b)
+{
+  return ("<\0\0==\0>\0\0<=\0>=\0!=\0?" + (b > 5 ? 18 : b * 3));
+}

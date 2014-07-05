@@ -37,6 +37,7 @@ private:
 private:
   void		_initInstructions();
   void		_print(const char *s, ...);
+  const char	*_cmpOp(uint8_t b);
   void		_nop() {
     _print("nop"); }
   void		_end() {
@@ -47,18 +48,18 @@ private:
     _print("call %#08x", _readPointer()); }
   void		_goto() {
     _print("goto %#08x", _readPointer()); }
-  void		_if1() { uint8_t b = _readByte();
-    _print("if %#02x goto %#08x", b, _readPointer()); }
-  void		_if2() { uint8_t b = _readByte();
-    _print("if %#02x call %#08x", b, _readPointer()); }
+  void		_if1() { const char *op = _cmpOp(_readByte());
+    _print("if %s goto %#08x", op, _readPointer()); }
+  void		_if2() { const char *op = _cmpOp(_readByte());
+    _print("if %s call %#08x", op, _readPointer()); }
   void		_gotostd() {
     _print("gotostd %#02x", _readByte()); }
   void		_callstd() {
     _print("callstd %#02x", _readByte()); }
-  void		_gotostdif() { uint8_t b = _readByte();
-    _print("if %#02x gotostd %#02x", b, _readByte()); }
-  void		_callstdif() { uint8_t b = _readByte();
-    _print("if %#02x callstd %#02x", b, _readByte()); }
+  void		_gotostdif() { const char *op = _cmpOp(_readByte());
+    _print("if %s gotostd %#02x", op, _readByte()); }
+  void		_callstdif() { const char *op = _cmpOp(_readByte());
+    _print("if %s callstd %#02x", op, _readByte()); }
   void		_loadpointer() { uint8_t b = _readBank();
     _print("loadpointer %d %#08x", b, _readDword()); }
   void		_compare() { uint16_t v = _readVariable();
