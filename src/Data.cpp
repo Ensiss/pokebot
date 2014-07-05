@@ -22,8 +22,8 @@ void		Data::_loadNames()
 {
   uint8_t	*ptr;
 
-  _names = new char*[153]();
-  for (int id = 0; id <= 151; id++)
+  _names = new char*[440]();
+  for (int id = 0; id <= 438; id++)
     {
       _names[id] = new char[11]();
       ptr = rom + NAMES_PTR + id * 11;
