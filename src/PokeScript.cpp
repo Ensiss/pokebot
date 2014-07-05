@@ -4,37 +4,62 @@ PokeScript::PokeScript(uint32_t ptr)
   : _offset(ptr)
 {
   _initInstructions();
-  reset();
+  _reset();
 }
 
 PokeScript::~PokeScript()
 {
 }
 
-void		PokeScript::reset()
+void		PokeScript::_reset()
 {
-  _ptr = (uint8_t *) gbaMem(_offset);
-  _pc = 0;
-  _oldpc = 0;
+  while (_addrs.size())
+    _addrs.pop();
+  _ranges.clear();
+  _addrs.push(_offset);
+}
+
+bool		PokeScript::_setupNextAddr()
+{
+  _ptr = NULL;
+  while (!_ptr && _addrs.size())
+    {
+      uint16_t	i;
+
+      _start = _addrs.front();
+      _addrs.pop();
+      for (i = 0; i < _ranges.size(); i++)
+	if (_start >= _ranges[i].start && _start < _ranges[i].end)
+	  break;
+      if (i == _ranges.size())
+	{
+	  _ptr = (uint8_t *) gbaMem(_start);
+	  _pc = _oldpc = 0;
+	  return (true);
+	}
+    }
+  return (false);
 }
 
 void		PokeScript::print()
 {
   uint8_t	id;
 
-  for (int i = 0; i < 80; i++)
-    printf("%02x ", _ptr[i]);
-  printf("\n");
-
-  reset();
-  do
+  _reset();
+  while (_setupNextAddr())
     {
-      _oldpc = _pc;
-      id = _ptr[_pc++];
-      if (_inst[id])
-	(this->*_inst[id])();
-      else
-	_print("ERROR: Unknown opcode %#02x", id);
+      printf("\n");
+      do
+	{
+	  _oldpc = _pc;
+	  id = _ptr[_pc++];
+	  if (_inst[id])
+	    (this->*_inst[id])();
+	  else
+	    _print("ERROR: Unknown opcode %#02x", id);
+	}
+      while (id != 0x02 && id != 0x03 && _inst[id]);
+      _ranges.push_back(Range(_start, _start + _pc));
     }
-  while (id != 0x02 && _inst[id]);
+  printf("\n");
 }

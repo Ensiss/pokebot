@@ -43,7 +43,7 @@ void		PokeScript::_print(const char *s, ...)
 {
   va_list	list;
 
-  printf("%#08x: ", _offset + _oldpc);
+  printf("%#08x: ", _start + _oldpc);
   for (int i = 0; i < 10; i++)
     {
       if (_oldpc + i < _pc || !_inst[_ptr[_oldpc]])
@@ -60,4 +60,38 @@ void		PokeScript::_print(const char *s, ...)
 const char	*PokeScript::_cmpOp(uint8_t b)
 {
   return ("<\0\0==\0>\0\0<=\0>=\0!=\0?" + (b > 5 ? 18 : b * 3));
+}
+
+void		PokeScript::_if1()
+{
+  const char *op = _cmpOp(_readByte());
+  uint32_t ptr = _readPointer();
+
+  _addrs.push(ptr);
+  _print("if %s goto %#08x", op, ptr);
+}
+
+void		PokeScript::_if2()
+{
+  const char *op = _cmpOp(_readByte());
+  uint32_t ptr = _readPointer();
+
+  _addrs.push(ptr);
+  _print("if %s call %#08x", op, ptr);
+}
+
+void		PokeScript::_call()
+{
+  uint32_t ptr = _readPointer();
+
+  _addrs.push(ptr);
+  _print("call %#08x", ptr);
+}
+
+void		PokeScript::_goto()
+{
+  uint32_t ptr = _readPointer();
+
+  _addrs.push(ptr);
+  _print("goto %#08x", ptr);
 }

@@ -5,18 +5,33 @@
 #include	<cstdio>
 #include	<stdarg.h>
 #include	<stdint.h>
+#include	<vector>
+#include	<queue>
+
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
 
 class		PokeScript
 {
+private:
+  struct	Range
+  {
+    Range(uint32_t x = 0, uint32_t y = 0)
+      : start(x), end(y) {}
+    uint32_t	start;
+    uint32_t	end;
+  };
+
 public:
   PokeScript(uint32_t ptr);
   ~PokeScript();
 
 public:
   void		print();
-  void		reset();
+
+private:
+  void		_reset();
+  bool		_setupNextAddr();
 
 private:
   uint8_t	_readByte();
@@ -44,14 +59,10 @@ private:
     _print("end"); }
   void		_return() {
     _print("return"); }
-  void		_call() {
-    _print("call %#08x", _readPointer()); }
-  void		_goto() {
-    _print("goto %#08x", _readPointer()); }
-  void		_if1() { const char *op = _cmpOp(_readByte());
-    _print("if %s goto %#08x", op, _readPointer()); }
-  void		_if2() { const char *op = _cmpOp(_readByte());
-    _print("if %s call %#08x", op, _readPointer()); }
+  void		_call();
+  void		_goto();
+  void		_if1();
+  void		_if2();
   void		_gotostd() {
     _print("gotostd %#02x", _readByte()); }
   void		_callstd() {
@@ -94,9 +105,12 @@ private:
 private:
   typedef void		(PokeScript::*Instruction)();
   uint32_t		_offset;
+  uint32_t		_start;
   uint8_t		*_ptr;
   uint32_t		_pc;
   uint32_t		_oldpc;
+  std::vector<Range>	_ranges;
+  std::queue<uint32_t>	_addrs;
   static Instruction	_inst[0xD6];
 };
 
