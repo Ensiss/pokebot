@@ -37,6 +37,7 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x2F] = &PokeScript::_sound;
   _inst[i = 0x4F] = &PokeScript::_applymovement;
   _inst[i = 0x51] = &PokeScript::_waitmovement;
+  _inst[i = 0x53] = &PokeScript::_hidesprite;
   _inst[i = 0x64] = &PokeScript::_moveoffscreen;
   _inst[i = 0x68] = &PokeScript::_closeonkeypress;
   _inst[i = 0x69] = &PokeScript::_lockall;
@@ -44,6 +45,19 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x6B] = &PokeScript::_releaseall;
   _inst[i = 0x6C] = &PokeScript::_release;
   _inst[i = 0x6D] = &PokeScript::_waitkeypress;
+  _inst[i = 0x7C] = &PokeScript::_checkattack;
+  _inst[i = 0x7D] = &PokeScript::_bufferpokemon;
+  _inst[++i] = &PokeScript::_bufferfirstpokemon;
+  _inst[++i] = &PokeScript::_bufferpartypokemon;
+  _inst[++i] = &PokeScript::_bufferitem;
+  _inst[++i] = &PokeScript::_bufferdecoration;
+  _inst[++i] = &PokeScript::_bufferattack;
+  _inst[++i] = &PokeScript::_buffernumber;
+  _inst[++i] = &PokeScript::_bufferstd;
+  _inst[++i] = &PokeScript::_bufferstring;
+  _inst[i = 0x9C] = &PokeScript::_doanimation;
+  _inst[i = 0x9D] = &PokeScript::_setanimation;
+  _inst[i = 0x9E] = &PokeScript::_checkanimation;
   _inst[i = 0xC7] = &PokeScript::_textcolor;
   _inst[i = 0xCA] = &PokeScript::_signmsg;
   _inst[i = 0xCB] = &PokeScript::_normalmsg;
@@ -111,18 +125,32 @@ void		PokeScript::_loadpointer()
   uint8_t	b = _readBank();
   uint32_t	ptr = _readDword();
 
-  if (_ptr[_pc] == 0x09 && _ptr[_pc + 1] == 0x04)
+  if (_ptr[_pc] == 0x09)
     {
-      char		msg[128];
+      char		msg[256];
       uint8_t		*addr = (uint8_t *) gbaMem(ptr);
       int		i;
 
-      for (i = 0; i < 128 && addr[i] != 0xFF; i++)
+      for (i = 0; i < 256 && addr[i] != 0xFF; i++)
 	msg[i] = pokeCharsetToAscii(addr[i]);
       msg[i] = '\0';
-      _print("msgbox \"%s\"", msg);
       _pc += 2;
+      _print("msgbox %#02x \"%s\"", _ptr[_pc - 1], msg);
     }
   else
     _print("loadpointer %d %#08x", b, ptr);
+}
+
+void		PokeScript::_bufferstring()
+{
+  uint8_t	buff = _readBuffer();
+  uint32_t	ptr = _readPointer();
+  char		msg[256];
+  uint8_t	*addr = (uint8_t *) gbaMem(ptr);
+  int		i;
+
+  for (i = 0; i < 256 && addr[i] != 0xFF; i++)
+    msg[i] = pokeCharsetToAscii(addr[i]);
+  msg[i] = '\0';
+  _print("bufferstring %d \"%s\"", buff, msg);
 }

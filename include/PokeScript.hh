@@ -100,6 +100,8 @@ private:
     _print("applymovement %d %#08x", id, _readPointer()); }
   void		_waitmovement() {
     _print("waitmovement %d", _readByteOrVar()); }
+  void		_hidesprite() {
+    _print("hidesprite %d", _readByteOrVar()); }
   void		_moveoffscreen() {
     _print("moveoffscreen %d", _readWord()); }
   void		_closeonkeypress() {
@@ -114,6 +116,31 @@ private:
     _print("release"); }
   void		_waitkeypress() {
     _print("waitkeypress"); }
+  void		_checkattack() {
+    _print("checkattack %#06x", _readWord()); }
+  void		_bufferpokemon() { uint8_t b = _readBuffer();
+    _print("bufferpokemon %d %d", b, _readWordOrVar()); }
+  void		_bufferfirstpokemon() { uint8_t b = _readBuffer();
+    _print("bufferfirstpokemon %d", b); }
+  void		_bufferpartypokemon() { uint8_t b = _readBuffer();
+    _print("bufferpartypokemon %d %d", b, _readWordOrVar()); }
+  void		_bufferitem() { uint8_t b = _readBuffer();
+    _print("bufferitem %d %d", b, _readWordOrVar()); }
+  void		_bufferdecoration() { _readByte(), _readWordOrVar();
+    _print("bufferdecoration (nop)"); }
+  void		_bufferattack() { uint8_t b = _readBuffer();
+    _print("bufferattack %d %d", b, _readWordOrVar()); }
+  void		_buffernumber() { uint8_t b = _readBuffer();
+    _print("buffernumber %d %d", b, _readWordOrVar()); }
+  void		_bufferstd() { uint8_t b = _readBuffer();
+    _print("bufferpokemon %d %d", b, _readWordOrVar()); }
+  void		_bufferstring();
+  void		_doanimation() {
+    _print("doanimation %#06x", _readWord()); }
+  void		_setanimation() { uint8_t b = _readByte();
+    _print("setanimation 0x%x %#06x", b, _readWordOrVar()); }
+  void		_checkanimation() {
+    _print("checkanimation %#06x", _readWord()); }
   void		_textcolor() {
     _print("textcolor %d", _readByte()); }
   void		_signmsg() {

@@ -28,9 +28,6 @@ void		doLoop()
   int		step = 0;
   World::Path	*path = NULL;
 
-  PokeScript	script(data.world()[3][0].persons->scriptPtr);
-  script.print();
-
   while (emulating) {
     if (++step < 900)
       {
@@ -64,15 +61,9 @@ void		doLoop()
 			   m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
 		    printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
 			   m.getMatterColor(m[y][x].status, ppos), m[y][x].attr->behavior);
-		    // if (ppos)
-		    //   printf("\033[31m");
-		    // printf("%04x ", m[y][x].attr->bg);
-		    // if (ppos)
-		    //   printf("\033[0m");
 	    	  }
 	    	printf("\n");
 	      }
-	    printf("Connection type: %d to map %d:%d\n", m.connects[0].type, m.connects[0].bank, m.connects[0].map);
 	  }
       }
 
