@@ -18,7 +18,7 @@ public:
 
 public:
   char		**names() const { return (_names); }
-  char		*name(uint8_t i) const { return (_names[(i <= 151) * i]); }
+  char		*name(uint8_t i) const { return (_names[(i < 440) * i]); }
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
   World		&world() { return (_world); }

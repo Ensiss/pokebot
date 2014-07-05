@@ -30,5 +30,5 @@ void		Data::_loadNames()
       for (int i = 0; i < 11; i++)
 	_names[id][i] = (i < 10 && ptr[i] != 0xFF) * pokeCharsetToAscii(ptr[i]);
     }
-  _names[152] = NULL;
+  _names[440] = NULL;
 }
