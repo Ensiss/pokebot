@@ -23,7 +23,14 @@ void		PokeScript::_initInstructions()
   _inst[++i] = &PokeScript::_gotostdif;
   _inst[++i] = &PokeScript::_callstdif;
   _inst[i = 0x0F] = &PokeScript::_loadpointer;
+  _inst[i = 0x16] = &PokeScript::_setvar;
+  _inst[i = 0x17] = &PokeScript::_addvar;
+  _inst[i = 0x18] = &PokeScript::_subvar;
   _inst[i = 0x21] = &PokeScript::_compare;
+  _inst[i = 0x25] = &PokeScript::_special;
+  _inst[i = 0x26] = &PokeScript::_special2;
+  _inst[i = 0x27] = &PokeScript::_waitstate;
+  _inst[i = 0x28] = &PokeScript::_pause;
   _inst[i = 0x29] = &PokeScript::_setflag;
   _inst[i = 0x2A] = &PokeScript::_clearflag;
   _inst[i = 0x2B] = &PokeScript::_checkflag;
@@ -37,6 +44,9 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x6B] = &PokeScript::_releaseall;
   _inst[i = 0x6C] = &PokeScript::_release;
   _inst[i = 0x6D] = &PokeScript::_waitkeypress;
+  _inst[i = 0xC7] = &PokeScript::_textcolor;
+  _inst[i = 0xCA] = &PokeScript::_signmsg;
+  _inst[i = 0xCB] = &PokeScript::_normalmsg;
 }
 
 void		PokeScript::_print(const char *s, ...)

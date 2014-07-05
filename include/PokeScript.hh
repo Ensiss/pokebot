@@ -73,14 +73,28 @@ private:
     _print("if %s callstd %#02x", op, _readByte()); }
   void		_loadpointer() { uint8_t b = _readBank();
     _print("loadpointer %d %#08x", b, _readDword()); }
+  void		_setvar() { uint16_t v = _readVariable();
+    _print("setvar %#x %#x", v, _readWord()); }
+  void		_addvar() { uint16_t v = _readVariable();
+    _print("addvar %#x %#x", v, _readWord()); }
+  void		_subvar() { uint16_t v = _readVariable();
+    _print("subvar %#x %#x", v, _readWord()); }
   void		_compare() { uint16_t v = _readVariable();
     _print("compare %#04x %#04x", v, _readWord()); }
+  void		_special() {
+    _print("special %#04x", _readWord()); }
+  void		_special2() { uint16_t v = _readVariable();
+    _print("special2 %#04x %#04x", v, _readWord()); }
+  void		_waitstate() {
+    _print("waitstate"); }
+  void		_pause() {
+    _print("pause %d", _readByte()); }
   void		_setflag() {
-    _print("setflag %x", _readFlagOrVar()); }
+    _print("setflag %#x", _readFlagOrVar()); }
   void		_clearflag() {
-    _print("clearflag %x", _readFlagOrVar()); }
+    _print("clearflag %#x", _readFlagOrVar()); }
   void		_checkflag() {
-    _print("checkflag %x", _readFlagOrVar()); }
+    _print("checkflag %#x", _readFlagOrVar()); }
   void		_sound() {
     _print("sound %#04x", _readWord()); }
   void		_applymovement() { uint8_t id = _readByteOrVar();
@@ -101,6 +115,12 @@ private:
     _print("release"); }
   void		_waitkeypress() {
     _print("waitkeypress"); }
+  void		_textcolor() {
+    _print("textcolor %d", _readByte()); }
+  void		_signmsg() {
+    _print("signmsg"); }
+  void		_normalmsg() {
+    _print("normalmsg"); }
 
 private:
   typedef void		(PokeScript::*Instruction)();
