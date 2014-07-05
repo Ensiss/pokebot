@@ -63,6 +63,10 @@ private:
     _print("loadpointer %d %#08x", b, _readDword()); }
   void		_compare() { uint16_t v = _readVariable();
     _print("compare %#04x %#04x", v, _readWord()); }
+  void		_setflag() {
+    _print("setflag %x", _readFlagOrVar()); }
+  void		_clearflag() {
+    _print("clearflag %x", _readFlagOrVar()); }
   void		_checkflag() {
     _print("checkflag %x", _readFlagOrVar()); }
   void		_sound() {
@@ -71,10 +75,20 @@ private:
     _print("applymovement %d %#08x", id, _readPointer()); }
   void		_waitmovement() {
     _print("waitmovement %d", _readByteOrVar()); }
+  void		_moveoffscreen() {
+    _print("moveoffscreen %d", _readWord()); }
   void		_closeonkeypress() {
     _print("closeonkeypress"); }
+  void		_lockall() {
+    _print("lockall"); }
   void		_lock() {
     _print("lock"); }
+  void		_releaseall() {
+    _print("releaseall"); }
+  void		_release() {
+    _print("release"); }
+  void		_waitkeypress() {
+    _print("waitkeypress"); }
 
 private:
   typedef void		(PokeScript::*Instruction)();
