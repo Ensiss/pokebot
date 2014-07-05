@@ -105,3 +105,24 @@ void		PokeScript::_goto()
   _addrs.push(ptr);
   _print("goto %#08x", ptr);
 }
+
+void		PokeScript::_loadpointer()
+{
+  uint8_t	b = _readBank();
+  uint32_t	ptr = _readDword();
+
+  if (_ptr[_pc] == 0x09 && _ptr[_pc + 1] == 0x04)
+    {
+      char		msg[128];
+      uint8_t		*addr = (uint8_t *) gbaMem(ptr);
+      int		i;
+
+      for (i = 0; i < 128 && addr[i] != 0xFF; i++)
+	msg[i] = pokeCharsetToAscii(addr[i]);
+      msg[i] = '\0';
+      _print("msgbox \"%s\"", msg);
+      _pc += 2;
+    }
+  else
+    _print("loadpointer %d %#08x", b, ptr);
+}

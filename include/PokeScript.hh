@@ -71,8 +71,7 @@ private:
     _print("if %s gotostd %#02x", op, _readByte()); }
   void		_callstdif() { const char *op = _cmpOp(_readByte());
     _print("if %s callstd %#02x", op, _readByte()); }
-  void		_loadpointer() { uint8_t b = _readBank();
-    _print("loadpointer %d %#08x", b, _readDword()); }
+  void		_loadpointer();
   void		_setvar() { uint16_t v = _readVariable();
     _print("setvar %#x %#x", v, _readWord()); }
   void		_addvar() { uint16_t v = _readVariable();
