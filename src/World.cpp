@@ -100,7 +100,7 @@ bool		checkHills(int i, int j, uint16_t next_behavior,
 	  (i == 1 && curr_behavior == 0x38) ||
 	  // Jump left hill
 	  (i == -1 && next_behavior == 0x39) ||
-	  (i == -1 && curr_behavior == 0x39))
+	  (i == -1 && curr_behavior == 0x39));
 }
 
 bool		checkWalkableTiles(std::vector<uint8_t> walkableTiles,
@@ -109,10 +109,10 @@ bool		checkWalkableTiles(std::vector<uint8_t> walkableTiles,
   // Check walkable tiles (grass/tile near escalator, for now)
   return (std::find(walkableTiles.begin(),
 		    walkableTiles.end(),
-		    data[y][x].status) != walkableTiles.end() &&
+		    status) != walkableTiles.end() &&
 	  // Check that it's not an escalator
-	  data[y][x].attr->behavior != 0x6b &&
-	  data[y][x].attr->behavior != 0x6a)
+	  behavior != 0x6b &&
+	  behavior != 0x6a);
 }
 
 std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys,
