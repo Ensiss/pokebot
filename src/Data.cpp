@@ -9,6 +9,8 @@ Data::Data()
 
 Data::~Data()
 {
+  for (int i = 0; i < _names.size(); i++)
+    delete _names[i];
 }
 
 void		Data::update()
@@ -22,13 +24,13 @@ void		Data::_loadNames()
 {
   uint8_t	*ptr;
 
-  _names = new char*[440]();
-  for (int id = 0; id <= 438; id++)
+  for (int id = 0; 1; id++)
     {
-      _names[id] = new char[11]();
+      _names.push_back(new char[11]());
       ptr = rom + NAMES_PTR + id * 11;
       for (int i = 0; i < 11; i++)
 	_names[id][i] = (i < 10 && ptr[i] != 0xFF) * pokeCharsetToAscii(ptr[i]);
+      if (_names[id][0] == '-' && _names[id][1] == 0)
+	break;
     }
-  _names[440] = NULL;
 }
