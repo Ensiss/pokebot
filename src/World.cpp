@@ -89,13 +89,40 @@ std::vector<World::Map::Node*>*	World::Map::_rebuildPath(std::vector<Node*>* set
   return (set);
 }
 
-std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye)
+bool		checkHills(int i, int j, uint16_t next_behavior,
+			   uint16_t curr_behavior)
+{
+  // Jump down hill
+  return ((j == 1 && next_behavior == 0x3b) ||
+	  (j == 1 && curr_behavior == 0x3b) ||
+	  // Jump right hill
+	  (i == 1 && next_behavior == 0x38) ||
+	  (i == 1 && curr_behavior == 0x38) ||
+	  // Jump left hill
+	  (i == -1 && next_behavior == 0x39) ||
+	  (i == -1 && curr_behavior == 0x39))
+}
+
+bool		checkWalkableTiles(std::vector<uint8_t> walkableTiles,
+				   uint8_t status, uint16_t behavior)
+{
+  // Check walkable tiles (grass/tile near escalator, for now)
+  return (std::find(walkableTiles.begin(),
+		    walkableTiles.end(),
+		    data[y][x].status) != walkableTiles.end() &&
+	  // Check that it's not an escalator
+	  data[y][x].attr->behavior != 0x6b &&
+	  data[y][x].attr->behavior != 0x6a)
+}
+
+std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys,
+						     uint32_t xe, uint32_t ye)
 {
   std::vector<Node*>	openset;
   std::vector<Node*>	closedset;
   static const uint8_t        arr[] = {0x0C,	//Grass/Road
-				       0x00,	//Area around Ladder/Stairs
-				       0x10};	//Ladder/Stairs
+				       0x00,	//Area around objects
+				       0x10};	//Escalators
   std::vector<uint8_t>        walkableTiles(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
   openset.push_back(new Node(xs, ys));
@@ -120,32 +147,19 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys, u
 		  (!i && !j) || (i && j))
 		continue;
 	      // Tile type check
-	      if (!(
+	      if (!(checkHills(i, j, data[y][x].attr->behavior, data[curr->y][curr->x].attr->behavior) ||
+		    checkWalkableTiles(walkableTiles, data[y][x].status, data[y][x].attr->behavior) ||
+		    // Block access to hill from a lower level
+		    data[y][x].attr->behavior == 0x32 ||
 		    // Check if escalator is the final tile
 		    (!j && (data[y][x].attr->behavior == 0x6b ||
-			    data[y][x].attr->behavior == 0x6a) && x == xe && y == ye) ||
-		    // Jump down hill
-		    (j == 1 && data[y][x].attr->behavior == 0x3b) ||
-		    (j == 1 && data[curr->y][curr->x].attr->behavior == 0x3b) ||
-		    // Jump right hill
-		    (i == 1 && data[y][x].attr->behavior == 0x38) ||
-		    (i == 1 && data[curr->y][curr->x].attr->behavior == 0x38) ||
-		    // Jump left hill
-		    (i == -1 && data[y][x].attr->behavior == 0x39) ||
-		    (i == -1 && data[curr->y][curr->x].attr->behavior == 0x39) ||
-		    // Check walkable tiles (grass/tile near escalator, for now)
-		    (std::find(walkableTiles.begin(),
-			       walkableTiles.end(),
-			       data[y][x].status) != walkableTiles.end() &&
-		     // Check that it's not an escalator
-		     data[y][x].attr->behavior != 0x6b &&
-		     data[y][x].attr->behavior != 0x6a) ||
-		    // Block access to hill from a lower level
-		    data[y][x].attr->behavior == 0x32))
+			    data[y][x].attr->behavior == 0x6a) && x == xe && y == ye)))
 		continue;
 
 	      Node	*neighbor = &(data[y][x]);
-	      std::vector<Node*>::iterator	it = std::find(closedset.begin(), closedset.end(), neighbor);
+	      std::vector<Node*>::iterator	it = std::find(closedset.begin(),
+							       closedset.end(),
+							       neighbor);
 	      uint32_t	g = curr->g + (!i || !j ? 10 : 14);
 	      if (it != closedset.end() && g >= neighbor->g)
 		continue;
