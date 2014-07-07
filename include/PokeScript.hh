@@ -10,6 +10,7 @@
 
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
+#include	"Data.hh"
 
 class		PokeScript
 {
@@ -23,7 +24,7 @@ private:
   };
 
 public:
-  PokeScript(uint32_t ptr);
+  PokeScript(Data &data, uint32_t ptr);
   ~PokeScript();
 
 public:
@@ -117,15 +118,15 @@ private:
   void		_waitkeypress() {
     _print("waitkeypress"); }
   void		_checkattack() {
-    _print("checkattack %#06x", _readWord()); }
+    _print("checkattack %s", _data.moveName(_readWord())); }
   void		_bufferpokemon() { uint8_t b = _readBuffer();
-    _print("bufferpokemon %d %d", b, _readWordOrVar()); }
+    _print("bufferpokemon %d %x", b, _readWordOrVar()); }
   void		_bufferfirstpokemon() { uint8_t b = _readBuffer();
     _print("bufferfirstpokemon %d", b); }
   void		_bufferpartypokemon() { uint8_t b = _readBuffer();
-    _print("bufferpartypokemon %d %d", b, _readWordOrVar()); }
+    _print("bufferpartypokemon %d %#x", b, _readWordOrVar()); }
   void		_bufferitem() { uint8_t b = _readBuffer();
-    _print("bufferitem %d %d", b, _readWordOrVar()); }
+    _print("bufferitem %d %x", b, _readWordOrVar()); }
   void		_bufferdecoration() { _readByte(), _readWordOrVar();
     _print("bufferdecoration (nop)"); }
   void		_bufferattack() { uint8_t b = _readBuffer();
@@ -150,6 +151,7 @@ private:
 
 private:
   typedef void		(PokeScript::*Instruction)();
+  Data			&_data;
   uint32_t		_offset;
   uint32_t		_start;
   uint8_t		*_ptr;

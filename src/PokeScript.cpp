@@ -1,7 +1,7 @@
 #include	"PokeScript.hh"
 
-PokeScript::PokeScript(uint32_t ptr)
-  : _offset(ptr)
+PokeScript::PokeScript(Data &data, uint32_t ptr)
+  : _data(data), _offset(ptr)
 {
   _initInstructions();
   _reset();
