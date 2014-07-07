@@ -14,7 +14,7 @@ void		printTeam(Team &pTeam, Team &eTeam, Data &data)
     {
       printf("%s's (%d xp) %s",
 	     pTeam[i].getOtName(), pTeam[i].getXP(),
-	     data.name(pTeam[i].getSpecies()));
+	     data.speciesName(pTeam[i].getSpecies()));
       printf("\tvs\t%s\n", eTeam[i].getNick());
     }
 }

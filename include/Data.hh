@@ -18,23 +18,25 @@ public:
   void		update();
 
 public:
-  const std::vector<char *>	&names() const { return (_names); }
-  char		*name(uint8_t i) const { return (i < _names.size() ? _names[i] : NULL); }
+  const std::vector<char *>	&speciesNames() const { return (_speciesNames); }
+  char		*speciesName(uint8_t i) const { return (i < _speciesNames.size() ? _speciesNames[i] : NULL); }
   const std::vector<char *>	&moveNames() const { return (_moveNames); }
   char		*moveName(uint8_t i) const { return (i < _moveNames.size() ? _moveNames[i] : NULL); }
+  const std::vector<char *>	&abilityNames() const { return (_abilityNames); }
+  char		*abilityName(uint8_t i) const { return (i < _abilityNames.size() ? _abilityNames[i] : NULL); }
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
   World		&world() { return (_world); }
   Player	&player() { return (_player); }
 
 private:
-  void		_loadNames();
-  void		_loadMoveNames();
+  void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
 
 private:
   // Static
-  std::vector<char*>	_names;
+  std::vector<char*>	_speciesNames;
   std::vector<char*>	_moveNames;
+  std::vector<char*>	_abilityNames;
   World			_world;
   // Dynamic*
   Player	_player;
