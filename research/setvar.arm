@@ -1,0 +1,51 @@
+func setvar() {			// at 0x806A391
+     push {r4, r5, lr}
+     r5 = r0			// save r0 in r5
+     r0 = (word) getInvWord	// call 0x080698F8
+     call @0x0806E454
+}
+
+func @0x0806E454 {		// at 0x0806E454
+     push {r4-r6, lr}
+     r4 = (word) r0
+     r6 = r4
+     if (r4 > 0x3FFF) {
+       r0 = r4 << 16
+       if (r0 >= 0) {
+       	  r0 = [0x0806E484]	// = 0x03005E88
+	  r0 = (byte) [r0]
+	  if (r0 == 1)
+	    goto 0x0806E488	// ?
+	  if (r0 < 1)
+	    goto 0x0806E4EE	// ?
+	  if (r0 == 2)
+	    goto 0x0806E4B8	// ?
+
+	  ...
+
+       } else {
+       	  goto 0x080605ec	// ?
+       }
+     } else {
+       r0 = 0
+       pop {r1, r4-r6}
+       goto r1
+     }
+}
+
+// Get a word with inverted bytes
+// The bytes are read by following two successive pointers at r0 + 8
+// IN	r0	Pointer
+// OUT	r0	Inverted word
+func getInvWord {	// at 0x080698F8
+     r3 = r0
+     r2 = [r3 + 8]
+     r0 = (byte) [r2]
+     r2++
+     [r3 + 8] = r2
+     r1 = (byte) [r2]
+     r1 = r1 << 8
+     r0 |= r1
+     r2++
+     [r3 + 8] = r2
+}
