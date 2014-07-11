@@ -193,6 +193,7 @@ SET(SRC_MAIN
     src/PokeScript.cpp
     src/ScriptArgs.cpp
     src/PrintInstructions.cpp
+    src/Thumb.cpp
 )
 
 INCLUDE_DIRECTORIES(
