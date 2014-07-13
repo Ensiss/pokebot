@@ -186,7 +186,6 @@ SET(SRC_MAIN
     src/Data.cpp
     src/World.cpp
     src/Player.cpp
-    src/Move.cpp
     src/PokemonData.cpp
     src/Action.cpp
     src/Movement.cpp
