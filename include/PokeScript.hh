@@ -118,7 +118,7 @@ private:
   void		_waitkeypress() {
     _print("waitkeypress"); }
   void		_checkattack() {
-    _print("checkattack %s", _data.moveName(_readWord())); }
+    _print("checkattack %s", _data.move(_readWord()).getName()); }
   void		_bufferpokemon() { uint8_t b = _readBuffer();
     _print("bufferpokemon %d %x", b, _readWordOrVar()); }
   void		_bufferfirstpokemon() { uint8_t b = _readBuffer();

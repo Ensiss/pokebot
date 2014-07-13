@@ -7,6 +7,7 @@ Data::Data()
   _loadStrings(_speciesNames, 0x8245EE0, 11, "\xAE\xFF", 2);
   _loadStrings(_moveNames, 0x8247094, 13, "\x00", 1);
   _loadStrings(_abilityNames, 0x824FC4D, 13, "\x00", 1);
+  _loadMoves();
 }
 
 Data::~Data()
@@ -43,4 +44,10 @@ void		Data::_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, 
       for (i = 0; i < len; i++)
 	dest[id][i] = (i < len - 1 && ptr[i] != 0xFF) * pokeCharsetToAscii(ptr[i]);
     }
+}
+
+void		Data::_loadMoves()
+{
+  for (uint16_t i = 0; i < _moveNames.size(); i++)
+    _moves.push_back(Move(0x08250C04 + i * 12, _moveNames[i]));
 }

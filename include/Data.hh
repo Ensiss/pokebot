@@ -7,6 +7,7 @@
 #include	"World.hh"
 #include	"Team.hpp"
 #include	"Player.hh"
+#include	"Move.hh"
 
 class		Data
 {
@@ -20,8 +21,8 @@ public:
 public:
   const std::vector<char *>	&speciesNames() const { return (_speciesNames); }
   char		*speciesName(uint8_t i) const { return (i < _speciesNames.size() ? _speciesNames[i] : NULL); }
-  const std::vector<char *>	&moveNames() const { return (_moveNames); }
-  char		*moveName(uint8_t i) const { return (i < _moveNames.size() ? _moveNames[i] : NULL); }
+  const std::vector<Move>	&moves() const { return (_moves); }
+  const Move	&move(uint8_t i) const { return (_moves[(i < _moves.size()) * i]); }
   const std::vector<char *>	&abilityNames() const { return (_abilityNames); }
   char		*abilityName(uint8_t i) const { return (i < _abilityNames.size() ? _abilityNames[i] : NULL); }
   Team		&playerTeam() { return (_pteam); }
@@ -31,12 +32,14 @@ public:
 
 private:
   void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
+  void		_loadMoves();
 
 private:
   // Static
   std::vector<char*>	_speciesNames;
   std::vector<char*>	_moveNames;
   std::vector<char*>	_abilityNames;
+  std::vector<Move>	_moves;
   World			_world;
   // Dynamic*
   Player	_player;

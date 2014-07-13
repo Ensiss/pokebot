@@ -2,10 +2,12 @@
 #include	<SDL.h>
 #include	"../vbam/gba/GBA.h"
 #include	"../vbam/gba/Globals.h"
+#include	"../vbam/gba/armdis.h"
 #include	"../vbam/sdl/SDLGlobals.h"
 #include	"Data.hh"
 #include	"Action.hh"
 #include	"PokeScript.hh"
+#include	"Thumb.hh"
 #include	<list>
 
 void		printTeam(Team &pTeam, Team &eTeam, Data &data)
@@ -16,6 +18,13 @@ void		printTeam(Team &pTeam, Team &eTeam, Data &data)
 	     pTeam[i].getOtName(), pTeam[i].getXP(),
 	     data.speciesName(pTeam[i].getSpecies()));
       printf("\tvs\t%s\n", eTeam[i].getNick());
+      for (int m = 0; m < 4; m++)
+	{
+	  const Move	&move = data.move(pTeam[i].getMove(m));
+	  printf("Move %d: %s", m, move.getName());
+	  printf(" (Power: %d, Accuracy: %d, %d/%d PP)\n",
+		 move.getPower(), move.getAccuracy(), pTeam[i].getPP(m), move.getPP());
+	}
     }
 }
 

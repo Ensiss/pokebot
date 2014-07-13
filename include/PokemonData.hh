@@ -119,6 +119,11 @@ public:
   uint8_t	getSpAtkEV() const { return (_evs->spatk); }
   uint8_t	getSpDefEV() const { return (_evs->spdef); }
 
+  uint16_t	*getMoves() const { return ((uint16_t *) &(_attacks->move1)); }
+  uint8_t	*getPPs() const { return ((uint8_t *) &(_attacks->pp1)); }
+  uint16_t	getMove(uint8_t i) const { return (getMoves()[i]); }
+  uint8_t	getPP(uint8_t i) const { return (getPPs()[i]); }
+
 private:
   void		_decryptSubstructures();
 
