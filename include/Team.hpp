@@ -7,10 +7,10 @@ class		Team
 {
 public:
   Team() {}
-  Team(uint64_t addr)
+  Team(uint32_t addr)
   {
     for (int i = 0; i < 6; i++)
-      list[i] = PokemonData((void *) (addr + 100 * i));
+      list[i] = PokemonData(addr + 100 * i);
   }
 
 public:

@@ -82,8 +82,8 @@ private:
 
 public:
   PokemonData() {}
-  PokemonData(void *addr)
-    : _data((Internal *) addr) {}
+  PokemonData(uint32_t addr)
+    : _data((Internal *) gbaMem(addr)) {}
 
 public:
   void		update();
