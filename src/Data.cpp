@@ -8,6 +8,7 @@ Data::Data()
   _loadStrings(_moveNames, 0x8247094, 13, "\x00", 1);
   _loadStrings(_abilityNames, 0x824FC4D, 13, "\x00", 1);
   _loadMoves();
+  _loadSpecies();
 }
 
 Data::~Data()
@@ -50,4 +51,10 @@ void		Data::_loadMoves()
 {
   for (uint16_t i = 0; i < _moveNames.size(); i++)
     _moves.push_back(Move(0x08250C04 + i * 12, _moveNames[i]));
+}
+
+void		Data::_loadSpecies()
+{
+  for (uint16_t i = 0; i < _speciesNames.size(); i++)
+    _species.push_back(Species(0x08254784 + i * 28, _speciesNames[i]));
 }

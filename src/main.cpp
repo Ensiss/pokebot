@@ -14,16 +14,20 @@ void		printTeam(Team &pTeam, Team &eTeam, Data &data)
 {
   for (int i = 0; i < 6; i++)
     {
-      printf("%s's (%d xp) %s",
-	     pTeam[i].getOtName(), pTeam[i].getXP(),
-	     data.speciesName(pTeam[i].getSpecies()));
+      const PokemonData	&p = pTeam[i];
+      const Species	&sp = data.species(p.getSpecies());
+
+      if (!p.getSpecies() && !eTeam[i].getSpecies())
+	continue;
+      printf("%s's (%d xp) %s", p.getOtName(), p.getXP(), sp.getName());
       printf("\tvs\t%s\n", eTeam[i].getNick());
+      printf("Type  : %d, %d\n", sp.getType(0), sp.getType(1));
       for (int m = 0; m < 4; m++)
 	{
-	  const Move	&move = data.move(pTeam[i].getMove(m));
+	  const Move	&move = data.move(p.getMove(m));
 	  printf("Move %d: %s", m, move.getName());
 	  printf(" (Power: %d, Accuracy: %d, %d/%d PP)\n",
-		 move.getPower(), move.getAccuracy(), pTeam[i].getPP(m), move.getPP());
+		 move.getPower(), move.getAccuracy(), p.getPP(m), move.getPP());
 	}
     }
 }
