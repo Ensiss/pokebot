@@ -51,19 +51,21 @@ Range		Data::potentialDamage(const PokemonData &attacker, const PokemonData &tar
 {
   const Species	&as = species(attacker.getSpecies());
   const Species	&ts = species(target.getSpecies());
-  float		dmg;
-  float		mod;
+  float		a = attacker.getLevel();
+  float		b = isSpecial(m.getType()) ? attacker.getSpAtk() : attacker.getAtk();
+  float		c = m.getPower();
+  float		d = isSpecial(m.getType()) ? target.getSpDef() : target.getDef();
+  float		x = sameTypeAttackBonus(m, as);
+  float		y = typeEffectiveness(m, ts);
+  int		dmg;
 
   if (!target.getSpecies() || !attacker.getSpecies() || !m.getPower())
     return (Range());
-  mod = typeEffectiveness(m, ts) * sameTypeAttackBonus(m, as);
-  if (isSpecial(m.getType()))
-    dmg = (float) attacker.getSpAtk() / (float) target.getSpDef();
-  else
-    dmg = (float) attacker.getAtk() / (float) target.getDef();
-  dmg = ((2.0 * attacker.getLevel() + 10) / 250.0) * dmg * m.getPower() + 2;
-  dmg *= mod;
-  return (Range(dmg * 0.85, dmg));
+  dmg = 2.0 * a / 5.0 + 2;
+  dmg = (dmg * b * c) / d;
+  dmg = (dmg / 50.0) + 2;
+  dmg = dmg * x * y;
+  return (Range((dmg * 217) / 255, dmg));
 }
 
 void		Data::_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz)
