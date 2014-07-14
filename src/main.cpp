@@ -28,9 +28,12 @@ void		printTeam(Team &pTeam, Team &eTeam, Data &data)
       for (int m = 0; m < 4; m++)
 	{
 	  const Move	&move = data.move(p.getMove(m));
-	  printf("Move %d: %s", m, move.getName());
-	  printf(" (Power: %d, Accuracy: %d, %d/%d PP)\n",
+	  float		eff = data.typeEffectiveness(move, data.species(eTeam[i].getSpecies()));
+
+	  printf("Move %d: %s(%s) -> ", m, move.getName(), data.type(move.getType()));
+	  printf(" (Power: %d, Accuracy: %d, %d/%d PP",
 		 move.getPower(), move.getAccuracy(), p.getPP(m), move.getPP());
+	  printf(", Effectiveness:%.2f)\n", eff);
 	}
     }
 }

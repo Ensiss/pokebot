@@ -35,6 +35,9 @@ public:
   const std::vector<char *>	&abilityNames() const { return (_abilityNames); }
   char		*abilityName(uint8_t i) const { return (i < _abilityNames.size() ? _abilityNames[i] : NULL); }
 
+  float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
+  float		typeEffectiveness(const Move &m, const Species &s) const;
+
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
   World		&world() { return (_world); }
@@ -44,6 +47,7 @@ private:
   void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
   void		_loadMoves();
   void		_loadSpecies();
+  void		_loadTypeEffectiveness();
 
 private:
   // Static
@@ -53,6 +57,7 @@ private:
   std::vector<char*>	_types;
   std::vector<Move>	_moves;
   std::vector<Species>	_species;
+  float			_typeChart[18][18];
   World			_world;
   // Dynamic*
   Player	_player;
