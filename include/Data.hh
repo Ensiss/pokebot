@@ -26,6 +26,9 @@ public:
   const std::vector<Move>	&moves() const { return (_moves); }
   const Move	&move(uint8_t i) const { return (_moves[(i < _moves.size()) * i]); }
 
+  const std::vector<char *>	&types() const { return (_types); }
+  const char	*type(uint8_t i) const { return (_types[(i < _types.size()) * i]); }
+
   const std::vector<Species>	&species() const { return (_species); }
   const Species	&species(uint8_t i) const { return (_species[(i < _species.size()) * i]); }
 
@@ -47,6 +50,7 @@ private:
   std::vector<char*>	_speciesNames;
   std::vector<char*>	_moveNames;
   std::vector<char*>	_abilityNames;
+  std::vector<char*>	_types;
   std::vector<Move>	_moves;
   std::vector<Species>	_species;
   World			_world;

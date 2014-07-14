@@ -7,6 +7,7 @@ Data::Data()
   _loadStrings(_speciesNames, 0x8245EE0, 11, "\xAE\xFF", 2);
   _loadStrings(_moveNames, 0x8247094, 13, "\x00", 1);
   _loadStrings(_abilityNames, 0x824FC4D, 13, "\x00", 1);
+  _loadStrings(_types, 0x824F1A0, 7, "\x00", 1);
   _loadMoves();
   _loadSpecies();
 }

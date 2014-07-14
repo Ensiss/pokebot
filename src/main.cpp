@@ -21,7 +21,10 @@ void		printTeam(Team &pTeam, Team &eTeam, Data &data)
 	continue;
       printf("%s's (%d xp) %s", p.getOtName(), p.getXP(), sp.getName());
       printf("\tvs\t%s\n", eTeam[i].getNick());
-      printf("Type  : %d, %d\n", sp.getType(0), sp.getType(1));
+      printf("Type  : %s", data.type(sp.getType(0)));
+      if (sp.getType(1) != sp.getType(0))
+	printf("/%s", data.type(sp.getType(1)));
+      printf("\n");
       for (int m = 0; m < 4; m++)
 	{
 	  const Move	&move = data.move(p.getMove(m));
