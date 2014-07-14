@@ -21,7 +21,7 @@ public:
 
 public:
   const std::vector<char *>	&speciesNames() const { return (_speciesNames); }
-  char		*speciesName(uint8_t i) const { return (i < _speciesNames.size() ? _speciesNames[i] : NULL); }
+  char		*speciesName(uint16_t i) const { return (i < _speciesNames.size() ? _speciesNames[i] : NULL); }
 
   const std::vector<Move>	&moves() const { return (_moves); }
   const Move	&move(uint8_t i) const { return (_moves[(i < _moves.size()) * i]); }
@@ -30,7 +30,7 @@ public:
   const char	*type(uint8_t i) const { return (_types[(i < _types.size()) * i]); }
 
   const std::vector<Species>	&species() const { return (_species); }
-  const Species	&species(uint8_t i) const { return (_species[(i < _species.size()) * i]); }
+  const Species	&species(uint16_t i) const { return (_species[(i < _species.size()) * i]); }
 
   const std::vector<char *>	&abilityNames() const { return (_abilityNames); }
   char		*abilityName(uint8_t i) const { return (i < _abilityNames.size() ? _abilityNames[i] : NULL); }
