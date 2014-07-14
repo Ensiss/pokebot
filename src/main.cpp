@@ -18,24 +18,28 @@ void		printTeam(Data &data)
   for (int i = 0; i < 6; i++)
     {
       const PokemonData	&p = pTeam[i];
+      const PokemonData	&e = eTeam[i];
       const Species	&sp = data.species(p.getSpecies());
 
-      if (!p.getSpecies() && !eTeam[i].getSpecies())
+      if (!p.getSpecies() && !e.getSpecies())
 	continue;
       printf("%s's %s", p.getOtName(), sp.getName());
       printf("(%s", data.type(sp.getType(0)));
       if (sp.getType(1) != sp.getType(0))
 	printf("/%s", data.type(sp.getType(1)));
-      printf(")\tvs\t%s\n", eTeam[i].getNick());
+      printf(")\tvs\t%s (%d/%d hp)\n", data.species(e.getSpecies()).getName(), e.getHP(), e.getMaxHP());
       for (int m = 0; m < 4; m++)
 	{
-	  const Move	&move = data.move(p.getMove(m));
-	  float		eff = data.typeEffectiveness(move, data.species(eTeam[i].getSpecies()));
+	  if (p.getMove(m))
+	    {
+	      const Move	&move = data.move(p.getMove(m));
+	      Range		dmg = data.potentialDamage(p, eTeam[0], move);
 
-	  printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.type(move.getType()));
-	  printf(" (Power: %d, Accuracy: %d, %d/%d PP",
-		 move.getPower(), move.getAccuracy(), p.getPP(m), move.getPP());
-	  printf(", Effectiveness:%.2f)\n", eff);
+	      printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.type(move.getType()));
+	      printf(" (Power: %d, Accuracy: %d, %d/%d PP",
+		     move.getPower(), move.getAccuracy(), p.getPP(m), move.getPP());
+	      printf(", Potential dmg: %d-%d)\n", dmg.min, dmg.max);
+	    }
 	}
     }
 }

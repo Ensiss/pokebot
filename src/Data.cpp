@@ -39,6 +39,34 @@ float		Data::typeEffectiveness(const Move &m, const Species &sp) const
   return (eff);
 }
 
+float		Data::sameTypeAttackBonus(const Move &m, const Species &s) const
+{
+  uint8_t	mt = m.getType();
+  uint8_t	*st = s.getTypes();
+
+  return (1 + 0.5 * (st[0] == mt || st[1] == mt));
+}
+
+Range		Data::potentialDamage(const PokemonData &attacker, const PokemonData &target, const Move &m) const
+{
+  const Species	&as = species(attacker.getSpecies());
+  const Species	&ts = species(target.getSpecies());
+  float		dmg;
+  float		mod;
+
+  if (!target.getSpecies() || !attacker.getSpecies() || !m.getPower())
+    return (Range());
+  mod = typeEffectiveness(m, ts) * sameTypeAttackBonus(m, as);
+  if (isSpecial(m.getType()))
+    dmg = (float) attacker.getSpAtk() / (float) target.getSpDef();
+  else
+    dmg = (float) attacker.getAtk() / (float) target.getDef();
+  dmg = ((2.0 * attacker.getLevel() + 10) / 250.0) * dmg * m.getPower() + 2;
+  dmg *= mod;
+  printf("%f - %f\n", dmg * 0.85, dmg);
+  return (Range(dmg * 0.85, dmg));
+}
+
 void		Data::_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz)
 {
   int		i, id;

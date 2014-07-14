@@ -10,6 +10,14 @@
 #include	"Move.hh"
 #include	"Species.hh"
 
+struct		Range
+{
+  Range(float a = 0, float b = 0) : min(a), max(b) {}
+
+  int		min;
+  int		max;
+};
+
 class		Data
 {
 public:
@@ -28,6 +36,7 @@ public:
 
   const std::vector<char *>	&types() const { return (_types); }
   const char	*type(uint8_t i) const { return (_types[(i < _types.size()) * i]); }
+  bool		isSpecial(uint8_t type) const { return (type > 9); };
 
   const std::vector<Species>	&species() const { return (_species); }
   const Species	&species(uint16_t i) const { return (_species[(i < _species.size()) * i]); }
@@ -37,6 +46,8 @@ public:
 
   float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
   float		typeEffectiveness(const Move &m, const Species &s) const;
+  float		sameTypeAttackBonus(const Move &m, const Species &s) const;
+  Range		potentialDamage(const PokemonData &attacker, const PokemonData &target, const Move &m) const;
 
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
