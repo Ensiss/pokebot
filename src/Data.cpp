@@ -63,7 +63,6 @@ Range		Data::potentialDamage(const PokemonData &attacker, const PokemonData &tar
     dmg = (float) attacker.getAtk() / (float) target.getDef();
   dmg = ((2.0 * attacker.getLevel() + 10) / 250.0) * dmg * m.getPower() + 2;
   dmg *= mod;
-  printf("%f - %f\n", dmg * 0.85, dmg);
   return (Range(dmg * 0.85, dmg));
 }
 
