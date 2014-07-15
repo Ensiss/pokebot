@@ -1,7 +1,8 @@
 #include	"Data.hh"
 
 Data::Data()
-  : _pteam(0x02024284),
+  : _ows((OverWorld *) gbaMem(0x02036E38)),
+    _pteam(0x02024284),
     _eteam(0x0202402C)
 {
   _loadStrings(_speciesNames, 0x8245EE0, 11, "\xAE\xFF", 2);

@@ -11,6 +11,7 @@
 #include	"Species.hh"
 #include	"BagMenu.hh"
 #include	"BattleMenu.hh"
+#include	"OverWorld.hh"
 
 struct		Range
 {
@@ -46,6 +47,9 @@ public:
   const std::vector<char *>	&abilityNames() const { return (_abilityNames); }
   char		*abilityName(uint8_t i) const { return (i < _abilityNames.size() ? _abilityNames[i] : NULL); }
 
+  const OverWorld	*overWorlds() const { return (_ows); }
+  const OverWorld	&overWorld(uint8_t i) const { return (_ows[(i < 16) * i]); }
+
   float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
   float		typeEffectiveness(const Move &m, const Species &s) const;
   float		sameTypeAttackBonus(const Move &m, const Species &s) const;
@@ -74,9 +78,11 @@ private:
   std::vector<Species>	_species;
   float			_typeChart[18][18];
   World			_world;
+  // Dynamic
   BagMenu		_bagMenu;
   BattleMenu		_battleMenu;
-  // Dynamic*
+  OverWorld		*_ows;
+  // Manual
   Player	_player;
   Team		_pteam;
   Team		_eteam;
