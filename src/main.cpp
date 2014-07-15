@@ -88,11 +88,10 @@ void		printMenu(Data &data)
     printf("Bag pocket #%d open, cursor on item #%d\n", data.bagMenu().getPocket(), data.bagMenu().getItem());
 }
 
-void		printRAM(Data &data, uint32_t address)
+void		printRAM(Data &data, uint32_t address, uint32_t sz)
 {
-  uint32_t	sz = 800;
   static uint8_t	*old = new uint8_t[sz]();
-  uint8_t	*p = (uint8_t *) gbaMem(address - (sz / 2));
+  uint8_t		*p = (uint8_t *) gbaMem(address - (sz / 2));
 
   for (int i = 0; i < sz; i++)
     {
