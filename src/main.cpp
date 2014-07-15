@@ -69,6 +69,44 @@ void		printMap(Data &data, Action &action)
     }
 }
 
+void		printMenu(Data &data)
+{
+  printf("Main menu: %d\n", *((uint8_t *) gbaMem(0x0203ADE6))); // or 0x020370F4
+  if (data.battleMenu().isOpen())
+    {
+      uint8_t	menu = data.battleMenu().getMenu();
+      if (menu == 0)
+	printf("Main battle menu, cursor on %d\n", data.battleMenu().getCursor());
+      else if (menu == 1)
+	printf("Attack menu, cursor on %d\n", data.battleMenu().getAttack());
+      else if (menu == 2)
+	printf("Bag menu, pocket %d, item %d\n", data.bagMenu().getPocket(), data.bagMenu().getItem());
+      else if (menu == 3)
+	printf("Pokemon switch menu\n");
+    }
+  else if (data.bagMenu().isOpen())
+    printf("Bag pocket #%d open, cursor on item #%d\n", data.bagMenu().getPocket(), data.bagMenu().getItem());
+}
+
+void		printRAM(Data &data, uint32_t address)
+{
+  uint32_t	sz = 800;
+  static uint8_t	*old = new uint8_t[sz]();
+  uint8_t	*p = (uint8_t *) gbaMem(address - (sz / 2));
+
+  for (int i = 0; i < sz; i++)
+    {
+      if (p[i] != old[i])
+	{
+	  printf("\033[31m");
+	  old[i] = p[i];
+	}
+      printf("%02x ", p[i]);
+      printf("\033[0m");
+    }
+  printf("\n");
+}
+
 void		doLoop()
 {
   Data		data;
@@ -91,6 +129,7 @@ void		doLoop()
 	      printf("\033[2J\033[0;0H");
 	      printTeam(data);
 	      printMap(data, action);
+	      printMenu(data);
 	    }
 	}
 
