@@ -79,6 +79,10 @@ private:
     _print("addvar %#x %#x", v, _readWord()); }
   void		_subvar() { uint16_t v = _readVariable();
     _print("subvar %#x %#x", v, _readWord()); }
+  void		_copyvar() { uint16_t v = _readVariable();
+    _print("copyvar %#x %#x", v, _readVariable()); }
+  void		_copyvarifnotzero() { uint16_t v = _readVariable();
+    _print("copyvarifnotzero %#x %#x", v, _readWordOrVar()); }
   void		_compare() { uint16_t v = _readVariable();
     _print("compare %#04x %#04x", v, _readWord()); }
   void		_special() {
@@ -103,6 +107,8 @@ private:
     _print("waitmovement %d", _readByteOrVar()); }
   void		_hidesprite() {
     _print("hidesprite %d", _readByteOrVar()); }
+  void		_faceplayer() {
+    _print("faceplayer"); }
   void		_moveoffscreen() {
     _print("moveoffscreen %d", _readWord()); }
   void		_closeonkeypress() {

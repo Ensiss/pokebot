@@ -26,6 +26,8 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x16] = &PokeScript::_setvar;
   _inst[i = 0x17] = &PokeScript::_addvar;
   _inst[i = 0x18] = &PokeScript::_subvar;
+  _inst[i = 0x19] = &PokeScript::_copyvar;
+  _inst[i = 0x1A] = &PokeScript::_copyvarifnotzero;
   _inst[i = 0x21] = &PokeScript::_compare;
   _inst[i = 0x25] = &PokeScript::_special;
   _inst[i = 0x26] = &PokeScript::_special2;
@@ -38,6 +40,7 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x4F] = &PokeScript::_applymovement;
   _inst[i = 0x51] = &PokeScript::_waitmovement;
   _inst[i = 0x53] = &PokeScript::_hidesprite;
+  _inst[i = 0x5A] = &PokeScript::_faceplayer;
   _inst[i = 0x64] = &PokeScript::_moveoffscreen;
   _inst[i = 0x68] = &PokeScript::_closeonkeypress;
   _inst[i = 0x69] = &PokeScript::_lockall;
@@ -127,11 +130,11 @@ void		PokeScript::_loadpointer()
 
   if (_ptr[_pc] == 0x09)
     {
-      char		msg[256];
+      char		msg[1024];
       uint8_t		*addr = (uint8_t *) gbaMem(ptr);
       int		i;
 
-      for (i = 0; i < 256 && addr[i] != 0xFF; i++)
+      for (i = 0; i < 1024 && addr[i] != 0xFF; i++)
 	msg[i] = pokeCharsetToAscii(addr[i]);
       msg[i] = '\0';
       _pc += 2;
@@ -145,11 +148,11 @@ void		PokeScript::_bufferstring()
 {
   uint8_t	buff = _readBuffer();
   uint32_t	ptr = _readPointer();
-  char		msg[256];
+  char		msg[1024];
   uint8_t	*addr = (uint8_t *) gbaMem(ptr);
   int		i;
 
-  for (i = 0; i < 256 && addr[i] != 0xFF; i++)
+  for (i = 0; i < 1024 && addr[i] != 0xFF; i++)
     msg[i] = pokeCharsetToAscii(addr[i]);
   msg[i] = '\0';
   _print("bufferstring %d \"%s\"", buff, msg);
