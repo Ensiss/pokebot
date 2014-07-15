@@ -10,6 +10,7 @@
 #include	"Move.hh"
 #include	"Species.hh"
 #include	"BagMenu.hh"
+#include	"BattleMenu.hh"
 
 struct		Range
 {
@@ -55,6 +56,7 @@ public:
   World		&world() { return (_world); }
   Player	&player() { return (_player); }
   BagMenu	&bagMenu() { return (_bagMenu); }
+  BattleMenu	&battleMenu() { return (_battleMenu); }
 
 private:
   void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
@@ -73,6 +75,7 @@ private:
   float			_typeChart[18][18];
   World			_world;
   BagMenu		_bagMenu;
+  BattleMenu		_battleMenu;
   // Dynamic*
   Player	_player;
   Team		_pteam;
