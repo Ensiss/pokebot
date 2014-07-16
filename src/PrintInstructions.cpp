@@ -22,6 +22,7 @@ void		PokeScript::_initInstructions()
   _inst[++i] = &PokeScript::_callstd;
   _inst[++i] = &PokeScript::_gotostdif;
   _inst[++i] = &PokeScript::_callstdif;
+  _inst[i = 0x0C] = &PokeScript::_jumpram;
   _inst[i = 0x0F] = &PokeScript::_loadpointer;
   _inst[i = 0x16] = &PokeScript::_setvar;
   _inst[i = 0x17] = &PokeScript::_addvar;
@@ -37,11 +38,17 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x2A] = &PokeScript::_clearflag;
   _inst[i = 0x2B] = &PokeScript::_checkflag;
   _inst[i = 0x2F] = &PokeScript::_sound;
+  _inst[i = 0x33] = &PokeScript::_playsound;
+  _inst[i = 0x34] = &PokeScript::_playsound2;
+  _inst[i = 0x39] = &PokeScript::_warp;
   _inst[i = 0x4F] = &PokeScript::_applymovement;
   _inst[i = 0x51] = &PokeScript::_waitmovement;
   _inst[i = 0x53] = &PokeScript::_hidesprite;
+  _inst[i = 0x55] = &PokeScript::_showsprite;
   _inst[i = 0x5A] = &PokeScript::_faceplayer;
   _inst[i = 0x64] = &PokeScript::_moveoffscreen;
+  _inst[i = 0x66] = &PokeScript::_waitmsg;
+  _inst[i = 0x67] = &PokeScript::_preparemsg;
   _inst[i = 0x68] = &PokeScript::_closeonkeypress;
   _inst[i = 0x69] = &PokeScript::_lockall;
   _inst[i = 0x6A] = &PokeScript::_lock;
@@ -61,6 +68,11 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x9C] = &PokeScript::_doanimation;
   _inst[i = 0x9D] = &PokeScript::_setanimation;
   _inst[i = 0x9E] = &PokeScript::_checkanimation;
+  _inst[i = 0xAC] = &PokeScript::_setdooropened;
+  _inst[++i] = &PokeScript::_setdoorclosed;
+  _inst[++i] = &PokeScript::_doorchange;
+  _inst[++i] = &PokeScript::_setdooropened2;
+  _inst[++i] = &PokeScript::_setdoorclosed2;
   _inst[i = 0xC7] = &PokeScript::_textcolor;
   _inst[i = 0xCA] = &PokeScript::_signmsg;
   _inst[i = 0xCB] = &PokeScript::_normalmsg;
@@ -156,4 +168,34 @@ void		PokeScript::_bufferstring()
     msg[i] = pokeCharsetToAscii(addr[i]);
   msg[i] = '\0';
   _print("bufferstring %d \"%s\"", buff, msg);
+}
+
+void		PokeScript::_preparemsg()
+{
+  uint32_t	ptr = _readPtrOrBank0();
+  char		msg[1024];
+  uint8_t	*addr;
+  int		i;
+
+  if (ptr < 4)
+    {
+      _print("preparemsg %d\n", ptr);
+      return;
+    }
+  addr = (uint8_t *) gbaMem(ptr);
+  for (i = 0; i < 1024 && addr[i] != 0xFF; i++)
+    msg[i] = pokeCharsetToAscii(addr[i]);
+  msg[i] = '\0';
+  _print("preparemsg \"%s\"", msg);
+}
+
+void		PokeScript::_warp()
+{
+  uint8_t	bank = _readByte();
+  uint8_t	map = _readByte();
+  uint8_t	warp = _readByte();
+  uint8_t	x = _readByte();
+  uint8_t	y = _readByte();
+
+  _print("warp (bank=%d,map=%d) warp#%d (x=%d,y=%d)", bank, map, warp, x, y);
 }

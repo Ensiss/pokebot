@@ -72,6 +72,8 @@ private:
     _print("if %s gotostd %#02x", op, _readByte()); }
   void		_callstdif() { const char *op = _cmpOp(_readByte());
     _print("if %s callstd %#02x", op, _readByte()); }
+  void		_jumpram() {
+    _print("jumpram"); }
   void		_loadpointer();
   void		_setvar() { uint16_t v = _readVariable();
     _print("setvar %#x %#x", v, _readWord()); }
@@ -101,16 +103,26 @@ private:
     _print("checkflag %#x", _readFlagOrVar()); }
   void		_sound() {
     _print("sound %#04x", _readWord()); }
+  void		_playsound() { uint16_t s = _readWord();
+    _print("playsound %#x %x", s, _readByte()); }
+  void		_playsound2() { uint16_t s = _readWord();
+    _print("playsound2 %#x", s); }
+  void		_warp();
   void		_applymovement() { uint8_t id = _readByteOrVar();
     _print("applymovement %d %#08x", id, _readPointer()); }
   void		_waitmovement() {
     _print("waitmovement %d", _readByteOrVar()); }
   void		_hidesprite() {
     _print("hidesprite %d", _readByteOrVar()); }
+  void		_showsprite() {
+    _print("showsprite %d", _readByteOrVar()); }
   void		_faceplayer() {
     _print("faceplayer"); }
   void		_moveoffscreen() {
     _print("moveoffscreen %d", _readWord()); }
+  void		_waitmsg() {
+    _print("waitmsg"); }
+  void		_preparemsg();
   void		_closeonkeypress() {
     _print("closeonkeypress"); }
   void		_lockall() {
@@ -148,6 +160,16 @@ private:
     _print("setanimation 0x%x %#06x", b, _readWordOrVar()); }
   void		_checkanimation() {
     _print("checkanimation %#06x", _readWord()); }
+  void		_setdooropened() { uint16_t x = _readWord();
+    _print("setdooropened %d,%d", x, _readWord()); }
+  void		_setdoorclosed() { uint16_t x = _readWord();
+    _print("setdoorclosed %d,%d", x, _readWord()); }
+  void		_doorchange() {
+    _print("doorchange"); }
+  void		_setdooropened2() { uint16_t x = _readWord();
+    _print("setdooropened2 %d,%d", x, _readWord()); }
+  void		_setdoorclosed2() { uint16_t x = _readWord();
+    _print("setdoorclosed2 %d,%d", x, _readWord()); }
   void		_textcolor() {
     _print("textcolor %d", _readByte()); }
   void		_signmsg() {
