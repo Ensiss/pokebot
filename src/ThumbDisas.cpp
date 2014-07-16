@@ -63,9 +63,12 @@ void		ThumbDisas::print()
 	  if (ins[0] == 'b' && (ptr = strchr(ins, '$')))
 	    {
 	      sscanf(ptr + 1, "%x", &jump);
-	      _addrs.push(jump);
-	      if (ins[1] == ' ')
-		break;
+	      if (jump >= 0x08000000)
+		{
+		  _addrs.push(jump);
+		  if (ins[1] == ' ')
+		    break;
+		}
 	    }
 	}
       while (ins[0] != 'b' || ins[1] != 'x');
