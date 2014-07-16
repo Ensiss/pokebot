@@ -38,6 +38,7 @@ World::World()
 	  map.signs = (SignEvt *) gbaMem(evtPtr->signsPtr);
 	  map.nbConnects = ((uint32_t *) gbaMem(header->connectPtr))[0];
 	  map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
+	  map.scriptPtr = header->scriptPtr;
 	  map.data = new Map::Node*[map.height]();
 	  for (int y = 0; y < map.height; y++)
 	    {

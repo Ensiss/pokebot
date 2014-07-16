@@ -173,6 +173,7 @@ public:
     SignEvt	*signs;
     uint32_t	nbConnects;
     Connection	*connects;
+    uint32_t	scriptPtr;
 
   private:
     int			_getNextIndex(std::vector<Map::Node*> *set);
