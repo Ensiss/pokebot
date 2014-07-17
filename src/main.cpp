@@ -7,7 +7,7 @@
 #include	"Data.hh"
 #include	"Action.hh"
 #include	"PokeScript.hh"
-#include	"Thumb.hh"
+#include	"ThumbDisas.hh"
 #include	<list>
 
 void		printTeam(Data &data)
@@ -88,13 +88,15 @@ void		printMenu(Data &data)
     printf("Bag pocket #%d open, cursor on item #%d\n", data.bagMenu().getPocket(), data.bagMenu().getItem());
 }
 
-void		printRAM(Data &data, uint32_t address, uint32_t sz)
+void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz = 0)
 {
   static uint8_t	*old = new uint8_t[sz]();
-  uint8_t		*p = (uint8_t *) gbaMem(address - (sz / 2));
+  uint8_t		*p = (uint8_t *) gbaMem(address);
 
   for (int i = 0; i < sz; i++)
     {
+      if (linesz && !(i % linesz))
+	printf("\n");
       if (p[i] != old[i])
 	{
 	  printf("\033[31m");
@@ -102,6 +104,24 @@ void		printRAM(Data &data, uint32_t address, uint32_t sz)
 	}
       printf("%02x ", p[i]);
       printf("\033[0m");
+    }
+  printf("\n");
+}
+
+void		printMessageBoxes(int offsetx = 0, int offsety = 0)
+{
+  uint8_t	*d = (uint8_t *) gbaMem(0x020204B4);
+  for (int a = 0; a < 32 && d[12 * a] != 0xFF; a++)
+    {
+      int x = d[12 * a + 1];
+      int y = d[12 * a + 2];
+      for (int j = 0; j < d[12 * a + 4]; j++)
+	{
+	  printf("\033[%d;%dH", offsety + y + j, offsetx + 2 * x);
+	  for (int i = 0; i < d[12 * a + 3]; i++)
+	    printf("%2d", a);
+	  printf("\n");
+	}
     }
   printf("\n");
 }
@@ -128,7 +148,6 @@ void		doLoop()
 	      printf("\033[2J\033[0;0H");
 	      printTeam(data);
 	      printMap(data, action);
-	      printMenu(data);
 	    }
 	}
 
