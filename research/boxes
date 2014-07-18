@@ -1,0 +1,19 @@
+Yes/no joy viridian:
+00 14 09 04 04 0f 38 00 08 32 00 02
+
+Location name:
+00 01 1D 0E 02 0d 01 00 60 2d 00 02
+
+Mart buy/sell:
+00 xx yy ww hh 0f 08 00 60 2d 00 02
+
+Save topleft:
+00 xx yy ww hh 0d 08 00 60 2d 00 02
+
+Menu:
+00 16 01 07 0d 0f 3d 01 60 2d 00 02
+00 00 0f 1e 05 0f 8f 00 d0 38 00 02
+
+Mart money:
+00 xx yy ww hh 0f 27 00 1c 41 00 02
+
