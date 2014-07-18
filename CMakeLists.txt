@@ -190,8 +190,8 @@ SET(SRC_MAIN
     src/Action.cpp
     src/Movement.cpp
     src/PokeScript.cpp
-    src/ScriptArgs.cpp
-    src/PrintInstructions.cpp
+    src/PokeScriptArgs.cpp
+    src/PokeScriptPrint.cpp
     src/ThumbDisas.cpp
     src/PokemonUtils.cpp
     src/PrintUtils.cpp
