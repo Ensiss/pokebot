@@ -59,6 +59,30 @@ void		printMap(Data &data, Action &action)
     }
 }
 
+void		printWildPokemons(Data &data)
+{
+  Player	&p = data.player();
+  World::Map	&m = data.world()[p.getBank()][p.getMap()];
+
+  for (int i = 0; i < 4; i++)
+    {
+      World::Map::WildBattle	*wb = m.wildBattles + i;
+
+      if (wb->nbEntries)
+	{
+	  printf("Type: %s", "Grass\0    Water\0    RockSmash\0Fishing" + 10 * i);
+	  printf(" -> %d/255 chances to encounter a pokemon (%d%%)\n", wb->ratio, 100 * wb->ratio / 255);
+	  for (int j = 0; j < wb->nbEntries; j++)
+	    {
+	      printf("\t%-10s lvl ", data.species(wb->entries[j].species).getName());
+	      if (wb->entries[j].maxLvl != wb->entries[j].minLvl)
+		printf("%d-", wb->entries[j].minLvl);
+	      printf("%d\n", wb->entries[j].maxLvl);
+	    }
+	}
+    }
+}
+
 void		printMenu(Data &data)
 {
   printf("Main menu: %d\n", *((uint8_t *) gbaMem(0x0203ADE6))); // or 0x020370F4

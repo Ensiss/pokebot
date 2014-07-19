@@ -10,7 +10,7 @@ World::World()
   while (next > ROM_OFFSET)
     {
       _banks.push_back(std::vector<Map>());
-        std::vector<Map>	&maps = _banks.back();
+      std::vector<Map>	&maps = _banks.back();
 
       for (int mapi = rel; mapi < next; mapi += 4)
 	{
@@ -58,10 +58,34 @@ World::World()
       rel = next;
       next = bankptr[banki + 1];
     }
+  _initWildBattles();
 }
 
 World::~World()
 {
+}
+
+void		World::_initWildBattles()
+{
+  WildHeader	*wh = (WildHeader *) gbaMem(0x083c9cb8);
+
+  while (wh->bank != 0xFF || wh->map != 0xFF)
+    {
+      Map	&map = getMap(wh->bank, wh->map);
+      for (int i = 0; i < 4; i++)
+	{
+	  map.wildBattles[i].nbEntries = 0;
+	  map.wildBattles[i].ratio = 0;
+	  if (wh->entryPtr[i])
+	    {
+	      uint32_t	*eh = (uint32_t *) gbaMem(wh->entryPtr[i]);
+	      map.wildBattles[i].ratio = eh[0];
+	      map.wildBattles[i].entries = (WildEntry *) gbaMem(eh[1]);
+	      map.wildBattles[i].nbEntries = (wh->entryPtr[i] - eh[1]) / 4;
+	    }
+	}
+      wh++;
+    }
 }
 
 int		World::Map::_getNextIndex(std::vector<Node*> *set)

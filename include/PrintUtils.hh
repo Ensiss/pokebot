@@ -13,5 +13,6 @@ void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz = 0);
 void		printMessageBoxes(int offsetx = 0, int offsety = 0);
 void		printString(uint32_t addr, uint32_t size);
 void		searchString(uint32_t start, uint32_t size, const char *m);
+void		printWildPokemons(Data &data);
 
 #endif

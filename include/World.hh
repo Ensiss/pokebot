@@ -124,6 +124,21 @@ private:
     uint16_t	padding;
   };
 
+  struct	WildHeader
+  {
+    uint8_t	bank;
+    uint8_t	map;
+    uint16_t	padding;
+    uint32_t	entryPtr[4];
+  };
+
+  struct	WildEntry
+  {
+    uint8_t	minLvl;
+    uint8_t	maxLvl;
+    uint16_t	species;
+  };
+
 public:
   struct	Map
   {
@@ -147,6 +162,13 @@ public:
       Node(uint32_t px = 0, uint32_t py = 0) : status(0), from(NULL), g(0), f(0), x(px), y(py) {}
       void	setG(uint32_t pg) { g = pg; }
       void	setF(uint32_t xe, uint32_t ye) { f = g + 10 * sqrt(POW(xe - x) + POW(ye - y)); }
+    };
+
+    struct	WildBattle
+    {
+      uint8_t	ratio;
+      WildEntry	*entries;
+      uint8_t	nbEntries;
     };
 
     enum
@@ -174,6 +196,7 @@ public:
     uint32_t	nbConnects;
     Connection	*connects;
     uint32_t	scriptPtr;
+    WildBattle	wildBattles[4];
 
   private:
     int			_getNextIndex(std::vector<Map::Node*> *set);
@@ -197,6 +220,9 @@ public:
 public:
   World();
   ~World();
+
+private:
+  void		_initWildBattles();
 
 public:
   std::vector<Map>	&operator[](uint8_t bank) { return (_banks[(bank < _banks.size()) * bank]); }
