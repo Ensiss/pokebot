@@ -222,6 +222,7 @@ public:
   ~World();
 
 private:
+  void		_initWorld();
   void		_initWildBattles();
 
 public:

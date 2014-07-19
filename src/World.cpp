@@ -2,6 +2,16 @@
 
 World::World()
 {
+  _initWorld();
+  _initWildBattles();
+}
+
+World::~World()
+{
+}
+
+void		World::_initWorld()
+{
   int		banki = 0;
   uint32_t	*bankptr = (uint32_t *) (rom + BANK_PTR);
   uint32_t	rel = bankptr[banki];
@@ -58,11 +68,6 @@ World::World()
       rel = next;
       next = bankptr[banki + 1];
     }
-  _initWildBattles();
-}
-
-World::~World()
-{
 }
 
 void		World::_initWildBattles()
