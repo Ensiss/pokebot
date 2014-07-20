@@ -1,6 +1,17 @@
 #ifndef		__AACTION_HH__
 #define		__AACTION_HH__
 
+namespace	Action
+{
+  enum		State
+    {
+      NOT_STARTED,
+      RUNNING,
+      FINISHED,
+      ERROR
+    };
+};
+
 class		AAction
 {
 public:
@@ -8,10 +19,10 @@ public:
   virtual void	update() = 0;
 
 public:
-  int		getState() { return (_state); }
+  Action::State	getState() const { return (_state); }
 
-public:
-  int		_state;
+protected:
+  Action::State	_state;
 };
 
 #endif

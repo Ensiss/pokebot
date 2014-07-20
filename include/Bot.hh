@@ -16,9 +16,13 @@ public:
   void		update();
   void		queue(AAction *action);
 
+public:
+  int		getState() const { return (_state); }
+
 private:
   std::deque<AAction*>	_queue;
   AAction		*_action;
+  int			_state;
 };
 
 #endif

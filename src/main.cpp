@@ -11,7 +11,6 @@
 #include	"ThumbDisas.hh"
 #include	"PrintUtils.hh"
 #include	"Bot.hh"
-#include	<list>
 
 Data		*Action::data = NULL;
 
@@ -32,8 +31,6 @@ void		doLoop()
 	{
 	  data.update();
 	  bot.update();
-	  if (step == 900)
-	    bot.queue(new Action::MoveTo(data.player().getX() + 7, data.player().getY()));
 	  if (step % 20 == 0)
 	    {
 	      printf("\033[2J\033[0;0H");

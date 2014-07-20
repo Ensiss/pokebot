@@ -8,8 +8,9 @@ Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
 
   _oldx = p.getX();
   _oldy = p.getY();
-  _path = m.findPath(_oldx, _oldy, _tx, _ty);
+  _path = NULL;
   _pathi = 1;
+  _state = NOT_STARTED;
 }
 
 Action::MoveTo::~MoveTo()
@@ -24,20 +25,34 @@ void		Action::MoveTo::_releaseKeys()
 
 void		Action::MoveTo::update()
 {
-  int		x = _data.player().getX();
-  int		y = _data.player().getY();
-  bool		moved = _oldx != x || _oldy != y;
+  Player	&p = _data.player();
+  World::Map	&m = _data.world()[p.getBank()][p.getMap()];
+  bool		moved = _oldx != p.getX() || _oldy != p.getY();
+
+  if (_state == Action::NOT_STARTED)
+    {
+      if (p.getX() == _tx && p.getY() == _ty)
+	{
+	  _state = Action::FINISHED;
+	  return;
+	}
+      _path = m.findPath(p.getX(), p.getY(), _tx, _ty);
+      _state = _path ? Action::RUNNING : Action::ERROR;
+    }
+  if (_state > Action::RUNNING)
+    return;
 
   if (_path && _pathi == _path->size() && moved)
     {
+      _state = Action::FINISHED;
       _releaseKeys();
       delete _path;
       _path = NULL;
     }
   else if (_path && _pathi < _path->size() && (_pathi == 1 || moved))
     {
-      int	dx = (*_path)[_pathi]->x - x;
-      int	dy = (*_path)[_pathi]->y - y;
+      int	dx = (*_path)[_pathi]->x - p.getX();
+      int	dy = (*_path)[_pathi]->y - p.getY();
       EKey	k;
 
       _releaseKeys();
@@ -49,6 +64,6 @@ void		Action::MoveTo::update()
       _pathi++;
     }
 
-  _oldx = x;
-  _oldy = y;
+  _oldx = p.getX();
+  _oldy = p.getY();
 }
