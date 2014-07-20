@@ -10,15 +10,16 @@
 #include	"PokeScript.hh"
 #include	"ThumbDisas.hh"
 #include	"PrintUtils.hh"
+#include	"Bot.hh"
 #include	<list>
 
 Data		*Action::data = NULL;
 
 void		doLoop()
 {
-  Action::MoveTo	*mvt = NULL;
-  Data			&data = *Action::data;
-  int			step = 0;
+  Data		&data = *Action::data;
+  Bot		bot;
+  int		step = 0;
 
   while (emulating)
     {
@@ -30,9 +31,9 @@ void		doLoop()
       else
 	{
 	  data.update();
+	  bot.update();
 	  if (step == 900)
-	    mvt = new Action::MoveTo(data.player().getX() + 7, data.player().getY());
-	  mvt->update();
+	    bot.queue(new Action::MoveTo(data.player().getX() + 7, data.player().getY()));
 	  if (step % 20 == 0)
 	    {
 	      printf("\033[2J\033[0;0H");
