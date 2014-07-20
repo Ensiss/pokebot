@@ -34,30 +34,30 @@ void		printTeam(Data &data)
     }
 }
 
-void		printMap(Data &data, Action &action)
-{
-  Player	&p = data.player();
-  World::Map	&m = data.world()[p.getBank()][p.getMap()];
-  World::Path	*path = action.movement().getPath();
+// void		printMap(Data &data, Action &action)
+// {
+//   Player	&p = data.player();
+//   World::Map	&m = data.world()[p.getBank()][p.getMap()];
+//   World::Path	*path = action.movement().getPath();
 
-  for (int y = 0; y < m.height; y++)
-    {
-      for (int x = 0; x < m.width; x++)
-	{
-	  bool	node = false;
-	  bool	ppos = (y == p.getY() && x == p.getX());
-	  for (int a = 0; path && !node && a < path->size(); a++)
-	    if (x == (*path)[a]->x && y == (*path)[a]->y)
-	      node = true;
-	  for (int a = 0; !node && a < m.nbWarps; a++)
-	    if (m.warps[a].x == x && m.warps[a].y == y)
-	      node = true;
-	  printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
-		 m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
-	}
-      printf("\n");
-    }
-}
+//   for (int y = 0; y < m.height; y++)
+//     {
+//       for (int x = 0; x < m.width; x++)
+// 	{
+// 	  bool	node = false;
+// 	  bool	ppos = (y == p.getY() && x == p.getX());
+// 	  for (int a = 0; path && !node && a < path->size(); a++)
+// 	    if (x == (*path)[a]->x && y == (*path)[a]->y)
+// 	      node = true;
+// 	  for (int a = 0; !node && a < m.nbWarps; a++)
+// 	    if (m.warps[a].x == x && m.warps[a].y == y)
+// 	      node = true;
+// 	  printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
+// 		 m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
+// 	}
+//       printf("\n");
+//     }
+// }
 
 void		printWildPokemons(Data &data)
 {

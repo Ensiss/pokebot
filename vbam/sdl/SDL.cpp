@@ -51,7 +51,6 @@
 #include "../Util.h"
 
 #include	"Data.hh"
-#include	"Action.hh"
 
 #include "debugger.h"
 #include "filters.h"
@@ -1369,7 +1368,7 @@ static void sdlHandleSavestateKey(int num, int shifted)
 
 } // sdlHandleSavestateKey
 
-void sdlPollEvents(Data &data, Action &action)
+void sdlPollEvents(Data &data)
 {
   SDL_Event	event;
   int		x;
@@ -1393,18 +1392,6 @@ void sdlPollEvents(Data &data, Action &action)
 			   (fullscreen ? SDL_FULLSCREEN : 0));
 	  sdlOpenGLInit(event.resize.w, event.resize.h);
 	}
-      break;
-    case SDL_MOUSEBUTTONDOWN:
-      // Coordinates in window size
-      x = event.button.x - winX;
-      y = event.button.y - winY;
-      if (x < 0 || y < 0 || x > winW || y > winH)
-	break;
-      // Coordinates in tiles size
-      x = x / (winW / 15) - 7 + data.player().getX();
-      y = y / (winH / 11) - 5 + data.player().getY();
-      // Go !
-      action.moveTo(x, y);
       break;
     case SDL_KEYDOWN:
       inputProcessSDLEvent(event);
