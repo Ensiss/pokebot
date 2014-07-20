@@ -61,6 +61,7 @@ public:
   Player	&player() { return (_player); }
   BagMenu	&bagMenu() { return (_bagMenu); }
   BattleMenu	&battleMenu() { return (_battleMenu); }
+  bool		inBattle() { return (*((uint32_t *) gbaMem(0x030030F0)) == 0x80123e5); }
 
 private:
   void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
