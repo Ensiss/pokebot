@@ -4,7 +4,7 @@
 #include	<deque>
 #include	"Data.hh"
 #include	"Action.hh"
-#include	"IAction.hh"
+#include	"AAction.hh"
 
 class		Bot
 {
@@ -14,11 +14,11 @@ public:
 
 public:
   void		update();
-  void		queue(IAction *action);
+  void		queue(AAction *action);
 
 private:
-  std::deque<IAction*>	_queue;
-  IAction		*_action;
+  std::deque<AAction*>	_queue;
+  AAction		*_action;
 };
 
 #endif

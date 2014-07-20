@@ -22,7 +22,7 @@ void		Bot::update()
     }
 }
 
-void		Bot::queue(IAction *action)
+void		Bot::queue(AAction *action)
 {
   _queue.push_back(action);
 }

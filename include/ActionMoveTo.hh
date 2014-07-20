@@ -2,7 +2,7 @@
 #define		__ACTION_MOVETO_HH__
 
 #include	"Data.hh"
-#include	"IAction.hh"
+#include	"AAction.hh"
 #include	"Action.hh"
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
@@ -10,7 +10,7 @@
 
 namespace	Action
 {
-  class		MoveTo : public IAction
+  class		MoveTo : public AAction
   {
   public:
     MoveTo(uint16_t x, uint16_t y);
