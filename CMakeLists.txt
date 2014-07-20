@@ -189,6 +189,7 @@ SET(SRC_MAIN
     src/PokemonData.cpp
     src/Bot.cpp
     src/ActionMoveTo.cpp
+    src/ActionBattle.cpp
     src/PokeScript.cpp
     src/PokeScriptArgs.cpp
     src/PokeScriptPrint.cpp

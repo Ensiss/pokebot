@@ -7,6 +7,7 @@
 #include	"Data.hh"
 #include	"Action.hh"
 #include	"ActionMoveTo.hh"
+#include	"ActionBattle.hh"
 #include	"PokeScript.hh"
 #include	"ThumbDisas.hh"
 #include	"PrintUtils.hh"
@@ -31,6 +32,8 @@ void		doLoop()
 	{
 	  data.update();
 	  bot.update();
+	  if (step == 900)
+	    bot.setBattleAction(new Action::Battle());
 	  if (step % 20 == 0)
 	    {
 	      printf("\033[2J\033[0;0H");

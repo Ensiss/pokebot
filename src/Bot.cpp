@@ -1,7 +1,7 @@
 #include	"Bot.hh"
 
 Bot::Bot()
-  : _action(NULL), _state(0)
+  : _action(NULL), _battle(NULL), _battleState(false), _state(0)
 {
 }
 
@@ -11,6 +11,16 @@ Bot::~Bot()
 
 void		Bot::update()
 {
+  if (Action::data->inBattle() != _battleState)
+    for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
+      sdlSetButton((EKey) i, false);
+  _battleState = Action::data->inBattle();
+  if (_battleState)
+    {
+      if (_battle)
+	_battle->update();
+      return;
+    }
   if (!_action)
     {
       if (_queue.size())
@@ -31,6 +41,7 @@ void		Bot::update()
 	  _action = NULL;
 	}
     }
+  _battleState = Action::data->inBattle();
 }
 
 void		Bot::queue(AAction *action)
