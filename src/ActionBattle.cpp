@@ -58,7 +58,6 @@ void		Action::Battle::update()
 {
   BattleMenu	&bm = _data.battleMenu();
 
-  printf("%d\n", _getBestMove());
   _releaseKeys();
   if (_tick = !_tick)
     return;
