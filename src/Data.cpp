@@ -3,7 +3,8 @@
 Data::Data()
   : _ows((OverWorld *) gbaMem(0x02036E38)),
     _pteam(0x02024284),
-    _eteam(0x0202402C)
+    _eteam(0x0202402C),
+    _battlers(0x02023BE4)
 {
   _loadStrings(_speciesNames, 0x8245EE0, 11, "\xAE\xFF", 2);
   _loadStrings(_moveNames, 0x8247094, 13, "\x00", 1);
@@ -29,6 +30,7 @@ void		Data::update()
   _player.update();
   _pteam.update();
   _eteam.update();
+  _battlers.update();
 }
 
 float		Data::typeEffectiveness(const Move &m, const Species &sp) const

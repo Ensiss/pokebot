@@ -2,8 +2,9 @@
 #define		__POKEMONDATA_HH__
 
 #include	"PokemonUtils.hh"
+#include	"IPokeData.hh"
 
-class		PokemonData
+class		PokemonData : public IPokeData
 {
 private:
   struct	Internal {
@@ -71,26 +72,16 @@ private:
     uint32_t	ribbons;
   };
 
-  enum		Status {
-    ST_SLEEP,
-    ST_POISON,
-    ST_BURN,
-    ST_FREEZE,
-    ST_PARALYSIS,
-    ST_BAD_POISON
-  };
-
 public:
   PokemonData() {}
   PokemonData(uint32_t addr)
     : _data((Internal *) gbaMem(addr)) {}
+  ~PokemonData() {}
 
 public:
   void		update();
 
 public:
-  const char	*getNick() const { return (_nick); }
-  const char	*getOtName() const { return (_otName); }
   int		getStatus(Status s) const;
   int		isSleeping() const { return (getStatus(ST_SLEEP)); }
   bool		isPoisoned() const { return (getStatus(ST_POISON)); }
@@ -129,8 +120,6 @@ private:
 
 private:
   Internal	*_data;
-  char		_nick[11];
-  char		_otName[8];
   uint32_t	_xored[12];
   Growth	*_growth;
   Attacks	*_attacks;

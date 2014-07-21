@@ -6,6 +6,7 @@
 #include	"PokemonUtils.hh"
 #include	"World.hh"
 #include	"Team.hpp"
+#include	"BattleGroup.hpp"
 #include	"Player.hh"
 #include	"Move.hh"
 #include	"Species.hh"
@@ -57,6 +58,7 @@ public:
 
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
+  BattleGroup	&battlers() { return (_battlers); }
   World		&world() { return (_world); }
   Player	&player() { return (_player); }
   BagMenu	&bagMenu() { return (_bagMenu); }
@@ -87,6 +89,7 @@ private:
   Player	_player;
   Team		_pteam;
   Team		_eteam;
+  BattleGroup	_battlers;
 };
 
 #endif
