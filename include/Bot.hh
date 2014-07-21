@@ -13,6 +13,10 @@ public:
   Bot();
   ~Bot();
 
+private:
+  void		_saveKeyState();
+  void		_loadKeyState();
+
 public:
   void		update();
   void		queue(AAction *action);
@@ -27,6 +31,7 @@ private:
   AAction		*_battle;
   bool			_battleState;
   int			_state;
+  uint16_t		_keyState;
 };
 
 #endif

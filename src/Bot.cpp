@@ -9,11 +9,25 @@ Bot::~Bot()
 {
 }
 
+void		Bot::_saveKeyState()
+{
+  _keyState = 0;
+  for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
+    if (sdlGetButton((EKey) i))
+      _keyState |= (1 << i);
+}
+
+void		Bot::_loadKeyState()
+{
+  for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
+    sdlSetButton((EKey) i, (_keyState >> i) & 1);
+  _keyState = 0;
+}
+
 void		Bot::update()
 {
   if (Action::data->inBattle() != _battleState)
-    for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
-      sdlSetButton((EKey) i, false);
+    (this->*(!_battleState ? &Bot::_saveKeyState : &Bot::_loadKeyState))();
   _battleState = Action::data->inBattle();
   if (_battleState)
     {
