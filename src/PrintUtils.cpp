@@ -25,11 +25,13 @@ void		printTeam(Data &data)
 	  if (p.getMove(m))
 	    {
 	      const Move	&move = data.move(p.getMove(m));
-	      Range		dmg = data.potentialDamage(i ? p : (const IPokeData &) pb, eb, move);
+	      const IPokeData	&idata = i ? p : (const IPokeData &) pb;
+	      Range		dmg = data.potentialDamage(idata, eb, move);
+	      int		acc = data.chanceToHit(idata, eb, move);
 
 	      printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.type(move.getType()));
-	      printf(" (Power: %d, Accuracy: %d, %d/%d PP",
-		     move.getPower(), move.getAccuracy(), p.getPP(m), move.getPP());
+	      printf(" (Accuracy: %d%%, %d/%d PP",
+		     acc, p.getPP(m), move.getPP());
 	      printf(", Potential dmg: %d-%d)\n", dmg.min, dmg.max);
 	    }
 	}

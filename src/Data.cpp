@@ -71,6 +71,11 @@ Range		Data::potentialDamage(const IPokeData &attacker, const IPokeData &target,
   return (Range((dmg * 217) / 255, dmg));
 }
 
+float		Data::chanceToHit(const IPokeData &attacker, const IPokeData &target, const Move &m) const
+{
+  return (m.getAccuracy() * ((float) attacker.getRealAccuracy() / (float) target.getRealEvasion()));
+}
+
 void		Data::_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz)
 {
   int		i, id;

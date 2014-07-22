@@ -56,6 +56,7 @@ public:
   float		typeEffectiveness(const Move &m, const Species &s) const;
   float		sameTypeAttackBonus(const Move &m, const Species &s) const;
   Range		potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const;
+  float		chanceToHit(const IPokeData &attacker, const IPokeData &target, const Move &m) const;
 
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }
