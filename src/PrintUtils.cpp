@@ -4,6 +4,8 @@ void		printTeam(Data &data)
 {
   Team		&pTeam = data.playerTeam();
   Team		&eTeam = data.enemyTeam();
+  const BattleData	&pb = data.battlers()[0];
+  const BattleData	&eb = data.battlers()[1];
 
   for (int i = 0; i < 6; i++)
     {
@@ -23,7 +25,7 @@ void		printTeam(Data &data)
 	  if (p.getMove(m))
 	    {
 	      const Move	&move = data.move(p.getMove(m));
-	      Range		dmg = data.potentialDamage(p, eTeam[0], move);
+	      Range		dmg = data.potentialDamage(i ? p : (const IPokeData &) pb, eb, move);
 
 	      printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.type(move.getType()));
 	      printf(" (Power: %d, Accuracy: %d, %d/%d PP",

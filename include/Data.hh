@@ -13,6 +13,7 @@
 #include	"BagMenu.hh"
 #include	"BattleMenu.hh"
 #include	"OverWorld.hh"
+#include	"IPokeData.hh"
 
 struct		Range
 {
@@ -54,7 +55,7 @@ public:
   float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
   float		typeEffectiveness(const Move &m, const Species &s) const;
   float		sameTypeAttackBonus(const Move &m, const Species &s) const;
-  Range		potentialDamage(const PokemonData &attacker, const PokemonData &target, const Move &m) const;
+  Range		potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const;
 
   Team		&playerTeam() { return (_pteam); }
   Team		&enemyTeam() { return (_eteam); }

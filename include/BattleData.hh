@@ -51,9 +51,6 @@ public:
     : _data((Internal *) gbaMem(addr)) {}
   ~BattleData() {}
 
-private:
-  float		_getMultiplier(float n, float d);
-
 public:
   void		update();
 
@@ -66,6 +63,7 @@ public:
   bool		isParalysed() const { return (getStatus(ST_PARALYSIS)); }
   bool		isBadlyPoisoned() const { return (getStatus(ST_BAD_POISON)); }
   uint8_t	getLevel() const { return (_data->level); }
+  uint16_t	getSpecies() const { return (_data->species); }
 
   uint16_t	getHP() const { return (_data->currHP); }
   uint16_t	getMaxHP() const { return (_data->maxHP); }
@@ -75,14 +73,14 @@ public:
   uint16_t	getSpAtk() const { return (_data->spatk); }
   uint16_t	getSpDef() const { return (_data->spdef); }
 
-  uint16_t	getHPBuff() const { return (_data->hpBuff); }
-  uint16_t	getAtkBuff() const { return (_data->atkBuff); }
-  uint16_t	getDefBuff() const { return (_data->defBuff); }
-  uint16_t	getSpeedBuff() const { return (_data->speedBuff); }
-  uint16_t	getSpAtkBuff() const { return (_data->spatkBuff); }
-  uint16_t	getSpDefBuff() const { return (_data->spdefBuff); }
-  uint16_t	getAccuracyBuff() const { return (_data->accuracyBuff); }
-  uint16_t	getEvasionBuff() const { return (_data->evasionBuff); }
+  int		getHPBuff() const { return (_data->hpBuff - 6); }
+  int		getAtkBuff() const { return (_data->atkBuff - 6); }
+  int		getDefBuff() const { return (_data->defBuff - 6); }
+  int		getSpeedBuff() const { return (_data->speedBuff - 6); }
+  int		getSpAtkBuff() const { return (_data->spatkBuff - 6); }
+  int		getSpDefBuff() const { return (_data->spdefBuff - 6); }
+  int		getAccuracyBuff() const { return (_data->accuracyBuff - 6); }
+  int		getEvasionBuff() const { return (_data->evasionBuff - 6); }
 
   uint16_t	*getMoves() const { return (_data->moves); }
   uint8_t	*getPPs() const { return (_data->PPs); }

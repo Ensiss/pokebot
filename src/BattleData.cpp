@@ -16,10 +16,3 @@ int		BattleData::getStatus(Status s) const
     return (_data->status & 7);
   return (!!(_data->status & (1 << (s + 2))));
 }
-
-float		BattleData::_getMultiplier(float n, float d)
-{
-  float		r = ((n < 0 ? -n : n) + d) / d;
-
-  return (n < 0 ? 1 / r : r);
-}

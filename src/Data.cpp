@@ -50,14 +50,14 @@ float		Data::sameTypeAttackBonus(const Move &m, const Species &s) const
   return (1 + 0.5 * (st[0] == mt || st[1] == mt));
 }
 
-Range		Data::potentialDamage(const PokemonData &attacker, const PokemonData &target, const Move &m) const
+Range		Data::potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const
 {
   const Species	&as = species(attacker.getSpecies());
   const Species	&ts = species(target.getSpecies());
   float		a = attacker.getLevel();
-  float		b = isSpecial(m.getType()) ? attacker.getSpAtk() : attacker.getAtk();
+  float		b = isSpecial(m.getType()) ? attacker.getRealSpAtk() : attacker.getRealAtk();
   float		c = m.getPower();
-  float		d = isSpecial(m.getType()) ? target.getSpDef() : target.getDef();
+  float		d = isSpecial(m.getType()) ? target.getRealSpDef() : target.getRealDef();
   float		x = sameTypeAttackBonus(m, as);
   float		y = typeEffectiveness(m, ts);
   int		dmg;

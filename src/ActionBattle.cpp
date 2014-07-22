@@ -19,8 +19,8 @@ void		Action::Battle::_releaseKeys()
 
 uint8_t		Action::Battle::_getBestMove()
 {
-  const PokemonData	&p = _data.playerTeam()[0];
-  const PokemonData	&e = _data.enemyTeam()[0];
+  const BattleData	&p = _data.battlers()[0];
+  const BattleData	&e = _data.battlers()[1];
   const Species	&sp = _data.species(p.getSpecies());
   uint8_t	best = 0;
   uint8_t	min = 0;

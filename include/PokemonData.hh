@@ -91,6 +91,7 @@ public:
   bool		isBadlyPoisoned() const { return (getStatus(ST_BAD_POISON)); }
   uint8_t	hasPokerus() const { return (_data->pokerus); }
   uint8_t	getLevel() const { return (_data->level); }
+
   uint16_t	getHP() const { return (_data->currHP); }
   uint16_t	getMaxHP() const { return (_data->maxHP); }
   uint16_t	getAtk() const { return (_data->atk); }
@@ -98,6 +99,15 @@ public:
   uint16_t	getSpeed() const { return (_data->speed); }
   uint16_t	getSpAtk() const { return (_data->spatk); }
   uint16_t	getSpDef() const { return (_data->spdef); }
+
+  int		getHPBuff() const { return (0); }
+  int		getAtkBuff() const { return (0); }
+  int		getDefBuff() const { return (0); }
+  int		getSpeedBuff() const { return (0); }
+  int		getSpAtkBuff() const { return (0); }
+  int		getSpDefBuff() const { return (0); }
+  int		getAccuracyBuff() const { return (0); }
+  int		getEvasionBuff() const { return (0); }
 
   uint16_t	getSpecies() const { return (_growth->species); }
   uint16_t	getItem() const { return (_growth->item); }
