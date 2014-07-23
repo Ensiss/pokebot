@@ -32,7 +32,7 @@ uint8_t		Action::Battle::_getBestMove()
 	  const Move	&move = _data.move(p.getMove(m));
 	  Range		dmg = _data.potentialDamage(p, e, move);
 
-	  if (dmg.min > min)
+	  if ((min < e.getHP() && dmg.min > min) || (dmg.min > e.getHP() && dmg.min < min))
 	    {
 	      best = m;
 	      min = dmg.min;
