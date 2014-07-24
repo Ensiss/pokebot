@@ -14,7 +14,8 @@ Action::Battle::~Battle()
 void		Action::Battle::_releaseKeys()
 {
   for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
-    sdlSetButton((EKey) i, false);
+    if (i != KEY_BUTTON_SPEED)
+      sdlSetButton((EKey) i, false);
 }
 
 uint8_t		Action::Battle::_getBestMove()
