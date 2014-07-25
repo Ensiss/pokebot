@@ -35,14 +35,18 @@ public:
   uint16_t		getRealAccuracy() const { return (100 * _getMultiplier(getAccuracyBuff(), 3)); }
   uint16_t		getRealEvasion() const { return (100 * _getMultiplier(getEvasionBuff(), 3)); }
 
+  int			isSleeping() const { return (getStatus(ST_SLEEP)); }
+  bool			isPoisoned() const { return (getStatus(ST_POISON)); }
+  bool			isBurnt() const { return (getStatus(ST_BURN)); }
+  bool			isFreezed() const { return (getStatus(ST_FREEZE)); }
+  bool			isParalysed() const { return (getStatus(ST_PARALYSIS)); }
+  bool			isBadlyPoisoned() const { return (getStatus(ST_BAD_POISON)); }
+
+  uint16_t		getMove(uint8_t i) const { return (getMoves()[i]); }
+  uint8_t		getPP(uint8_t i) const { return (getPPs()[i]); }
+
 public:
   virtual int		getStatus(Status s) const = 0;
-  virtual int		isSleeping() const = 0;
-  virtual bool		isPoisoned() const = 0;
-  virtual bool		isBurnt() const = 0;
-  virtual bool		isFreezed() const = 0;
-  virtual bool		isParalysed() const = 0;
-  virtual bool		isBadlyPoisoned() const = 0;
   virtual uint8_t	getLevel() const = 0;
   virtual uint16_t	getSpecies() const = 0;
 
@@ -64,8 +68,6 @@ public:
 
   virtual uint16_t	*getMoves() const = 0;
   virtual uint8_t	*getPPs() const = 0;
-  virtual uint16_t	getMove(uint8_t i) const = 0;
-  virtual uint8_t	getPP(uint8_t i) const = 0;
 
 protected:
   char		_nick[12];

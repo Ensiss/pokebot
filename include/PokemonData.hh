@@ -83,12 +83,6 @@ public:
 
 public:
   int		getStatus(Status s) const;
-  int		isSleeping() const { return (getStatus(ST_SLEEP)); }
-  bool		isPoisoned() const { return (getStatus(ST_POISON)); }
-  bool		isBurnt() const { return (getStatus(ST_BURN)); }
-  bool		isFreezed() const { return (getStatus(ST_FREEZE)); }
-  bool		isParalysed() const { return (getStatus(ST_PARALYSIS)); }
-  bool		isBadlyPoisoned() const { return (getStatus(ST_BAD_POISON)); }
   uint8_t	hasPokerus() const { return (_data->pokerus); }
   uint8_t	getLevel() const { return (_data->level); }
 
@@ -122,8 +116,6 @@ public:
 
   uint16_t	*getMoves() const { return ((uint16_t *) &(_attacks->move1)); }
   uint8_t	*getPPs() const { return ((uint8_t *) &(_attacks->pp1)); }
-  uint16_t	getMove(uint8_t i) const { return (getMoves()[i]); }
-  uint8_t	getPP(uint8_t i) const { return (getPPs()[i]); }
 
 private:
   void		_decryptSubstructures();
