@@ -38,6 +38,7 @@ void		doLoop()
 	    {
 	      printf("\033[2J\033[0;0H");
 	      printTeam(data);
+	      printMap(data);
 	    }
 	}
 
