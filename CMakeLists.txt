@@ -183,20 +183,25 @@ SET(SRC_SDL
 
 SET(SRC_MAIN
     src/main.cpp
-    src/Data.cpp
-    src/World.cpp
-    src/Player.cpp
-    src/PokemonData.cpp
-    src/BattleData.cpp
-    src/Bot.cpp
-    src/ActionMoveTo.cpp
-    src/ActionBattle.cpp
-    src/PokeScript.cpp
-    src/PokeScriptArgs.cpp
-    src/PokeScriptPrint.cpp
-    src/ThumbDisas.cpp
-    src/PokemonUtils.cpp
-    src/PrintUtils.cpp
+
+    src/Data/Data.cpp
+    src/Data/World.cpp
+    src/Data/Player.cpp
+    src/Data/PokemonData.cpp
+    src/Data/BattleData.cpp
+
+    src/Bot/Bot.cpp
+
+    src/Action/MoveTo.cpp
+    src/Action/Battle.cpp
+
+    src/PokeScript/Disass.cpp
+    src/PokeScript/Args.cpp
+    src/PokeScript/Print.cpp
+
+    src/Utils/ThumbDisas.cpp
+    src/Utils/PokemonUtils.cpp
+    src/Utils/PrintUtils.cpp
 )
 
 INCLUDE_DIRECTORIES(
