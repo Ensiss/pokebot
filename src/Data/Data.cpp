@@ -13,6 +13,7 @@ Data::Data()
   _loadMoves();
   _loadSpecies();
   _loadTypeEffectiveness();
+  _world.setOverWorld(_ows);
 }
 
 Data::~Data()
