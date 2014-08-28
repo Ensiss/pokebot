@@ -1,9 +1,8 @@
 #include	"ActionBattle.hh"
 
 Action::Battle::Battle()
-  : _data(*Action::data)
+  : _tick(0)
 {
-  _tick = 0;
 }
 
 Action::Battle::~Battle()

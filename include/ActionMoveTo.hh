@@ -27,7 +27,6 @@ namespace	Action
     void	_releaseKeys();
 
   private:
-    Data	&_data;
     World::Path	*_path;
     uint16_t	_tx;
     uint16_t	_ty;

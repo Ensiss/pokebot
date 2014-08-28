@@ -1,7 +1,7 @@
 #include	"AAction.hh"
 
 AAction::AAction()
-  : _state(Action::NOT_STARTED)
+  : _data(*Action::data), _state(Action::NOT_STARTED)
 {
 }
 

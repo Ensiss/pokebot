@@ -2,6 +2,8 @@
 #define		__AACTION_HH__
 
 #include	<queue>
+#include	"Data.hh"
+#include	"Action.hh"
 
 namespace	Action
 {
@@ -29,6 +31,7 @@ public:
   Action::State	getState() const { return (_state); }
 
 protected:
+  Data			&_data;
   Action::State		_state;
   std::queue<AAction *>	_actions;
 };

@@ -1,11 +1,8 @@
 #include	"ActionMoveTo.hh"
 
 Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
-  : _data(*Action::data), _tx(x), _ty(y)
+  : _tx(x), _ty(y), _path(NULL), _pathi(1)
 {
-  _path = NULL;
-  _pathi = 1;
-  _state = NOT_STARTED;
 }
 
 Action::MoveTo::~MoveTo()

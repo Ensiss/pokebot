@@ -26,7 +26,6 @@ namespace	Action
     void	_selectMove(uint8_t move, uint8_t curr);
 
   private:
-    Data	&_data;
     uint8_t	_tick;
   };
 };
