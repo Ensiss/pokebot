@@ -16,8 +16,9 @@ namespace	Action
     MoveTo(uint16_t x, uint16_t y);
     ~MoveTo();
 
-  public:
-    void	update();
+  private:
+    void	_init();
+    void	_update();
 
   public:
     World::Path	*getPath() const { return (_path); }

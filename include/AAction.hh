@@ -1,6 +1,8 @@
 #ifndef		__AACTION_HH__
 #define		__AACTION_HH__
 
+#include	<queue>
+
 namespace	Action
 {
   enum		State
@@ -15,14 +17,20 @@ namespace	Action
 class		AAction
 {
 public:
+  AAction();
+  Action::State	update();
   virtual	~AAction() {}
-  virtual void	update() = 0;
+
+private:
+  virtual void	_update() = 0;
+  virtual void	_init() = 0;
 
 public:
   Action::State	getState() const { return (_state); }
 
 protected:
-  Action::State	_state;
+  Action::State		_state;
+  std::queue<AAction *>	_actions;
 };
 
 #endif

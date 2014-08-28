@@ -3,11 +3,6 @@
 Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
   : _data(*Action::data), _tx(x), _ty(y)
 {
-  Player	&p = _data.player();
-  World::Map	&m = _data.world()[p.getBank()][p.getMap()];
-
-  _oldx = p.getX();
-  _oldy = p.getY();
   _path = NULL;
   _pathi = 1;
   _state = NOT_STARTED;
@@ -23,24 +18,27 @@ void		Action::MoveTo::_releaseKeys()
     sdlSetButton((EKey) i, false);
 }
 
-void		Action::MoveTo::update()
+void		Action::MoveTo::_init()
+{
+  Player	&p = _data.player();
+  World::Map	&m = _data.world()[p.getBank()][p.getMap()];
+
+  _oldx = p.getX();
+  _oldy = p.getY();
+  if (p.getX() == _tx && p.getY() == _ty)
+    {
+      _state = Action::FINISHED;
+      return;
+    }
+  _path = m.findPath(p.getX(), p.getY(), _tx, _ty);
+  _state = _path ? Action::RUNNING : Action::ERROR;
+}
+
+void		Action::MoveTo::_update()
 {
   Player	&p = _data.player();
   World::Map	&m = _data.world()[p.getBank()][p.getMap()];
   bool		moved = _oldx != p.getX() || _oldy != p.getY();
-
-  if (_state == Action::NOT_STARTED)
-    {
-      if (p.getX() == _tx && p.getY() == _ty)
-	{
-	  _state = Action::FINISHED;
-	  return;
-	}
-      _path = m.findPath(p.getX(), p.getY(), _tx, _ty);
-      _state = _path ? Action::RUNNING : Action::ERROR;
-    }
-  if (_state > Action::RUNNING)
-    return;
 
   if (_path && _pathi == _path->size() && moved)
     {

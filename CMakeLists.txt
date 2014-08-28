@@ -110,6 +110,7 @@ SET(SRC_MAIN
 
     src/Bot/Bot.cpp
 
+    src/Action/AAction.cpp
     src/Action/MoveTo.cpp
     src/Action/Battle.cpp
 

@@ -17,12 +17,13 @@ namespace	Action
     ~Battle();
 
   private:
+    void	_init();
+    void	_update();
+
+  private:
     void	_releaseKeys();
     uint8_t	_getBestMove();
     void	_selectMove(uint8_t move, uint8_t curr);
-
-  public:
-    void	update();
 
   private:
     Data	&_data;

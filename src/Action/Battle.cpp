@@ -3,7 +3,6 @@
 Action::Battle::Battle()
   : _data(*Action::data)
 {
-  _state = NOT_STARTED;
   _tick = 0;
 }
 
@@ -55,7 +54,11 @@ void		Action::Battle::_selectMove(uint8_t move, uint8_t curr)
     sdlSetButton(KEY_LEFT, true);
 }
 
-void		Action::Battle::update()
+void		Action::Battle::_init()
+{
+}
+
+void		Action::Battle::_update()
 {
   BattleMenu	&bm = _data.battleMenu();
 
