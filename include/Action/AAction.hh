@@ -29,6 +29,7 @@ private:
 
 public:
   void		queue(AAction *act) { _actions.push(act); }
+  void		reset() { _state = Action::NOT_STARTED; }
   Action::State	getState() const { return (_state); }
 
 protected:

@@ -9,6 +9,11 @@ Action::State	AAction::update()
 {
   if (_state == Action::NOT_STARTED)
     {
+      while (_actions.size())
+	{
+	  delete _actions.front();
+	  _actions.pop();
+	}
       _init();
       if (_state == Action::NOT_STARTED)
 	_state = Action::RUNNING;
@@ -19,7 +24,10 @@ Action::State	AAction::update()
     {
       _actions.front()->update();
       if (_actions.front()->getState() > Action::RUNNING)
-	_actions.pop();
+	{
+	  delete _actions.front();
+	  _actions.pop();
+	}
     }
   return (_state);
 }
