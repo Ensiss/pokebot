@@ -2256,7 +2256,7 @@ static void debuggerCondValidate(int n, char **args,int start)
   char *address=args[start];
   const char *op=args[start+1];
   char *value=args[start+2];
-  const char *tsize,*taddress,*tvalue;
+  const char *taddress,*tvalue;
 
   int rel=0;
 
@@ -2276,15 +2276,12 @@ static void debuggerCondValidate(int n, char **args,int start)
     switch(size) {
     case 'b':
       debuggerBreakpointList[i].cond_size=1;
-      tsize="byte";
       break;
     case 'h':
       debuggerBreakpointList[i].cond_size=2;
-      tsize="halfword";
       break;
     case 'w':
       debuggerBreakpointList[i].cond_size=4;
-      tsize="word";
       break;
     }
   }

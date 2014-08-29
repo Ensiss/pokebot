@@ -169,8 +169,6 @@ char* homeDir = NULL;
 static char *rewindMemory = NULL;
 static int *rewindSerials = NULL;
 static int rewindPos = 0;
-static int rewindSerial = 0;
-static int rewindTopPos = 0;
 static int rewindCounter = 0;
 static int rewindCount = 0;
 static bool rewindSaveNeeded = false;
@@ -181,7 +179,6 @@ static int sdlSaveKeysSwitch = 0;
 // if 1, then SHIFT+F# loads, F# saves (linux snes9x, ...)
 // if 2, then F5 decreases slot number, F6 increases, F7 saves, F8 loads
 
-static int saveSlotPosition = 0; // default is the slot from normal F1
 // internal slot number for undoing the last load
 #define SLOT_POS_LOAD_BACKUP 8
 // internal slot number for undoing the last save
@@ -189,7 +186,7 @@ static int saveSlotPosition = 0; // default is the slot from normal F1
 
 static int sdlOpenglScale = 1;
 // will scale window on init by this much
-static int sdlSoundToggledOff = 0;
+// static int sdlSoundToggledOff = 0;
 // allow up to 100 IPS/UPS/PPF patches given on commandline
 #define PATCH_MAX_NUM 100
 int	sdl_patch_num	= 0;
@@ -296,22 +293,6 @@ struct option sdlOptions[] = {
   { "autofire", required_argument, 0, 1001 },
   { NULL, no_argument, NULL, 0 }
 };
-
-static void sdlChangeVolume(float d)
-{
-	float oldVolume = soundGetVolume();
-	float newVolume = oldVolume + d;
-
-	if (newVolume < 0.0) newVolume = 0.0;
-	if (newVolume > SDL_SOUND_MAX_VOLUME) newVolume = SDL_SOUND_MAX_VOLUME;
-
-	if (fabs(newVolume - oldVolume) > 0.001) {
-		char tmp[32];
-		sprintf(tmp, "Volume: %i%%", (int)(newVolume*100.0+0.5));
-		systemScreenMessage(tmp);
-		soundSetVolume(newVolume);
-	}
-}
 
 #if WITH_LIRC
 //LIRC code
@@ -1268,111 +1249,9 @@ void change_rewind(int howmuch)
 	}
 }
 
-/*
- * handle the F* keys (for savestates)
- * given the slot number and state of the SHIFT modifier, save or restore
- * (in savemode 3, saveslot is stored in saveSlotPosition and num means:
- *  4 .. F5: decrease slot number (down to 0)
- *  5 .. F6: increase slot number (up to 7, because 8 and 9 are reserved for backups)
- *  6 .. F7: save state
- *  7 .. F8: load state
- *  (these *should* be configurable)
- *  other keys are ignored
- * )
- */
-static void sdlHandleSavestateKey(int num, int shifted)
-{
-	int action	= -1;
-	// 0: load
-	// 1: save
-	int backuping	= 1; // controls whether we are doing savestate backups
-
-	if ( sdlSaveKeysSwitch == 2 )
-	{
-		// ignore "shifted"
-		switch (num)
-		{
-			// nb.: saveSlotPosition is base 0, but to the user, we show base 1 indexes (F## numbers)!
-			case 4:
-				if (saveSlotPosition > 0)
-				{
-					saveSlotPosition--;
-					fprintf(stdout, "Changed savestate slot to %d.\n", saveSlotPosition + 1);
-				} else
-					fprintf(stderr, "Can't decrease slotnumber below 1.\n");
-				return; // handled
-			case 5:
-				if (saveSlotPosition < 7)
-				{
-					saveSlotPosition++;
-					fprintf(stdout, "Changed savestate slot to %d.\n", saveSlotPosition + 1);
-				} else
-					fprintf(stderr, "Can't increase slotnumber above 8.\n");
-				return; // handled
-			case 6:
-				action	= 1; // save
-				break;
-			case 7:
-				action	= 0; // load
-				break;
-			default:
-				// explicitly ignore
-				return; // handled
-		}
-	}
-
-	if (sdlSaveKeysSwitch == 0 ) /* "classic" VBA: shifted is save */
-	{
-		if (shifted)
-			action	= 1; // save
-		else	action	= 0; // load
-		saveSlotPosition	= num;
-	}
-	if (sdlSaveKeysSwitch == 1 ) /* "xKiv" VBA: shifted is load */
-	{
-		if (!shifted)
-			action	= 1; // save
-		else	action	= 0; // load
-		saveSlotPosition	= num;
-	}
-
-	if (action < 0 || action > 1)
-	{
-		fprintf(
-				stderr,
-				"sdlHandleSavestateKey(%d,%d), mode %d: unexpected action %d.\n",
-				num,
-				shifted,
-				sdlSaveKeysSwitch,
-				action
-		);
-	}
-
-	if (action)
-	{        /* save */
-		if (backuping)
-		{
-			sdlWriteState(-1); // save to a special slot
-			sdlWriteBackupStateExchange(-1, saveSlotPosition, SLOT_POS_SAVE_BACKUP); // F10
-		} else {
-			sdlWriteState(saveSlotPosition);
-		}
-	} else { /* load */
-		if (backuping)
-		{
-			/* first back up where we are now */
-			sdlWriteState(SLOT_POS_LOAD_BACKUP); // F9
-		}
-		sdlReadState(saveSlotPosition);
-        }
-
-} // sdlHandleSavestateKey
-
 void sdlPollEvents(Data &data)
 {
   SDL_Event	event;
-  int		x;
-  int		y;
 
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
@@ -1420,8 +1299,6 @@ void	initVBAM(int argc, char **argv)
   saveDir[0] = 0;
   batteryDir[0] = 0;
 
-  int op = -1;
-
   frameSkip = 2;
   gbBorderOn = 0;
 
@@ -1431,9 +1308,6 @@ void	initVBAM(int argc, char **argv)
   gb_effects_config.echo = 0.0;
   gb_effects_config.surround = false;
   gb_effects_config.enabled = false;
-
-  char buf[1024];
-  struct stat s;
 
   homeDir = 0;
 
@@ -1450,7 +1324,6 @@ void	initVBAM(int argc, char **argv)
   systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
 
   char *szFile = argv[1];
-  u32 len = strlen(szFile);
 
   utilStripDoubleExtension(szFile, filename);
   soundInit();

@@ -43,9 +43,9 @@ void		printMap(Data &data)
   Player	&p = data.player();
   World::Map	&m = data.world()[p.getBank()][p.getMap()];
 
-  for (int y = 0; y < m.height; y++)
+  for (uint16_t y = 0; y < m.height; y++)
     {
-      for (int x = 0; x < m.width; x++)
+      for (uint16_t x = 0; x < m.width; x++)
 	{
 	  bool	node = false;
 	  bool	ppos = (y == p.getY() && x == p.getX());
@@ -107,7 +107,7 @@ void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz)
   static uint8_t	*old = new uint8_t[sz]();
   uint8_t		*p = (uint8_t *) gbaMem(address);
 
-  for (int i = 0; i < sz; i++)
+  for (uint32_t i = 0; i < sz; i++)
     {
       if (linesz && !(i % linesz))
 	printf("\n");
@@ -145,7 +145,7 @@ void		printString(uint32_t addr, uint32_t size)
   uint8_t	*d = (uint8_t *) gbaMem(addr);
 
   printf("%#x: '", addr);
-  for (int i = 0; d[i] != 0xFF && i < size; i++)
+  for (uint32_t i = 0; d[i] != 0xFF && i < size; i++)
     printf("%c", pokeCharsetToAscii(d[i]));
   printf("'\n");
 }
@@ -154,7 +154,7 @@ void		searchString(uint32_t start, uint32_t size, const char *m)
 {
   uint8_t	*d = (uint8_t *) gbaMem(start);
 
-  for (int j = 0; j < size; j++)
+  for (uint32_t j = 0; j < size; j++)
     {
       int	i = -1;
 

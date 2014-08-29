@@ -34,7 +34,6 @@ void		Action::MoveTo::_init()
 void		Action::MoveTo::_update()
 {
   Player	&p = _data.player();
-  World::Map	&m = _data.world()[p.getBank()][p.getMap()];
   bool		moved = _oldx != p.getX() || _oldy != p.getY();
 
   if (_path && _pathi == _path->size() && moved)

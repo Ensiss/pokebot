@@ -22,7 +22,7 @@ void		World::_initWorld()
       _banks.push_back(std::vector<Map>());
       std::vector<Map>	&maps = _banks.back();
 
-      for (int mapi = rel; mapi < next; mapi += 4)
+      for (uint32_t mapi = rel; mapi < next; mapi += 4)
 	{
 	  maps.push_back(Map());
 	  Map		&map = maps.back();
@@ -50,10 +50,10 @@ void		World::_initWorld()
 	  map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
 	  map.scriptPtr = header->scriptPtr;
 	  map.data = new Map::Node*[map.height]();
-	  for (int y = 0; y < map.height; y++)
+	  for (uint16_t y = 0; y < map.height; y++)
 	    {
 	      map.data[y] = new Map::Node[map.width]();
-	      for (int x = 0; x <  map.width; x++)
+	      for (uint16_t x = 0; x < map.width; x++)
 		{
 		  uint16_t	t = d[y * map.width + x] & ((1 << 10) - 1);
 
@@ -173,7 +173,7 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys,
 	      int	y = curr->y + j;
 
 	      // Boundaries check
-	      if (x < 0 || x >= width || y < 0 || y >= height ||
+	      if (x < 0 || x >= (int) width || y < 0 || y >= (int) height ||
 		  (!i && !j) || (i && j))
 		continue;
 	      // Tile type check
@@ -183,7 +183,7 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys,
 		    data[y][x].attr->behavior == 0x32 ||
 		    // Check if escalator is the final tile
 		    (!j && (data[y][x].attr->behavior == 0x6b ||
-			    data[y][x].attr->behavior == 0x6a) && x == xe && y == ye)))
+			    data[y][x].attr->behavior == 0x6a) && x == (int) xe && y == (int) ye)))
 		continue;
 
 	      Node	*neighbor = &(data[y][x]);

@@ -42,7 +42,6 @@ bool		ThumbDisas::_setupNextAddr()
 void		ThumbDisas::print()
 {
   char		ins[128];
-  uint8_t	id;
   uint32_t	jump;
   char		*ptr;
 

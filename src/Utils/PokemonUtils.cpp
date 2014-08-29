@@ -25,13 +25,13 @@ char		pokeCharsetToAscii(uint8_t c)
     return (' ');
   if (c == 0xF0)
     return (':');
-  if (ret = charsetSubset(0x2D, "&+", c))
+  if ((ret = charsetSubset(0x2D, "&+", c)))
     return (ret);
-  if (ret = charsetSubset(0x5B, "%()", c))
+  if ((ret = charsetSubset(0x5B, "%()", c)))
     return (ret);
-  if (ret = charsetSubset(0xAB, "!?.-", c))
+  if ((ret = charsetSubset(0xAB, "!?.-", c)))
     return (ret);
-  if (ret = charsetSubset(0xB0, ".\"\"''MF ,x/", c))
+  if ((ret = charsetSubset(0xB0, ".\"\"''MF ,x/", c)))
     return (ret);
   return ('?');
 }

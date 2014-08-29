@@ -18,11 +18,11 @@ Data::Data()
 
 Data::~Data()
 {
-  for (int i = 0; i < _speciesNames.size(); i++)
+  for (uint16_t i = 0; i < _speciesNames.size(); i++)
     delete _speciesNames[i];
-  for (int i = 0; i < _moveNames.size(); i++)
+  for (uint16_t i = 0; i < _moveNames.size(); i++)
     delete _moveNames[i];
-  for (int i = 0; i < _abilityNames.size(); i++)
+  for (uint16_t i = 0; i < _abilityNames.size(); i++)
     delete _abilityNames[i];
 }
 
