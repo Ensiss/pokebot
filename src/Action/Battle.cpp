@@ -14,10 +14,17 @@ void		Action::Battle::_init()
 
 void		Action::Battle::_update()
 {
+  static int	i = 0;
   BattleMenu	&bm = _data.battleMenu();
 
   if (bm.isOpen() && bm.getMenu() == 0)
-    _attack(_getBestMove());
+    {
+      if (i%2 == 0)
+	_switch(0);
+      else
+	_attack(_getBestMove());
+      i++;
+    }
   else
     queue(new Action::PressButton(KEY_BUTTON_A));
 }
@@ -28,6 +35,18 @@ void		Action::Battle::_attack(uint8_t atk)
   queue(new Action::PressButton(KEY_BUTTON_A));
   queue(new Action::MoveCursor(2, 2, atk, []() -> uint8_t { return (Action::data->battleMenu().getAttack()); }));
   queue(new Action::PressButton(KEY_BUTTON_A));
+}
+
+void		Action::Battle::_switch(uint8_t poke)
+{
+  queue(new Action::MoveCursor(2, 2, 2, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+  queue(new Action::PressButton(KEY_BUTTON_A));
+  queue(new Action::Wait(75));
+  queue(new Action::PressButton(KEY_RIGHT));
+  for (uint8_t i = 0; i < poke; i++)
+    queue(new Action::PressButton(KEY_DOWN));
+  for (uint8_t i = 0; i < 2; i++)
+    queue(new Action::PressButton(KEY_BUTTON_A));
 }
 
 void		Action::Battle::_run()

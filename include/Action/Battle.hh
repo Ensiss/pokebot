@@ -2,6 +2,7 @@
 #define		__ACTION_BATTLE_HH__
 
 #include	"Data.hh"
+#include	"Wait.hh"
 #include	"AAction.hh"
 #include	"MoveCursor.hh"
 #include	"PressButton.hh"
@@ -23,6 +24,7 @@ namespace	Action
 
   private:
     void	_attack(uint8_t atk);
+    void	_switch(uint8_t poke);
     void	_run();
 
   private:

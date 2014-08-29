@@ -198,6 +198,7 @@ SET(SRC_MAIN
     src/Action/Battle.cpp
     src/Action/MoveCursor.cpp
     src/Action/PressButton.cpp
+    src/Action/Wait.cpp
 
     src/PokeScript/Disass.cpp
     src/PokeScript/Args.cpp
