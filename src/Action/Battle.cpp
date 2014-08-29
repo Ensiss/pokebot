@@ -8,6 +8,34 @@ Action::Battle::~Battle()
 {
 }
 
+void		Action::Battle::_init()
+{
+}
+
+void		Action::Battle::_update()
+{
+  BattleMenu	&bm = _data.battleMenu();
+
+  if (bm.isOpen() && bm.getMenu() == 0)
+    _attack(_getBestMove());
+  else
+    queue(new Action::PressButton(KEY_BUTTON_A));
+}
+
+void		Action::Battle::_attack(uint8_t atk)
+{
+  queue(new Action::MoveCursor(2, 2, 0, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+  queue(new Action::PressButton(KEY_BUTTON_A));
+  queue(new Action::MoveCursor(2, 2, atk, []() -> uint8_t { return (Action::data->battleMenu().getAttack()); }));
+  queue(new Action::PressButton(KEY_BUTTON_A));
+}
+
+void		Action::Battle::_run()
+{
+  queue(new Action::MoveCursor(2, 2, 3, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+  queue(new Action::PressButton(KEY_BUTTON_A));
+}
+
 uint8_t		Action::Battle::_getBestMove()
 {
   const BattleData	&p = _data.battlers()[0];
@@ -30,23 +58,4 @@ uint8_t		Action::Battle::_getBestMove()
 	}
     }
   return (best);
-}
-
-void		Action::Battle::_init()
-{
-}
-
-void		Action::Battle::_update()
-{
-  BattleMenu	&bm = _data.battleMenu();
-
-  if (bm.isOpen() && bm.getMenu() == 0)
-    {
-      queue(new Action::MoveCursor(2, 2, 0, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
-      queue(new Action::PressButton(KEY_BUTTON_A));
-      queue(new Action::MoveCursor(2, 2, _getBestMove(), []() -> uint8_t { return (Action::data->battleMenu().getAttack()); }));
-      queue(new Action::PressButton(KEY_BUTTON_A));
-    }
-  else
-    queue(new Action::PressButton(KEY_BUTTON_A));
 }

@@ -22,6 +22,10 @@ namespace	Action
     void	_update();
 
   private:
+    void	_attack(uint8_t atk);
+    void	_run();
+
+  private:
     uint8_t	_getBestMove();
   };
 };
