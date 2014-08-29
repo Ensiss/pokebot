@@ -168,6 +168,7 @@ SET( CMAKE_C_FLAGS_RELEASE "-O3")
 SET( CMAKE_CXX_FLAGS_RELEASE "-O3")
 SET( CMAKE_C_FLAGS_DEBUG "-g -Wall")
 SET( CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
+SET( CMAKE_CXX_FLAGS "-g -Wall -std=c++11")
 
 # Source files definition
 SET(SRC_SDL
@@ -195,6 +196,8 @@ SET(SRC_MAIN
     src/Action/AAction.cpp
     src/Action/MoveTo.cpp
     src/Action/Battle.cpp
+    src/Action/MoveCursor.cpp
+    src/Action/PressButton.cpp
 
     src/PokeScript/Disass.cpp
     src/PokeScript/Args.cpp
