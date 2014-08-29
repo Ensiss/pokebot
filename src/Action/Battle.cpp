@@ -14,17 +14,10 @@ void		Action::Battle::_init()
 
 void		Action::Battle::_update()
 {
-  static int	i = 0;
   BattleMenu	&bm = _data.battleMenu();
 
   if (bm.isOpen() && bm.getMenu() == 0)
-    {
-      if (i%2 == 0)
-	_switch(0);
-      else
-	_attack(_getBestMove());
-      i++;
-    }
+    _attack(_getBestMove());
   else
     queue(new Action::PressButton(KEY_BUTTON_A));
 }
