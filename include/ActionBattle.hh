@@ -4,6 +4,8 @@
 #include	"Data.hh"
 #include	"AAction.hh"
 #include	"Action.hh"
+#include	"ActionMoveCursor.hh"
+#include	"ActionPressButton.hh"
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/sdl/SDLGlobals.h"
@@ -21,12 +23,7 @@ namespace	Action
     void	_update();
 
   private:
-    void	_releaseKeys();
     uint8_t	_getBestMove();
-    void	_selectMove(uint8_t move, uint8_t curr);
-
-  private:
-    uint8_t	_tick;
   };
 };
 

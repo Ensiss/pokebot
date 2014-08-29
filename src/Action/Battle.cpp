@@ -1,19 +1,11 @@
 #include	"ActionBattle.hh"
 
 Action::Battle::Battle()
-  : _tick(0)
 {
 }
 
 Action::Battle::~Battle()
 {
-}
-
-void		Action::Battle::_releaseKeys()
-{
-  for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
-    if (i != KEY_BUTTON_SPEED)
-      sdlSetButton((EKey) i, false);
 }
 
 uint8_t		Action::Battle::_getBestMove()
@@ -41,18 +33,6 @@ uint8_t		Action::Battle::_getBestMove()
   return (best);
 }
 
-void		Action::Battle::_selectMove(uint8_t move, uint8_t curr)
-{
-  if (curr <= 1 && move > 1)
-    sdlSetButton(KEY_DOWN, true);
-  else if (curr > 1 && move <= 1)
-    sdlSetButton(KEY_UP, true);
-  else if (curr < move)
-    sdlSetButton(KEY_RIGHT, true);
-  else if (curr > move)
-    sdlSetButton(KEY_LEFT, true);
-}
-
 void		Action::Battle::_init()
 {
 }
@@ -61,26 +41,13 @@ void		Action::Battle::_update()
 {
   BattleMenu	&bm = _data.battleMenu();
 
-  _releaseKeys();
-  if (_tick = !_tick)
-    return;
-  if (bm.isOpen())
+  if (bm.isOpen() && bm.getMenu() == 0)
     {
-      if (bm.getMenu() == 0)
-	{
-	  if (bm.getCursor() == 0)
-	    sdlSetButton(KEY_BUTTON_A, true);
-	}
-      else if (bm.getMenu() == 1)
-	{
-	  uint8_t	move = _getBestMove();
-
-	  if (bm.getAttack() == move)
-	    sdlSetButton(KEY_BUTTON_A, true);
-	  else
-	    _selectMove(move, bm.getAttack());
-	}
+      queue(new Action::MoveCursor(2, 2, 0, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+      queue(new Action::PressButton(KEY_BUTTON_A));
+      queue(new Action::MoveCursor(2, 2, _getBestMove(), []() -> uint8_t { return (Action::data->battleMenu().getAttack()); }));
+      queue(new Action::PressButton(KEY_BUTTON_A));
     }
   else
-    sdlSetButton(KEY_BUTTON_A, true);
+    queue(new Action::PressButton(KEY_BUTTON_A));
 }
