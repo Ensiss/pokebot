@@ -27,7 +27,11 @@ void		Bot::_loadKeyState()
 void		Bot::update()
 {
   if (Action::data->inBattle() != _battleState)
-    (this->*(!_battleState ? &Bot::_saveKeyState : &Bot::_loadKeyState))();
+    {
+      (this->*(!_battleState ? &Bot::_saveKeyState : &Bot::_loadKeyState))();
+      if (!_battleState && _battle)
+	_battle->reset();
+    }
   _battleState = Action::data->inBattle();
   if (_battleState)
     {
@@ -55,7 +59,6 @@ void		Bot::update()
 	  _action = NULL;
 	}
     }
-  _battleState = Action::data->inBattle();
 }
 
 void		Bot::queue(AAction *action)
