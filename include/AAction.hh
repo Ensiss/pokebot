@@ -28,6 +28,7 @@ private:
   virtual void	_init() = 0;
 
 public:
+  void		queue(AAction *act) { _actions.push(act); }
   Action::State	getState() const { return (_state); }
 
 protected:
