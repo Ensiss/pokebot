@@ -1,4 +1,4 @@
-#include	"ActionMoveTo.hh"
+#include	"Action/MoveTo.hh"
 
 Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
   : _tx(x), _ty(y), _path(NULL), _pathi(1)

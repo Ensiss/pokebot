@@ -3,9 +3,8 @@
 
 #include	"Data.hh"
 #include	"AAction.hh"
-#include	"Action.hh"
-#include	"ActionMoveCursor.hh"
-#include	"ActionPressButton.hh"
+#include	"MoveCursor.hh"
+#include	"PressButton.hh"
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/sdl/SDLGlobals.h"

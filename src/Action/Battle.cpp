@@ -1,4 +1,4 @@
-#include	"ActionBattle.hh"
+#include	"Action/Battle.hh"
 
 Action::Battle::Battle()
 {

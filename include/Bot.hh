@@ -3,8 +3,7 @@
 
 #include	<deque>
 #include	"Data.hh"
-#include	"Action.hh"
-#include	"AAction.hh"
+#include	"Action/AAction.hh"
 #include	"../vbam/sdl/SDLGlobals.h"
 
 class		Bot

@@ -3,7 +3,6 @@
 
 #include	"Data.hh"
 #include	"AAction.hh"
-#include	"Action.hh"
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/sdl/SDLGlobals.h"

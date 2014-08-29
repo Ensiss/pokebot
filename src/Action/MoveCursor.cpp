@@ -1,4 +1,4 @@
-#include	"ActionMoveCursor.hh"
+#include	"Action/MoveCursor.hh"
 
 Action::MoveCursor::MoveCursor(uint8_t w, uint8_t h, uint8_t dest, uint8_t (*f)())
   : _w(w), _h(h), _dx(dest % w), _dy(dest / w), _f(f)

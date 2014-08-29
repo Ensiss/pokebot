@@ -3,7 +3,6 @@
 
 #include	<queue>
 #include	"Data.hh"
-#include	"Action.hh"
 
 namespace	Action
 {
@@ -14,6 +13,7 @@ namespace	Action
       FINISHED,
       ERROR
     };
+  extern Data	*data;
 };
 
 class		AAction
