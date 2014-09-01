@@ -150,10 +150,10 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys,
 {
   std::vector<Node*>	openset;
   std::vector<Node*>	closedset;
-  static const uint8_t        arr[] = {0x0C,	//Grass/Road
-				       0x00,	//Area around objects
-				       0x10};	//Escalators
-  std::vector<uint8_t>        walkableTiles(arr, arr + sizeof(arr) / sizeof(arr[0]));
+  static const uint8_t	arr[] = {0x0C,	//Grass/Road
+				 0x00,	//Area around objects
+				 0x10};	//Escalators
+  std::vector<uint8_t>	walkableTiles(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
   openset.push_back(new Node(xs, ys));
   openset.back()->setF(xe, ye);
@@ -186,11 +186,13 @@ std::vector<World::Map::Node*>*	World::Map::findPath(uint32_t xs, uint32_t ys,
 			    data[y][x].attr->behavior == 0x6a) && x == (int) xe && y == (int) ye)))
 		continue;
 
-	      Node	*neighbor = &(data[y][x]);
+	      Node				*neighbor = &(data[y][x]);
 	      std::vector<Node*>::iterator	it = std::find(closedset.begin(),
 							       closedset.end(),
 							       neighbor);
-	      uint32_t	g = curr->g + (!i || !j ? 10 : 14);
+	      uint32_t	g = curr->g + 10;
+	      if (data[y][x].attr->behavior == 0x0202)
+		g += 20; // Grass "fear"
 	      if (it != closedset.end() && g >= neighbor->g)
 		continue;
 	      if (it == closedset.end() || g < neighbor->g)
