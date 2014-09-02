@@ -49,42 +49,40 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
       if (curr->x == xe && curr->y == ye)
 	return (_rebuildPath(new World::Path, curr));
       closedset.push_back(curr);
-      for (int j = -1; j <= 1; j++)
+      for (int i = 0; i < 4; i++)
 	{
-	  for (int i = -1; i <= 1; i++)
+	  // Boundaries check
+	  int	dx = (i - 1) * !(i & 1);
+	  int	dy = (i - 2) * (i & 1);
+	  int	x = curr->x + dx;
+	  int	y = curr->y + dy;
+	  if (x < 0 || x >= (int) _m.width || y < 0 || y >= (int) _m.height)
+	    continue;
+
+	  // Tile type check
+	  World::Map::Node		*next = &(_m.data[y][x]);
+	  if (!(_checkHills(dx, dy, *next, _m.data[curr->y][curr->x]) ||
+		_checkWalkable(*next) ||
+		// Block access to hill from a lower level
+		next->attr->behavior == 0x32 ||
+		// Check if escalator is the final tile
+		((next->attr->behavior == 0x6b || next->attr->behavior == 0x6a) &&
+		 x == (int) xe && y == (int) ye)))
+	    continue;
+
+	  World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
+	  uint32_t	g = curr->g + 10;
+	  if (next->attr->behavior == 0x0202)
+	    g += 20; // Grass "fear"
+	  if (it != closedset.end() && g >= next->g)
+	    continue;
+	  if (it == closedset.end() || g < next->g)
 	    {
-	      int	x = curr->x + i;
-	      int	y = curr->y + j;
-
-	      // Boundaries check
-	      if (x < 0 || x >= (int) _m.width || y < 0 || y >= (int) _m.height ||
-		  (!i && !j) || (i && j))
-		continue;
-	      World::Map::Node		*next = &(_m.data[y][x]);
-	      // Tile type check
-	      if (!(_checkHills(i, j, *next, _m.data[curr->y][curr->x]) ||
-		    _checkWalkable(*next) ||
-		    // Block access to hill from a lower level
-		    next->attr->behavior == 0x32 ||
-		    // Check if escalator is the final tile
-		    ((next->attr->behavior == 0x6b || next->attr->behavior == 0x6a) &&
-		     x == (int) xe && y == (int) ye)))
-		continue;
-
-	      World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
-	      uint32_t	g = curr->g + 10;
-	      if (next->attr->behavior == 0x0202)
-		g += 20; // Grass "fear"
-	      if (it != closedset.end() && g >= next->g)
-		continue;
-	      if (it == closedset.end() || g < next->g)
-		{
-		  next->from = curr;
-		  next->setG(g);
-		  next->setF(xe, ye);
-		  if (std::find(openset.begin(), openset.end(), next) == openset.end())
-		    openset.push_back(next);
-		}
+	      next->from = curr;
+	      next->setG(g);
+	      next->setF(xe, ye);
+	      if (std::find(openset.begin(), openset.end(), next) == openset.end())
+		openset.push_back(next);
 	    }
 	}
     }
