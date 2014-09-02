@@ -18,7 +18,7 @@ void		Action::MoveTo::_releaseKeys()
 void		Action::MoveTo::_init()
 {
   Player	&p = _data.player();
-  World::Map	&m = _data.world()[p.getBank()][p.getMap()];
+  PathFinder	finder(_data.world()[p.getBank()][p.getMap()]);
 
   _oldx = p.getX();
   _oldy = p.getY();
@@ -27,7 +27,7 @@ void		Action::MoveTo::_init()
       _state = Action::FINISHED;
       return;
     }
-  _path = m.findPath(p.getX(), p.getY(), _tx, _ty);
+  _path = finder.search(p.getX(), p.getY(), _tx, _ty);
   _state = _path ? Action::RUNNING : Action::ERROR;
 }
 
