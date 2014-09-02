@@ -1,26 +1,29 @@
 #include	"PathFinder.hh"
 
 PathFinder::PathFinder(World::Map &m)
-  : _m(m), _walkableTiles{0x0C, 0x00, 0x10}
+  : _m(m)
 {
+  _walkableTiles = {0x0C, 0x00, 0x10};
+  _hills = {
+    Hill( 0, 1, 0x3B),	// Down
+    Hill( 1, 0, 0x38),	// Right
+    Hill(-1, 0, 0x39)	// Left
+  };
 }
 
 PathFinder::~PathFinder()
 {
 }
 
-bool		checkHills(int i, int j, uint16_t next_behavior,
-			   uint16_t curr_behavior)
+bool		PathFinder::_checkHills(int x, int y, World::Map::Node &next, World::Map::Node &curr)
 {
-  // Jump down hill
-  return ((j == 1 && next_behavior == 0x3b) ||
-	  (j == 1 && curr_behavior == 0x3b) ||
-	  // Jump right hill
-	  (i == 1 && next_behavior == 0x38) ||
-	  (i == 1 && curr_behavior == 0x38) ||
-	  // Jump left hill
-	  (i == -1 && next_behavior == 0x39) ||
-	  (i == -1 && curr_behavior == 0x39));
+  for (uint16_t i = 0; i < _hills.size(); i++)
+    {
+      if (x == _hills[i].x && y == _hills[i].y &&
+	  (_hills[i].behavior == next.attr->behavior || _hills[i].behavior == curr.attr->behavior))
+	return (1);
+    }
+  return (0);
 }
 
 bool		PathFinder::_checkWalkable(World::Map::Node &n)
@@ -57,30 +60,30 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
 	      if (x < 0 || x >= (int) _m.width || y < 0 || y >= (int) _m.height ||
 		  (!i && !j) || (i && j))
 		continue;
+	      World::Map::Node		*next = &(_m.data[y][x]);
 	      // Tile type check
-	      if (!(checkHills(i, j, _m.data[y][x].attr->behavior, _m.data[curr->y][curr->x].attr->behavior) ||
-		    _checkWalkable(_m.data[y][x]) ||
+	      if (!(_checkHills(i, j, *next, _m.data[curr->y][curr->x]) ||
+		    _checkWalkable(*next) ||
 		    // Block access to hill from a lower level
-		    _m.data[y][x].attr->behavior == 0x32 ||
+		    next->attr->behavior == 0x32 ||
 		    // Check if escalator is the final tile
-		    (!j && (_m.data[y][x].attr->behavior == 0x6b ||
-			    _m.data[y][x].attr->behavior == 0x6a) && x == (int) xe && y == (int) ye)))
+		    ((next->attr->behavior == 0x6b || next->attr->behavior == 0x6a) &&
+		     x == (int) xe && y == (int) ye)))
 		continue;
 
-	      World::Map::Node		*neighbor = &(_m.data[y][x]);
-	      World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), neighbor);
+	      World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
 	      uint32_t	g = curr->g + 10;
-	      if (_m.data[y][x].attr->behavior == 0x0202)
+	      if (next->attr->behavior == 0x0202)
 		g += 20; // Grass "fear"
-	      if (it != closedset.end() && g >= neighbor->g)
+	      if (it != closedset.end() && g >= next->g)
 		continue;
-	      if (it == closedset.end() || g < neighbor->g)
+	      if (it == closedset.end() || g < next->g)
 		{
-		  neighbor->from = curr;
-		  neighbor->setG(g);
-		  neighbor->setF(xe, ye);
-		  if (std::find(openset.begin(), openset.end(), neighbor) == openset.end())
-		    openset.push_back(neighbor);
+		  next->from = curr;
+		  next->setG(g);
+		  next->setF(xe, ye);
+		  if (std::find(openset.begin(), openset.end(), next) == openset.end())
+		    openset.push_back(next);
 		}
 	    }
 	}
