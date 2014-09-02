@@ -17,9 +17,11 @@ public:
 protected:
   int		_getNextIndex(World::Path *set);
   World::Path	*_rebuildPath(World::Path *set, World::Map::Node *node);
+  bool		_checkWalkable(World::Map::Node &n);
 
 protected:
-  World::Map	&_m;
+  World::Map		&_m;
+  std::vector<uint8_t>	_walkableTiles;
 };
 
 #endif

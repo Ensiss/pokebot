@@ -1,7 +1,7 @@
 #include	"PathFinder.hh"
 
 PathFinder::PathFinder(World::Map &m)
-  : _m(m)
+  : _m(m), _walkableTiles{0x0C, 0x00, 0x10}
 {
 }
 
@@ -23,26 +23,18 @@ bool		checkHills(int i, int j, uint16_t next_behavior,
 	  (i == -1 && curr_behavior == 0x39));
 }
 
-bool		checkWalkableTiles(std::vector<uint8_t> walkableTiles,
-				   uint8_t status, uint16_t behavior)
+bool		PathFinder::_checkWalkable(World::Map::Node &n)
 {
   // Check walkable tiles (grass/tile near escalator, for now)
-  return (std::find(walkableTiles.begin(),
-		    walkableTiles.end(),
-		    status) != walkableTiles.end() &&
+  return (std::find(_walkableTiles.begin(), _walkableTiles.end(), n.status) != _walkableTiles.end() &&
 	  // Check that it's not an escalator
-	  behavior != 0x6b &&
-	  behavior != 0x6a);
+	  n.attr->behavior != 0x6b && n.attr->behavior != 0x6a);
 }
 
 World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye)
 {
   World::Path		openset;
   World::Path		closedset;
-  static const uint8_t	arr[] = {0x0C,	//Grass/Road
-				 0x00,	//Area around objects
-				 0x10};	//Escalators
-  std::vector<uint8_t>	walkableTiles(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
   openset.push_back(new World::Map::Node(xs, ys));
   openset.back()->setF(xe, ye);
@@ -67,7 +59,7 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
 		continue;
 	      // Tile type check
 	      if (!(checkHills(i, j, _m.data[y][x].attr->behavior, _m.data[curr->y][curr->x].attr->behavior) ||
-		    checkWalkableTiles(walkableTiles, _m.data[y][x].status, _m.data[y][x].attr->behavior) ||
+		    _checkWalkable(_m.data[y][x]) ||
 		    // Block access to hill from a lower level
 		    _m.data[y][x].attr->behavior == 0x32 ||
 		    // Check if escalator is the final tile
@@ -76,9 +68,7 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
 		continue;
 
 	      World::Map::Node		*neighbor = &(_m.data[y][x]);
-	      World::Path::iterator	it = std::find(closedset.begin(),
-						       closedset.end(),
-						       neighbor);
+	      World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), neighbor);
 	      uint32_t	g = curr->g + 10;
 	      if (_m.data[y][x].attr->behavior == 0x0202)
 		g += 20; // Grass "fear"
