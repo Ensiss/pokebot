@@ -1,7 +1,7 @@
 #include	"PathFinder.hh"
 
 PathFinder::PathFinder(World::Map &m)
-  : _m(m)
+  : _m(m), _ows(Action::data->overWorlds()), _data(*Action::data)
 {
   _walkableTiles = {0x0C, 0x00, 0x10};
   _hills = {
@@ -33,6 +33,18 @@ bool		PathFinder::_checkWalkable(World::Map::Node &n)
   return (std::find(_walkableTiles.begin(), _walkableTiles.end(), n.status) != _walkableTiles.end() &&
 	  // Check that it's not an escalator
 	  n.attr->behavior != 0x6b && n.attr->behavior != 0x6a);
+}
+
+bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
+{
+  for (int i = 1; i < 16 && (_ows[i].getMap() || _ows[i].getBank()); i++)
+    {
+      if (_ows[i].getBank() == _data.player().getBank() &&
+	  _ows[i].getMap() == _data.player().getMap() &&
+	  _ows[i].getDestX() == x && _ows[i].getDestY() == y)
+	return (1);
+    }
+  return (0);
 }
 
 uint8_t		PathFinder::_getMovementCost(World::Map::Node &next)
@@ -72,6 +84,8 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
 
 	  // Tile type check
 	  World::Map::Node		*next = &(_m.data[y][x]);
+	  if (_checkOverWorld(x, y))
+	    continue;
 	  if (!(_checkHills(dx, dy, *next, _m.data[curr->y][curr->x]) ||
 		_checkWalkable(*next) ||
 		// Block access to hill from a lower level

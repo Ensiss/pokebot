@@ -4,6 +4,7 @@
 #include	<map>
 #include	<vector>
 #include	<algorithm>
+#include	"Action/AAction.hh"
 #include	"World.hh"
 
 class		PathFinder
@@ -20,6 +21,7 @@ protected:
   World::Path	*_rebuildPath(World::Path *set, World::Map::Node *node);
   bool		_checkHills(int x, int y, World::Map::Node &next, World::Map::Node &curr);
   bool		_checkWalkable(World::Map::Node &n);
+  bool		_checkOverWorld(uint16_t x, uint16_t y);
   uint8_t	_getMovementCost(World::Map::Node &next);
 
 public:
@@ -34,6 +36,8 @@ public:
 
 protected:
   World::Map			&_m;
+  const OverWorld		*_ows;
+  Data				&_data;
   std::map<uint16_t, uint8_t>	_movementCost;
   std::vector<uint8_t>		_walkableTiles;
   std::vector<Hill>		_hills;
