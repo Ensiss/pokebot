@@ -35,6 +35,7 @@ public:
   void		queue(AAction *act) { _actions.push(act); }
   void		reset() { _state = Action::NOT_STARTED; }
   Action::State	getState() const { return (_state); }
+  void		setState(Action::State st) { _state = st; }
 
 public:
   void		emit(const std::string &signal);

@@ -29,6 +29,8 @@ Action::State	AAction::update()
 	{
 	  delete _actions.front();
 	  _actions.pop();
+	  if (!_actions.size())
+	    emit("onEmptyQueue");
 	}
     }
   return (_state);
