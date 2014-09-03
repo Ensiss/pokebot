@@ -9,6 +9,7 @@ PathFinder::PathFinder(World::Map &m)
     Hill( 1, 0, 0x38),	// Right
     Hill(-1, 0, 0x39)	// Left
   };
+  _movementCost[0x0202] = 30;
 }
 
 PathFinder::~PathFinder()
@@ -32,6 +33,16 @@ bool		PathFinder::_checkWalkable(World::Map::Node &n)
   return (std::find(_walkableTiles.begin(), _walkableTiles.end(), n.status) != _walkableTiles.end() &&
 	  // Check that it's not an escalator
 	  n.attr->behavior != 0x6b && n.attr->behavior != 0x6a);
+}
+
+uint8_t		PathFinder::_getMovementCost(World::Map::Node &next)
+{
+  std::map<uint16_t, uint8_t>::iterator	it;
+
+  it = _movementCost.find(next.attr->behavior);
+  if (it != _movementCost.end())
+    return (it->second);
+  return (10);
 }
 
 World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye)
@@ -71,9 +82,7 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
 	    continue;
 
 	  World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
-	  uint32_t	g = curr->g + 10;
-	  if (next->attr->behavior == 0x0202)
-	    g += 20; // Grass "fear"
+	  uint32_t	g = curr->g + _getMovementCost(*next);
 	  if (it != closedset.end() && g >= next->g)
 	    continue;
 	  if (it == closedset.end() || g < next->g)

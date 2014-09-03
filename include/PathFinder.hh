@@ -1,6 +1,7 @@
 #ifndef		__PATHFINDER_HH__
 #define		__PATHFINDER_HH__
 
+#include	<map>
 #include	<vector>
 #include	<algorithm>
 #include	"World.hh"
@@ -19,6 +20,7 @@ protected:
   World::Path	*_rebuildPath(World::Path *set, World::Map::Node *node);
   bool		_checkHills(int x, int y, World::Map::Node &next, World::Map::Node &curr);
   bool		_checkWalkable(World::Map::Node &n);
+  uint8_t	_getMovementCost(World::Map::Node &next);
 
 public:
   struct	Hill
@@ -31,9 +33,10 @@ public:
   };
 
 protected:
-  World::Map		&_m;
-  std::vector<uint8_t>	_walkableTiles;
-  std::vector<Hill>	_hills;
+  World::Map			&_m;
+  std::map<uint16_t, uint8_t>	_movementCost;
+  std::vector<uint8_t>		_walkableTiles;
+  std::vector<Hill>		_hills;
 };
 
 #endif
