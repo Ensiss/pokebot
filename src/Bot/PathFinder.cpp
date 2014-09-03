@@ -22,9 +22,9 @@ bool		PathFinder::_checkHills(int x, int y, World::Map::Node &next, World::Map::
     {
       if (x == _hills[i].x && y == _hills[i].y &&
 	  (_hills[i].behavior == next.attr->behavior || _hills[i].behavior == curr.attr->behavior))
-	return (1);
+	return (true);
     }
-  return (0);
+  return (false);
 }
 
 bool		PathFinder::_checkWalkable(World::Map::Node &n)
@@ -42,9 +42,9 @@ bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
       if (_ows[i].getBank() == _data.player().getBank() &&
 	  _ows[i].getMap() == _data.player().getMap() &&
 	  _ows[i].getDestX() == x && _ows[i].getDestY() == y)
-	return (1);
+	return (true);
     }
-  return (0);
+  return (false);
 }
 
 uint8_t		PathFinder::_getMovementCost(World::Map::Node &next)
