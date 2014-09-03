@@ -1,7 +1,11 @@
 #ifndef		__AACTION_HH__
 #define		__AACTION_HH__
 
+#include	<map>
 #include	<queue>
+#include	<vector>
+#include	<string>
+#include	<functional>
 #include	"Data.hh"
 
 namespace	Action
@@ -32,10 +36,16 @@ public:
   void		reset() { _state = Action::NOT_STARTED; }
   Action::State	getState() const { return (_state); }
 
+public:
+  void		emit(const std::string &signal);
+  void		addListener(const std::string &signal, void (*listener)(AAction *));
+  void		addListener(const std::string &signal, void (AAction::*listener)());
+
 protected:
   Data			&_data;
   Action::State		_state;
   std::queue<AAction *>	_actions;
+  std::map<std::string, std::vector<std::function<void (AAction *)> > >	_listeners;
 };
 
 #endif
