@@ -20,6 +20,7 @@ Action::State	AAction::update()
       if (_state == Action::NOT_STARTED)
 	_state = Action::RUNNING;
     }
+  emit("onFrame");
   if (_state == Action::RUNNING && !_actions.size())
     emit("onUpdate");
   if (_state == Action::RUNNING && _actions.size())
