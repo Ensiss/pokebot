@@ -50,7 +50,9 @@
 #include "../gb/gbSound.h"
 #include "../Util.h"
 
-#include	"Data.hh"
+#include "Data.hh"
+#include "Bot.hh"
+#include "Action/MoveTo.hh"
 
 #include "debugger.h"
 #include "filters.h"
@@ -1249,9 +1251,10 @@ void change_rewind(int howmuch)
 	}
 }
 
-void sdlPollEvents(Data &data)
+void sdlPollEvents(Data &data, Bot &bot)
 {
   SDL_Event	event;
+  int		x, y;
 
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
@@ -1271,6 +1274,18 @@ void sdlPollEvents(Data &data)
 			   (fullscreen ? SDL_FULLSCREEN : 0));
 	  sdlOpenGLInit(event.resize.w, event.resize.h);
 	}
+      break;
+    case SDL_MOUSEBUTTONDOWN:
+      // Coordinates in window size
+      x = event.button.x - winX;
+      y = event.button.y - winY;
+      if (x < 0 || y < 0 || x > winW || y > winH)
+	break;
+      // Coordinates in tiles size
+      x = x / (winW / 15) - 7 + data.player().getX();
+      y = y / (winH / 11) - 5 + data.player().getY();
+      // Go !
+      bot.queue(new Action::MoveTo(x, y));
       break;
     case SDL_KEYDOWN:
       inputProcessSDLEvent(event);

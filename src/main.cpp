@@ -43,7 +43,7 @@ void		doLoop()
 	}
 
       emulator.emuMain(emulator.emuCount);
-      sdlPollEvents(data);
+      sdlPollEvents(data, bot);
     }
 }
 
