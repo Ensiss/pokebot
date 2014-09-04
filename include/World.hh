@@ -8,7 +8,6 @@
 #include	<algorithm>
 #include	"../vbam/gba/Globals.h"
 #include	"PokemonUtils.hh"
-#include	"OverWorld.hh"
 
 class		World
 {
@@ -224,10 +223,8 @@ private:
 public:
   std::vector<Map>	&operator[](uint8_t bank) { return (_banks[(bank < _banks.size()) * bank]); }
   Map		&getMap(uint8_t bank, uint8_t map) { return ((*this)[bank][(map < (*this)[bank].size()) * map]); }
-  void		setOverWorld(OverWorld *ows) { _ows = ows; }
 
 public:
-  OverWorld				*_ows;
   std::vector<std::vector<Map> >	_banks;
 };
 
