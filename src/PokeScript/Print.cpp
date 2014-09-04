@@ -38,9 +38,17 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x2A] = &PokeScript::_clearflag;
   _inst[i = 0x2B] = &PokeScript::_checkflag;
   _inst[i = 0x2F] = &PokeScript::_sound;
+  _inst[i = 0x30] = &PokeScript::_checksound;
+  _inst[i = 0x31] = &PokeScript::_fanfare;
+  _inst[i = 0x32] = &PokeScript::_waitfanfare;
   _inst[i = 0x33] = &PokeScript::_playsound;
   _inst[i = 0x34] = &PokeScript::_playsound2;
   _inst[i = 0x39] = &PokeScript::_warp;
+  _inst[i = 0x44] = &PokeScript::_additem;
+  _inst[++i] = &PokeScript::_removeitem;
+  _inst[++i] = &PokeScript::_checkitemroom;
+  _inst[++i] = &PokeScript::_checkitem;
+  _inst[++i] = &PokeScript::_checkitemtype;
   _inst[i = 0x4F] = &PokeScript::_applymovement;
   _inst[i = 0x51] = &PokeScript::_waitmovement;
   _inst[i = 0x53] = &PokeScript::_hidesprite;

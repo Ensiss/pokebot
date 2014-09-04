@@ -1,10 +1,9 @@
 #include	"PokeScript.hh"
 
-PokeScript::PokeScript(Data &data, uint32_t ptr)
-  : _data(data), _offset(ptr)
+PokeScript::PokeScript(Data &data)
+  : _data(data)
 {
   _initInstructions();
-  _reset();
 }
 
 PokeScript::~PokeScript()
@@ -41,10 +40,11 @@ bool		PokeScript::_setupNextAddr()
   return (false);
 }
 
-void		PokeScript::print()
+void		PokeScript::print(uint32_t ptr)
 {
   uint8_t	id;
 
+  _offset = ptr;
   _reset();
   while (_setupNextAddr())
     {
@@ -62,4 +62,9 @@ void		PokeScript::print()
       _ranges.push_back(Range(_start, _start + _pc));
     }
   printf("\n");
+}
+
+void		PokeScript::printStd(uint8_t n)
+{
+  print(((uint32_t *) gbaMem(0x08160450))[n]);
 }

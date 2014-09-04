@@ -24,11 +24,12 @@ private:
   };
 
 public:
-  PokeScript(Data &data, uint32_t ptr);
+  PokeScript(Data &data);
   ~PokeScript();
 
 public:
-  void		print();
+  void		print(uint32_t ptr);
+  void		printStd(uint8_t n);
 
 private:
   void		_reset();
@@ -103,11 +104,27 @@ private:
     _print("checkflag %#x", _readFlagOrVar()); }
   void		_sound() {
     _print("sound %#04x", _readWord()); }
+  void		_checksound() {
+    _print("checksound"); }
+  void		_fanfare() {
+    _print("fanfare %#04x", _readWordOrVar()); }
+  void		_waitfanfare() {
+    _print("waitfanfare"); }
   void		_playsound() { uint16_t s = _readWord();
     _print("playsound %#x %x", s, _readByte()); }
   void		_playsound2() { uint16_t s = _readWord();
     _print("playsound2 %#x", s); }
   void		_warp();
+  void		_additem() { uint16_t w = _readWordOrVar();
+    _print("additem #%x x%d", w, _readByteOrVar()); }
+  void		_removeitem() { uint16_t w = _readWordOrVar();
+    _print("removeitem #%x x%d", w, _readByteOrVar()); }
+  void		_checkitemroom() { uint16_t w = _readWordOrVar();
+    _print("checkitemroom #%x x%d", w, _readByteOrVar()); }
+  void		_checkitem() { uint16_t w = _readWordOrVar();
+    _print("checkitem #%x x%d", w, _readByteOrVar()); }
+  void		_checkitemtype() { uint16_t w = _readWordOrVar();
+    _print("checkitemtype #%x", w); }
   void		_applymovement() { uint8_t id = _readByteOrVar();
     _print("applymovement %d %#08x", id, _readPointer()); }
   void		_waitmovement() {
