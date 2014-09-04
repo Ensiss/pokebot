@@ -10,6 +10,11 @@ PathFinder::PathFinder(World::Map &m)
     Hill(-1, 0, 0x39)	// Left
   };
   _movementCost[0x0202] = 30;
+  _notMoving = {0, 1, 7, 8, 9, 10};
+  for (uint8_t i = 13; i <= 24; i++)
+    _notMoving.push_back(i);
+  for (uint8_t i = 64; i <= 79; i++)
+    _notMoving.push_back(i);
 }
 
 PathFinder::~PathFinder()
@@ -37,12 +42,20 @@ bool		PathFinder::_checkWalkable(World::Map::Node &n)
 
 bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
 {
-  for (int i = 1; i < 16 && (_ows[i].getMap() || _ows[i].getBank()); i++)
+  // Static overworlds
+  for (uint8_t i = 0; i < _m.nbPersons; i++)
+    {
+      if (_m.persons[i].x == x && _m.persons[i].y == y &&
+	  std::find(_notMoving.begin(), _notMoving.end(), _m.persons[i].mvtType) != _notMoving.end())
+	return (true);
+    }
+  // Dynamic overworlds
+  for (uint8_t i = 1; i < 16 && (_ows[i].getMap() || _ows[i].getBank()); i++)
     {
       if (_ows[i].getBank() == _data.player().getBank() &&
-	  _ows[i].getMap() == _data.player().getMap() &&
-	  _ows[i].getDestX() == x && _ows[i].getDestY() == y)
-	return (true);
+  	  _ows[i].getMap() == _data.player().getMap() &&
+  	  _ows[i].getDestX() == x && _ows[i].getDestY() == y)
+  	return (true);
     }
   return (false);
 }

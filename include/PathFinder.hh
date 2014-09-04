@@ -41,6 +41,7 @@ protected:
   std::map<uint16_t, uint8_t>	_movementCost;
   std::vector<uint8_t>		_walkableTiles;
   std::vector<Hill>		_hills;
+  std::vector<uint8_t>		_notMoving;
 };
 
 #endif
