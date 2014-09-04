@@ -1,12 +1,38 @@
 #include	"Action/MoveTo.hh"
 
 Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
-  : _tx(x), _ty(y), _path(NULL), _pathi(1)
+  : _owInit(false), _tx(x), _ty(y), _path(NULL)
 {
+  addListener("onFrame", &Action::MoveTo::_checkNPCMovement);
 }
 
 Action::MoveTo::~MoveTo()
 {
+}
+
+void		Action::MoveTo::addListener(const std::string &signal, void (Action::MoveTo::*listener)())
+{
+  std::function<void (AAction *)> l = [listener](AAction *that){(static_cast<Action::MoveTo *>(that)->*listener)();};
+
+  _listeners[signal].push_back(l);
+}
+
+void		Action::MoveTo::_checkNPCMovement()
+{
+  const OverWorld	*ows = _data.overWorlds();
+
+  for (int i = 1; _owInit && i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
+    {
+      if (ows[i].getBank() == _data.player().getBank() &&	// If the overworld is in our map
+	  ows[i].getMap() == _data.player().getMap() &&
+	  (ows[i].getDestX() != _oldow[i].getDestX() ||		// If the overworld is moving
+	   ows[i].getDestY() != _oldow[i].getDestY() ||
+	   ows[i].getBank() != _oldow[i].getBank() ||		// Or if it's a new overworld
+	   ows[i].getMap() != _oldow[i].getMap()))
+	emit("onInit");
+    }
+  memcpy((void *) (_oldow + 1), (void *) (ows + 1), 15 * sizeof(OverWorld));
+  _owInit = true;
 }
 
 void		Action::MoveTo::_releaseKeys()
@@ -20,6 +46,12 @@ void		Action::MoveTo::_init()
   Player	&p = _data.player();
   PathFinder	finder(_data.world()[p.getBank()][p.getMap()]);
 
+  _pathi = 1;
+  if (_path)
+    {
+      delete _path;
+      _path = NULL;
+    }
   _oldx = p.getX();
   _oldy = p.getY();
   if (p.getX() == _tx && p.getY() == _ty)
