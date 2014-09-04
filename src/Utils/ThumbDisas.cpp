@@ -1,10 +1,7 @@
 #include	"ThumbDisas.hh"
 
-ThumbDisas::ThumbDisas(uint8_t instr)
-  : _instr(instr),
-    _offset(*((uint32_t *) gbaMem(0x0815F9B4 + (instr << 2))) & ~1)
+ThumbDisas::ThumbDisas()
 {
-  _reset();
 }
 
 ThumbDisas::~ThumbDisas()
@@ -39,12 +36,13 @@ bool		ThumbDisas::_setupNextAddr()
   return (false);
 }
 
-void		ThumbDisas::print()
+void		ThumbDisas::print(uint32_t addr)
 {
   char		ins[128];
   uint32_t	jump;
   char		*ptr;
 
+  _offset = *((uint32_t *) gbaMem(addr)) & ~1;
   _reset();
   while (_setupNextAddr())
     {
@@ -74,4 +72,14 @@ void		ThumbDisas::print()
       _ranges.push_back(Range(_start, _pc));
     }
   printf("\n");
+}
+
+void		ThumbDisas::printInstr(uint8_t instr)
+{
+  print(0x0815F9B4 + (instr << 2));
+}
+
+void		ThumbDisas::printSpecial(uint16_t instr)
+{
+  print(0x0815FD60 + (instr << 2));
 }

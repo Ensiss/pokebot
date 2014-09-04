@@ -22,7 +22,7 @@ private:
   };
 
 public:
-  ThumbDisas(uint8_t instr);
+  ThumbDisas();
   ~ThumbDisas();
 
 private:
@@ -30,10 +30,11 @@ private:
   bool		_setupNextAddr();
 
 public:
-  void		print();
+  void		print(uint32_t addr);
+  void		printInstr(uint8_t instr);
+  void		printSpecial(uint16_t instr);
 
 private:
-  uint8_t		_instr;
   uint32_t		_offset;
   uint32_t		_start;
   uint32_t		_pc;
