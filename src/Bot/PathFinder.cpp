@@ -35,9 +35,11 @@ bool		PathFinder::_checkHills(int x, int y, World::Map::Node &next, World::Map::
 bool		PathFinder::_checkWalkable(World::Map::Node &n)
 {
   // Check walkable tiles (grass/tile near escalator, for now)
-  return (std::find(_walkableTiles.begin(), _walkableTiles.end(), n.status) != _walkableTiles.end() &&
-	  // Check that it's not an escalator
-	  n.attr->behavior != 0x6b && n.attr->behavior != 0x6a);
+  return (std::find(_walkableTiles.begin(),
+                    _walkableTiles.end(),
+                    n.status) != _walkableTiles.end() &&
+          // Check that it's not an escalator
+          n.attr->behavior != 0x6b && n.attr->behavior != 0x6a);
 }
 
 bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
@@ -83,44 +85,45 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
       World::Map::Node*	curr = openset[i];
       openset.erase(openset.begin() + i);
       if (curr->x == xe && curr->y == ye)
-	return (_rebuildPath(new World::Path, curr));
+        return (_rebuildPath(new World::Path, curr));
       closedset.push_back(curr);
       for (int i = 0; i < 4; i++)
-	{
-	  // Boundaries check
-	  int	dx = (i - 1) * !(i & 1);
-	  int	dy = (i - 2) * (i & 1);
-	  int	x = curr->x + dx;
-	  int	y = curr->y + dy;
-	  if (x < 0 || x >= (int) _m.width || y < 0 || y >= (int) _m.height)
-	    continue;
+        {
+          // Boundaries check
+          int	dx = (i - 1) * !(i & 1);
+          int	dy = (i - 2) * (i & 1);
+          int	x = curr->x + dx;
+          int	y = curr->y + dy;
+          if (x < 0 || x >= (int) _m.width || y < 0 || y >= (int) _m.height)
+            continue;
 
-	  // Tile type check
-	  World::Map::Node		*next = &(_m.data[y][x]);
-	  if (_checkOverWorld(x, y))
-	    continue;
-	  if (!(_checkHills(dx, dy, *next, _m.data[curr->y][curr->x]) ||
-		_checkWalkable(*next) ||
-		// Block access to hill from a lower level
-		next->attr->behavior == 0x32 ||
-		// Check if escalator is the final tile
-		((next->attr->behavior == 0x6b || next->attr->behavior == 0x6a) &&
-		 x == (int) xe && y == (int) ye)))
-	    continue;
+          // Tile type check
+          World::Map::Node		*next = &(_m.data[y][x]);
+          if (_checkOverWorld(x, y))
+            continue;
+          if (!(_checkHills(dx, dy, *next, _m.data[curr->y][curr->x]) ||
+                _checkWalkable(*next) ||
+                // Block access to hill from a lower level
+                next->attr->behavior == 0x32 ||
+                // Check if escalator is the final tile
+                (!dy &&
+                 (next->attr->behavior == 0x6b || next->attr->behavior == 0x6a) &&
+                 x == (int) xe && y == (int) ye)))
+            continue;
 
-	  World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
-	  uint32_t	g = curr->g + _getMovementCost(*next);
-	  if (it != closedset.end() && g >= next->g)
-	    continue;
-	  if (it == closedset.end() || g < next->g)
-	    {
-	      next->from = curr;
-	      next->setG(g);
-	      next->setF(xe, ye);
-	      if (std::find(openset.begin(), openset.end(), next) == openset.end())
-		openset.push_back(next);
-	    }
-	}
+          World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
+          uint32_t	g = curr->g + _getMovementCost(*next);
+          if (it != closedset.end() && g >= next->g)
+            continue;
+          if (it == closedset.end() || g < next->g)
+            {
+              next->from = curr;
+              next->setG(g);
+              next->setF(xe, ye);
+              if (std::find(openset.begin(), openset.end(), next) == openset.end())
+                openset.push_back(next);
+            }
+        }
     }
   return (NULL);
 }

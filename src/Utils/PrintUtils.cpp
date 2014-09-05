@@ -52,8 +52,8 @@ void		printMap(Data &data)
 	  for (int a = 0; !node && a < m.nbWarps; a++)
 	    if (m.warps[a].x == x && m.warps[a].y == y)
 	      node = true;
-	  printf("\033[1;%d;%dm%02x \033[0m", node && !ppos ? 47 : 40,
-		 m.getMatterColor(m[y][x].status, ppos), m[y][x].status);
+	  printf("\033[1;%d;%dm%02x %02x \033[0m", node && !ppos ? 47 : 40,
+             m.getMatterColor(m[y][x].status, ppos), m[y][x].status, m[y][x].attr->behavior);
 	}
       printf("\n");
     }
