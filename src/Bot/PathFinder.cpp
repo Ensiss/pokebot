@@ -45,7 +45,7 @@ bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
   // Static overworlds
   for (uint8_t i = 0; i < _m.nbPersons; i++)
     {
-      if (_m.persons[i].x == x && _m.persons[i].y == y &&
+      if (_m.persons[i].x == x && _m.persons[i].y == y && _m.persons[i].isVisible() &&
 	  std::find(_notMoving.begin(), _notMoving.end(), _m.persons[i].mvtType) != _notMoving.end())
 	return (true);
     }
