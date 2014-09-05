@@ -54,7 +54,9 @@ void		PokeScript::_initInstructions()
   _inst[i = 0x53] = &PokeScript::_hidesprite;
   _inst[i = 0x55] = &PokeScript::_showsprite;
   _inst[i = 0x5A] = &PokeScript::_faceplayer;
+  _inst[i = 0x63] = &PokeScript::_movesprite2;
   _inst[i = 0x64] = &PokeScript::_moveoffscreen;
+  _inst[i = 0x65] = &PokeScript::_spritebehave;
   _inst[i = 0x66] = &PokeScript::_waitmsg;
   _inst[i = 0x67] = &PokeScript::_preparemsg;
   _inst[i = 0x68] = &PokeScript::_closeonkeypress;

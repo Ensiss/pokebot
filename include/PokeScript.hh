@@ -135,8 +135,12 @@ private:
     _print("showsprite %d", _readByteOrVar()); }
   void		_faceplayer() {
     _print("faceplayer"); }
+  void		_movesprite2() { uint16_t w = _readWord(); uint16_t w2 = _readWord();
+    _print("movesprite2 %d %d %d", w, w2, _readWord()); }
   void		_moveoffscreen() {
     _print("moveoffscreen %d", _readWord()); }
+  void		_spritebehave() { uint8_t w = _readWord();
+    _print("spritebehave %d %d", w, _readByte()); }
   void		_waitmsg() {
     _print("waitmsg"); }
   void		_preparemsg();
