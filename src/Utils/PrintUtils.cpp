@@ -38,11 +38,13 @@ void		printTeam(Data &data)
     }
 }
 
-void		printMap(Data &data)
+void		printMap(Data &data, uint8_t flags)
 {
   Player	&p = data.player();
   World::Map	&m = data.world()[p.getBank()][p.getMap()];
 
+  if (!flags)
+    flags = M_STATUS;
   for (uint16_t y = 0; y < m.height; y++)
     {
       for (uint16_t x = 0; x < m.width; x++)
@@ -52,8 +54,15 @@ void		printMap(Data &data)
 	  for (int a = 0; !node && a < m.nbWarps; a++)
 	    if (m.warps[a].x == x && m.warps[a].y == y)
 	      node = true;
-	  printf("\033[1;%d;%dm%02x %02x \033[0m", node && !ppos ? 47 : 40,
-             m.getMatterColor(m[y][x].status, ppos), m[y][x].status, m[y][x].attr->behavior);
+	  printf("\033[1;%d;%dm", node && !ppos ? 47 : 40,
+		 m.getMatterColor(m[y][x].status, ppos));
+	  if (flags & M_STATUS)
+	    printf("%02x ", m[y][x].status);
+	  if (flags & M_BEHAVIOR)
+	    printf("%02x ", m[y][x].attr->behavior);
+	  if (flags & M_BGROUND)
+	    printf("%02x ", m[y][x].attr->bg);
+	  printf("\033[0m");
 	}
       printf("\n");
     }

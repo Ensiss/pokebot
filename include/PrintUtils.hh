@@ -5,8 +5,12 @@
 #include	"Data.hh"
 #include	"PokemonUtils.hh"
 
+#define		M_STATUS	1
+#define		M_BEHAVIOR	2
+#define		M_BGROUND	4
+
 void		printTeam(Data &data);
-void		printMap(Data &data);
+void		printMap(Data &data, uint8_t flags = M_STATUS);
 void		printMenu(Data &data);
 void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz = 0);
 void		printMessageBoxes(int offsetx = 0, int offsety = 0);
