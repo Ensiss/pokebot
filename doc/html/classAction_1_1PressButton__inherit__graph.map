@@ -1,3 +1,0 @@
-<map id="Action::PressButton" name="Action::PressButton">
-<area shape="rect" id="node2" href="$classAAction.html" title="{AAction\n|# _data\l# _state\l# _actions\l# _listeners\l|+ AAction()\l+ update()\l+ ~AAction()\l+ queue()\l+ reset()\l+ getState()\l+ setState()\l+ emit()\l+ addListener()\l+ addListener()\l}" alt="" coords="20,5,129,259"/>
-</map>

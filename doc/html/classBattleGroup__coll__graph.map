@@ -1,4 +1,0 @@
-<map id="BattleGroup" name="BattleGroup">
-<area shape="rect" id="node2" href="$classBattleData.html" title="{BattleData\n||+ BattleData()\l+ BattleData()\l+ ~BattleData()\l+ update()\l+ getStatus()\l+ getLevel()\l+ getSpecies()\l+ getHP()\l+ getMaxHP()\l+ getAtk()\land 14 more...\l}" alt="" coords="21,293,133,517"/>
-<area shape="rect" id="node3" href="$classIPokeData.html" title="{IPokeData\n|# _nick\l# _otName\l|+ ~IPokeData()\l+ update()\l+ getNick()\l+ getOtName()\l+ getRealAtk()\l+ getRealDef()\l+ getRealSpeed()\l+ getRealSpAtk()\l+ getRealSpDef()\l+ getRealAccuracy()\land 28 more...\l}" alt="" coords="5,5,148,244"/>
-</map>

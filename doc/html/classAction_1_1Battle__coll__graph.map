@@ -1,4 +1,0 @@
-<map id="Action::Battle" name="Action::Battle">
-<area shape="rect" id="node2" href="$classAAction.html" title="{AAction\n|# _state\l# _actions\l# _listeners\l|+ AAction()\l+ update()\l+ ~AAction()\l+ queue()\l+ reset()\l+ getState()\l+ setState()\l+ emit()\l+ addListener()\l+ addListener()\l}" alt="" coords="15,292,125,531"/>
-<area shape="rect" id="node3" href="$classData.html" title="{Data\n||+ Data()\l+ ~Data()\l+ update()\l+ speciesNames()\l+ speciesName()\l+ moves()\l+ move()\l+ types()\l+ type()\l+ isSpecial()\land 19 more...\l}" alt="" coords="5,5,135,229"/>
-</map>
