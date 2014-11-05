@@ -194,6 +194,7 @@ public:
 	PLAYER = 31
       };
 
+    uint8_t     labelId;
     uint64_t	width;
     uint64_t	height;
     Node	**data;

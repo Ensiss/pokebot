@@ -36,6 +36,7 @@ void		World::_initWorld()
 	  uint16_t	*d = (uint16_t *) gbaMem(dheader->data);
 	  Event		*evtPtr = (Event *) gbaMem(header->evtPtr);
 
+          map.labelId = header->labelId;
 	  map.width = dheader->width;
 	  map.height = dheader->height;
 	  map.nbPersons = evtPtr->nbPersons;
