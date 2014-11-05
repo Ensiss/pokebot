@@ -194,7 +194,6 @@ public:
 	PLAYER = 31
       };
 
-    uint8_t     labelId;
     uint64_t	width;
     uint64_t	height;
     Node	**data;
@@ -210,8 +209,11 @@ public:
     Connection	*connects;
     uint32_t	scriptPtr;
     WildBattle	wildBattles[4];
+    uint8_t     labelId;
+    std::string name;
 
   public:
+    void                loadName(uint8_t id);
     Node		*operator[](uint8_t y) { return (data[y]); }
     inline uint8_t	getMatterColor(uint8_t matter, bool pos) {
       return (pos ? PLAYER:

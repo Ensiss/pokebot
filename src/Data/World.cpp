@@ -36,7 +36,6 @@ void		World::_initWorld()
 	  uint16_t	*d = (uint16_t *) gbaMem(dheader->data);
 	  Event		*evtPtr = (Event *) gbaMem(header->evtPtr);
 
-          map.labelId = header->labelId;
 	  map.width = dheader->width;
 	  map.height = dheader->height;
 	  map.nbPersons = evtPtr->nbPersons;
@@ -51,6 +50,7 @@ void		World::_initWorld()
 	  map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
 	  map.scriptPtr = header->scriptPtr;
 	  map.data = new Map::Node*[map.height]();
+          map.loadName(header->labelId);
 	  for (uint16_t y = 0; y < map.height; y++)
 	    {
 	      map.data[y] = new Map::Node[map.width]();
@@ -92,4 +92,15 @@ void		World::_initWildBattles()
 	}
       wh++;
     }
+}
+
+void            World::Map::loadName(uint8_t id)
+{
+  uint32_t      nameAddr = ((uint32_t *) gbaMem(0x083F1CAC))[id - 88];
+  uint8_t       *namePtr = (uint8_t *) gbaMem(nameAddr);
+
+  this->labelId = id;
+  this->name = "";
+  for (int i = 0; namePtr[i] != 0xFF; i++)
+    this->name += pokeCharsetToAscii(namePtr[i]);
 }
