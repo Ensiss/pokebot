@@ -33,3 +33,6 @@ pokebot
 # ROM Files
 *.gba
 *.sav
+
+# Doxygen
+*.db
