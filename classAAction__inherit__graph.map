@@ -1,0 +1,7 @@
+<map id="AAction" name="AAction">
+<area shape="rect" id="node2" href="$classAction_1_1Battle.html" title="{Action::Battle\n||+ Battle()\l+ ~Battle()\l}" alt="" coords="5,321,107,413"/>
+<area shape="rect" id="node3" href="$classAction_1_1MoveCursor.html" title="{Action::MoveCursor\n||+ MoveCursor()\l+ ~MoveCursor()\l}" alt="" coords="131,321,269,413"/>
+<area shape="rect" id="node4" href="$classAction_1_1MoveTo.html" title="{Action::MoveTo\n||+ MoveTo()\l+ ~MoveTo()\l+ addListener()\l+ getPath()\l}" alt="" coords="293,307,408,428"/>
+<area shape="rect" id="node5" href="$classAction_1_1PressButton.html" title="{Action::PressButton\n||+ PressButton()\l+ ~PressButton()\l}" alt="" coords="432,321,571,413"/>
+<area shape="rect" id="node6" href="$classAction_1_1Wait.html" title="{Action::Wait\n||+ Wait()\l+ Wait()\l+ ~Wait()\l}" alt="" coords="595,314,690,421"/>
+</map>

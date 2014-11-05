@@ -1,0 +1,5 @@
+<map id="World::Map" name="World::Map">
+<area shape="rect" id="node3" href="$structWorld_1_1Map_1_1Node.html" title="{World::Map::Node\n|+ status\l+ tile\l+ g\l+ f\l+ x\l+ y\l|+ Node()\l+ setG()\l+ setF()\l}" alt="" coords="149,226,277,406"/>
+<area shape="rect" id="node4" href="$structWorld_1_1Map_1_1TileAttr.html" title="{World::Map::TileAttr\n|+ behavior\l+ bg\l|}" alt="" coords="143,13,282,105"/>
+<area shape="rect" id="node5" href="$structWorld_1_1Map_1_1WildBattle.html" title="{World::Map::WildBattle\n|+ ratio\l+ nbEntries\l|}" alt="" coords="363,270,521,362"/>
+</map>
