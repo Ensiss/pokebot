@@ -1,3 +1,0 @@
-<map id="BattleData" name="BattleData">
-<area shape="rect" id="node2" href="$classIPokeData.html" title="{IPokeData\n|# _nick\l# _otName\l|+ ~IPokeData()\l+ update()\l+ getNick()\l+ getOtName()\l+ getRealAtk()\l+ getRealDef()\l+ getRealSpeed()\l+ getRealSpAtk()\l+ getRealSpDef()\l+ getRealAccuracy()\land 28 more...\l}" alt="" coords="5,5,148,244"/>
-</map>

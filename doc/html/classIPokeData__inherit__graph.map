@@ -1,4 +1,0 @@
-<map id="IPokeData" name="IPokeData">
-<area shape="rect" id="node2" href="$classBattleData.html" title="{BattleData\n||+ BattleData()\l+ BattleData()\l+ ~BattleData()\l+ update()\l+ getStatus()\l+ getLevel()\l+ getSpecies()\l+ getHP()\l+ getMaxHP()\l+ getAtk()\land 14 more...\l}" alt="" coords="5,292,117,516"/>
-<area shape="rect" id="node3" href="$classPokemonData.html" title="{PokemonData\n||+ PokemonData()\l+ PokemonData()\l+ ~PokemonData()\l+ update()\l+ getStatus()\l+ hasPokerus()\l+ getLevel()\l+ getHP()\l+ getMaxHP()\l+ getAtk()\land 23 more...\l}" alt="" coords="141,292,275,516"/>
-</map>
