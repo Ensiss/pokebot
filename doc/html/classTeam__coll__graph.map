@@ -1,0 +1,4 @@
+<map id="Team" name="Team">
+<area shape="rect" id="node2" href="$classPokemonData.html" title="{PokemonData\n||+ PokemonData()\l+ PokemonData()\l+ ~PokemonData()\l+ update()\l+ getStatus()\l+ hasPokerus()\l+ getLevel()\l+ getHP()\l+ getMaxHP()\l+ getAtk()\land 23 more...\l}" alt="" coords="10,293,143,517"/>
+<area shape="rect" id="node3" href="$classIPokeData.html" title="{IPokeData\n|# _nick\l# _otName\l|+ ~IPokeData()\l+ update()\l+ getNick()\l+ getOtName()\l+ getRealAtk()\l+ getRealDef()\l+ getRealSpeed()\l+ getRealSpAtk()\l+ getRealSpDef()\l+ getRealAccuracy()\land 28 more...\l}" alt="" coords="5,5,148,244"/>
+</map>

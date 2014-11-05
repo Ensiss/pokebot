@@ -1,0 +1,16 @@
+<map id="include/PokeScript.hh" name="include/PokeScript.hh">
+<area shape="rect" id="node8" href="$PokemonUtils_8hh.html" title="PokemonUtils.hh" alt="" coords="641,304,763,331"/>
+<area shape="rect" id="node10" href="$Data_8hh.html" title="Data.hh" alt="" coords="627,80,695,107"/>
+<area shape="rect" id="node11" href="$World_8hh.html" title="World.hh" alt="" coords="1073,229,1147,256"/>
+<area shape="rect" id="node14" href="$Team_8hpp.html" title="Team.hpp" alt="" coords="258,155,338,181"/>
+<area shape="rect" id="node16" href="$IPokeData_8hh.html" title="IPokeData.hh" alt="" coords="247,304,349,331"/>
+<area shape="rect" id="node17" href="$BattleGroup_8hpp.html" title="BattleGroup.hpp" alt="" coords="464,155,580,181"/>
+<area shape="rect" id="node19" href="$Player_8hh.html" title="Player.hh" alt="" coords="921,229,998,256"/>
+<area shape="rect" id="node20" href="$Move_8hh.html" title="Move.hh" alt="" coords="434,229,506,256"/>
+<area shape="rect" id="node21" href="$Species_8hh.html" title="Species.hh" alt="" coords="657,229,744,256"/>
+<area shape="rect" id="node22" href="$BagMenu_8hh.html" title="BagMenu.hh" alt="" coords="656,155,751,181"/>
+<area shape="rect" id="node23" href="$BattleMenu_8hh.html" title="BattleMenu.hh" alt="" coords="775,155,882,181"/>
+<area shape="rect" id="node24" href="$OverWorld_8hh.html" title="OverWorld.hh" alt="" coords="907,155,1009,181"/>
+<area shape="rect" id="node15" href="$PokemonData_8hh.html" title="PokemonData.hh" alt="" coords="237,229,359,256"/>
+<area shape="rect" id="node18" href="$BattleData_8hh.html" title="BattleData.hh" alt="" coords="531,229,633,256"/>
+</map>
