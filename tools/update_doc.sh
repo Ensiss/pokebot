@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [ $(pwd | tr '/' '\n' | tail -1) = "tools" ] ; then
+    cd ..
+fi
 cd doc
 doxygen
 cd gh-pages
