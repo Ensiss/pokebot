@@ -204,6 +204,9 @@ SET(SRC_MAIN
     src/PokeScript/Disass.cpp
     src/PokeScript/Args.cpp
     src/PokeScript/Print.cpp
+    src/PokeScript/Script.cpp
+    src/PokeScript/Readers.cpp
+    src/PokeScript/Commands.cpp
 
     src/Utils/ThumbDisas.cpp
     src/Utils/PokemonUtils.cpp
