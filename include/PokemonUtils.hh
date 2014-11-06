@@ -20,6 +20,7 @@
 
 char		pokeCharsetToAscii(uint8_t c);
 bool            getFlag(uint16_t flag);
+uint16_t        getVar(uint16_t var);
 void		*gbaMem(uint32_t ptr);
 
 #endif

@@ -46,6 +46,14 @@ bool            getFlag(uint16_t flag)
   return (byte & (1 << (flag % 8)));
 }
 
+uint16_t        getVar(uint16_t var)
+{
+  uint32_t	offset;
+
+  offset = *((uint32_t *) gbaMem(0x03005008));
+  return (((uint16_t *) gbaMem(offset + 0x1000))[var - 0x4000]);
+}
+
 void		*gbaMem(uint32_t ptr)
 {
   uint8_t	loc = ptr >> 24;
