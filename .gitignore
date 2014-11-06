@@ -14,13 +14,15 @@ install_manifest.txt
 *.o
 *.obj
 
-# Compiled Static libraries
+# Compiled Static libraries #
+#############################
 *.lai
 *.la
 *.a
 *.lib
 
-# Executables
+# Executables #
+###############
 *.exe
 *.out
 *.app
@@ -30,10 +32,16 @@ install_manifest.txt
 pokebot
 
 
-# ROM Files
+# ROM Files #
+#############
 *.gba
 *.sav
 
-# Doxygen
+# Doxygen #
+###########
 *.db
 gh-pages/
+
+# node.js #
+###########
+node_modules
