@@ -111,7 +111,7 @@ private:
 	return (true);
       offset = *((uint32_t *) gbaMem(0x03005008));
       byte = ((uint8_t *) gbaMem(offset + 0xEE0))[id >> 3];
-      return (!(byte & (1 << (id - (id >> 3) * 8))));
+      return (!(byte & (1 << (id % 8))));
     }
   };
 
