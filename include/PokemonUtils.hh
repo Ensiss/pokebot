@@ -19,6 +19,7 @@
 #define		POW(x)		((x) * (x))
 
 char		pokeCharsetToAscii(uint8_t c);
+bool            getFlag(uint16_t flag);
 void		*gbaMem(uint32_t ptr);
 
 #endif

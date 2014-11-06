@@ -104,14 +104,9 @@ private:
 
     bool	isVisible() const
     {
-      uint32_t	offset;
-      uint8_t	byte;
-
       if (!id)
 	return (true);
-      offset = *((uint32_t *) gbaMem(0x03005008));
-      byte = ((uint8_t *) gbaMem(offset + 0xEE0))[id >> 3];
-      return (!(byte & (1 << (id % 8))));
+      return (!getFlag(id));
     }
   };
 

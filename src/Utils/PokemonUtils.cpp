@@ -36,6 +36,16 @@ char		pokeCharsetToAscii(uint8_t c)
   return ('?');
 }
 
+bool            getFlag(uint16_t flag)
+{
+  uint32_t	offset;
+  uint8_t	byte;
+
+  offset = *((uint32_t *) gbaMem(0x03005008));
+  byte = ((uint8_t *) gbaMem(offset + 0xEE0))[flag >> 3];
+  return (byte & (1 << (flag % 8)));
+}
+
 void		*gbaMem(uint32_t ptr)
 {
   uint8_t	loc = ptr >> 24;
