@@ -5,10 +5,10 @@ Script::Command Script::_cmds[0xD6] = {
   /* 01 */ Command("nop1", ""),
   /* 02 */ Command("end", ""),
   /* 03 */ Command("return", ""),
-  /* 04 */ Command("call 0x%08x", "ptr"),
-  /* 05 */ Command("goto 0x%08x", "ptr"),
-  /* 06 */ Command("if1 %#x 0x%08x", "byte ptr"),
-  /* 07 */ Command("if2 %#x 0x%08x", "byte ptr"),
+  /* 04 */ Command("call 0x%08x", "ptr", &Script::_branch),
+  /* 05 */ Command("goto 0x%08x", "ptr", &Script::_branch),
+  /* 06 */ Command("if1 %#x 0x%08x", "byte ptr", &Script::_branch),
+  /* 07 */ Command("if2 %#x 0x%08x", "byte ptr", &Script::_branch),
   /* 08 */ Command("gotostd %#x", "byte"),
   /* 09 */ Command("callstd %#x", "byte"),
   /* 0A */ Command("gotostdif %#x %#x", "byte byte"),
@@ -260,4 +260,9 @@ void            Script::_preparemsg(Instruction *instr)
 {
   if (instr->args[0] >= 4)
     instr->str = formatString("preparemsg \"%s\"\n", readString(instr->args[0]).c_str());
+}
+
+void            Script::_branch(Instruction *instr)
+{
+  _addrs.push(instr->args[instr->args.size() - 1]);
 }

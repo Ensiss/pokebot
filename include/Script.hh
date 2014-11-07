@@ -104,6 +104,7 @@ private:
   void          _loadpointer(Instruction *instr);
   void          _bufferstring(Instruction *instr);
   void          _preparemsg(Instruction *instr);
+  void          _branch(Instruction *instr);
 
 private:
   Data			&_data;
