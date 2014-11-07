@@ -65,7 +65,7 @@ void            Script::_getInstruction(Command &cmd)
   std::string           fmt = "";
   uint32_t              arg;
   char                  buff[64];
-  Instruction           *instr = new Instruction(_pc - 1, _ptr);
+  Instruction           *instr = new Instruction(_start + _pc - 1, _ptr - _start);
 
   do {
     next = cmd.format.find('%', i + 1);
@@ -98,7 +98,8 @@ void            Script::_getInstruction(Command &cmd)
   } while (next != std::string::npos);
   if (cmd.hook)
     (this->*cmd.hook)(instr);
-  std::cout << instr->str << std::endl;
+  instr->length = _start + _pc - instr->offset;
+  instr->print();
 }
 
 void		Script::print(uint32_t ptr)

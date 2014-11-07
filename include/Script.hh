@@ -37,13 +37,21 @@ public:
   {
     uint32_t    offset;
     uint8_t     *bytecode;
+    uint8_t     length;
     uint8_t     cmd;
     std::string str;
     Args        args;
 
     Instruction(uint32_t p_off, uint8_t *p_mem)
-      : offset(p_off), bytecode(p_mem + p_off), cmd(*bytecode), str("")
+      : offset(p_off), bytecode(p_mem + p_off), length(1), cmd(*bytecode), str("")
     {}
+    void        print()
+    {
+      printf("%#08x: ", offset);
+      for (int i = 0; i < 10; i++)
+        printf(i < length ? "%02x " : "   ", bytecode[i]);
+      printf("%s\n", str.c_str());
+    }
   };
 
   struct        Command
