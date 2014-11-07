@@ -201,10 +201,8 @@ SET(SRC_MAIN
     src/Action/PressButton.cpp
     src/Action/Wait.cpp
 
-    src/PokeScript/Disass.cpp
-    src/PokeScript/Args.cpp
-    src/PokeScript/Print.cpp
     src/PokeScript/Script.cpp
+    src/PokeScript/Args.cpp
     src/PokeScript/Readers.cpp
     src/PokeScript/Commands.cpp
 

@@ -8,7 +8,7 @@
 #include	"Action/AAction.hh"
 #include	"Action/MoveTo.hh"
 #include	"Action/Battle.hh"
-#include	"PokeScript.hh"
+#include	"Script.hh"
 #include	"ThumbDisas.hh"
 #include	"PrintUtils.hh"
 #include	"Bot.hh"
