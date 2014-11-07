@@ -62,15 +62,16 @@ void            Script::_getInstruction(Command &cmd)
   std::istringstream    iss(cmd.args);
   std::list<std::string>args{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
   std::size_t           next, i = 0;
-  std::string           fmt, out = "";
+  std::string           fmt = "";
   uint32_t              arg;
   char                  buff[64];
+  Instruction           *instr = new Instruction(_pc - 1, _ptr);
 
   do {
     next = cmd.format.find('%', i + 1);
     fmt = cmd.format.substr(i, next == std::string::npos ? next : next - i);
     if (!i)
-      out += fmt;
+      instr->str += fmt;
     else
       {
         if (!args.size())
@@ -89,12 +90,15 @@ void            Script::_getInstruction(Command &cmd)
               }
             args.pop_front();
           }
+        instr->args.push_back(arg);
         snprintf(buff, sizeof(buff), fmt.c_str(), arg);
-        out += std::string(buff);
+        instr->str += std::string(buff);
       }
     i = next;
   } while (next != std::string::npos);
-  std::cout << out << std::endl;
+  if (cmd.hook)
+    (this->*cmd.hook)(instr);
+  std::cout << instr->str << std::endl;
 }
 
 void		Script::print(uint32_t ptr)

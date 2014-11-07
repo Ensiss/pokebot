@@ -30,7 +30,7 @@ private:
   };
 
 public:
-  typedef       std::vector<int>        Args;
+  typedef       std::vector<uint32_t>   Args;
   typedef       uint32_t(Script::*ParamReader)();
 
   struct        Instruction
@@ -38,8 +38,12 @@ public:
     uint32_t    offset;
     uint8_t     *bytecode;
     uint8_t     cmd;
-    Args        args;
     std::string str;
+    Args        args;
+
+    Instruction(uint32_t p_off, uint8_t *p_mem)
+      : offset(p_off), bytecode(p_mem + p_off), cmd(*bytecode), str("")
+    {}
   };
 
   struct        Command
@@ -47,15 +51,15 @@ public:
     Command(std::initializer_list<std::string> il)
       : format(il.size() ? *(il.begin()) : "UNKNOWN"),
         args(il.size() > 1 ? *(il.begin() + 1) : ""),
-        processor(NULL)
+        hook(NULL)
     {}
-    Command(const std::string &fmt, const std::string &params = "", void (*func)() = NULL)
-      : format(fmt), args(params), processor(func)
+    Command(const std::string &fmt, const std::string &params = "", void (Script::*func)(Instruction *) = NULL)
+      : format(fmt), args(params), hook(func)
     {}
 
     std::string format;
     std::string args;
-    void        (*processor)();
+    void        (Script::*hook)(Instruction *);
   };
 
 public:
@@ -87,6 +91,9 @@ private:
   uint32_t	_readFlagOrVar();
   uint32_t	_readWordOrVar();
   uint32_t	_readByteOrVar();
+
+private:
+  void          _loadpointer(Instruction *instr);
 
 private:
   Data			&_data;

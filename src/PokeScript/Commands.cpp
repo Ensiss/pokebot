@@ -16,7 +16,7 @@ Script::Command Script::_cmds[0xD6] = {
   /* 0C */ Command("jumpram", ""),
   /* 0D */ Command("killscript", ""),
   /* 0E */ Command("setbyte %#x", "byte"),
-  /* 0F */ Command("loadpointer %d %#x", "bank dword"),
+  /* 0F */ Command("loadpointer %d %#x", "bank dword", &Script::_loadpointer),
   /* 10 */ Command("setbyte2 %d %#x", "bank byte"),
   /* 11 */ Command("writebytetooffset %#x 0x%08x", "byte ptr"),
   /* 12 */ Command("loadbytefrompointer %d 0x%08x", "bank ptr"),
@@ -216,3 +216,37 @@ Script::Command Script::_cmds[0xD6] = {
   /* D4 */ Command("bufferitems %d %#x %#x", "buffer word/var word/var"),
   /* D5 */ Command("cmdd5", "")
 };
+
+static std::string      formatString(const char *s, ...)
+{
+  va_list	list;
+  char          buff[1024];
+
+  va_start(list, s);
+  vsnprintf(buff, 1024, s, list);
+  va_end(list);
+  return (std::string(buff));
+}
+
+static std::string      readString(uint32_t ptr)
+{
+  char		msg[1024];
+  uint8_t       *addr = (uint8_t *) gbaMem(ptr);
+  int		i;
+
+  for (i = 0; i < 1024 && addr[i] != 0xFF; i++)
+    msg[i] = pokeCharsetToAscii(addr[i]);
+  msg[i] = '\0';
+  return (std::string(msg));
+}
+
+void            Script::_loadpointer(Instruction *instr)
+{
+  if (_ptr[_pc] == 0x09)
+    {
+      _pc += 2;
+      instr->str = formatString("msgbox %#02x \"%s\"", _ptr[_pc - 1], readString(instr->args[1]).c_str());
+    }
+  else
+    instr->str = formatString("loadpointer %d %#08x", instr->args[0], instr->args[1]);
+}
