@@ -58,7 +58,7 @@ Script::Command Script::_cmds[0xD6] = {
   /* 36 */ Command("fadesong %#x", "word"),
   /* 37 */ Command("fadeout %#x", "byte"),
   /* 38 */ Command("fadein %#x", "byte"),
-  /* 39 */ Command("warp %#x %#x %#x %#x %#x", "byte byte byte byte/var byte/var"),
+  /* 39 */ Command("warp (bank=%d,map=%d) warp#%d (x=%d,y=%d)", "byte byte byte byte/var byte/var"),
   /* 3A */ Command("warpmuted", ""),
   /* 3B */ Command("warpwalk", ""),
   /* 3C */ Command("warphole %#x %#x", "byte byte"),
@@ -104,7 +104,7 @@ Script::Command Script::_cmds[0xD6] = {
   /* 64 */ Command("", ""),
   /* 65 */ Command("", ""),
   /* 66 */ Command("waitmsg", ""),
-  /* 67 */ Command("preparemsg %#x", "ptr/bank0"),
+  /* 67 */ Command("preparemsg %#x", "ptr/bank0", &Script::_preparemsg),
   /* 68 */ Command("closeonkeypress", ""),
   /* 69 */ Command("lockall", ""),
   /* 6A */ Command("lock", ""),
@@ -134,7 +134,7 @@ Script::Command Script::_cmds[0xD6] = {
   /* 82 */ Command("bufferattack %d %#x", "buffer word/var"),
   /* 83 */ Command("buffernumber %d %#x", "buffer word/var"),
   /* 84 */ Command("bufferstd %d %#x", "buffer word/var"),
-  /* 85 */ Command("bufferstring %d 0x%08x", "buffer ptr"),
+  /* 85 */ Command("bufferstring %d 0x%08x", "buffer ptr", &Script::_bufferstring),
   /* 86 */ Command("pokemart 0x%08x", "ptr"),
   /* 87 */ Command("pokemart2 0x%08x", "ptr"),
   /* 88 */ Command("pokemart3 0x%08x", "ptr"),
@@ -249,4 +249,15 @@ void            Script::_loadpointer(Instruction *instr)
     }
   else
     instr->str = formatString("loadpointer %d %#08x", instr->args[0], instr->args[1]);
+}
+
+void            Script::_bufferstring(Instruction *instr)
+{
+  instr->str = formatString("bufferstring %d \"%s\"", instr->args[0], readString(instr->args[1]).c_str());
+}
+
+void            Script::_preparemsg(Instruction *instr)
+{
+  if (instr->args[0] >= 4)
+    instr->str = formatString("preparemsg \"%s\"\n", readString(instr->args[0]).c_str());
 }
