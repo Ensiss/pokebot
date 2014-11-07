@@ -9,30 +9,13 @@ Script::~Script()
 {
 }
 
-void		Script::_print(const char *s, ...)
-{
-  va_list	list;
-
-  printf("%#08x: ", _start + _oldpc);
-  for (int i = 0; i < 10; i++)
-    {
-      if (_oldpc + i < _pc || _cmds[_ptr[_oldpc]].format == "")
-	printf("%02x ", _ptr[_oldpc + i]);
-      else
-	printf("   ");
-    }
-  va_start(list, s);
-  vprintf(s, list);
-  va_end(list);
-  printf("\n");
-}
-
 void		Script::_reset()
 {
   while (_addrs.size())
     _addrs.pop();
   _ranges.clear();
   _addrs.push(_offset);
+  _instructions.clear();
 }
 
 bool		Script::_setupNextAddr()
@@ -98,11 +81,11 @@ void            Script::_getInstruction(Command &cmd)
   } while (next != std::string::npos);
   if (cmd.hook)
     (this->*cmd.hook)(instr);
-  instr->length = _start + _pc - instr->offset;
-  instr->print();
+  instr->setLength(_start + _pc - instr->offset);
+  _instructions[instr->offset] = instr;
 }
 
-void		Script::print(uint32_t ptr)
+void		Script::load(uint32_t ptr)
 {
   uint8_t	id;
 
@@ -110,7 +93,6 @@ void		Script::print(uint32_t ptr)
   _reset();
   while (_setupNextAddr())
     {
-      printf("\n");
       do
 	{
 	  _oldpc = _pc;
@@ -118,15 +100,55 @@ void		Script::print(uint32_t ptr)
 	  if (_cmds[id].format != "")
 	    _getInstruction(_cmds[id]);
 	  else
-	    _print("ERROR: Unknown opcode %#02x", id);
+	    printf("ERROR: Unknown opcode %#02x", id);
 	}
       while (id != 0x02 && id != 0x03 && _cmds[id].format != "");
       _ranges.push_back(Range(_start, _start + _pc));
     }
-  printf("\n");
 }
 
-void		Script::printStd(uint8_t n)
+void		Script::loadStd(uint8_t n)
 {
-  print(((uint32_t *) gbaMem(0x08160450))[n]);
+  load(((uint32_t *) gbaMem(0x08160450))[n]);
+}
+
+void            Script::_subPrint(uint32_t ptr)
+{
+  Instruction   *instr;
+  uint32_t      beg = 0;
+
+  std::cout << std::endl;
+  while (_instructions.find(ptr) != _instructions.end())
+    {
+      instr = _instructions[ptr];
+      if (!beg)
+        beg = instr->offset;
+      instr->print();
+      if (_cmds[instr->cmd].hook == &Script::_branch)
+        _addrs.push(instr->args[instr->args.size() - 1]);
+      ptr = instr->next;
+    }
+  _ranges.push_back(Range(beg, instr->offset + instr->length));
+}
+
+void            Script::print()
+{
+  _ranges.clear();
+  while (_addrs.size())
+    _addrs.pop();
+
+  _addrs.push(_offset);
+  while (_addrs.size())
+    {
+      uint32_t  addr = _addrs.front();
+      _addrs.pop();
+      for (std::vector<Range>::iterator it = _ranges.begin(); addr && it != _ranges.end(); it++)
+        {
+          if (addr >= (*it).start && addr <= (*it).end)
+            addr = 0;
+        }
+      if (addr)
+        _subPrint(addr);
+    }
+  std::cout << std::endl;
 }

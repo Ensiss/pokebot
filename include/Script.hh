@@ -38,6 +38,7 @@ public:
     uint32_t    offset;
     uint8_t     *bytecode;
     uint8_t     length;
+    uint32_t    next;
     uint8_t     cmd;
     std::string str;
     Args        args;
@@ -51,6 +52,11 @@ public:
       for (int i = 0; i < 10; i++)
         printf(i < length ? "%02x " : "   ", bytecode[i]);
       printf("%s\n", str.c_str());
+    }
+    void        setLength(uint8_t len)
+    {
+      length = len;
+      next = (cmd == 3 || cmd == 4 ? 0 : offset + length);
     }
   };
 
@@ -75,14 +81,15 @@ public:
   ~Script();
 
 public:
-  void		print(uint32_t ptr);
-  void		printStd(uint8_t n);
+  void		load(uint32_t ptr);
+  void		loadStd(uint8_t n);
+  void		print();
 
 private:
+  void          _subPrint(uint32_t ptr);
   void		_reset();
   bool		_setupNextAddr();
   void          _getInstruction(Command &cmd);
-  void		_print(const char *s, ...);
 
 private:
   uint32_t	_readByte();
@@ -115,6 +122,8 @@ private:
   uint32_t		_oldpc;
   std::vector<Range>	_ranges;
   std::queue<uint32_t>	_addrs;
+  std::map<int, Instruction *>  _instructions;
+
   static Command	_cmds[0xD6];
   static std::map<std::string, ParamReader>     _readers;
 };
