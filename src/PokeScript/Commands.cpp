@@ -125,7 +125,7 @@ Script::Command Script::_cmds[0xD6] = {
   /* 79 */ Command("givePokémon %#x %#x %#x %#x %#x %#x", "word/var byte word dword dword byte"),
   /* 7A */ Command("", ""),
   /* 7B */ Command("", ""),
-  /* 7C */ Command("checkattack %#x", "word"),
+  /* 7C */ Command("checkattack %#x", "word", &Script::_checkattack),
   /* 7D */ Command("bufferPokémon %d %#x", "buffer word/var"),
   /* 7E */ Command("bufferfirstPokémon %d", "buffer"),
   /* 7F */ Command("bufferpartyPokémon %d %#x", "buffer word/var"),
@@ -259,7 +259,12 @@ void            Script::_bufferstring(Instruction *instr)
 void            Script::_preparemsg(Instruction *instr)
 {
   if (instr->args[0] >= 4)
-    instr->str = formatString("preparemsg \"%s\"\n", readString(instr->args[0]).c_str());
+    instr->str = formatString("preparemsg \"%s\"", readString(instr->args[0]).c_str());
+}
+
+void            Script::_checkattack(Instruction *instr)
+{
+  instr->str = formatString("checkattack %s", _data.move(instr->args[0]).getName());
 }
 
 void            Script::_branch(Instruction *instr)
