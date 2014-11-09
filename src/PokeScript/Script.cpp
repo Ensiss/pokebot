@@ -91,6 +91,11 @@ void		Script::load(uint32_t ptr)
 
   _offset = ptr;
   _reset();
+  if (!ptr)
+    {
+      _addrs.pop();
+      return;
+    }
   while (_setupNextAddr())
     {
       do
