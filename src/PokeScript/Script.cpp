@@ -149,7 +149,7 @@ void            Script::print()
       _addrs.pop();
       for (std::vector<Range>::iterator it = _ranges.begin(); addr && it != _ranges.end(); it++)
         {
-          if (addr >= (*it).start && addr <= (*it).end)
+          if (addr >= (*it).start && addr < (*it).end)
             addr = 0;
         }
       if (addr)

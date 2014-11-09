@@ -56,7 +56,7 @@ public:
     void        setLength(uint8_t len)
     {
       length = len;
-      next = (cmd == 3 || cmd == 4 ? 0 : offset + length);
+      next = (cmd == 0x02 || cmd == 0x03 ? 0 : offset + length);
     }
   };
 
