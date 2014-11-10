@@ -3,6 +3,7 @@
 
 #include        <stack>
 #include        <cstring>
+#include        <functional>
 #include        "Script.hh"
 
 #define         VM_FLAGS        0x900
@@ -51,6 +52,8 @@ private:
   void          _return(Script::Instruction *instr);
   void          _call(Script::Instruction *instr);
   void          _goto(Script::Instruction *instr);
+  void          _if1(Script::Instruction *instr);
+  void          _if2(Script::Instruction *instr);
   void          _comparebanks(Script::Instruction *instr);
   void          _comparebanktobyte(Script::Instruction *instr);
   void          _comparebanktofarbyte(Script::Instruction *instr);
@@ -72,6 +75,7 @@ private:
   uint32_t              _cmp2;
 
   static Executer       _executers[0xD6];
+  static std::function<bool(uint32_t, uint32_t)>  _cmpOp[6];
 };
 
 #endif

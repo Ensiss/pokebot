@@ -1,5 +1,14 @@
 #include        "VM.hh"
 
+std::function<bool(uint32_t, uint32_t)> VM::_cmpOp[6] = {
+  std::less<uint32_t>(),
+  std::equal_to<uint32_t>(),
+  std::greater<uint32_t>(),
+  std::less_equal<uint32_t>(),
+  std::greater_equal<uint32_t>(),
+  std::not_equal_to<uint32_t>()
+};
+
 VM::Executer VM::_executers[0xD6] = {
   /* 00 */ NULL,
   /* 01 */ NULL,
@@ -7,8 +16,8 @@ VM::Executer VM::_executers[0xD6] = {
   /* 03 */ &VM::_return,
   /* 04 */ &VM::_call,
   /* 05 */ &VM::_goto,
-  /* 06 */ NULL,
-  /* 07 */ NULL,
+  /* 06 */ &VM::_if1,
+  /* 07 */ &VM::_if2,
   /* 08 */ NULL,
   /* 09 */ NULL,
   /* 0A */ NULL,
@@ -237,6 +246,31 @@ void            VM::_call(Script::Instruction *instr)
 void            VM::_goto(Script::Instruction *instr)
 {
   _pc = instr->args[0];
+}
+
+void            VM::_if1(Script::Instruction *instr)
+{
+  if (instr->args[0] > 5)
+    {
+      std::cerr << "No such operator: " << instr->args[0] << std::endl;
+      return;
+    }
+  if (_cmpOp[instr->args[0]](_cmp1, _cmp2))
+    _pc = instr->args[1];
+}
+
+void            VM::_if2(Script::Instruction *instr)
+{
+  if (instr->args[0] > 5)
+    {
+      std::cerr << "No such operator: " << instr->args[0] << std::endl;
+      return;
+    }
+  if (_cmpOp[instr->args[0]](_cmp1, _cmp2))
+    {
+      _stack.push(instr->next);
+      _pc = instr->args[1];
+    }
 }
 
 void            VM::_comparebanks(Script::Instruction *instr)
