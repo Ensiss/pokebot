@@ -9,6 +9,22 @@ VM::~VM()
 {
 }
 
+void            VM::exec(Script &script)
+{
+  std::map<int, Script::Instruction *> &instMap = script.getInstructions();
+
+  while (_stack.size())
+    _stack.pop();
+  _pc = script.getStartOffset();
+  while (_pc)
+    {
+      Script::Instruction *instr = instMap[_pc];
+      _pc = instr->next;
+      if (_executers[instr->cmd])
+        (this->*_executers[instr->cmd])(instr);
+    }
+}
+
 void            VM::update()
 {
   uint32_t      ptr = *((uint32_t *) gbaMem(0x03005008));

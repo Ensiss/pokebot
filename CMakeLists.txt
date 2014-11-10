@@ -205,6 +205,7 @@ SET(SRC_MAIN
     src/PokeScript/Readers.cpp
     src/PokeScript/Commands.cpp
     src/PokeScript/VM.cpp
+    src/PokeScript/Executers.cpp
 
     src/Utils/ThumbDisas.cpp
     src/Utils/PokemonUtils.cpp

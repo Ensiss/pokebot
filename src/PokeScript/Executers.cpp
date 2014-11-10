@@ -1,0 +1,280 @@
+#include        "VM.hh"
+
+VM::Executer VM::_executers[0xD6] = {
+  /* 00 */ NULL,
+  /* 01 */ NULL,
+  /* 02 */ NULL,
+  /* 03 */ &VM::_return,
+  /* 04 */ &VM::_call,
+  /* 05 */ &VM::_goto,
+  /* 06 */ NULL,
+  /* 07 */ NULL,
+  /* 08 */ NULL,
+  /* 09 */ NULL,
+  /* 0A */ NULL,
+  /* 0B */ NULL,
+  /* 0C */ NULL,
+  /* 0D */ NULL,
+  /* 0E */ NULL,
+  /* 0F */ NULL,
+  /* 10 */ NULL,
+  /* 11 */ NULL,
+  /* 12 */ NULL,
+  /* 13 */ NULL,
+  /* 14 */ NULL,
+  /* 15 */ NULL,
+  /* 16 */ NULL,
+  /* 17 */ NULL,
+  /* 18 */ NULL,
+  /* 19 */ NULL,
+  /* 1A */ NULL,
+  /* 1B */ &VM::_comparebanks,
+  /* 1C */ &VM::_comparebanktobyte,
+  /* 1D */ &VM::_comparebanktofarbyte,
+  /* 1E */ &VM::_comparefarbytetobank,
+  /* 1F */ &VM::_comparefarbytetobyte,
+  /* 20 */ &VM::_comparefarbytes,
+  /* 21 */ &VM::_compare,
+  /* 22 */ &VM::_comparevars,
+  /* 23 */ NULL,
+  /* 24 */ NULL,
+  /* 25 */ NULL,
+  /* 26 */ NULL,
+  /* 27 */ NULL,
+  /* 28 */ NULL,
+  /* 29 */ NULL,
+  /* 2A */ NULL,
+  /* 2B */ NULL,
+  /* 2C */ NULL,
+  /* 2D */ NULL,
+  /* 2E */ NULL,
+  /* 2F */ NULL,
+  /* 30 */ NULL,
+  /* 31 */ NULL,
+  /* 32 */ NULL,
+  /* 33 */ NULL,
+  /* 34 */ NULL,
+  /* 35 */ NULL,
+  /* 36 */ NULL,
+  /* 37 */ NULL,
+  /* 38 */ NULL,
+  /* 39 */ NULL,
+  /* 3A */ NULL,
+  /* 3B */ NULL,
+  /* 3C */ NULL,
+  /* 3D */ NULL,
+  /* 3E */ NULL,
+  /* 3F */ NULL,
+  /* 40 */ NULL,
+  /* 41 */ NULL,
+  /* 42 */ NULL,
+  /* 43 */ NULL,
+  /* 44 */ NULL,
+  /* 45 */ NULL,
+  /* 46 */ NULL,
+  /* 47 */ NULL,
+  /* 48 */ NULL,
+  /* 49 */ NULL,
+  /* 4A */ NULL,
+  /* 4B */ NULL,
+  /* 4C */ NULL,
+  /* 4D */ NULL,
+  /* 4E */ NULL,
+  /* 4F */ NULL,
+  /* 50 */ NULL,
+  /* 51 */ NULL,
+  /* 52 */ NULL,
+  /* 53 */ NULL,
+  /* 54 */ NULL,
+  /* 55 */ NULL,
+  /* 56 */ NULL,
+  /* 57 */ NULL,
+  /* 58 */ NULL,
+  /* 59 */ NULL,
+  /* 5A */ NULL,
+  /* 5B */ NULL,
+  /* 5C */ NULL,
+  /* 5D */ NULL,
+  /* 5E */ NULL,
+  /* 5F */ NULL,
+  /* 60 */ NULL,
+  /* 61 */ NULL,
+  /* 62 */ NULL,
+  /* 63 */ NULL,
+  /* 64 */ NULL,
+  /* 65 */ NULL,
+  /* 66 */ NULL,
+  /* 67 */ NULL,
+  /* 68 */ NULL,
+  /* 69 */ NULL,
+  /* 6A */ NULL,
+  /* 6B */ NULL,
+  /* 6C */ NULL,
+  /* 6D */ NULL,
+  /* 6E */ NULL,
+  /* 6F */ NULL,
+  /* 70 */ NULL,
+  /* 71 */ NULL,
+  /* 72 */ NULL,
+  /* 73 */ NULL,
+  /* 74 */ NULL,
+  /* 75 */ NULL,
+  /* 76 */ NULL,
+  /* 77 */ NULL,
+  /* 78 */ NULL,
+  /* 79 */ NULL,
+  /* 7A */ NULL,
+  /* 7B */ NULL,
+  /* 7C */ NULL,
+  /* 7D */ NULL,
+  /* 7E */ NULL,
+  /* 7F */ NULL,
+  /* 80 */ NULL,
+  /* 81 */ NULL,
+  /* 82 */ NULL,
+  /* 83 */ NULL,
+  /* 84 */ NULL,
+  /* 85 */ NULL,
+  /* 86 */ NULL,
+  /* 87 */ NULL,
+  /* 88 */ NULL,
+  /* 89 */ NULL,
+  /* 8A */ NULL,
+  /* 8B */ NULL,
+  /* 8C */ NULL,
+  /* 8D */ NULL,
+  /* 8E */ NULL,
+  /* 8F */ NULL,
+  /* 90 */ NULL,
+  /* 91 */ NULL,
+  /* 92 */ NULL,
+  /* 93 */ NULL,
+  /* 94 */ NULL,
+  /* 95 */ NULL,
+  /* 96 */ NULL,
+  /* 97 */ NULL,
+  /* 98 */ NULL,
+  /* 99 */ NULL,
+  /* 9A */ NULL,
+  /* 9B */ NULL,
+  /* 9C */ NULL,
+  /* 9D */ NULL,
+  /* 9E */ NULL,
+  /* 9F */ NULL,
+  /* A0 */ NULL,
+  /* A1 */ NULL,
+  /* A2 */ NULL,
+  /* A3 */ NULL,
+  /* A4 */ NULL,
+  /* A5 */ NULL,
+  /* A6 */ NULL,
+  /* A7 */ NULL,
+  /* A8 */ NULL,
+  /* A9 */ NULL,
+  /* AA */ NULL,
+  /* AB */ NULL,
+  /* AC */ NULL,
+  /* AD */ NULL,
+  /* AE */ NULL,
+  /* AF */ NULL,
+  /* B0 */ NULL,
+  /* B1 */ NULL,
+  /* B2 */ NULL,
+  /* B3 */ NULL,
+  /* B4 */ NULL,
+  /* B5 */ NULL,
+  /* B6 */ NULL,
+  /* B7 */ NULL,
+  /* B8 */ NULL,
+  /* B9 */ NULL,
+  /* BA */ NULL,
+  /* BB */ NULL,
+  /* BC */ NULL,
+  /* BD */ NULL,
+  /* BE */ NULL,
+  /* BF */ NULL,
+  /* C0 */ NULL,
+  /* C1 */ NULL,
+  /* C2 */ NULL,
+  /* C3 */ NULL,
+  /* C4 */ NULL,
+  /* C5 */ NULL,
+  /* C6 */ NULL,
+  /* C7 */ NULL,
+  /* C8 */ NULL,
+  /* C9 */ NULL,
+  /* CA */ NULL,
+  /* CB */ NULL,
+  /* CC */ NULL,
+  /* CD */ NULL,
+  /* CE */ NULL,
+  /* CF */ NULL,
+  /* D0 */ NULL,
+  /* D1 */ NULL,
+  /* D2 */ NULL,
+  /* D3 */ NULL,
+  /* D4 */ NULL,
+  /* D5 */ NULL
+};
+
+void            VM::_return(Script::Instruction *instr)
+{
+  if (!_stack.size())
+    {
+      std::cerr << "VM error: cannot return (empty stack)" << std::endl;
+      return;
+    }
+  _pc = _stack.top();
+  _stack.pop();
+}
+
+void            VM::_call(Script::Instruction *instr)
+{
+  _stack.push(instr->next);
+  _pc = instr->args[0];
+}
+
+void            VM::_goto(Script::Instruction *instr)
+{
+  _pc = instr->args[0];
+}
+
+void            VM::_comparebanks(Script::Instruction *instr)
+{
+  _compare8(getBank(instr->args[0]), getBank(instr->args[1]));
+}
+
+void            VM::_comparebanktobyte(Script::Instruction *instr)
+{
+  _compare8(getBank(instr->args[0]), instr->args[1]);
+}
+
+void            VM::_comparebanktofarbyte(Script::Instruction *instr)
+{
+  _compare8(getBank(instr->args[0]), (*(uint8_t *) gbaMem(instr->args[1])));
+}
+
+void            VM::_comparefarbytetobank(Script::Instruction *instr)
+{
+  _compare8((*(uint8_t *) gbaMem(instr->args[0])), getBank(instr->args[1]));
+}
+
+void            VM::_comparefarbytetobyte(Script::Instruction *instr)
+{
+  _compare8((*(uint8_t *) gbaMem(instr->args[0])), instr->args[1]);
+}
+
+void            VM::_comparefarbytes(Script::Instruction *instr)
+{
+  _compare8((*(uint8_t *) gbaMem(instr->args[0])), (*(uint8_t *) gbaMem(instr->args[1])));
+}
+
+void            VM::_compare(Script::Instruction *instr)
+{
+  _compare(getVar(instr->args[0]), instr->args[1]);
+}
+
+void            VM::_comparevars(Script::Instruction *instr)
+{
+  _compare(getVar(instr->args[0]), getVar(instr->args[1]));
+}

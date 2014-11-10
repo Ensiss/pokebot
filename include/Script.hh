@@ -87,6 +87,10 @@ public:
   void		loadStd(uint8_t n);
   void		print();
 
+public:
+  std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
+  uint32_t                      getStartOffset() { return (_offset); }
+
 private:
   void          _subPrint(uint32_t ptr);
   void		_reset();
