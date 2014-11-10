@@ -202,7 +202,6 @@ SET(SRC_MAIN
     src/Action/Wait.cpp
 
     src/PokeScript/Script.cpp
-    src/PokeScript/Args.cpp
     src/PokeScript/Readers.cpp
     src/PokeScript/Commands.cpp
     src/PokeScript/VM.cpp
