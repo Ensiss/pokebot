@@ -30,7 +30,8 @@ private:
   };
 
 public:
-  typedef       std::vector<uint32_t>   Args;
+  typedef       std::vector<uint32_t>           Args;
+  typedef       std::vector<std::string>        TypeList;
   typedef       uint32_t(Script::*ParamReader)();
 
   struct        Instruction
@@ -42,6 +43,7 @@ public:
     uint8_t     cmd;
     std::string str;
     Args        args;
+    TypeList    types;
 
     Instruction(uint32_t p_off, uint8_t *p_mem)
       : offset(p_off), bytecode(p_mem + p_off), length(1), cmd(*bytecode), str("")
@@ -95,17 +97,6 @@ private:
   uint32_t	_readByte();
   uint32_t	_readWord();
   uint32_t	_readDword();
-  uint32_t	_readPointer();
-  uint32_t	_readVariable();
-  uint32_t	_readFlag();
-  uint32_t	_readBank();
-  uint32_t	_readBuffer();
-  uint32_t	_readHiddenVar();
-  uint32_t	_readPtrOrBank();
-  uint32_t	_readPtrOrBank0();
-  uint32_t	_readFlagOrVar();
-  uint32_t	_readWordOrVar();
-  uint32_t	_readByteOrVar();
 
 private:
   void          _loadpointer(Instruction *instr);

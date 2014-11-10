@@ -65,7 +65,10 @@ void            Script::_getInstruction(Command &cmd)
         else
           {
             if (_readers.find(args.front()) != _readers.end())
-              arg = (this->*_readers[args.front()])();
+              {
+                instr->types.push_back(args.front());
+                arg = (this->*_readers[args.front()])();
+              }
             else
               {
                 std::cerr << "WARNING: unknown argument type: " << args.front() << std::endl;
