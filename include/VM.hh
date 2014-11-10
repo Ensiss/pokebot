@@ -13,8 +13,11 @@
 #define         VM_TEMP_OFFSET  0x8000
 
 #define         VM_IS_FLAG(x)   ((x) < VM_FLAGS)
+#define         VM_IS_BANK(x)   ((x) < VM_BANKS)
 #define         VM_IS_VAR(x)    ((x) >= VM_VAR_OFFSET && (x) < VM_VAR_OFFSET + VM_VARS)
 #define         VM_IS_TEMP(x)   ((x) >= VM_TEMP_OFFSET && (x) < VM_TEMP_OFFSET + VM_TEMP)
+
+#define         VM_BOUNDS_ERR(x)        ("Warning: " x " 0x%x out of bounds\n")
 
 class           VM
 {
@@ -26,8 +29,10 @@ public:
   void          update();
   bool          getFlag(uint16_t flag);
   uint16_t      getVar(uint16_t var);
+  uint32_t      getBank(uint8_t bank);
   void          setFlag(uint16_t flag, bool val);
   void          setVar(uint16_t var, uint16_t val);
+  void          setBank(uint8_t bank, uint32_t val);
 
 private:
   uint8_t       _flags[VM_FLAGS >> 3];
