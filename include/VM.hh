@@ -89,6 +89,12 @@ private:
   { _compare(getVar(instr->args[0]), instr->args[1]); }
   void          _comparevars(Script::Instruction *instr)
   { _compare(getVar(instr->args[0]), getVar(instr->args[1])); }
+  void          _setflag(Script::Instruction *instr)
+  { setFlag(instr->args[0], 1); }
+  void          _clearflag(Script::Instruction *instr)
+  { setFlag(instr->args[0], 0); }
+  void          _checkflag(Script::Instruction *instr)
+  { _compare(getFlag(instr->args[0]), 1); }
 
 private:
   uint8_t       _flags[VM_FLAGS >> 3];
