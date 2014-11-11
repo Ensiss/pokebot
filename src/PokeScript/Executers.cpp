@@ -25,18 +25,18 @@ VM::Executer VM::_executers[0xD6] = {
   /* 0C */ NULL,
   /* 0D */ NULL,
   /* 0E */ NULL,
-  /* 0F */ NULL,
-  /* 10 */ NULL,
+  /* 0F */ &VM::_loadpointer,
+  /* 10 */ &VM::_setbyte2,
   /* 11 */ NULL,
-  /* 12 */ NULL,
+  /* 12 */ &VM::_loadbytefrompointer,
   /* 13 */ NULL,
-  /* 14 */ NULL,
+  /* 14 */ &VM::_copyscriptbanks,
   /* 15 */ NULL,
-  /* 16 */ NULL,
-  /* 17 */ NULL,
-  /* 18 */ NULL,
-  /* 19 */ NULL,
-  /* 1A */ NULL,
+  /* 16 */ &VM::_setvar,
+  /* 17 */ &VM::_addvar,
+  /* 18 */ &VM::_subvar,
+  /* 19 */ &VM::_copyvar,
+  /* 1A */ &VM::_copyvarifnotzero,
   /* 1B */ &VM::_comparebanks,
   /* 1C */ &VM::_comparebanktobyte,
   /* 1D */ &VM::_comparebanktofarbyte,
@@ -271,44 +271,4 @@ void            VM::_if2(Script::Instruction *instr)
       _stack.push(instr->next);
       _pc = instr->args[1];
     }
-}
-
-void            VM::_comparebanks(Script::Instruction *instr)
-{
-  _compare8(getBank(instr->args[0]), getBank(instr->args[1]));
-}
-
-void            VM::_comparebanktobyte(Script::Instruction *instr)
-{
-  _compare8(getBank(instr->args[0]), instr->args[1]);
-}
-
-void            VM::_comparebanktofarbyte(Script::Instruction *instr)
-{
-  _compare8(getBank(instr->args[0]), (*(uint8_t *) gbaMem(instr->args[1])));
-}
-
-void            VM::_comparefarbytetobank(Script::Instruction *instr)
-{
-  _compare8((*(uint8_t *) gbaMem(instr->args[0])), getBank(instr->args[1]));
-}
-
-void            VM::_comparefarbytetobyte(Script::Instruction *instr)
-{
-  _compare8((*(uint8_t *) gbaMem(instr->args[0])), instr->args[1]);
-}
-
-void            VM::_comparefarbytes(Script::Instruction *instr)
-{
-  _compare8((*(uint8_t *) gbaMem(instr->args[0])), (*(uint8_t *) gbaMem(instr->args[1])));
-}
-
-void            VM::_compare(Script::Instruction *instr)
-{
-  _compare(getVar(instr->args[0]), instr->args[1]);
-}
-
-void            VM::_comparevars(Script::Instruction *instr)
-{
-  _compare(getVar(instr->args[0]), getVar(instr->args[1]));
 }

@@ -54,14 +54,41 @@ private:
   void          _goto(Script::Instruction *instr);
   void          _if1(Script::Instruction *instr);
   void          _if2(Script::Instruction *instr);
-  void          _comparebanks(Script::Instruction *instr);
-  void          _comparebanktobyte(Script::Instruction *instr);
-  void          _comparebanktofarbyte(Script::Instruction *instr);
-  void          _comparefarbytetobank(Script::Instruction *instr);
-  void          _comparefarbytetobyte(Script::Instruction *instr);
-  void          _comparefarbytes(Script::Instruction *instr);
-  void          _compare(Script::Instruction *instr);
-  void          _comparevars(Script::Instruction *instr);
+
+  void          _loadpointer(Script::Instruction *instr)
+  { setBank(instr->args[0], instr->args[1]); }
+  void          _setbyte2(Script::Instruction *instr)
+  { setBank(instr->args[0], instr->args[1]); }
+  void          _loadbytefrompointer(Script::Instruction *instr)
+  { setBank(instr->args[0], *(uint8_t *) gbaMem(instr->args[1])); }
+  void          _copyscriptbanks(Script::Instruction *instr)
+  { setBank(instr->args[0], getBank(instr->args[1])); }
+  void          _setvar(Script::Instruction *instr)
+  { setVar(instr->args[0], instr->args[1]); }
+  void          _addvar(Script::Instruction *instr)
+  { setVar(instr->args[0], getVar(instr->args[0]) + instr->args[1]); }
+  void          _subvar(Script::Instruction *instr)
+  { setVar(instr->args[0], getVar(instr->args[0]) - instr->args[1]); }
+  void          _copyvar(Script::Instruction *instr)
+  { setVar(instr->args[0], getVar(instr->args[1])); }
+  void          _copyvarifnotzero(Script::Instruction *instr)
+  { setVar(instr->args[0], VM_IS_VAR(instr->args[1]) ? getVar(instr->args[1]) : instr->args[1]); }
+  void          _comparebanks(Script::Instruction *instr)
+  { _compare8(getBank(instr->args[0]), getBank(instr->args[1])); }
+  void          _comparebanktobyte(Script::Instruction *instr)
+  { _compare8(getBank(instr->args[0]), instr->args[1]); }
+  void          _comparebanktofarbyte(Script::Instruction *instr)
+  { _compare8(getBank(instr->args[0]), (*(uint8_t *) gbaMem(instr->args[1]))); }
+  void          _comparefarbytetobank(Script::Instruction *instr)
+  { _compare8((*(uint8_t *) gbaMem(instr->args[0])), getBank(instr->args[1])); }
+  void          _comparefarbytetobyte(Script::Instruction *instr)
+  { _compare8((*(uint8_t *) gbaMem(instr->args[0])), instr->args[1]); }
+  void          _comparefarbytes(Script::Instruction *instr)
+  { _compare8((*(uint8_t *) gbaMem(instr->args[0])), (*(uint8_t *) gbaMem(instr->args[1]))); }
+  void          _compare(Script::Instruction *instr)
+  { _compare(getVar(instr->args[0]), instr->args[1]); }
+  void          _comparevars(Script::Instruction *instr)
+  { _compare(getVar(instr->args[0]), getVar(instr->args[1])); }
 
 private:
   uint8_t       _flags[VM_FLAGS >> 3];
