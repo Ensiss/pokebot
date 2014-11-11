@@ -56,7 +56,7 @@ VM::Executer VM::_executers[0xD6] = {
   /* 2B */ &VM::_checkflag,
   /* 2C */ NULL,
   /* 2D */ NULL,
-  /* 2E */ NULL,
+  /* 2E */ &VM::_resetvars,
   /* 2F */ NULL,
   /* 30 */ NULL,
   /* 31 */ NULL,
