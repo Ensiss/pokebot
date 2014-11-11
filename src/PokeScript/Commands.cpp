@@ -243,12 +243,7 @@ static std::string      readString(uint32_t ptr)
 void            Script::_loadpointer(Instruction *instr)
 {
   if (_ptr[_pc] == 0x09)
-    {
-      _pc += 2;
-      instr->str = formatString("msgbox %#02x \"%s\"", _ptr[_pc - 1], readString(instr->args[1]).c_str());
-    }
-  else
-    instr->str = formatString("loadpointer %d %#08x", instr->args[0], instr->args[1]);
+    instr->str = formatString("loadpointer %d \"%s\"", instr->args[0], readString(instr->args[1]).c_str());
 }
 
 void            Script::_bufferstring(Instruction *instr)
