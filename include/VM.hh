@@ -8,7 +8,7 @@
 
 #define         VM_FLAGS        0x900
 #define         VM_VARS         0x100
-#define         VM_TEMP         0x0F
+#define         VM_TEMP         0x1F
 #define         VM_BANKS        0x04
 #define         VM_BUFF         0x03
 #define         VM_VAR_OFFSET   0x4000
