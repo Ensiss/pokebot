@@ -9,6 +9,15 @@ VM::~VM()
 {
 }
 
+void            VM::_restoreContext()
+{
+  Context       *saved = _states.top();
+
+  _ctx = *saved;
+  delete saved;
+  _states.pop();
+}
+
 void            VM::exec(Script &script)
 {
   std::map<int, Script::Instruction *> &instMap = script.getInstructions();

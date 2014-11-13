@@ -81,6 +81,8 @@ public:
 private:
   void          _compare(uint32_t a, uint32_t b) { _ctx.compare(a, b); }
   void          _compare8(uint8_t a, uint8_t b) { _ctx.compare(a, b); }
+  void          _saveContext() { _states.push(new Context(_ctx)); }
+  void          _restoreContext();
 
 private:
   void          _return(Script::Instruction *instr);
@@ -134,7 +136,7 @@ private:
 
 private:
   Context               _ctx;
-  std::list<Context>    _states;
+  std::stack<Context *> _states;
 
   static Executer       _executers[0xD6];
   static std::function<bool(uint32_t, uint32_t)>  _cmpOp[6];
