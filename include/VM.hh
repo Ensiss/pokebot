@@ -1,6 +1,7 @@
 #ifndef         __VM_HH__
 #define         __VM_HH__
 
+#include        <list>
 #include        <stack>
 #include        <cstring>
 #include        <functional>
@@ -25,6 +26,40 @@
 
 class           VM
 {
+private:
+  class         Context
+  {
+  public:
+    Context();
+    Context(const Context &ctx);
+    Context     &operator=(const Context &ctx);
+
+  public:
+    void        update();
+    bool        getFlag(uint16_t flag) const;
+    uint16_t    getVar(uint16_t var) const;
+    uint32_t    getBank(uint8_t bank) const;
+    void        setFlag(uint16_t flag, bool val);
+    void        setVar(uint16_t var, uint16_t val);
+    void        setBank(uint8_t bank, uint32_t val);
+    void        compare(uint32_t a, uint32_t b) { cmp1 = a; cmp2 = b; }
+    void        pushStack(uint32_t addr) { stack.push(addr); }
+    uint32_t    popStack() { uint32_t addr = stack.top(); stack.pop(); return (addr); }
+    void        clearStack() { while (stack.size()) stack.pop(); }
+
+  private:
+    uint8_t     _flags[VM_FLAGS >> 3];
+    uint16_t    _vars[VM_VARS];
+    uint16_t    _temp[VM_TEMP];
+    uint32_t    _banks[VM_BANKS];
+
+  public:
+    std::stack<uint32_t> stack;
+    uint32_t    pc;
+    uint32_t    cmp1;
+    uint32_t    cmp2;
+  };
+
 public:
   typedef       void (VM::*Executer)(Script::Instruction *);
 
@@ -33,20 +68,19 @@ public:
   ~VM();
 
 public:
-  void          update();
   void          exec(Script &script);
 
 public:
-  bool          getFlag(uint16_t flag);
-  uint16_t      getVar(uint16_t var);
-  uint32_t      getBank(uint8_t bank);
-  void          setFlag(uint16_t flag, bool val);
-  void          setVar(uint16_t var, uint16_t val);
-  void          setBank(uint8_t bank, uint32_t val);
+  bool          getFlag(uint16_t flag) const { return (_ctx.getFlag(flag)); }
+  uint16_t      getVar(uint16_t var) const { return (_ctx.getVar(var)); }
+  uint32_t      getBank(uint8_t bank) const { return (_ctx.getBank(bank)); }
+  void          setFlag(uint16_t flag, bool val) { _ctx.setFlag(flag, val); }
+  void          setVar(uint16_t var, uint16_t val) { _ctx.setVar(var, val); }
+  void          setBank(uint8_t bank, uint32_t val) { _ctx.setBank(bank, val); }
 
 private:
-  void          _compare(uint32_t a, uint32_t b) { _cmp1 = a; _cmp2 = b; }
-  void          _compare8(uint8_t a, uint8_t b) { _compare(a, b); }
+  void          _compare(uint32_t a, uint32_t b) { _ctx.compare(a, b); }
+  void          _compare8(uint8_t a, uint8_t b) { _ctx.compare(a, b); }
 
 private:
   void          _return(Script::Instruction *instr);
@@ -99,15 +133,8 @@ private:
   { for (int i = 0x8000; i <= 0x8002; i++) setVar(i, 0); }
 
 private:
-  uint8_t       _flags[VM_FLAGS >> 3];
-  uint16_t      _vars[VM_VARS];
-  uint16_t      _temp[VM_TEMP];
-  uint32_t      _banks[VM_BANKS];
-
-  std::stack<uint32_t>  _stack;
-  uint32_t              _pc;
-  uint32_t              _cmp1;
-  uint32_t              _cmp2;
+  Context               _ctx;
+  std::list<Context>    _states;
 
   static Executer       _executers[0xD6];
   static std::function<bool(uint32_t, uint32_t)>  _cmpOp[6];

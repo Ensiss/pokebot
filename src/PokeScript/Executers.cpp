@@ -228,24 +228,23 @@ VM::Executer VM::_executers[0xD6] = {
 
 void            VM::_return(Script::Instruction *instr)
 {
-  if (!_stack.size())
+  if (!_ctx.stack.size())
     {
       std::cerr << "VM error: cannot return (empty stack)" << std::endl;
       return;
     }
-  _pc = _stack.top();
-  _stack.pop();
+  _ctx.pc = _ctx.popStack();
 }
 
 void            VM::_call(Script::Instruction *instr)
 {
-  _stack.push(instr->next);
-  _pc = instr->args[0];
+  _ctx.pushStack(instr->next);
+  _ctx.pc = instr->args[0];
 }
 
 void            VM::_goto(Script::Instruction *instr)
 {
-  _pc = instr->args[0];
+  _ctx.pc = instr->args[0];
 }
 
 void            VM::_if1(Script::Instruction *instr)
@@ -255,8 +254,8 @@ void            VM::_if1(Script::Instruction *instr)
       std::cerr << "No such operator: " << instr->args[0] << std::endl;
       return;
     }
-  if (_cmpOp[instr->args[0]](_cmp1, _cmp2))
-    _pc = instr->args[1];
+  if (_cmpOp[instr->args[0]](_ctx.cmp1, _ctx.cmp2))
+    _ctx.pc = instr->args[1];
 }
 
 void            VM::_if2(Script::Instruction *instr)
@@ -266,9 +265,9 @@ void            VM::_if2(Script::Instruction *instr)
       std::cerr << "No such operator: " << instr->args[0] << std::endl;
       return;
     }
-  if (_cmpOp[instr->args[0]](_cmp1, _cmp2))
+  if (_cmpOp[instr->args[0]](_ctx.cmp1, _ctx.cmp2))
     {
-      _stack.push(instr->next);
-      _pc = instr->args[1];
+      _ctx.pushStack(instr->next);
+      _ctx.pc = instr->args[1];
     }
 }
