@@ -9,13 +9,17 @@ VM::~VM()
 {
 }
 
-void            VM::_restoreContext()
+bool            VM::_restoreContext()
 {
-  Context       *saved = _states.top();
+  Context       *saved;
 
+  if (!_states.size())
+    return (false);
+  saved = _states.top();
   _ctx = *saved;
   delete saved;
   _states.pop();
+  return (true);
 }
 
 void            VM::exec(Script &script)

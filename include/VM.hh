@@ -82,7 +82,7 @@ private:
   void          _compare(uint32_t a, uint32_t b) { _ctx.compare(a, b); }
   void          _compare8(uint8_t a, uint8_t b) { _ctx.compare(a, b); }
   void          _saveContext() { _states.push(new Context(_ctx)); }
-  void          _restoreContext();
+  bool          _restoreContext();
 
 private:
   void          _return(Script::Instruction *instr);
