@@ -88,6 +88,43 @@ void            Script::_getInstruction(Command &cmd)
   _instructions[instr->offset] = instr;
 }
 
+void            Script::_recCondTree(CtrlPoint &tree, uint32_t pc, int indent)
+{
+  while (pc)
+    {
+      Instruction *instr = _instructions[pc];
+      if (instr->cmd == 0x06 || instr->cmd == 0x07)
+        _recCondTree(tree.addChild(pc), instr->args[1], indent + 1);
+      else if (instr->cmd == 0x04 || instr->cmd == 0x05)
+        _recCondTree(tree, instr->args[0], indent);
+      pc = instr->next;
+    }
+}
+
+void            Script::_searchConditionTree()
+{
+  _recCondTree(_ctrlPt, _offset, 0);
+}
+
+void            Script::_recPrintCondTree(CtrlPoint &pt, int indent)
+{
+  if (pt.addr)
+    {
+      Instruction *instr = _instructions[pt.addr];
+      printf("0x%08x: ", pt.addr);
+      for (int i = 0; i < indent; i++)
+        printf("  ");
+      printf("%s\n", instr->str.c_str());
+    }
+  for (std::list<CtrlPoint>::iterator it = pt.children.begin(); it != pt.children.end(); it++)
+    _recPrintCondTree(*it, indent + 1);
+}
+
+void            Script::printConditionTree()
+{
+  _recPrintCondTree(_ctrlPt, -1);
+}
+
 void		Script::load(uint32_t ptr)
 {
   uint8_t	id;
@@ -113,6 +150,7 @@ void		Script::load(uint32_t ptr)
       while (id != 0x02 && id != 0x03 && _cmds[id].format != "");
       _ranges.push_back(Range(_start, _start + _pc));
     }
+  _searchConditionTree();
 }
 
 void		Script::loadStd(uint8_t n)
