@@ -189,3 +189,16 @@ void            printMultiChoices(Data &data)
         }
     }
 }
+
+void            printStdFunctions(Data &data)
+{
+  Script        sc;
+
+  for (int i = 0; i < 10; i++)
+    {
+      printf("STD FUNCTION #%d @", i);
+      printf("0x%08x\n", ((uint32_t *) gbaMem(0x08160450))[i]);
+      sc.loadStd(i);
+      sc.print();
+    }
+}

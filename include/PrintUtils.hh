@@ -4,6 +4,7 @@
 #include	<stdint.h>
 #include	"Data.hh"
 #include	"PokemonUtils.hh"
+#include        "Script.hh"
 
 #define		M_STATUS	1
 #define		M_BEHAVIOR	2
@@ -18,5 +19,6 @@ void		printString(uint32_t addr, uint32_t size);
 void		searchString(uint32_t start, uint32_t size, const char *m);
 void		printWildPokemons(Data &data);
 void            printMultiChoices(Data &data);
+void            printStdFunctions(Data &data);
 
 #endif
