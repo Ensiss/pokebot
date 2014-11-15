@@ -7,8 +7,8 @@ Script::Command Script::_cmds[0xD6] = {
   /* 03 */ Command("return", ""),
   /* 04 */ Command("call 0x%08x", "ptr", &Script::_branch),
   /* 05 */ Command("goto 0x%08x", "ptr", &Script::_branch),
-  /* 06 */ Command("if1 %#x 0x%08x", "byte ptr", &Script::_branch),
-  /* 07 */ Command("if2 %#x 0x%08x", "byte ptr", &Script::_branch),
+  /* 06 */ Command("if1 %#x 0x%08x", "byte ptr", &Script::_if),
+  /* 07 */ Command("if2 %#x 0x%08x", "byte ptr", &Script::_if),
   /* 08 */ Command("gotostd %#x", "byte"),
   /* 09 */ Command("callstd %#x", "byte"),
   /* 0A */ Command("gotostdif %#x %#x", "byte byte"),
@@ -260,6 +260,18 @@ void            Script::_preparemsg(Instruction *instr)
 void            Script::_checkattack(Instruction *instr)
 {
   instr->str = formatString("checkattack %s", _data.move(instr->args[0]).getName());
+}
+
+void            Script::_if(Instruction *instr)
+{
+  uint8_t       b = instr->args[0];
+  const char    *op = "<\0\0==\0>\0\0<=\0>=\0!=\0?" + (b > 5 ? 18 : b * 3);
+
+  instr->str =
+    formatString("if %s ", op) +
+    (instr->cmd == 0x06 ? "goto" : "call") +
+    formatString(" 0x%08x", instr->args[1]);
+  _branch(instr);
 }
 
 void            Script::_branch(Instruction *instr)

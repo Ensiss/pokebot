@@ -113,6 +113,7 @@ private:
   void          _bufferstring(Instruction *instr);
   void          _preparemsg(Instruction *instr);
   void          _checkattack(Instruction *instr);
+  void          _if(Instruction *instr);
   void          _branch(Instruction *instr);
 
 private:

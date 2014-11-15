@@ -132,7 +132,8 @@ void            Script::_subPrint(uint32_t ptr)
       if (!beg)
         beg = instr->offset;
       instr->print();
-      if (_cmds[instr->cmd].hook == &Script::_branch)
+      if (_cmds[instr->cmd].hook == &Script::_branch ||
+          _cmds[instr->cmd].hook == &Script::_if)
         _addrs.push(instr->args[instr->args.size() - 1]);
       ptr = instr->next;
     }
