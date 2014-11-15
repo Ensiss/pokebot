@@ -2,6 +2,7 @@
 
 Data::Data()
   : _ows((OverWorld *) gbaMem(0x02036E38)),
+    _mchoice((MultiChoice *) gbaMem(0x083E04B0)),
     _pteam(0x02024284),
     _eteam(0x0202402C),
     _battlers(0x02023BE4)

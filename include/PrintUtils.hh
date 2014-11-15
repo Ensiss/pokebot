@@ -17,5 +17,6 @@ void		printMessageBoxes(int offsetx = 0, int offsety = 0);
 void		printString(uint32_t addr, uint32_t size);
 void		searchString(uint32_t start, uint32_t size, const char *m);
 void		printWildPokemons(Data &data);
+void            printMultiChoices(Data &data);
 
 #endif

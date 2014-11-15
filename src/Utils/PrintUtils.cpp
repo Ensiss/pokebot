@@ -172,3 +172,20 @@ void		searchString(uint32_t start, uint32_t size, const char *m)
 	printString(start + j - 10, 50);
     }
 }
+
+void            printMultiChoices(Data &data)
+{
+  for (uint8_t mc = 0; mc <= 0x40; mc++)
+    {
+      const MultiChoice &choice = data.multiChoice(mc);
+      printf("Choice #%d\n", mc);
+      for (int stri = 0; stri < choice.getNbChoices(); stri++)
+        {
+          uint8_t *d = (uint8_t *) gbaMem(choice.getChoicePtr(stri));
+          printf("\t");
+          for (uint32_t i = 0; d[i] != 0xFF; i++)
+            printf("%c", pokeCharsetToAscii(d[i]));
+          printf("\n");
+        }
+    }
+}

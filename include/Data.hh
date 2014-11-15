@@ -13,6 +13,7 @@
 #include	"BagMenu.hh"
 #include	"BattleMenu.hh"
 #include	"OverWorld.hh"
+#include        "MultiChoice.hh"
 #include	"IPokeData.hh"
 
 struct		Range
@@ -51,6 +52,8 @@ public:
 
   const OverWorld	*overWorlds() const { return (_ows); }
   const OverWorld	&overWorld(uint8_t i) const { return (_ows[(i < 16) * i]); }
+  const MultiChoice	*multiChoices() const { return (_mchoice); }
+  const MultiChoice	&multiChoice(uint8_t i) const { return (_mchoice[(i <= 0x40) * i]); }
 
   float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
   float		typeEffectiveness(const Move &m, const Species &s) const;
@@ -87,6 +90,7 @@ private:
   BagMenu		_bagMenu;
   BattleMenu		_battleMenu;
   OverWorld		*_ows;
+  MultiChoice           *_mchoice;
   // Manual
   Player	_player;
   Team		_pteam;
