@@ -44,10 +44,16 @@ public:
     std::string str;
     Args        args;
     TypeList    types;
+    uint8_t     toVisit; // bit field storing what parts of the branch was visited
 
     Instruction(uint32_t p_off, uint8_t *p_mem)
-      : offset(p_off), bytecode(p_mem + p_off), length(1), cmd(*bytecode), str("")
+      : offset(p_off), bytecode(p_mem + p_off), length(1), cmd(*bytecode), str(""),
+        toVisit((cmd == 0x06 || cmd == 0x07) * 3)
     {}
+    bool        notVisited(bool result)
+    { return (toVisit & (1 << result)); }
+    void        visit(bool result)
+    { toVisit &= ~(1 << result); }
     void        print()
     {
       printf("%#08x: ", offset);

@@ -69,6 +69,7 @@ public:
 
 public:
   void          exec(Script &script);
+  int           execCountNewVisits(Script &script);
 
 public:
   bool          getFlag(uint16_t flag) const { return (_ctx.getFlag(flag)); }
