@@ -78,16 +78,6 @@ public:
     void        (Script::*hook)(Instruction *);
   };
 
-  struct        CtrlPoint
-  {
-    uint32_t    addr;
-    std::list<CtrlPoint> children;
-
-    CtrlPoint(uint32_t ptr = 0)
-      : addr(ptr) {}
-    CtrlPoint   &addChild(uint32_t ptr) { children.push_back(CtrlPoint(ptr)); return (children.back()); }
-  };
-
 public:
   Script();
   ~Script();
@@ -96,7 +86,6 @@ public:
   void		load(uint32_t ptr);
   void		loadStd(uint8_t n);
   void		print();
-  void          printConditionTree();
 
 public:
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
@@ -107,9 +96,6 @@ private:
   void		_reset();
   bool		_setupNextAddr();
   void          _getInstruction(Command &cmd);
-  void          _searchConditionTree();
-  void          _recCondTree(CtrlPoint &tree, uint32_t pc, int indent);
-  void          _recPrintCondTree(CtrlPoint &pt, int indent);
 
 private:
   uint32_t	_readByte();
@@ -130,7 +116,6 @@ private:
   uint8_t		*_ptr;
   uint32_t		_pc;
   uint32_t		_oldpc;
-  CtrlPoint             _ctrlPt;
   std::vector<Range>	_ranges;
   std::queue<uint32_t>	_addrs;
   std::map<int, Instruction *>  _instructions;
