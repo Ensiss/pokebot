@@ -1,7 +1,13 @@
 #include	"Action/MoveTo.hh"
 
 Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
-  : _owInit(false), _tx(x), _ty(y), _path(NULL)
+  : _owInit(false), _tx(x), _ty(y), _tid(-1), _path(NULL)
+{
+  addListener("onFrame", &Action::MoveTo::_checkNPCMovement);
+}
+
+Action::MoveTo::MoveTo(uint8_t tid)
+  : _owInit(false), _tx(0), _ty(0), _tid(tid), _path(NULL)
 {
   addListener("onFrame", &Action::MoveTo::_checkNPCMovement);
 }
@@ -41,11 +47,41 @@ void		Action::MoveTo::_releaseKeys()
     sdlSetButton((EKey) i, false);
 }
 
+void            Action::MoveTo::_updateTargetPos()
+{
+  if (_tid == -1)
+    return;
+
+  const OverWorld	*ows = _data.overWorlds();
+  Player	&p = _data.player();
+  World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+
+  for (int i = 1; i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
+    {
+      if (ows[i].getEventNb() == _tid)
+        {
+          _tx = ows[i].getDestX();
+          _ty = ows[i].getDestY();
+          return;
+        }
+    }
+  for (int i = 0; i < m.nbPersons; i++)
+    {
+      if (m.persons[i].evtNb == _tid)
+        {
+          _tx = m.persons[i].x;
+          _ty = m.persons[i].y;
+          return;
+        }
+    }
+}
+
 void		Action::MoveTo::_init()
 {
   Player	&p = _data.player();
   PathFinder	finder(_data.world()[p.getBank()][p.getMap()]);
 
+  _updateTargetPos();
   _pathi = 1;
   if (_path)
     {
@@ -59,7 +95,7 @@ void		Action::MoveTo::_init()
       _state = Action::FINISHED;
       return;
     }
-  _path = finder.search(p.getX(), p.getY(), _tx, _ty);
+  _path = finder.search(p.getX(), p.getY(), _tx, _ty, _tid != -1);
   _state = _path ? Action::RUNNING : Action::ERROR;
 }
 

@@ -14,7 +14,7 @@ public:
   ~PathFinder();
 
 public:
-  World::Path	*search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye);
+  World::Path	*search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye, uint8_t dist = 0);
 
 protected:
   int		_getNextIndex(World::Path *set);

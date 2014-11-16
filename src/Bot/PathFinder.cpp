@@ -72,7 +72,7 @@ uint8_t		PathFinder::_getMovementCost(World::Map::Node &next)
   return (10);
 }
 
-World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye)
+World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye, uint8_t dist)
 {
   World::Path		openset;
   World::Path		closedset;
@@ -84,7 +84,7 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
       int		i = _getNextIndex(&openset);
       World::Map::Node*	curr = openset[i];
       openset.erase(openset.begin() + i);
-      if (curr->x == xe && curr->y == ye)
+      if (abs(curr->x - xe) + abs(curr->y - ye) == dist)
         return (_rebuildPath(new World::Path, curr));
       closedset.push_back(curr);
       for (int i = 0; i < 4; i++)

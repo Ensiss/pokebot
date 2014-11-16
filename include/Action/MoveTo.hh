@@ -15,12 +15,12 @@ namespace	Action
   {
   public:
     MoveTo(uint16_t x, uint16_t y);
+    MoveTo(uint8_t tid);
     ~MoveTo();
 
   private:
     void	_init();
     void	_update();
-    void	_test();
 
   public:
     void	addListener(const std::string &signal, void (Action::MoveTo::*listener)());
@@ -29,12 +29,14 @@ namespace	Action
   private:
     void	_releaseKeys();
     void	_checkNPCMovement();
+    void        _updateTargetPos();
 
   private:
     OverWorld	_oldow[16];
     bool	_owInit;
     uint16_t	_tx;
     uint16_t	_ty;
+    int         _tid;
     uint16_t	_oldx;
     uint16_t	_oldy;
     World::Path	*_path;
