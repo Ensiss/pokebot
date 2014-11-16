@@ -120,7 +120,7 @@ VM::Executer VM::_executers[0xD6] = {
   /* 6B */ NULL,
   /* 6C */ NULL,
   /* 6D */ NULL,
-  /* 6E */ NULL,
+  /* 6E */ &VM::_yesnobox,
   /* 6F */ &VM::_multichoice,
   /* 70 */ &VM::_multichoice,
   /* 71 */ &VM::_multichoice,
@@ -272,19 +272,33 @@ void            VM::_if2(Script::Instruction *instr)
     }
 }
 
+void            VM::_yesnobox(Script::Instruction *instr)
+{
+  // "No" answer in current context
+  _ctx.cpts.choices.push_back(0);
+  setVar(VM_LASTRESULT, 0);
+  // "Yes" anwser in another context
+  Context   *ctx = _saveContext();
+  ctx->cpts.choices.push_back(1);
+  ctx->setVar(VM_LASTRESULT, 1);
+}
+
 void            VM::_multichoice(Script::Instruction *instr)
 {
   Data          &data = *Action::data;
   uint8_t       nchoices = data.multiChoice(instr->args[2]).getNbChoices();
 
+  // Try the first choice in the current context
   _ctx.cpts.choices.push_back(0);
   setVar(VM_LASTRESULT, 0);
+  // Contexts for every other choice
   for (uint8_t i = 1; i < nchoices; i++)
     {
       Context   *ctx = _saveContext();
       ctx->cpts.choices.push_back(i);
       ctx->setVar(VM_LASTRESULT, i);
     }
+  // Context for B button back out
   if (instr->args[instr->args.size() - 1] != 0)
     {
       Context   *ctx = _saveContext();
