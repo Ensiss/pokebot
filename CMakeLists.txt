@@ -196,6 +196,7 @@ SET(SRC_MAIN
 
     src/Action/AAction.cpp
     src/Action/MoveTo.cpp
+    src/Action/TalkTo.cpp
     src/Action/Battle.cpp
     src/Action/MoveCursor.cpp
     src/Action/PressButton.cpp

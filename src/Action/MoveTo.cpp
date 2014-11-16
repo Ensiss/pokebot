@@ -101,10 +101,13 @@ void		Action::MoveTo::_init()
 
 void		Action::MoveTo::_update()
 {
+  const OverWorld       &ow = _data.overWorld(0);
   Player	&p = _data.player();
   bool		moved = _oldx != p.getX() || _oldy != p.getY();
+  World::Map::Node      *end = (*_path)[_path->size() - 1];
 
-  if (_path && _pathi == _path->size() && moved)
+  if (_path && _pathi == _path->size() &&
+      ow.getCurrX() == end->x && ow.getCurrY() == end->y)
     {
       _state = Action::FINISHED;
       _releaseKeys();
