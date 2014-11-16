@@ -121,9 +121,9 @@ VM::Executer VM::_executers[0xD6] = {
   /* 6C */ NULL,
   /* 6D */ NULL,
   /* 6E */ NULL,
-  /* 6F */ NULL,
-  /* 70 */ NULL,
-  /* 71 */ NULL,
+  /* 6F */ &VM::_multichoice,
+  /* 70 */ &VM::_multichoice,
+  /* 71 */ &VM::_multichoice,
   /* 72 */ NULL,
   /* 73 */ NULL,
   /* 74 */ NULL,
@@ -269,5 +269,26 @@ void            VM::_if2(Script::Instruction *instr)
     {
       _ctx.pushStack(instr->next);
       _ctx.pc = instr->args[1];
+    }
+}
+
+void            VM::_multichoice(Script::Instruction *instr)
+{
+  Data          &data = *Action::data;
+  uint8_t       nchoices = data.multiChoice(instr->args[2]).getNbChoices();
+
+  _ctx.cpts.choices.push_back(0);
+  setVar(VM_LASTRESULT, 0);
+  for (uint8_t i = 1; i < nchoices; i++)
+    {
+      Context   *ctx = _saveContext();
+      ctx->cpts.choices.push_back(i);
+      ctx->setVar(VM_LASTRESULT, i);
+    }
+  if (instr->args[instr->args.size() - 1] != 0)
+    {
+      Context   *ctx = _saveContext();
+      ctx->cpts.choices.push_back(0x7F);
+      ctx->setVar(VM_LASTRESULT, 0x7F);
     }
 }

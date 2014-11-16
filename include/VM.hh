@@ -6,6 +6,7 @@
 #include        <cstring>
 #include        <functional>
 #include        "Script.hh"
+#include        "Action/AAction.hh"
 
 #define         VM_FLAGS        0x900
 #define         VM_VARS         0x100
@@ -90,7 +91,7 @@ public:
 private:
   void          _compare(uint32_t a, uint32_t b) { _ctx.compare(a, b); }
   void          _compare8(uint8_t a, uint8_t b) { _ctx.compare(a, b); }
-  void          _saveContext() { _states.push(new Context(_ctx)); }
+  Context       *_saveContext() { _states.push(new Context(_ctx)); return (_states.back()); }
   bool          _restoreContext();
 
 private:
@@ -99,6 +100,7 @@ private:
   void          _goto(Script::Instruction *instr);
   void          _if1(Script::Instruction *instr);
   void          _if2(Script::Instruction *instr);
+  void          _multichoice(Script::Instruction *instr);
 
   void          _loadpointer(Script::Instruction *instr)
   { setBank(instr->args[0], instr->args[1]); }
@@ -145,7 +147,7 @@ private:
 
 private:
   Context               _ctx;
-  std::stack<Context *> _states;
+  std::queue<Context *> _states;
 
   static Executer       _executers[0xD6];
   static std::function<bool(uint32_t, uint32_t)>  _cmpOp[6];

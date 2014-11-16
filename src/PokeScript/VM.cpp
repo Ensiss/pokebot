@@ -15,7 +15,7 @@ bool            VM::_restoreContext()
 
   if (!_states.size())
     return (false);
-  saved = _states.top();
+  saved = _states.front();
   _ctx = *saved;
   delete saved;
   _states.pop();
@@ -43,6 +43,7 @@ std::vector<VM::ChoicePts>      *VM::execCountNewVisits(Script &script)
   _ctx.update();
   _ctx.pc = script.getStartOffset();
   do {
+    printf("\n\nLoaded context @0x%08x\n", _ctx.pc);
     while (_ctx.pc)
       {
         Script::Instruction *instr = instMap[_ctx.pc];
