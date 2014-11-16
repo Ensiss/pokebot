@@ -34,31 +34,34 @@ bool            VM::_restoreContext()
    @param       The script to execute
    @return      The number of visited key points
  */
-int             VM::execCountNewVisits(Script &script)
+std::vector<VM::ChoicePts>      *VM::execCountNewVisits(Script &script)
 {
-  int           pts = 0;
+  std::map<int, Script::Instruction *>  &instMap = script.getInstructions();
+  std::vector<ChoicePts>                *cpts = new std::vector<ChoicePts>();
   uint32_t      oldpc;
-  std::map<int, Script::Instruction *> &instMap = script.getInstructions();
 
-  _ctx.clearStack();
+  _ctx.update();
   _ctx.pc = script.getStartOffset();
-  while (_ctx.pc)
-    {
-      Script::Instruction *instr = instMap[_ctx.pc];
-      oldpc = _ctx.pc = instr->next;
-      if (_executers[instr->cmd])
-        {
-          printf("\t\t");
-          (this->*_executers[instr->cmd])(instr);
-        }
-      if (instr->cmd == 0x06 || instr->cmd == 0x07)
-        {
-          if (instr->notVisited(oldpc != _ctx.pc))
-            pts++;
-        }
-      printf("%s\n", instr->str.c_str());
-    }
-  return (pts);
+  do {
+    while (_ctx.pc)
+      {
+        Script::Instruction *instr = instMap[_ctx.pc];
+        oldpc = _ctx.pc = instr->next;
+        if (_executers[instr->cmd])
+          {
+            printf("\t\t");
+            (this->*_executers[instr->cmd])(instr);
+          }
+        if (instr->cmd == 0x06 || instr->cmd == 0x07)
+          {
+            if (instr->notVisited(oldpc != _ctx.pc))
+              _ctx.cpts.pts++;
+          }
+        printf("%s\n", instr->str.c_str());
+      }
+    cpts->push_back(_ctx.cpts);
+  } while (_restoreContext());
+  return (cpts);
 }
 
 /**

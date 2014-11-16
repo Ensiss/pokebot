@@ -12,10 +12,12 @@ VM::Context::Context(const Context &ctx)
 
 VM::Context     &VM::Context::operator=(const Context &ctx)
 {
+  cpts.choices = ctx.cpts.choices;
   stack = ctx.stack;
   pc = ctx.pc;
   cmp1 = ctx.cmp1;
   cmp2 = ctx.cmp2;
+  cpts.pts = ctx.cpts.pts;
   memcpy(_flags, ctx._flags, sizeof(_flags));
   memcpy(_vars, ctx._vars, sizeof(_vars));
   memcpy(_temp, ctx._temp, sizeof(_temp));
@@ -33,6 +35,9 @@ void            VM::Context::update()
   memcpy(_vars, vars, sizeof(_vars));
   memset(_temp, 0, sizeof(_temp));
   memset(_banks, 0, sizeof(_banks));
+  cpts.pts = 0;
+  cpts.choices.clear();
+  clearStack();
 }
 
 bool            VM::Context::getFlag(uint16_t id) const

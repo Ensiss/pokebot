@@ -26,6 +26,13 @@
 
 class           VM
 {
+public:
+  struct        ChoicePts
+  {
+    std::vector<uint8_t> choices;
+    uint8_t     pts;
+  };
+
 private:
   class         Context
   {
@@ -58,6 +65,7 @@ private:
     uint32_t    pc;
     uint32_t    cmp1;
     uint32_t    cmp2;
+    ChoicePts   cpts;
   };
 
 public:
@@ -69,7 +77,7 @@ public:
 
 public:
   void          exec(Script &script);
-  int           execCountNewVisits(Script &script);
+  std::vector<ChoicePts>        *execCountNewVisits(Script &script);
 
 public:
   bool          getFlag(uint16_t flag) const { return (_ctx.getFlag(flag)); }
