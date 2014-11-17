@@ -5,6 +5,7 @@
 #include	"AAction.hh"
 #include        "PressButton.hh"
 #include        "Wait.hh"
+#include        "MoveTo.hh"
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/sdl/SDLGlobals.h"
@@ -20,6 +21,7 @@ namespace	Action
   private:
     void	_init();
     void	_update();
+    void        _turnToOW();
 
   private:
     uint8_t     _pid;

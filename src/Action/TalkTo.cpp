@@ -9,13 +9,14 @@ Action::TalkTo::~TalkTo()
 {
 }
 
-void		Action::TalkTo::_init()
+void            Action::TalkTo::_turnToOW()
 {
   const OverWorld	*ows = _data.overWorlds();
   Player	&p = _data.player();
   World::Map    &m = _data.world()[p.getBank()][p.getMap()];
   uint16_t      tx, ty, px, py;
   bool          found = false;
+  EKey          dirKey[4] = {KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT};
 
   for (int i = 1; !found && i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
     {
@@ -44,18 +45,20 @@ void		Action::TalkTo::_init()
     }
   _dir = (py < ty ? 1 : py > ty ? 2 :
           px > tx ? 3 : 4);
-  if (ows[0].getDir() == _dir)
-    _dir = 0;
+  if (ows[0].getDir() != _dir)
+    queue(new Action::PressButton(dirKey[_dir - 1]));
+}
+
+void		Action::TalkTo::_init()
+{
+  queue(new Action::MoveTo(_pid));
 }
 
 void		Action::TalkTo::_update()
 {
-  EKey          dirKey[4] = {KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT};
-
   if (_first)
     {
-      if (_dir)
-        queue(new Action::PressButton(dirKey[_dir - 1]));
+      _turnToOW();
       queue(new Action::PressButton(KEY_BUTTON_A));
       _first = false;
     }
