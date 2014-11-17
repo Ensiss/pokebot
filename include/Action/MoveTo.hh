@@ -14,7 +14,7 @@ namespace	Action
   class		MoveTo : public AAction
   {
   public:
-    MoveTo(uint16_t x, uint16_t y);
+    MoveTo(uint16_t x, uint16_t y, bool allowApprox = false);
     MoveTo(uint8_t tid);
     ~MoveTo();
 
@@ -34,6 +34,7 @@ namespace	Action
   private:
     OverWorld	_oldow[16];
     bool	_owInit;
+    bool        _approx;
     uint16_t	_tx;
     uint16_t	_ty;
     int         _tid;

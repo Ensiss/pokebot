@@ -1,13 +1,13 @@
 #include	"Action/MoveTo.hh"
 
-Action::MoveTo::MoveTo(uint16_t x, uint16_t y)
-  : _owInit(false), _tx(x), _ty(y), _tid(-1), _path(NULL)
+Action::MoveTo::MoveTo(uint16_t x, uint16_t y, bool allowApprox)
+  : _owInit(false), _approx(allowApprox), _tx(x), _ty(y), _tid(-1), _path(NULL)
 {
   addListener("onFrame", &Action::MoveTo::_checkNPCMovement);
 }
 
 Action::MoveTo::MoveTo(uint8_t tid)
-  : _owInit(false), _tx(0), _ty(0), _tid(tid), _path(NULL)
+  : _owInit(false), _approx(true), _tx(0), _ty(0), _tid(tid), _path(NULL)
 {
   addListener("onFrame", &Action::MoveTo::_checkNPCMovement);
 }
@@ -95,26 +95,26 @@ void		Action::MoveTo::_init()
       _state = Action::FINISHED;
       return;
     }
-  _path = finder.search(p.getX(), p.getY(), _tx, _ty, _tid != -1);
+  _path = finder.search(p.getX(), p.getY(), _tx, _ty, _approx);
   _state = _path ? Action::RUNNING : Action::ERROR;
 }
 
 void		Action::MoveTo::_update()
 {
   const OverWorld       &ow = _data.overWorld(0);
+  World::Map::Node      *end = (*_path)[_path->size() - 1];
   Player	&p = _data.player();
   bool		moved = _oldx != p.getX() || _oldy != p.getY();
-  World::Map::Node      *end = (*_path)[_path->size() - 1];
 
   if (_path && _pathi == _path->size() &&
       ow.getCurrX() == end->x && ow.getCurrY() == end->y)
     {
       _state = Action::FINISHED;
-      _releaseKeys();
       delete _path;
       _path = NULL;
     }
-  else if (_path && _pathi < _path->size() && (_pathi == 1 || moved))
+  else if (_path && _pathi < _path->size() && (_pathi == 1 || moved) &&
+           (ow.getDestX() != end->x || ow.getDestY() != end->y))
     {
       int	dx = (*_path)[_pathi]->x - p.getX();
       int	dy = (*_path)[_pathi]->y - p.getY();
@@ -127,8 +127,10 @@ void		Action::MoveTo::_update()
 	k = dx < 0 ? KEY_LEFT : KEY_RIGHT;
       sdlSetButton(k, true);
       _pathi++;
+      printf("Pressing button\n");
     }
-
+  if (ow.getDestX() == end->x && ow.getDestY() == end->y)
+    _releaseKeys();
   _oldx = p.getX();
   _oldy = p.getY();
 }
