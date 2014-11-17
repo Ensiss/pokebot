@@ -57,6 +57,7 @@ void		Action::UseWarp::_update()
         {
           queue(new Action::PressButton(key));
           queue(new Action::PressButton(key));
+          queue(new Action::Wait(100));
         }
     }
   else
