@@ -20,7 +20,7 @@ namespace	Action
     void	_update();
 
   private:
-    bool	_first;
+    int         _i;
     EKey	_key;
   };
 };

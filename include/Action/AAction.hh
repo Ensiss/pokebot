@@ -7,6 +7,7 @@
 #include	<string>
 #include	<functional>
 #include	"Data.hh"
+#include	"../vbam/sdl/SDLGlobals.h"
 
 namespace	Action
 {

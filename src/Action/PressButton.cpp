@@ -11,19 +11,20 @@ Action::PressButton::~PressButton()
 
 void		Action::PressButton::_init()
 {
-  _first = true;
+  _i = 0;
 }
 
 void		Action::PressButton::_update()
 {
-  for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
-    if (i != KEY_BUTTON_SPEED)
-      sdlSetButton((EKey) i, false);
-  if (_first)
+  if (!_i)
     {
-      _first = false;
-      return;
+      for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
+        if (i != KEY_BUTTON_SPEED)
+          sdlSetButton((EKey) i, false);
     }
-  sdlSetButton(_key, true);
-  _state = Action::FINISHED;
+  else if (_i == 1)
+    sdlSetButton(_key, true);
+  else
+    _state = Action::FINISHED;
+  _i++;
 }

@@ -55,6 +55,8 @@ void		Bot::update()
       _state = _action->getState();
       if (_state > Action::RUNNING)
 	{
+          for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
+            sdlSetButton((EKey) i, false);
 	  delete _action;
 	  _action = NULL;
 	}

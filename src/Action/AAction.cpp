@@ -28,6 +28,8 @@ Action::State	AAction::update()
       _actions.front()->update();
       if (_actions.front()->getState() > Action::RUNNING)
 	{
+          for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
+            sdlSetButton((EKey) i, false);
 	  delete _actions.front();
 	  _actions.pop();
 	  if (!_actions.size())
