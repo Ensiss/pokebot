@@ -127,7 +127,6 @@ void		Action::MoveTo::_update()
 	k = dx < 0 ? KEY_LEFT : KEY_RIGHT;
       sdlSetButton(k, true);
       _pathi++;
-      printf("Pressing button\n");
     }
   if (ow.getDestX() == end->x && ow.getDestY() == end->y)
     _releaseKeys();

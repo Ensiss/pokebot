@@ -1,6 +1,7 @@
 #ifndef         __ACTION_USEWARP_HH__
 #define         __ACTION_USEWARP_HH__
 
+#include        <map>
 #include	"Data.hh"
 #include	"AAction.hh"
 #include        "PressButton.hh"
@@ -26,8 +27,8 @@ namespace	Action
   private:
     uint8_t     _id;
     uint8_t     _i;
+    static std::map<uint16_t, EKey>     _behaviours;
   };
 };
-
 
 #endif
