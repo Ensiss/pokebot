@@ -1,12 +1,14 @@
 #include	"Action/TalkTo.hh"
 
 Action::TalkTo::TalkTo(uint8_t personId)
-  : _pid(personId), _dir(0), _first(true)
+  : _pid(personId), _dir(0), _first(true), _script(NULL)
 {
 }
 
 Action::TalkTo::~TalkTo()
 {
+  if (_script)
+    delete _script;
 }
 
 void            Action::TalkTo::_turnToOW()
@@ -53,6 +55,50 @@ void		Action::TalkTo::_init()
   queue(new Action::MoveTo(_pid));
 }
 
+bool            Action::TalkTo::_loadScript()
+{
+  uint8_t       id = *((uint8_t *) gbaMem(0x03005074));
+  uint8_t       evtNb = _data.overWorld(id).getEventNb();
+  World::Map    &m = _data.world()[_data.player().getBank()][_data.player().getMap()];
+
+  for (int i = 0; i < m.nbPersons; i++)
+    {
+      if (m.persons[i].evtNb == evtNb)
+        {
+          _script = new Script();
+          _script->load(m.persons[i].scriptPtr);
+          return (true);
+        }
+    }
+  _state = Action::FINISHED;
+  return (false);
+}
+
+Script::Instruction     *Action::TalkTo::_searchCmd(std::map<int, Script::Instruction *> &map, uint32_t next)
+{
+  for (std::map<int, Script::Instruction *>::iterator it = map.begin(); it != map.end(); it++)
+    {
+      Script::Instruction *instr = (*it).second;
+
+      if (instr->next == next)
+        return (instr);
+    }
+  return (NULL);
+}
+
+Script::Instruction     *Action::TalkTo::_getCurrentCmd()
+{
+  uint32_t              next = *((uint32_t *) gbaMem(0x03000EB8));
+  Script::Instruction   *instr;
+
+  if ((instr = _searchCmd(_script->getInstructions(), next)))
+    return (instr);
+  for (int i = 0; i < 10; i++)
+    if ((instr = _searchCmd(Script::getStd(i).getInstructions(), next)))
+      return (instr);
+  return (NULL);
+}
+
 void		Action::TalkTo::_update()
 {
   if (_first)
@@ -63,7 +109,17 @@ void		Action::TalkTo::_update()
     }
   else
     {
-      sdlSetButton(KEY_BUTTON_A, false);
-      _state = Action::FINISHED;
+      // if no script is running
+      if (!*((uint8_t *) gbaMem(0x03000F9C)))
+        {
+          _state = Action::FINISHED;
+          return;
+        }
+      if (!_script && !_loadScript())
+        return;
+      Script::Instruction       *instr = _getCurrentCmd();
+      // if a message box is being drawn or waiting for key press
+      if (instr && (instr->cmd == 0x66 || instr->cmd == 0x6D))
+        queue(new Action::PressButton(KEY_BUTTON_A));
     }
 }
