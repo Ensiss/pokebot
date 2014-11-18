@@ -1,5 +1,7 @@
 #include	"Script.hh"
 
+Script Script::_std[10];
+
 Script::Script()
   : _data(*Action::data)
 {
@@ -88,7 +90,7 @@ void            Script::_getInstruction(Command &cmd)
   _instructions[instr->offset] = instr;
 }
 
-void		Script::load(uint32_t ptr)
+Script		&Script::load(uint32_t ptr)
 {
   uint8_t	id;
 
@@ -97,7 +99,7 @@ void		Script::load(uint32_t ptr)
   if (!ptr)
     {
       _addrs.pop();
-      return;
+      return (*this);
     }
   while (_setupNextAddr())
     {
@@ -113,11 +115,22 @@ void		Script::load(uint32_t ptr)
       while (id != 0x02 && id != 0x03 && _cmds[id].format != "");
       _ranges.push_back(Range(_start, _start + _pc));
     }
+  return (*this);
 }
 
-void		Script::loadStd(uint8_t n)
+Script		&Script::loadStd(uint8_t n)
 {
   load(((uint32_t *) gbaMem(0x08160450))[n]);
+  return (*this);
+}
+
+void            Script::initStd()
+{
+  static bool done = false;
+
+  for (int i = 0; i < 10 && !done; i++)
+    _std[i].loadStd(i);
+  done = true;
 }
 
 void            Script::_subPrint(uint32_t ptr)

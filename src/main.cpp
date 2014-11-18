@@ -7,11 +7,14 @@
 #include	"Data.hh"
 #include	"Action/AAction.hh"
 #include	"Action/MoveTo.hh"
+#include	"Action/TalkTo.hh"
+#include	"Action/UseWarp.hh"
 #include	"Action/Battle.hh"
 #include	"Script.hh"
 #include	"ThumbDisas.hh"
 #include	"PrintUtils.hh"
 #include	"Bot.hh"
+#include        "VM.hh"
 
 Data		*Action::data = NULL;
 
@@ -33,7 +36,7 @@ void		doLoop()
 	  data.update();
 	  bot.update();
 	  if (step == 900)
-	    bot.setBattleAction(new Action::Battle());
+            bot.setBattleAction(new Action::Battle());
 	  if (step % 20 == 0)
 	    {
 	      printf("\033[2J\033[0;0H");
@@ -56,6 +59,7 @@ int		main(int ac, char **av)
     }
   initVBAM(ac, av);
   Action::data = new Data();
+  Script::initStd();
   doLoop();
   destroyVBAM();
   return (0);

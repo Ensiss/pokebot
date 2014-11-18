@@ -89,9 +89,11 @@ public:
   ~Script();
 
 public:
-  void		load(uint32_t ptr);
-  void		loadStd(uint8_t n);
+  Script	&load(uint32_t ptr);
+  Script	&loadStd(uint8_t n);
   void		print();
+  static Script &getStd(uint8_t n) { return (_std[n * (n < 10)]); }
+  static void   initStd();
 
 public:
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
@@ -129,6 +131,7 @@ private:
 
   static Command	_cmds[0xD6];
   static std::map<std::string, ParamReader>     _readers;
+  static Script         _std[10];
 };
 
 #endif
