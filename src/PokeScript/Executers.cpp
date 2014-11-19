@@ -274,13 +274,13 @@ void            VM::_if2(Script::Instruction *instr)
 
 void            VM::_yesnobox(Script::Instruction *instr)
 {
-  // "No" answer in current context
-  _ctx.cpts.choices.push_back(0);
-  setVar(VM_LASTRESULT, 0);
   // "Yes" anwser in another context
   Context   *ctx = _saveContext();
   ctx->cpts.choices.push_back(1);
   ctx->setVar(VM_LASTRESULT, 1);
+  // "No" answer in current context
+  _ctx.cpts.choices.push_back(0);
+  setVar(VM_LASTRESULT, 0);
 }
 
 void            VM::_multichoice(Script::Instruction *instr)
@@ -288,9 +288,6 @@ void            VM::_multichoice(Script::Instruction *instr)
   Data          &data = *Action::data;
   uint8_t       nchoices = data.multiChoice(instr->args[2]).getNbChoices();
 
-  // Try the first choice in the current context
-  _ctx.cpts.choices.push_back(0);
-  setVar(VM_LASTRESULT, 0);
   // Contexts for every other choice
   for (uint8_t i = 1; i < nchoices; i++)
     {
@@ -305,4 +302,7 @@ void            VM::_multichoice(Script::Instruction *instr)
       ctx->cpts.choices.push_back(0x7F);
       ctx->setVar(VM_LASTRESULT, 0x7F);
     }
+  // Try the first choice in the current context
+  _ctx.cpts.choices.push_back(0);
+  setVar(VM_LASTRESULT, 0);
 }
