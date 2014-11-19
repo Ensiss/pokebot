@@ -1,7 +1,7 @@
 #include	"Action/TalkTo.hh"
 
 Action::TalkTo::TalkTo(uint8_t personId)
-  : _pid(personId), _dir(0), _first(true), _script(NULL)
+  : _pid(personId), _dir(0), _script(NULL)
 {
 }
 
@@ -101,11 +101,10 @@ Script::Instruction     *Action::TalkTo::_getCurrentCmd()
 
 void		Action::TalkTo::_update()
 {
-  if (_first)
+  if (!_getCounter())
     {
       _turnToOW();
       queue(new Action::PressButton(KEY_BUTTON_A));
-      _first = false;
     }
   else
     {

@@ -14,7 +14,7 @@ std::map<uint16_t, EKey>     Action::UseWarp::_behaviours = {
 };
 
 Action::UseWarp::UseWarp(uint8_t warpId)
-  : _id(warpId), _i(0)
+  : _id(warpId)
 {
 }
 
@@ -43,7 +43,7 @@ void		Action::UseWarp::_update()
   int           py = p.getY();
   EKey          key = (EKey) -1;
 
-  if (!_i)
+  if (!_getCounter())
     {
       if (px == tx && py == ty)
         {
@@ -62,5 +62,4 @@ void		Action::UseWarp::_update()
     }
   else
     _state = Action::FINISHED;
-  _i++;
 }

@@ -1,7 +1,7 @@
 #include	"Action/AAction.hh"
 
 AAction::AAction()
-  : _data(*Action::data), _state(Action::NOT_STARTED)
+  : _data(*Action::data), _state(Action::NOT_STARTED), _counter(0)
 {
   addListener("onInit", &AAction::_init);
   addListener("onUpdate", &AAction::_update);
@@ -22,7 +22,10 @@ Action::State	AAction::update()
     }
   emit("onFrame");
   if (_state == Action::RUNNING && !_actions.size())
-    emit("onUpdate");
+    {
+      emit("onUpdate");
+      _counter++;
+    }
   if (_state == Action::RUNNING && _actions.size())
     {
       _actions.front()->update();

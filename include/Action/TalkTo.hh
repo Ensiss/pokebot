@@ -30,7 +30,6 @@ namespace	Action
   private:
     uint8_t     _pid;
     uint8_t     _dir;
-    bool        _first;
     Script      *_script;
   };
 };

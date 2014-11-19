@@ -26,7 +26,6 @@ namespace	Action
 
   private:
     uint8_t     _id;
-    uint8_t     _i;
     static std::map<uint16_t, EKey>     _behaviours;
   };
 };

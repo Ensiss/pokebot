@@ -44,10 +44,15 @@ public:
   void		addListener(const std::string &signal, void (AAction::*listener)());
 
 protected:
+  uint32_t      _getCounter() const { return (_counter); }
+
+protected:
   Data			&_data;
   Action::State		_state;
   std::queue<AAction *>	_actions;
   std::map<std::string, std::vector<std::function<void (AAction *)> > >	_listeners;
+private:
+  uint32_t              _counter;
 };
 
 #endif
