@@ -1,7 +1,7 @@
 #include	"Action/TalkTo.hh"
 
-Action::TalkTo::TalkTo(uint8_t personId)
-  : _pid(personId), _dir(0), _script(NULL)
+Action::TalkTo::TalkTo(uint8_t personId, VM::ChoicePts *choices)
+  : _pid(personId), _dir(0), _script(NULL), _choices(choices), _choiceId(0)
 {
 }
 
@@ -94,6 +94,22 @@ Script::Instruction     *Action::TalkTo::_getCurrentCmd()
   return (NULL);
 }
 
+void            Action::TalkTo::_handleMultiChoice(Script::Instruction *instr)
+{
+  if (!_choices || _choiceId >= _choices->choices.size())
+    return;
+  int           res = _choices->choices[_choiceId];
+  if (res == 0x7F)
+    queue(new Action::PressButton(KEY_BUTTON_B));
+  else
+    {
+      while (--res >= 0)
+        queue(new Action::PressButton(KEY_DOWN));
+      queue(new Action::PressButton(KEY_BUTTON_A));
+    }
+  _choiceId++;
+}
+
 void		Action::TalkTo::_update()
 {
   if (!_getCounter())
@@ -114,6 +130,9 @@ void		Action::TalkTo::_update()
       Script::Instruction       *instr = _getCurrentCmd();
       // if a message box is being drawn or waiting for key press
       if (instr && (instr->cmd == 0x66 || instr->cmd == 0x6D))
-        queue(new Action::PressButton(KEY_BUTTON_A));
+        sdlSetButton(KEY_BUTTON_A, _getCounter() % 2);
+      // multichoice
+      else if (instr && (instr->cmd == 0x6F))
+        _handleMultiChoice(instr);
     }
 }

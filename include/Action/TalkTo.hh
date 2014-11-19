@@ -8,6 +8,7 @@
 #include        "MoveTo.hh"
 #include	"PokemonUtils.hh"
 #include        "Script.hh"
+#include        "VM.hh"
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/sdl/SDLGlobals.h"
 
@@ -16,7 +17,7 @@ namespace	Action
   class		TalkTo : public AAction
   {
   public:
-    TalkTo(uint8_t personId);
+    TalkTo(uint8_t personId, VM::ChoicePts *choices = NULL);
     ~TalkTo();
 
   private:
@@ -24,6 +25,7 @@ namespace	Action
     void	_update();
     void        _turnToOW();
     bool        _loadScript();
+    void        _handleMultiChoice(Script::Instruction *instr);
     Script::Instruction     *_searchCmd(std::map<int, Script::Instruction *> &map, uint32_t next);
     Script::Instruction     *_getCurrentCmd();
 
@@ -31,6 +33,8 @@ namespace	Action
     uint8_t     _pid;
     uint8_t     _dir;
     Script      *_script;
+    VM::ChoicePts       *_choices;
+    uint8_t             _choiceId;
   };
 };
 
