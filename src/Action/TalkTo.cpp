@@ -40,11 +40,6 @@ void            Action::TalkTo::_turnToOW()
     }
   px = p.getX();
   py = p.getY();
-  if (abs(tx - px) + abs(ty - py) != 1)
-    {
-      _state = Action::ERROR;
-      return;
-    }
   _dir = (py < ty ? 1 : py > ty ? 2 : px > tx ? 3 : 4);
   if (ows[0].getDir() != _dir)
     queue(new Action::PressButton(dirKey[_dir - 1]));

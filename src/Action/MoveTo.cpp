@@ -76,6 +76,27 @@ void            Action::MoveTo::_updateTargetPos()
     }
 }
 
+void            Action::MoveTo::_searchBehindBar()
+{
+  Player	&p = _data.player();
+  World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+
+  for (int i = 0; i < 4; i++)
+    {
+      int       x = _tx + !(i & 1) * (i - 1);
+      int       y = _ty + (i & 1) * (i - 2);
+      // Person is behind a bar
+      if (m.data[y][x].attr->behavior == 0x80)
+        {
+          _tx = x;
+          _ty = y;
+          _tid = -1;
+          _init();
+          return;
+        }
+    }
+}
+
 void		Action::MoveTo::_init()
 {
   Player	&p = _data.player();
@@ -96,6 +117,8 @@ void		Action::MoveTo::_init()
       return;
     }
   _path = finder.search(p.getX(), p.getY(), _tx, _ty, _approx);
+  if (!_path && _tid != -1)
+    _searchBehindBar();
   _state = _path ? Action::RUNNING : Action::ERROR;
 }
 

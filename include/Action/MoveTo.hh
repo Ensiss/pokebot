@@ -30,6 +30,7 @@ namespace	Action
     void	_releaseKeys();
     void	_checkNPCMovement();
     void        _updateTargetPos();
+    void        _searchBehindBar();
 
   private:
     OverWorld	_oldow[16];
