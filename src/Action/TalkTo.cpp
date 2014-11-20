@@ -47,7 +47,18 @@ void            Action::TalkTo::_turnToOW()
 
 void		Action::TalkTo::_init()
 {
-  queue(new Action::MoveTo(_pid));
+  World::Map    &m = _data.world()[_data.player().getBank()][_data.player().getMap()];
+
+  for (int i = 0; i < m.nbPersons; i++)
+    {
+      if (m.persons[i].evtNb == _pid)
+        {
+          queue(new Action::MoveTo(_pid));
+          return;
+        }
+    }
+  fprintf(stderr, "%d is not a valid person ID\n", _pid);
+  _state = Action::ERROR;
 }
 
 bool            Action::TalkTo::_loadScript()
@@ -115,6 +126,7 @@ void		Action::TalkTo::_update()
   if (!_getCounter())
     {
       _turnToOW();
+      queue(new Action::PressButton(KEY_BUTTON_A));
       queue(new Action::PressButton(KEY_BUTTON_A));
     }
   else
