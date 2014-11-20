@@ -32,6 +32,7 @@ namespace	Action
   private:
     uint8_t     _pid;
     uint8_t     _dir;
+    uint32_t    _oldNext;
     Script      *_script;
     VM::ChoicePts       *_choices;
     uint8_t             _choiceId;

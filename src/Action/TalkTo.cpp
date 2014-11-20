@@ -1,7 +1,7 @@
 #include	"Action/TalkTo.hh"
 
 Action::TalkTo::TalkTo(uint8_t personId, VM::ChoicePts *choices)
-  : _pid(personId), _dir(0), _script(NULL), _choices(choices), _choiceId(0)
+  : _pid(personId), _dir(0), _oldNext(0), _script(NULL), _choices(choices), _choiceId(0)
 {
 }
 
@@ -128,11 +128,28 @@ void		Action::TalkTo::_update()
       if (!_script && !_loadScript())
         return;
       Script::Instruction       *instr = _getCurrentCmd();
-      // if a message box is being drawn or waiting for key press
-      if (instr && (instr->cmd == 0x66 || instr->cmd == 0x6D))
-        sdlSetButton(KEY_BUTTON_A, _getCounter() % 2);
-      // multichoice
-      else if (instr && (instr->cmd == 0x6F))
-        _handleMultiChoice(instr);
+
+      if (instr)
+        {
+          if (instr->cmd == 0x66) // waitmsg
+            {
+              // Pointer to remaining string to display
+              uint32_t      ptr = *((uint32_t *) gbaMem(0x02020034));
+              // Last character displayed
+              uint8_t       chr = ((uint8_t *) gbaMem(ptr))[-1];
+              if (chr == 0xFA || chr == 0xFB)
+                queue(new Action::PressButton(KEY_BUTTON_A));
+            }
+          else if (instr->cmd == 0x6D || instr->cmd == 0x68) // waitkeypress/closeonkeypress
+            {
+              if (_oldNext != instr->next)
+                {
+                  queue(new Action::PressButton(KEY_BUTTON_A));
+                  _oldNext = instr->next;
+                }
+            }
+          else if (instr->cmd == 0x6F) // multichoice
+            _handleMultiChoice(instr);
+        }
     }
 }
