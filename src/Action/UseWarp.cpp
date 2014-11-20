@@ -26,6 +26,14 @@ void		Action::UseWarp::_init()
 {
   Player        &p = _data.player();
   World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+
+  if (_id >= m.nbWarps)
+    {
+      fprintf(stderr, "%d is not a valid warp ID\n", _id);
+      _state = Action::ERROR;
+      return;
+    }
+
   int           x = m.warps[_id].x;
   int           y = m.warps[_id].y;
   int           status = m.data[y][x].status;
