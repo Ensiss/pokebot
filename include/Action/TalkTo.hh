@@ -25,7 +25,9 @@ namespace	Action
     void	_update();
     void        _turnToOW();
     bool        _loadScript();
-    void        _handleMultiChoice(Script::Instruction *instr);
+    void        _handleMultiChoice();
+    void        _handleYesNo();
+
     Script::Instruction     *_searchCmd(std::map<int, Script::Instruction *> &map, uint32_t next);
     Script::Instruction     *_getCurrentCmd();
 

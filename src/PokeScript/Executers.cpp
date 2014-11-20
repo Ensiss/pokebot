@@ -19,7 +19,7 @@ VM::Executer VM::_executers[0xD6] = {
   /* 06 */ &VM::_if1,
   /* 07 */ &VM::_if2,
   /* 08 */ NULL,
-  /* 09 */ NULL,
+  /* 09 */ &VM::_callstd,
   /* 0A */ NULL,
   /* 0B */ NULL,
   /* 0C */ NULL,
@@ -272,14 +272,20 @@ void            VM::_if2(Script::Instruction *instr)
     }
 }
 
+void            VM::_callstd(Script::Instruction *instr)
+{
+  if (instr->args[0] == 0x05)
+    _yesnobox(NULL);
+}
+
 void            VM::_yesnobox(Script::Instruction *instr)
 {
   // "Yes" anwser in another context
   Context   *ctx = _saveContext();
-  ctx->cpts.choices.push_back(1);
+  ctx->cpts.choices.push_back(0);
   ctx->setVar(VM_LASTRESULT, 1);
   // "No" answer in current context
-  _ctx.cpts.choices.push_back(0);
+  _ctx.cpts.choices.push_back(1);
   setVar(VM_LASTRESULT, 0);
 }
 

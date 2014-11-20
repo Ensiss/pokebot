@@ -100,6 +100,7 @@ private:
   void          _goto(Script::Instruction *instr);
   void          _if1(Script::Instruction *instr);
   void          _if2(Script::Instruction *instr);
+  void          _callstd(Script::Instruction *instr);
   void          _yesnobox(Script::Instruction *instr);
   void          _multichoice(Script::Instruction *instr);
 

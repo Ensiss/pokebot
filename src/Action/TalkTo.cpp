@@ -105,11 +105,12 @@ Script::Instruction     *Action::TalkTo::_getCurrentCmd()
   return (NULL);
 }
 
-void            Action::TalkTo::_handleMultiChoice(Script::Instruction *instr)
+void            Action::TalkTo::_handleMultiChoice()
 {
   if (!_choices || _choiceId >= _choices->choices.size())
     return;
   int           res = _choices->choices[_choiceId];
+  queue(new Action::Wait(5));
   if (res == 0x7F)
     queue(new Action::PressButton(KEY_BUTTON_B));
   else
@@ -118,6 +119,16 @@ void            Action::TalkTo::_handleMultiChoice(Script::Instruction *instr)
         queue(new Action::PressButton(KEY_DOWN));
       queue(new Action::PressButton(KEY_BUTTON_A));
     }
+  _choiceId++;
+}
+
+void            Action::TalkTo::_handleYesNo()
+{
+  if (!_choices || _choiceId >= _choices->choices.size())
+    return;
+  int           res = _choices->choices[_choiceId];
+  queue(new Action::Wait(5));
+  queue(new Action::PressButton(res ? KEY_BUTTON_A : KEY_BUTTON_B));
   _choiceId++;
 }
 
@@ -161,7 +172,9 @@ void		Action::TalkTo::_update()
                 }
             }
           else if (instr->cmd == 0x6F) // multichoice
-            _handleMultiChoice(instr);
+            _handleMultiChoice();
+          else if (instr->cmd == 0x6E) // yesnobox
+            _handleYesNo();
         }
     }
 }
