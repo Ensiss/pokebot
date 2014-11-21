@@ -85,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classAAction-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -98,14 +99,14 @@ Inheritance diagram for AAction:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAAction__inherit__graph.png" border="0" usemap="#AAction_inherit__map" alt="Inheritance graph"/></div>
 <map name="AAction_inherit__map" id="AAction_inherit__map">
-<area shape="rect" id="node2" href="classAction_1_1Battle.html" title="{Action::Battle\n||+ Battle()\l+ ~Battle()\l}" alt="" coords="5,321,107,413"/><area shape="rect" id="node3" href="classAction_1_1MoveCursor.html" title="{Action::MoveCursor\n||+ MoveCursor()\l+ ~MoveCursor()\l}" alt="" coords="131,321,269,413"/><area shape="rect" id="node4" href="classAction_1_1MoveTo.html" title="{Action::MoveTo\n||+ MoveTo()\l+ ~MoveTo()\l+ addListener()\l+ getPath()\l}" alt="" coords="293,307,408,428"/><area shape="rect" id="node5" href="classAction_1_1PressButton.html" title="{Action::PressButton\n||+ PressButton()\l+ ~PressButton()\l}" alt="" coords="432,321,571,413"/><area shape="rect" id="node6" href="classAction_1_1Wait.html" title="{Action::Wait\n||+ Wait()\l+ Wait()\l+ ~Wait()\l}" alt="" coords="595,314,690,421"/></map>
+<area shape="rect" id="node2" href="classAction_1_1Battle.html" title="{Action::Battle\n||+ Battle()\l+ ~Battle()\l}" alt="" coords="5,343,107,435"/><area shape="rect" id="node3" href="classAction_1_1MoveCursor.html" title="{Action::MoveCursor\n||+ MoveCursor()\l+ ~MoveCursor()\l}" alt="" coords="131,343,269,435"/><area shape="rect" id="node4" href="classAction_1_1MoveTo.html" title="{Action::MoveTo\n||+ MoveTo()\l+ MoveTo()\l+ ~MoveTo()\l+ addListener()\l+ getPath()\l}" alt="" coords="293,321,408,457"/><area shape="rect" id="node5" href="classAction_1_1PressButton.html" title="{Action::PressButton\n||+ PressButton()\l+ ~PressButton()\l}" alt="" coords="432,343,571,435"/><area shape="rect" id="node6" href="classAction_1_1TalkTo.html" title="{Action::TalkTo\n||+ TalkTo()\l+ ~TalkTo()\l}" alt="" coords="595,343,701,435"/><area shape="rect" id="node7" href="classAction_1_1UseWarp.html" title="{Action::UseWarp\n||+ UseWarp()\l+ ~UseWarp()\l}" alt="" coords="725,343,848,435"/><area shape="rect" id="node8" href="classAction_1_1Wait.html" title="{Action::Wait\n||+ Wait()\l+ Wait()\l+ ~Wait()\l}" alt="" coords="873,336,967,443"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for AAction:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAAction__coll__graph.png" border="0" usemap="#AAction_coll__map" alt="Collaboration graph"/></div>
 <map name="AAction_coll__map" id="AAction_coll__map">
-<area shape="rect" id="node2" href="classData.html" title="{Data\n||+ Data()\l+ ~Data()\l+ update()\l+ speciesNames()\l+ speciesName()\l+ moves()\l+ move()\l+ types()\l+ type()\l+ isSpecial()\land 19 more...\l}" alt="" coords="5,5,135,229"/></map>
+<area shape="rect" id="node2" href="classData.html" title="{Data\n||+ Data()\l+ ~Data()\l+ update()\l+ speciesNames()\l+ speciesName()\l+ moves()\l+ move()\l+ types()\l+ type()\l+ isSpecial()\land 21 more...\l}" alt="" coords="5,5,135,229"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -130,6 +131,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7d73d2eb3f5dda043ab37074c90e81d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87374134b94811074bb453e539f080ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAAction.html#a87374134b94811074bb453e539f080ec">addListener</a> (const std::string &amp;signal, void(AAction::*listener)())</td></tr>
 <tr class="separator:a87374134b94811074bb453e539f080ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a91b1daf6981bcc6224aa9270dd9e4474"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAAction.html#a91b1daf6981bcc6224aa9270dd9e4474">_getCounter</a> () const </td></tr>
+<tr class="separator:a91b1daf6981bcc6224aa9270dd9e4474"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -184,6 +190,29 @@ std::vector&lt; std::function<br class="typebreak" />
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a91b1daf6981bcc6224aa9270dd9e4474"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t AAction::_getCounter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a7d73d2eb3f5dda043ab37074c90e81d3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -449,7 +478,7 @@ std::vector&lt; std::function<br class="typebreak" />
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 5 2014 13:22:01 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 21 2014 12:06:55 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

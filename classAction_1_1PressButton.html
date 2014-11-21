@@ -101,14 +101,14 @@ Inheritance diagram for Action::PressButton:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAction_1_1PressButton__inherit__graph.png" border="0" usemap="#Action_1_1PressButton_inherit__map" alt="Inheritance graph"/></div>
 <map name="Action_1_1PressButton_inherit__map" id="Action_1_1PressButton_inherit__map">
-<area shape="rect" id="node2" href="classAAction.html" title="{AAction\n|# _data\l# _state\l# _actions\l# _listeners\l|+ AAction()\l+ update()\l+ ~AAction()\l+ queue()\l+ reset()\l+ getState()\l+ setState()\l+ emit()\l+ addListener()\l+ addListener()\l}" alt="" coords="20,5,129,259"/></map>
+<area shape="rect" id="node2" href="classAAction.html" title="{AAction\n|# _data\l# _state\l# _actions\l# _listeners\l|+ AAction()\l+ update()\l+ ~AAction()\l+ queue()\l+ reset()\l+ getState()\l+ setState()\l+ emit()\l+ addListener()\l+ addListener()\l# _getCounter()\l}" alt="" coords="19,5,131,273"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for Action::PressButton:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAction_1_1PressButton__coll__graph.png" border="0" usemap="#Action_1_1PressButton_coll__map" alt="Collaboration graph"/></div>
 <map name="Action_1_1PressButton_coll__map" id="Action_1_1PressButton_coll__map">
-<area shape="rect" id="node2" href="classAAction.html" title="{AAction\n|# _state\l# _actions\l# _listeners\l|+ AAction()\l+ update()\l+ ~AAction()\l+ queue()\l+ reset()\l+ getState()\l+ setState()\l+ emit()\l+ addListener()\l+ addListener()\l}" alt="" coords="20,292,129,531"/><area shape="rect" id="node3" href="classData.html" title="{Data\n||+ Data()\l+ ~Data()\l+ update()\l+ speciesNames()\l+ speciesName()\l+ moves()\l+ move()\l+ types()\l+ type()\l+ isSpecial()\land 19 more...\l}" alt="" coords="10,5,139,229"/></map>
+<area shape="rect" id="node2" href="classAAction.html" title="{AAction\n|# _state\l# _actions\l# _listeners\l|+ AAction()\l+ update()\l+ ~AAction()\l+ queue()\l+ reset()\l+ getState()\l+ setState()\l+ emit()\l+ addListener()\l+ addListener()\l# _getCounter()\l}" alt="" coords="19,292,131,545"/><area shape="rect" id="node3" href="classData.html" title="{Data\n||+ Data()\l+ ~Data()\l+ update()\l+ speciesNames()\l+ speciesName()\l+ moves()\l+ move()\l+ types()\l+ type()\l+ isSpecial()\land 21 more...\l}" alt="" coords="10,5,139,229"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -141,6 +141,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_classAAction"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classAAction')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classAAction.html">AAction</a></td></tr>
+<tr class="memitem:a91b1daf6981bcc6224aa9270dd9e4474 inherit pro_methods_classAAction"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAAction.html#a91b1daf6981bcc6224aa9270dd9e4474">_getCounter</a> () const </td></tr>
+<tr class="separator:a91b1daf6981bcc6224aa9270dd9e4474 inherit pro_methods_classAAction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classAAction"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classAAction')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classAAction.html">AAction</a></td></tr>
 <tr class="memitem:a3b7ee48b4dc7254898c46dfaf51f25e9 inherit pro_attribs_classAAction"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classData.html">Data</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAAction.html#a3b7ee48b4dc7254898c46dfaf51f25e9">_data</a></td></tr>
 <tr class="separator:a3b7ee48b4dc7254898c46dfaf51f25e9 inherit pro_attribs_classAAction"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,6 +170,14 @@ std::vector&lt; std::function<br class="typebreak" />
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Press a key</p>
+<p>This action releases all keys, and the presses the specifies key</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key to press </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -192,7 +203,7 @@ std::vector&lt; std::function<br class="typebreak" />
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 5 2014 13:22:01 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 21 2014 12:06:55 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

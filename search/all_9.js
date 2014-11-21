@@ -1,6 +1,9 @@
 var searchData=
 [
   ['inbattle',['inBattle',['../classData.html#aa8b3cade0537b3de367cf2330adb3d7e',1,'Data']]],
+  ['initstd',['initStd',['../classScript.html#a6ea22f80acc6335d4bc709e4b2054e07',1,'Script']]],
+  ['instruction',['Instruction',['../structScript_1_1Instruction.html',1,'Script']]],
+  ['instruction',['Instruction',['../structScript_1_1Instruction.html#a3e087a2033955766b16e00ca7f1f822d',1,'Script::Instruction']]],
   ['ipokedata',['IPokeData',['../classIPokeData.html',1,'']]],
   ['ipokedata_2ehh',['IPokeData.hh',['../IPokeData_8hh.html',1,'']]],
   ['iram_5foffset',['IRAM_OFFSET',['../PokemonUtils_8hh.html#a531ed9fd20f439d3e123fbe5d8d69f79',1,'PokemonUtils.hh']]],

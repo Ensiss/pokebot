@@ -105,13 +105,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classAction_1_1MoveTo.html">   14</a></span>&#160;  <span class="keyword">class     </span><a class="code" href="classAction_1_1MoveTo.html">MoveTo</a> : <span class="keyword">public</span> <a class="code" href="classAAction.html">AAction</a></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classAction_1_1MoveTo.html#a223d712be87651f5139ec6f3e612f71f">MoveTo</a>(uint16_t x, uint16_t y);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classAction_1_1MoveTo.html#a5314a48f95fa69f6027d6cca2a744aba">~MoveTo</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span>    _init();</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span>    _update();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span>    _test();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classAction_1_1MoveTo.html#ae9c319ea8a6af9447dcbe4671afc91ae">MoveTo</a>(uint16_t x, uint16_t y, <span class="keywordtype">bool</span> allowApprox = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classAction_1_1MoveTo.html#ae9c319ea8a6af9447dcbe4671afc91ae">MoveTo</a>(uint8_t tid);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classAction_1_1MoveTo.html#a5314a48f95fa69f6027d6cca2a744aba">~MoveTo</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span>    _init();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span>    _update();</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span>    <a class="code" href="classAction_1_1MoveTo.html#aa462d48277ded78fced133ed6534d619">addListener</a>(<span class="keyword">const</span> std::string &amp;signal, <span class="keywordtype">void</span> (<a class="code" href="classAction_1_1MoveTo.html">Action::MoveTo</a>::*listener)());</div>
@@ -120,37 +120,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span>    _releaseKeys();</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span>    _checkNPCMovement();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classOverWorld.html">OverWorld</a>   _oldow[16];</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span>    _owInit;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    uint16_t    _tx;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    uint16_t    _ty;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint16_t    _oldx;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    uint16_t    _oldy;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a> *_path;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    uint8_t _pathi;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  };</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span>        _updateTargetPos();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span>        _searchBehindBar();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classOverWorld.html">OverWorld</a>   _oldow[16];</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">bool</span>    _owInit;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">bool</span>        _approx;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    uint16_t    _tx;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    uint16_t    _ty;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span>         _tid;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    uint16_t    _oldx;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    uint16_t    _oldy;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a> *_path;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    uint8_t _pathi;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  };</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classAction_1_1MoveTo_html"><div class="ttname"><a href="classAction_1_1MoveTo.html">Action::MoveTo</a></div><div class="ttdef"><b>Definition:</b> MoveTo.hh:14</div></div>
 <div class="ttc" id="PokemonUtils_8hh_html"><div class="ttname"><a href="PokemonUtils_8hh.html">PokemonUtils.hh</a></div></div>
 <div class="ttc" id="PathFinder_8hh_html"><div class="ttname"><a href="PathFinder_8hh.html">PathFinder.hh</a></div></div>
 <div class="ttc" id="AAction_8hh_html"><div class="ttname"><a href="AAction_8hh.html">AAction.hh</a></div></div>
 <div class="ttc" id="classAction_1_1MoveTo_html_a00e058a428a101cb92fb88c387a61fa8"><div class="ttname"><a href="classAction_1_1MoveTo.html#a00e058a428a101cb92fb88c387a61fa8">Action::MoveTo::getPath</a></div><div class="ttdeci">World::Path * getPath() const </div><div class="ttdef"><b>Definition:</b> MoveTo.hh:27</div></div>
-<div class="ttc" id="namespaceAction_html"><div class="ttname"><a href="namespaceAction.html">Action</a></div><div class="ttdef"><b>Definition:</b> AAction.hh:11</div></div>
+<div class="ttc" id="namespaceAction_html"><div class="ttname"><a href="namespaceAction.html">Action</a></div><div class="ttdef"><b>Definition:</b> AAction.hh:12</div></div>
 <div class="ttc" id="Data_8hh_html"><div class="ttname"><a href="Data_8hh.html">Data.hh</a></div></div>
-<div class="ttc" id="classAction_1_1MoveTo_html_a5314a48f95fa69f6027d6cca2a744aba"><div class="ttname"><a href="classAction_1_1MoveTo.html#a5314a48f95fa69f6027d6cca2a744aba">Action::MoveTo::~MoveTo</a></div><div class="ttdeci">~MoveTo()</div><div class="ttdef"><b>Definition:</b> MoveTo.cpp:9</div></div>
-<div class="ttc" id="classWorld_html_acf2a13d2d6de780880757bd99040ea5b"><div class="ttname"><a href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a></div><div class="ttdeci">std::vector&lt; Map::Node * &gt; Path</div><div class="ttdef"><b>Definition:</b> World.hh:225</div></div>
-<div class="ttc" id="classAAction_html"><div class="ttname"><a href="classAAction.html">AAction</a></div><div class="ttdef"><b>Definition:</b> AAction.hh:23</div></div>
+<div class="ttc" id="classAction_1_1MoveTo_html_a5314a48f95fa69f6027d6cca2a744aba"><div class="ttname"><a href="classAction_1_1MoveTo.html#a5314a48f95fa69f6027d6cca2a744aba">Action::MoveTo::~MoveTo</a></div><div class="ttdeci">~MoveTo()</div><div class="ttdef"><b>Definition:</b> MoveTo.cpp:26</div></div>
+<div class="ttc" id="classWorld_html_acf2a13d2d6de780880757bd99040ea5b"><div class="ttname"><a href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a></div><div class="ttdeci">std::vector&lt; Map::Node * &gt; Path</div><div class="ttdef"><b>Definition:</b> World.hh:223</div></div>
+<div class="ttc" id="classAAction_html"><div class="ttname"><a href="classAAction.html">AAction</a></div><div class="ttdef"><b>Definition:</b> AAction.hh:24</div></div>
+<div class="ttc" id="classAction_1_1MoveTo_html_ae9c319ea8a6af9447dcbe4671afc91ae"><div class="ttname"><a href="classAction_1_1MoveTo.html#ae9c319ea8a6af9447dcbe4671afc91ae">Action::MoveTo::MoveTo</a></div><div class="ttdeci">MoveTo(uint16_t x, uint16_t y, bool allowApprox=false)</div><div class="ttdef"><b>Definition:</b> MoveTo.cpp:9</div></div>
 <div class="ttc" id="classOverWorld_html"><div class="ttname"><a href="classOverWorld.html">OverWorld</a></div><div class="ttdef"><b>Definition:</b> OverWorld.hh:6</div></div>
-<div class="ttc" id="classAction_1_1MoveTo_html_aa462d48277ded78fced133ed6534d619"><div class="ttname"><a href="classAction_1_1MoveTo.html#aa462d48277ded78fced133ed6534d619">Action::MoveTo::addListener</a></div><div class="ttdeci">void addListener(const std::string &amp;signal, void(Action::MoveTo::*listener)())</div><div class="ttdef"><b>Definition:</b> MoveTo.cpp:13</div></div>
-<div class="ttc" id="classAction_1_1MoveTo_html_a223d712be87651f5139ec6f3e612f71f"><div class="ttname"><a href="classAction_1_1MoveTo.html#a223d712be87651f5139ec6f3e612f71f">Action::MoveTo::MoveTo</a></div><div class="ttdeci">MoveTo(uint16_t x, uint16_t y)</div><div class="ttdef"><b>Definition:</b> MoveTo.cpp:3</div></div>
+<div class="ttc" id="classAction_1_1MoveTo_html_aa462d48277ded78fced133ed6534d619"><div class="ttname"><a href="classAction_1_1MoveTo.html#aa462d48277ded78fced133ed6534d619">Action::MoveTo::addListener</a></div><div class="ttdeci">void addListener(const std::string &amp;signal, void(Action::MoveTo::*listener)())</div><div class="ttdef"><b>Definition:</b> MoveTo.cpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 5 2014 13:22:01 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 21 2014 12:06:55 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

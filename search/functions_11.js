@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['update',['update',['../classAAction.html#aa8bc75357c66cf4ca26b4fc359dcbafc',1,'AAction::update()'],['../classBattleData.html#a3162996797a252d92a668aed4ec96651',1,'BattleData::update()'],['../classBattleGroup.html#ab5142c7944b2882548e1bb1cfc85f4e9',1,'BattleGroup::update()'],['../classBot.html#adccbb990932f7a659666c171e321f290',1,'Bot::update()'],['../classData.html#a8411ec3eec2e272ae557f7b19c432d84',1,'Data::update()'],['../classIPokeData.html#a434d4dbf74e75faf38df8707440bd3dd',1,'IPokeData::update()'],['../classPlayer.html#a82c3476f3e65a4e2ac6bcd040771bdd4',1,'Player::update()'],['../classPokemonData.html#ad3b9bba7f1b04c9aa423a01da9fb8a01',1,'PokemonData::update()'],['../classTeam.html#a933317fada8c33ce0b0a71b8ca5bc165',1,'Team::update()']]]
+  ['talkto',['TalkTo',['../classAction_1_1TalkTo.html#a29dd3a03a53c3c342cb3f5a5954b5142',1,'Action::TalkTo']]],
+  ['team',['Team',['../classTeam.html#aada295895b747960576b69d8c87a54ba',1,'Team::Team()'],['../classTeam.html#ac77659f9490c2dfdceb2e76d5d365b92',1,'Team::Team(uint32_t addr)']]],
+  ['thumbdisas',['ThumbDisas',['../classThumbDisas.html#a240b11fca3bed75d7256253e4ec6ed80',1,'ThumbDisas']]],
+  ['type',['type',['../classData.html#a38308e138118c2db5404da1ad75a9c5e',1,'Data']]],
+  ['typeeffectiveness',['typeEffectiveness',['../classData.html#a835e0d4be01bbc82cf27cf50fada28b4',1,'Data::typeEffectiveness(uint8_t atk, uint8_t def) const '],['../classData.html#ab01c88ddc516de036507a24336d0a291',1,'Data::typeEffectiveness(const Move &amp;m, const Species &amp;s) const ']]],
+  ['types',['types',['../classData.html#a63c17cf1b60152f2915e1af07e4fbdaa',1,'Data']]]
 ];

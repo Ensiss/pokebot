@@ -1,6 +1,8 @@
 var searchData=
 [
   ['inbattle',['inBattle',['../classData.html#aa8b3cade0537b3de367cf2330adb3d7e',1,'Data']]],
+  ['initstd',['initStd',['../classScript.html#a6ea22f80acc6335d4bc709e4b2054e07',1,'Script']]],
+  ['instruction',['Instruction',['../structScript_1_1Instruction.html#a3e087a2033955766b16e00ca7f1f822d',1,'Script::Instruction']]],
   ['isbadlypoisoned',['isBadlyPoisoned',['../classIPokeData.html#acc044b9102446f861c08ae1abd01f46e',1,'IPokeData']]],
   ['isburnt',['isBurnt',['../classIPokeData.html#a46d3b81bdd364a6cdc219d615f58ed83',1,'IPokeData']]],
   ['isfreezed',['isFreezed',['../classIPokeData.html#ad2d0447b47c4d0a25564ede2fd90a99a',1,'IPokeData']]],

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../structPathFinder_1_1Hill.html#a34a0efcd08cb84b7527731cbea5f503e',1,'PathFinder::Hill::x()'],['../structWorld_1_1Map_1_1Node.html#af460e889aa6a1ba1ecc6ad8e31e97a3a',1,'World::Map::Node::x()']]]
+  ['warps',['warps',['../structWorld_1_1Map.html#aceddb4b4037ce1ec26837cafcb5f4bad',1,'World::Map']]],
+  ['width',['width',['../structWorld_1_1Map.html#ae929e60f774735d6425f3c7666b496ed',1,'World::Map']]],
+  ['wildbattles',['wildBattles',['../structWorld_1_1Map.html#ad3c0f4d339c8494c83864a53ba5b7c02',1,'World::Map']]]
 ];

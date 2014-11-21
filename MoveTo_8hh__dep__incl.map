@@ -1,4 +1,8 @@
 <map id="/home/ensis/Projets/Perso/pokebot/include/Action/MoveTo.hh" name="/home/ensis/Projets/Perso/pokebot/include/Action/MoveTo.hh">
-<area shape="rect" id="node2" href="$MoveTo_8cpp.html" title="/home/ensis/Projets\l/Perso/pokebot/src/Action\l/MoveTo.cpp" alt="" coords="5,109,179,165"/>
-<area shape="rect" id="node3" href="$main_8cpp.html" title="/home/ensis/Projets\l/Perso/pokebot/src/main.cpp" alt="" coords="203,117,392,158"/>
+<area shape="rect" id="node2" href="$TalkTo_8hh.html" title="/home/ensis/Projets\l/Perso/pokebot/include\l/Action/TalkTo.hh" alt="" coords="105,109,260,165"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="/home/ensis/Projets\l/Perso/pokebot/src/main.cpp" alt="" coords="203,221,392,262"/>
+<area shape="rect" id="node5" href="$UseWarp_8hh.html" title="/home/ensis/Projets\l/Perso/pokebot/include\l/Action/UseWarp.hh" alt="" coords="335,109,489,165"/>
+<area shape="rect" id="node7" href="$MoveTo_8cpp.html" title="/home/ensis/Projets\l/Perso/pokebot/src/Action\l/MoveTo.cpp" alt="" coords="513,109,687,165"/>
+<area shape="rect" id="node3" href="$TalkTo_8cpp.html" title="/home/ensis/Projets\l/Perso/pokebot/src/Action\l/TalkTo.cpp" alt="" coords="5,213,179,269"/>
+<area shape="rect" id="node6" href="$UseWarp_8cpp.html" title="/home/ensis/Projets\l/Perso/pokebot/src/Action\l/UseWarp.cpp" alt="" coords="416,213,589,269"/>
 </map>

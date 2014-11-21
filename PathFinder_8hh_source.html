@@ -105,7 +105,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  <a class="code" href="classPathFinder.html#acc04bc8bcddfda54da6a2905b256cf90">~PathFinder</a>();</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <a class="code" href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a>   *<a class="code" href="classPathFinder.html#a4ba5c11a4359f2f864193d89687b4909">search</a>(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <a class="code" href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a>   *<a class="code" href="classPathFinder.html#aea1917539c33c1180eee6b92d3c42f25">search</a>(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye, uint8_t dist = 0);</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordtype">int</span>       <a class="code" href="classPathFinder.html#a757056cd660d143f0f888f3c553bb068">_getNextIndex</a>(<a class="code" href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a> *set);</div>
@@ -136,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="structWorld_1_1Map_html"><div class="ttname"><a href="structWorld_1_1Map.html">World::Map</a></div><div class="ttdef"><b>Definition:</b> World.hh:155</div></div>
+<div class="ttc" id="structWorld_1_1Map_html"><div class="ttname"><a href="structWorld_1_1Map.html">World::Map</a></div><div class="ttdef"><b>Definition:</b> World.hh:150</div></div>
 <div class="ttc" id="classPathFinder_html_abbea41c35c1cd4d0458157012726b0e7"><div class="ttname"><a href="classPathFinder.html#abbea41c35c1cd4d0458157012726b0e7">PathFinder::_notMoving</a></div><div class="ttdeci">std::vector&lt; uint8_t &gt; _notMoving</div><div class="ttdef"><b>Definition:</b> PathFinder.hh:44</div></div>
 <div class="ttc" id="classPathFinder_html_a8d33ecc69e3b7cd7f838666904765d37"><div class="ttname"><a href="classPathFinder.html#a8d33ecc69e3b7cd7f838666904765d37">PathFinder::_checkOverWorld</a></div><div class="ttdeci">bool _checkOverWorld(uint16_t x, uint16_t y)</div><div class="ttdef"><b>Definition:</b> PathFinder.cpp:45</div></div>
 <div class="ttc" id="classPathFinder_html_a055e49d0fa2722172a11f382e1cac2c1"><div class="ttname"><a href="classPathFinder.html#a055e49d0fa2722172a11f382e1cac2c1">PathFinder::_data</a></div><div class="ttdeci">Data &amp; _data</div><div class="ttdef"><b>Definition:</b> PathFinder.hh:40</div></div>
@@ -154,21 +154,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="structPathFinder_1_1Hill_html"><div class="ttname"><a href="structPathFinder_1_1Hill.html">PathFinder::Hill</a></div><div class="ttdef"><b>Definition:</b> PathFinder.hh:28</div></div>
 <div class="ttc" id="World_8hh_html"><div class="ttname"><a href="World_8hh.html">World.hh</a></div></div>
 <div class="ttc" id="classPathFinder_html_af016eb26826210ae348aa7ebb504e6b6"><div class="ttname"><a href="classPathFinder.html#af016eb26826210ae348aa7ebb504e6b6">PathFinder::PathFinder</a></div><div class="ttdeci">PathFinder(World::Map &amp;m)</div><div class="ttdef"><b>Definition:</b> PathFinder.cpp:3</div></div>
-<div class="ttc" id="structWorld_1_1Map_1_1Node_html"><div class="ttname"><a href="structWorld_1_1Map_1_1Node.html">World::Map::Node</a></div><div class="ttdef"><b>Definition:</b> World.hh:163</div></div>
+<div class="ttc" id="structWorld_1_1Map_1_1Node_html"><div class="ttname"><a href="structWorld_1_1Map_1_1Node.html">World::Map::Node</a></div><div class="ttdef"><b>Definition:</b> World.hh:158</div></div>
 <div class="ttc" id="classPathFinder_html_acc04bc8bcddfda54da6a2905b256cf90"><div class="ttname"><a href="classPathFinder.html#acc04bc8bcddfda54da6a2905b256cf90">PathFinder::~PathFinder</a></div><div class="ttdeci">~PathFinder()</div><div class="ttdef"><b>Definition:</b> PathFinder.cpp:20</div></div>
-<div class="ttc" id="classPathFinder_html_a4ba5c11a4359f2f864193d89687b4909"><div class="ttname"><a href="classPathFinder.html#a4ba5c11a4359f2f864193d89687b4909">PathFinder::search</a></div><div class="ttdeci">World::Path * search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye)</div><div class="ttdef"><b>Definition:</b> PathFinder.cpp:75</div></div>
 <div class="ttc" id="classPathFinder_html_a95e0b7da464ccce544835b78ab84526e"><div class="ttname"><a href="classPathFinder.html#a95e0b7da464ccce544835b78ab84526e">PathFinder::_hills</a></div><div class="ttdeci">std::vector&lt; Hill &gt; _hills</div><div class="ttdef"><b>Definition:</b> PathFinder.hh:43</div></div>
 <div class="ttc" id="classPathFinder_html_a0f325668d62bf242e5934e80da2a5494"><div class="ttname"><a href="classPathFinder.html#a0f325668d62bf242e5934e80da2a5494">PathFinder::_movementCost</a></div><div class="ttdeci">std::map&lt; uint16_t, uint8_t &gt; _movementCost</div><div class="ttdef"><b>Definition:</b> PathFinder.hh:41</div></div>
 <div class="ttc" id="classPathFinder_html_ad7427dfb68d0347a463577a3146df2d5"><div class="ttname"><a href="classPathFinder.html#ad7427dfb68d0347a463577a3146df2d5">PathFinder::_ows</a></div><div class="ttdeci">const OverWorld * _ows</div><div class="ttdef"><b>Definition:</b> PathFinder.hh:39</div></div>
-<div class="ttc" id="classData_html"><div class="ttname"><a href="classData.html">Data</a></div><div class="ttdef"><b>Definition:</b> Data.hh:26</div></div>
-<div class="ttc" id="classWorld_html_acf2a13d2d6de780880757bd99040ea5b"><div class="ttname"><a href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a></div><div class="ttdeci">std::vector&lt; Map::Node * &gt; Path</div><div class="ttdef"><b>Definition:</b> World.hh:225</div></div>
+<div class="ttc" id="classData_html"><div class="ttname"><a href="classData.html">Data</a></div><div class="ttdef"><b>Definition:</b> Data.hh:27</div></div>
+<div class="ttc" id="classWorld_html_acf2a13d2d6de780880757bd99040ea5b"><div class="ttname"><a href="classWorld.html#acf2a13d2d6de780880757bd99040ea5b">World::Path</a></div><div class="ttdeci">std::vector&lt; Map::Node * &gt; Path</div><div class="ttdef"><b>Definition:</b> World.hh:223</div></div>
 <div class="ttc" id="classPathFinder_html_a852a492fa048b67c2ca5abb56d476e5f"><div class="ttname"><a href="classPathFinder.html#a852a492fa048b67c2ca5abb56d476e5f">PathFinder::_walkableTiles</a></div><div class="ttdeci">std::vector&lt; uint8_t &gt; _walkableTiles</div><div class="ttdef"><b>Definition:</b> PathFinder.hh:42</div></div>
+<div class="ttc" id="classPathFinder_html_aea1917539c33c1180eee6b92d3c42f25"><div class="ttname"><a href="classPathFinder.html#aea1917539c33c1180eee6b92d3c42f25">PathFinder::search</a></div><div class="ttdeci">World::Path * search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t ye, uint8_t dist=0)</div><div class="ttdef"><b>Definition:</b> PathFinder.cpp:75</div></div>
 <div class="ttc" id="classPathFinder_html_a85e9fad9d5f34f1248d075789043a927"><div class="ttname"><a href="classPathFinder.html#a85e9fad9d5f34f1248d075789043a927">PathFinder::_checkHills</a></div><div class="ttdeci">bool _checkHills(int x, int y, World::Map::Node &amp;next, World::Map::Node &amp;curr)</div><div class="ttdef"><b>Definition:</b> PathFinder.cpp:24</div></div>
 <div class="ttc" id="classOverWorld_html"><div class="ttname"><a href="classOverWorld.html">OverWorld</a></div><div class="ttdef"><b>Definition:</b> OverWorld.hh:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 5 2014 13:22:01 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 21 2014 12:06:55 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

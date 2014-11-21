@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['species',['Species',['../classSpecies.html',1,'']]]
+  ['range',['Range',['../structRange.html',1,'']]]
 ];

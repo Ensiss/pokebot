@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['wait',['Wait',['../classAction_1_1Wait.html',1,'Action']]],
-  ['wildbattle',['WildBattle',['../structWorld_1_1Map_1_1WildBattle.html',1,'World::Map']]],
-  ['world',['World',['../classWorld.html',1,'']]]
+  ['talkto',['TalkTo',['../classAction_1_1TalkTo.html',1,'Action']]],
+  ['team',['Team',['../classTeam.html',1,'']]],
+  ['thumbdisas',['ThumbDisas',['../classThumbDisas.html',1,'']]],
+  ['tileattr',['TileAttr',['../structWorld_1_1Map_1_1TileAttr.html',1,'World::Map']]]
 ];

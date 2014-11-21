@@ -133,6 +133,8 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:abf80e83769b7891d1070b29a4b12d100"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWorld_1_1Map.html#abf80e83769b7891d1070b29a4b12d100">loadName</a> (uint8_t id)</td></tr>
+<tr class="separator:abf80e83769b7891d1070b29a4b12d100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae83f0c9b46b9f40f837ef0ee50aa7bde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structWorld_1_1Map_1_1Node.html">Node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWorld_1_1Map.html#ae83f0c9b46b9f40f837ef0ee50aa7bde">operator[]</a> (uint8_t y)</td></tr>
 <tr class="separator:ae83f0c9b46b9f40f837ef0ee50aa7bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4ebeffbbe1e35a01632c2dd2cb332fa"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWorld_1_1Map.html#ac4ebeffbbe1e35a01632c2dd2cb332fa">getMatterColor</a> (uint8_t matter, bool pos)</td></tr>
@@ -170,6 +172,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a0aa86bd7f6be1bee2404323983873ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c0f4d339c8494c83864a53ba5b7c02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structWorld_1_1Map_1_1WildBattle.html">WildBattle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWorld_1_1Map.html#ad3c0f4d339c8494c83864a53ba5b7c02">wildBattles</a> [4]</td></tr>
 <tr class="separator:ad3c0f4d339c8494c83864a53ba5b7c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a019b5286b624391d8d60b6ef1df69216"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWorld_1_1Map.html#a019b5286b624391d8d60b6ef1df69216">labelId</a></td></tr>
+<tr class="separator:a019b5286b624391d8d60b6ef1df69216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01b3ebfc56d91723130055f5146d5f0b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWorld_1_1Map.html#a01b3ebfc56d91723130055f5146d5f0b">name</a></td></tr>
+<tr class="separator:a01b3ebfc56d91723130055f5146d5f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a629c61196e26a4e964f7631628387bbf"></a>
@@ -235,6 +241,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="abf80e83769b7891d1070b29a4b12d100"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void World::Map::loadName </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ae83f0c9b46b9f40f837ef0ee50aa7bde"></a>
 <div class="memitem">
 <div class="memproto">
@@ -290,6 +312,30 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint64_t World::Map::height</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a019b5286b624391d8d60b6ef1df69216"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t World::Map::labelId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a01b3ebfc56d91723130055f5146d5f0b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string World::Map::name</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -440,13 +486,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/ensis/Projets/Perso/pokebot/include/<a class="el" href="World_8hh_source.html">World.hh</a></li>
+<li>/home/ensis/Projets/Perso/pokebot/src/Data/<a class="el" href="World_8cpp.html">World.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 5 2014 13:22:01 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 21 2014 12:06:55 for Pokebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['range',['Range',['../structRange.html#aaa41eaa1515c0d8cd5a8a116015d6a62',1,'Range']]],
-  ['reset',['reset',['../classAAction.html#ae03d6cd69b58fecb741829e163e35689',1,'AAction']]]
+  ['queue',['queue',['../classAAction.html#abeaa07f509ae8f8b7523e199854f7bb6',1,'AAction::queue()'],['../classBot.html#a6d83243d6fb4e79c33ad077a6d30f540',1,'Bot::queue()']]]
 ];

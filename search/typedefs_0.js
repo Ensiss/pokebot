@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['path',['Path',['../classWorld.html#acf2a13d2d6de780880757bd99040ea5b',1,'World']]]
+  ['args',['Args',['../classScript.html#a02fa23a0d54f879a2921ed8c1d51ecef',1,'Script']]]
 ];
