@@ -56,21 +56,14 @@ void            Action::MoveTo::_updateTargetPos()
   Player	&p = _data.player();
   World::Map    &m = _data.world()[p.getBank()][p.getMap()];
 
+  _tx = m.persons[_tid].x;
+  _ty = m.persons[_tid].y;
   for (int i = 1; i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
     {
-      if (ows[i].getEventNb() == _tid)
+      if (ows[i].getEventNb() == m.persons[_tid].evtNb)
         {
           _tx = ows[i].getDestX();
           _ty = ows[i].getDestY();
-          return;
-        }
-    }
-  for (int i = 0; i < m.nbPersons; i++)
-    {
-      if (m.persons[i].evtNb == _tid)
-        {
-          _tx = m.persons[i].x;
-          _ty = m.persons[i].y;
           return;
         }
     }
@@ -102,6 +95,12 @@ void		Action::MoveTo::_init()
   Player	&p = _data.player();
   PathFinder	finder(_data.world()[p.getBank()][p.getMap()]);
 
+  if (_tid != -1 && _tid >= _data.world()[p.getBank()][p.getMap()].nbPersons)
+    {
+      fprintf(stderr, "%d is not a valid person ID\n", _tid);
+      _state = Action::ERROR;
+      return;
+    }
   _updateTargetPos();
   _pathi = 1;
   if (_path)

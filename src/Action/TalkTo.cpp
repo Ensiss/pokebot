@@ -18,24 +18,16 @@ void            Action::TalkTo::_turnToOW()
   Player	&p = _data.player();
   World::Map    &m = _data.world()[p.getBank()][p.getMap()];
   uint16_t      tx, ty, px, py;
-  bool          found = false;
 
-  for (int i = 1; !found && i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
+  tx = m.persons[_pid].x;
+  ty = m.persons[_pid].y;
+  for (int i = 1; i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
     {
-      if (ows[i].getEventNb() == _pid)
+      if (ows[i].getEventNb() == m.persons[_pid].evtNb)
         {
           tx = ows[i].getDestX();
           ty = ows[i].getDestY();
-          found = true;
-        }
-    }
-  for (int i = 0; !found && i < m.nbPersons; i++)
-    {
-      if (m.persons[i].evtNb == _pid)
-        {
-          tx = m.persons[i].x;
-          ty = m.persons[i].y;
-          found = true;
+          break;
         }
     }
   px = p.getX();
@@ -49,35 +41,13 @@ void		Action::TalkTo::_init()
 {
   World::Map    &m = _data.world()[_data.player().getBank()][_data.player().getMap()];
 
-  for (int i = 0; i < m.nbPersons; i++)
+  if (_pid >= m.nbPersons)
     {
-      if (m.persons[i].evtNb == _pid)
-        {
-          queue(new Action::MoveTo(_pid));
-          return;
-        }
+      fprintf(stderr, "%d is not a valid person ID\n", _pid);
+      _state = Action::ERROR;
+      return;
     }
-  fprintf(stderr, "%d is not a valid person ID\n", _pid);
-  _state = Action::ERROR;
-}
-
-bool            Action::TalkTo::_loadScript()
-{
-  uint8_t       id = *((uint8_t *) gbaMem(0x03005074));
-  uint8_t       evtNb = _data.overWorld(id).getEventNb();
-  World::Map    &m = _data.world()[_data.player().getBank()][_data.player().getMap()];
-
-  for (int i = 0; i < m.nbPersons; i++)
-    {
-      if (m.persons[i].evtNb == evtNb)
-        {
-          _script = new Script();
-          _script->load(m.persons[i].scriptPtr);
-          return (true);
-        }
-    }
-  _state = Action::FINISHED;
-  return (false);
+  queue(new Action::MoveTo(_pid));
 }
 
 Script::Instruction     *Action::TalkTo::_searchCmd(std::map<int, Script::Instruction *> &map, uint32_t next)
@@ -148,8 +118,8 @@ void		Action::TalkTo::_update()
           _state = Action::FINISHED;
           return;
         }
-      if (!_script && !_loadScript())
-        return;
+      if (!_script)
+        _script = Script::getPerson(_pid);
       Script::Instruction       *instr = _getCurrentCmd();
 
       if (instr)

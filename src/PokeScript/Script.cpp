@@ -180,13 +180,11 @@ Script          *Script::getPerson(uint8_t bank, uint8_t map, uint8_t id)
   World::Map    &m = Action::data->world()[bank][map];
   Script        *sc = new Script();
 
-  for (uint16_t i = 0; i < m.nbPersons; i++)
+
+  if (id < m.nbPersons)
     {
-      if (m.persons[i].evtNb == id)
-        {
-          sc->load(m.persons[i].scriptPtr);
-          return (sc);
-        }
+      sc->load(m.persons[id].scriptPtr);
+      return (sc);
     }
   fprintf(stderr, "Error: cannot find person %d in map [%d, %d]", id, bank, map);
   return (sc);

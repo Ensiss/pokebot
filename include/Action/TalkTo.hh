@@ -24,7 +24,6 @@ namespace	Action
     void	_init();
     void	_update();
     void        _turnToOW();
-    bool        _loadScript();
     void        _handleMultiChoice();
     void        _handleYesNo();
 
