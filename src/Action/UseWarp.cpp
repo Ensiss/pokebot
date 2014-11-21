@@ -13,6 +13,11 @@ std::map<uint16_t, EKey>     Action::UseWarp::_behaviours = {
   {0x6F, KEY_LEFT},     // Stairs down left
 };
 
+/**
+   Warp to a different map
+
+   @param warpId        Index of the warp in the warps array
+ */
 Action::UseWarp::UseWarp(uint8_t warpId)
   : _id(warpId)
 {

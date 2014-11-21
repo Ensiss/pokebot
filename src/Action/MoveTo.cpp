@@ -1,11 +1,22 @@
 #include	"Action/MoveTo.hh"
 
+/**
+   Move to a location
+
+   @param x,y           Coordinates of the destination
+   @param allowApprox   If the bot should stop 1 tile before the destination
+ */
 Action::MoveTo::MoveTo(uint16_t x, uint16_t y, bool allowApprox)
   : _owInit(false), _approx(allowApprox), _tx(x), _ty(y), _tid(-1), _path(NULL)
 {
   addListener("onFrame", &Action::MoveTo::_checkNPCMovement);
 }
 
+/**
+   Move to a person
+
+   @param tid           Index of the person in the person array
+ */
 Action::MoveTo::MoveTo(uint8_t tid)
   : _owInit(false), _approx(true), _tx(0), _ty(0), _tid(tid), _path(NULL)
 {

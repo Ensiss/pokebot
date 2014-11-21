@@ -31,8 +31,8 @@ bool            VM::_restoreContext()
    is a key point for the success and one for the failure of the if1 (0x06) and
    the if2 (0x07) commands.
 
-   @param       The script to execute
-   @return      The number of visited key points
+   @param script        The script to execute
+   @return              The number of visited key points
  */
 std::vector<VM::ChoicePts>      *VM::execCountNewVisits(Script &script)
 {
@@ -68,7 +68,7 @@ std::vector<VM::ChoicePts>      *VM::execCountNewVisits(Script &script)
 /**
    Executes a script
 
-   @param       The script to execute
+   @param script        The script to execute
  */
 void            VM::exec(Script &script)
 {

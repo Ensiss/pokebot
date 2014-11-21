@@ -1,5 +1,15 @@
 #include	"Action/TalkTo.hh"
 
+/**
+   Talk to a person
+
+   This action walks to a person, turns towards it and then speaks to it.
+   You can specify what the bot will answer in case there's a multichoice box or
+   a yes/no choice.
+
+   @param personId      Index of the person in the person array
+   @param choices       List of answers (returned by VM::execCountNewVisits)
+ */
 Action::TalkTo::TalkTo(uint8_t personId, VM::ChoicePts *choices)
   : _pid(personId), _dir(0), _oldNext(0), _script(NULL), _choices(choices), _choiceId(0)
 {

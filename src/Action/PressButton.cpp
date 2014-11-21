@@ -1,5 +1,12 @@
 #include	"Action/PressButton.hh"
 
+/**
+   Press a key
+
+   This action releases all keys, and the presses the specifies key
+
+   @param key   The key to press
+ */
 Action::PressButton::PressButton(EKey key)
   : _key(key)
 {

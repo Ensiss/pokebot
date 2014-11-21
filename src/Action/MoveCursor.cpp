@@ -1,5 +1,13 @@
 #include	"Action/MoveCursor.hh"
 
+/**
+   Moves the cursor to a specific position in a box
+
+   @param w     Width of the box
+   @param h     Height of the bow
+   @param dest  Index of destination position
+   @param f     Function that returns the current cursor position
+ */
 Action::MoveCursor::MoveCursor(uint8_t w, uint8_t h, uint8_t dest, uint8_t (*f)())
   : _w(w), _h(h), _dx(dest % w), _dy(dest / w), _f(f)
 {
