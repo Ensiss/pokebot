@@ -94,6 +94,12 @@ public:
   void		print();
   static Script &getStd(uint8_t n) { return (_std[n * (n < 10)]); }
   static void   initStd();
+  static Script *getPerson(uint8_t bank, uint8_t map, uint8_t id);
+  static Script *getPerson(uint8_t id);
+  static Script *getSign(uint8_t bank, uint8_t map, uint8_t id);
+  static Script *getSign(uint8_t id);
+  static Script *getScript(uint8_t bank, uint8_t map, uint8_t id);
+  static Script *getScript(uint8_t id);
 
 public:
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }

@@ -174,3 +174,66 @@ void            Script::print()
     }
   std::cout << std::endl;
 }
+
+Script          *Script::getPerson(uint8_t bank, uint8_t map, uint8_t id)
+{
+  World::Map    &m = Action::data->world()[bank][map];
+  Script        *sc = new Script();
+
+  for (uint16_t i = 0; i < m.nbPersons; i++)
+    {
+      if (m.persons[i].evtNb == id)
+        {
+          sc->load(m.persons[i].scriptPtr);
+          return (sc);
+        }
+    }
+  fprintf(stderr, "Error: cannot find person %d in map [%d, %d]", id, bank, map);
+  return (sc);
+}
+
+Script          *Script::getPerson(uint8_t id)
+{
+  Player        &p = Action::data->player();
+  return (getPerson(p.getBank(), p.getMap(), id));
+}
+
+Script          *Script::getSign(uint8_t bank, uint8_t map, uint8_t id)
+{
+  World::Map    &m = Action::data->world()[bank][map];
+  Script        *sc = new Script();
+
+  if (id < m.nbSigns)
+    {
+      sc->load(m.signs[id].scriptPtr);
+      return (sc);
+    }
+  fprintf(stderr, "Error: cannot find sign %d in map [%d, %d]", id, bank, map);
+  return (sc);
+}
+
+Script          *Script::getSign(uint8_t id)
+{
+  Player        &p = Action::data->player();
+  return (getSign(p.getBank(), p.getMap(), id));
+}
+
+Script          *Script::getScript(uint8_t bank, uint8_t map, uint8_t id)
+{
+  World::Map    &m = Action::data->world()[bank][map];
+  Script        *sc = new Script();
+
+  if (id < m.nbScripts)
+    {
+      sc->load(m.scripts[id].scriptPtr);
+      return (sc);
+    }
+  fprintf(stderr, "Error: cannot find script %d in map [%d, %d]", id, bank, map);
+  return (sc);
+}
+
+Script          *Script::getScript(uint8_t id)
+{
+  Player        &p = Action::data->player();
+  return (getScript(p.getBank(), p.getMap(), id));
+}
