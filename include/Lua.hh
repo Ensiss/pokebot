@@ -17,6 +17,9 @@ public:
   Lua();
   ~Lua();
 
+private:
+  void          _error(int ret);
+
 public:
   void          init();
   lua_State     *getState() const { return (_state); }

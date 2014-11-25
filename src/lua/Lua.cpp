@@ -16,6 +16,7 @@ void            Lua::init()
 {
   getGlobalNamespace(_state)
     .beginNamespace("data")
+
     .beginClass<Player>("Player")
     .addFunction("getX", &Player::getX)
     .addFunction("getY", &Player::getY)
@@ -23,12 +24,12 @@ void            Lua::init()
     .addFunction("getMap", &Player::getMap)
     .endClass()
     .addVariable("player", &Action::data->player())
+
     .endNamespace();
 }
 
-void            Lua::doFile(const std::string &s)
+void            Lua::_error(int ret)
 {
-  int           ret = luaL_dofile(_state, s.c_str());
   if (ret)
     {
       std::cerr << "ERR: " << lua_tostring(_state, ret) << std::endl;
@@ -36,7 +37,12 @@ void            Lua::doFile(const std::string &s)
     }
 }
 
+void            Lua::doFile(const std::string &s)
+{
+  _error(luaL_dofile(_state, s.c_str()));
+}
+
 void            Lua::doString(const std::string &s)
 {
-  luaL_dostring(_state, s.c_str());
+  _error(luaL_dostring(_state, s.c_str()));
 }
