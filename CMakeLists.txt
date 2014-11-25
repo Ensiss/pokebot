@@ -69,6 +69,7 @@ if( ENABLE_LINK )
 endif( ENABLE_LINK )
 # set the standard libraries all ports use
 SET(VBAMCORE_LIBS
+    lua5.1
     -Llib
     vbamcore
     fex
@@ -217,10 +218,12 @@ SET(SRC_MAIN
 
 INCLUDE_DIRECTORIES(
     include
+    LuaBridge
     ${ZLIB_INCLUDE_DIR}
     fex
     ${PNG_INCLUDE_DIR}
     ${SDL_INCLUDE_DIR}
+    /usr/include/lua5.1
 )
 
 IF( ENABLE_GTK )
