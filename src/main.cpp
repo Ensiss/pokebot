@@ -62,6 +62,7 @@ int		main(int ac, char **av)
   initVBAM(ac, av);
   Action::data = new Data();
   Script::initStd();
+  L.init();
   doLoop();
   destroyVBAM();
   return (0);
