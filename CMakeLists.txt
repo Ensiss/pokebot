@@ -214,6 +214,8 @@ SET(SRC_MAIN
     src/Utils/ThumbDisas.cpp
     src/Utils/PokemonUtils.cpp
     src/Utils/PrintUtils.cpp
+
+    src/lua/Lua.cpp
 )
 
 INCLUDE_DIRECTORIES(

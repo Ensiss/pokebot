@@ -15,8 +15,10 @@
 #include	"PrintUtils.hh"
 #include	"Bot.hh"
 #include        "VM.hh"
+#include        "Lua.hh"
 
 Data		*Action::data = NULL;
+extern Lua      L;
 
 void		doLoop()
 {
