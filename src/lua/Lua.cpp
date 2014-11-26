@@ -34,6 +34,7 @@ void            Lua::init()
     .addFunction("wait", &BotUtils::wait)
     .endNamespace()
     ;
+  doFile("lua/main.lua");
 }
 
 void            Lua::_error(int ret)
@@ -53,4 +54,16 @@ void            Lua::doFile(const std::string &s)
 void            Lua::doString(const std::string &s)
 {
   _error(luaL_dostring(_state, s.c_str()));
+}
+
+void            Lua::doFunc(const std::string &s)
+{
+  LuaRef        func = getGlobal(_state, s.c_str());
+
+  if (func.isNil())
+    {
+      std::cerr << "Function " << s << " is not defined" << std::endl;
+      return;
+    }
+  func();
 }

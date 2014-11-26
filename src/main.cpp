@@ -38,12 +38,16 @@ void		doLoop()
 	  data.update();
 	  bot.update();
 	  if (step == 900)
-            bot.setBattleAction(new Action::Battle());
+            {
+              bot.setBattleAction(new Action::Battle());
+              L.doFunc("onInit");
+            }
 	  if (step % 20 == 0)
 	    {
 	      printf("\033[2J\033[0;0H");
 	      printTeam(data);
 	      printMap(data);
+              L.doFunc("onEnterFrame");
 	    }
 	}
 

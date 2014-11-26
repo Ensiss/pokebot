@@ -26,6 +26,7 @@ public:
   lua_State     *getState() const { return (_state); }
   void          doFile(const std::string &s);
   void          doString(const std::string &s);
+  void          doFunc(const std::string &s);
 
 private:
   lua_State     *_state;
