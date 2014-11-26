@@ -27,6 +27,7 @@ public:
   void          doFile(const std::string &s);
   void          doString(const std::string &s);
   void          doFunc(const std::string &s);
+  void          doREPL();
 
 private:
   lua_State     *_state;

@@ -1295,6 +1295,9 @@ void sdlPollEvents(Data &data, Bot &bot)
       case SDLK_ESCAPE:
         emulating = 0;
         break;
+      case SDLK_F11:
+        paused = true;
+        break;
       default:
         break;
       }

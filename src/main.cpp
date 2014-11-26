@@ -28,6 +28,11 @@ void		doLoop()
 
   while (emulating)
     {
+      if (paused)
+        {
+          L.doREPL();
+          paused = false;
+        }
       if (++step < 900)
 	{
 	  sdlSetButton(KEY_BUTTON_AUTO_A, step < 899);

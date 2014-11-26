@@ -64,3 +64,21 @@ void            Lua::doFunc(const std::string &s)
     return;
   func();
 }
+
+void            Lua::doREPL()
+{
+  std::string   in;
+
+  std::cout << "Lua REPL for Pokebot. Hit ^D to exit" << std::endl;
+  while (1)
+    {
+      std::cout << "> " << std::flush;
+      std::getline(std::cin, in);
+      if (!in.size())
+        {
+          std::cin.clear();
+          break;
+        }
+      doString(in);
+    }
+}
