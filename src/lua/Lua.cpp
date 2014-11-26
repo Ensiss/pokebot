@@ -61,9 +61,6 @@ void            Lua::doFunc(const std::string &s)
   LuaRef        func = getGlobal(_state, s.c_str());
 
   if (func.isNil())
-    {
-      std::cerr << "Function " << s << " is not defined" << std::endl;
-      return;
-    }
+    return;
   func();
 }

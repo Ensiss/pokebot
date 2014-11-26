@@ -1,3 +1,7 @@
+function onEnterFrame()
+   print("(" .. data.player:getX() .. ", " .. data.player:getY() .. ")")
+end
+
 function onInit()
    print "Printing on init"
    x = data.player:getX()
