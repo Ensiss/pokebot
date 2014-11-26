@@ -1,5 +1,8 @@
 function onEnterFrame()
-   print("(" .. data.player:getX() .. ", " .. data.player:getY() .. ")")
+   p = data.player
+   map = data.world:getMap(p:getBank(), p:getMap())
+   print("Player coordinates: (" .. p:getX() .. ", " .. p:getY() .. ")")
+   print("Map [" .. map:getName() .. "]: " .. map:getWidth() .. "x" .. map:getHeight())
 end
 
 function onInit()

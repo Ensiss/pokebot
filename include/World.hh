@@ -208,6 +208,19 @@ public:
     std::string name;
 
   public:
+    // Getters
+    uint64_t    getWidth() const { return (width); }
+    uint64_t    getHeight() const { return (height); }
+    uint8_t     getNbPersons() const { return (nbPersons); }
+    uint8_t     getNbWarps() const { return (nbWarps); }
+    uint8_t     getNbScripts() const { return (nbScripts); }
+    uint8_t     getNbSigns() const { return (nbSigns); }
+    uint32_t    getNbConnections() const { return (nbConnects); }
+    uint32_t    getScripPtr() const { return (scriptPtr); }
+    uint8_t     getLabelId() const { return (labelId); }
+    const std::string&  getName() const { return (name); }
+
+  public:
     void                loadName(uint8_t id);
     Node		*operator[](uint8_t y) { return (data[y]); }
     inline uint8_t	getMatterColor(uint8_t matter, bool pos) {
