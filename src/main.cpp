@@ -19,11 +19,11 @@
 
 Data		*Action::data = NULL;
 extern Lua      L;
+extern Bot      bot;
 
 void		doLoop()
 {
   Data		&data = *Action::data;
-  Bot		bot;
   int		step = 0;
 
   while (emulating)

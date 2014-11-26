@@ -1,6 +1,7 @@
 #include        "Lua.hh"
 
 Lua             L;
+extern Bot      bot;
 
 Lua::Lua()
 {
@@ -16,7 +17,6 @@ void            Lua::init()
 {
   getGlobalNamespace(_state)
     .beginNamespace("data")
-
     .beginClass<Player>("Player")
     .addFunction("getX", &Player::getX)
     .addFunction("getY", &Player::getY)
@@ -24,8 +24,16 @@ void            Lua::init()
     .addFunction("getMap", &Player::getMap)
     .endClass()
     .addVariable("player", &Action::data->player())
+    .endNamespace()
 
-    .endNamespace();
+    .beginNamespace("bot")
+    .addFunction("moveTo", &BotUtils::moveTo)
+    .addFunction("talkTo", &BotUtils::talkTo)
+    .addFunction("useWarp", &BotUtils::useWarp)
+    .addFunction("pressButton", &BotUtils::pressButton)
+    .addFunction("wait", &BotUtils::wait)
+    .endNamespace()
+    ;
 }
 
 void            Lua::_error(int ret)

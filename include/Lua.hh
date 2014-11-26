@@ -2,7 +2,8 @@
 #include        <string>
 #include        <LuaBridge.h>
 #include        "Data.hh"
-#include        "Action/AAction.hh"
+#include        "Bot.hh"
+#include        "BotUtils.hh"
 extern "C" {
 #include        "lua.h"
 #include        "lauxlib.h"
