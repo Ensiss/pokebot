@@ -221,7 +221,7 @@ SET(SRC_MAIN
 
 INCLUDE_DIRECTORIES(
     include
-    LuaBridge
+    include/LuaBridge
     ${ZLIB_INCLUDE_DIR}
     fex
     ${PNG_INCLUDE_DIR}
