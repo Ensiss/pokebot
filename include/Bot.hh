@@ -19,6 +19,7 @@ private:
 public:
   void		update();
   void		queue(AAction *action);
+  void		clear();
 
 public:
   int		getState() const { return (_state); }

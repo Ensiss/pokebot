@@ -27,6 +27,7 @@ void            Lua::init()
     .endNamespace()
 
     .beginNamespace("bot")
+    .addFunction("clear", &BotUtils::clear)
     .addFunction("moveTo", &BotUtils::moveTo)
     .addFunction("talkTo", &BotUtils::talkTo)
     .addFunction("useWarp", &BotUtils::useWarp)

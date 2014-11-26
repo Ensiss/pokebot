@@ -7,6 +7,11 @@ void            BotUtils::queue(AAction *act)
   bot.queue(act);
 }
 
+void            BotUtils::clear()
+{
+  bot.clear();
+}
+
 void            BotUtils::moveTo(uint16_t x, uint16_t y)
 {
   bot.queue(new Action::MoveTo(x, y));

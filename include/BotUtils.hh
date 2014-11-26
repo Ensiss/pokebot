@@ -10,6 +10,7 @@
 namespace       BotUtils
 {
   void          queue(AAction *act);
+  void          clear();
   void          moveTo(uint16_t x, uint16_t y);
   void          talkTo(uint8_t id);
   void          useWarp(uint8_t id);
