@@ -169,6 +169,12 @@ public:
       Node(uint32_t px = 0, uint32_t py = 0) : status(0), from(NULL), g(0), f(0), x(px), y(py) {}
       void	setG(uint32_t pg) { g = pg; }
       void	setF(uint32_t xe, uint32_t ye) { f = g + 10 * sqrt(POW(xe - x) + POW(ye - y)); }
+
+      uint8_t   getStatus() const { return (status); }
+      uint16_t  getBehavior() const { return (attr->behavior); }
+      uint16_t  getBackground() const { return (attr->bg); }
+      uint32_t  getX() const { return (x); }
+      uint32_t  getY() const { return (y); }
     };
 
     struct	WildBattle
@@ -211,6 +217,7 @@ public:
     // Getters
     uint64_t    getWidth() const { return (width); }
     uint64_t    getHeight() const { return (height); }
+    const Node  &getNode(uint8_t x, uint8_t y) const { return (data[y][x]); }
     uint8_t     getNbPersons() const { return (nbPersons); }
     uint8_t     getNbWarps() const { return (nbWarps); }
     uint8_t     getNbScripts() const { return (nbScripts); }
@@ -245,7 +252,7 @@ private:
 
 public:
   std::vector<Map>	&operator[](uint8_t bank) { return (_banks[(bank < _banks.size()) * bank]); }
-  Map		&getMap(uint8_t bank, uint8_t map) { return ((*this)[bank][(map < (*this)[bank].size()) * map]); }
+  Map                   &getMap(uint8_t bank, uint8_t map) { return ((*this)[bank][(map < (*this)[bank].size()) * map]); }
 
 public:
   std::vector<std::vector<Map> >	_banks;
