@@ -20,6 +20,8 @@ public:
 
 private:
   void          _error(int ret);
+  void          _initButtons();
+  void          _pushvar(const char *name, uint8_t val);
 
 public:
   void          init();

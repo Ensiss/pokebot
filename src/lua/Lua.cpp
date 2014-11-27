@@ -62,7 +62,37 @@ void            Lua::init()
     .addFunction("wait", &BotUtils::wait)
     .endNamespace()
     ;
+
+  _initButtons();
   doFile("lua/main.lua");
+}
+
+void            Lua::_pushvar(const char *name, uint8_t val)
+{
+  lua_pushstring(_state, name);
+  lua_pushnumber(_state, val);
+  lua_settable(_state, -3);
+}
+
+void            Lua::_initButtons()
+{
+  // Get global namespace
+  lua_getglobal(_state, "_G");
+  // Create "btn" namespace
+  lua_pushstring(_state, "btn");
+  lua_newtable(_state);
+
+  // Push variables
+  _pushvar("left", KEY_LEFT);
+  _pushvar("right", KEY_RIGHT);
+  _pushvar("up", KEY_UP);
+  _pushvar("down", KEY_DOWN);
+  _pushvar("a", KEY_BUTTON_A);
+  _pushvar("b", KEY_BUTTON_B);
+  _pushvar("start", KEY_BUTTON_START);
+  _pushvar("select", KEY_BUTTON_SELECT);
+
+  lua_settable(_state, -3);
 }
 
 void            Lua::_error(int ret)
