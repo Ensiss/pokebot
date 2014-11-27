@@ -61,6 +61,12 @@ void            Lua::init()
     .addFunction("pressButton", &BotUtils::pressButton)
     .addFunction("wait", &BotUtils::wait)
     .endNamespace()
+
+    .beginNamespace("mem")
+    .addFunction("get8", &gbaMem<uint8_t>)
+    .addFunction("get16", &gbaMem<uint16_t>)
+    .addFunction("get32", &gbaMem<uint32_t>)
+    .endNamespace()
     ;
 
   _initButtons();
