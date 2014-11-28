@@ -77,7 +77,7 @@ public:
     uint16_t	getX() const { return (x); }
     uint16_t	getY() const { return (y); }
     uint8_t	getLevel() const { return (level); }
-    uint16_t	getTyoe() const { return (type); }
+    uint16_t	getType() const { return (type); }
     uint32_t	getScript() const { return (scriptPtr); }
   };
 
@@ -165,7 +165,6 @@ public:
     uint32_t	getOffset() const { return (offset); }
     uint8_t	getBank() const { return (bank); }
     uint8_t	getMap() const { return (map); }
-    uint16_t	getPadding() const { return (padding); }
   };
 
   struct	WildHeader
@@ -262,6 +261,11 @@ public:
     uint32_t    getNbConnections() const { return (nbConnects); }
     uint32_t    getScripPtr() const { return (scriptPtr); }
     uint8_t     getLabelId() const { return (labelId); }
+    const PersonEvt     &getPerson(uint8_t id) const { return (persons[id]); }
+    const WarpEvt       &getWarp(uint8_t id) const { return (warps[id]); }
+    const ScriptEvt     &getScript(uint8_t id) const { return (scripts[id]); }
+    const SignEvt       &getSign(uint8_t id) const { return (signs[id]); }
+    const Connection    &getConnection(uint8_t id) const { return (connects[id]); }
     const std::string&  getName() const { return (name); }
 
   public:
