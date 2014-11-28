@@ -65,6 +65,7 @@ private:
     uint32_t	signsPtr;
   };
 
+public:
   struct	SignEvt
   {
     uint16_t	x;
@@ -72,6 +73,12 @@ private:
     uint8_t	level;
     uint8_t	type;
     uint32_t	scriptPtr;
+
+    uint16_t	getX() const { return (x); }
+    uint16_t	getY() const { return (y); }
+    uint8_t	getLevel() const { return (level); }
+    uint16_t	getTyoe() const { return (type); }
+    uint32_t	getScript() const { return (scriptPtr); }
   };
 
   struct	WarpEvt
@@ -82,6 +89,13 @@ private:
     uint8_t	destWarp;
     uint8_t	destMap;
     uint8_t	destBank;
+
+    uint16_t	getX() const { return (x); }
+    uint16_t	getY() const { return (y); }
+    uint8_t	getLevel() const { return (level); }
+    uint8_t	getWarp() const { return (destWarp); }
+    uint8_t	getMap() const { return (destMap); }
+    uint8_t	getBank() const { return (destBank); }
   };
 
   struct	PersonEvt
@@ -108,6 +122,16 @@ private:
 	return (true);
       return (!getFlag(id));
     }
+    uint8_t     getEventNb() const { return (evtNb); }
+    uint16_t	getX() const { return (x); }
+    uint16_t	getY() const { return (y); }
+    uint8_t	getLevel() const { return (level); }
+    uint8_t	getMovementType() const { return (mvtType); }
+    uint8_t	getMovement() const { return (mvt); }
+    bool	isTrainer() const { return (trainer); }
+    uint16_t	getView() const { return (view); }
+    uint32_t	getScript() const { return (scriptPtr); }
+    uint16_t	getId() const { return (id); }
   };
 
   struct	ScriptEvt
@@ -120,6 +144,13 @@ private:
     uint16_t	varVal;
     uint16_t	unknown2;
     uint32_t	scriptPtr;
+
+    uint16_t	getX() const { return (x); }
+    uint16_t	getY() const { return (y); }
+    uint8_t	getLevel() const { return (level); }
+    uint8_t	getVarNb() const { return (varNb); }
+    uint8_t	getVarValue() const { return (varVal); }
+    uint32_t	getScript() const { return (scriptPtr); }
   };
 
   struct	Connection
@@ -129,6 +160,12 @@ private:
     uint8_t	bank;
     uint8_t	map;
     uint16_t	padding;
+
+    uint32_t	getType() const { return (type); }
+    uint32_t	getOffset() const { return (offset); }
+    uint8_t	getBank() const { return (bank); }
+    uint8_t	getMap() const { return (map); }
+    uint16_t	getPadding() const { return (padding); }
   };
 
   struct	WildHeader
