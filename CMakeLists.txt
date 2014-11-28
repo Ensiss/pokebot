@@ -204,6 +204,7 @@ SET(SRC_MAIN
     src/Action/MoveCursor.cpp
     src/Action/PressButton.cpp
     src/Action/Wait.cpp
+    src/Action/LuaClass.cpp
 
     src/PokeScript/Script.cpp
     src/PokeScript/Readers.cpp

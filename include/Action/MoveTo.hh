@@ -14,6 +14,9 @@ namespace	Action
   class		MoveTo : public AAction
   {
   public:
+    static MoveTo       *create(uint16_t x, uint16_t y) { return (new MoveTo(x, y)); }
+
+  public:
     MoveTo(uint16_t x, uint16_t y, bool allowApprox = false);
     MoveTo(uint8_t tid);
     ~MoveTo();

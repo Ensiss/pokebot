@@ -54,12 +54,8 @@ void            Lua::init()
     .endNamespace()
 
     .beginNamespace("bot")
+    .addFunction("queue", &BotUtils::queue)
     .addFunction("clear", &BotUtils::clear)
-    .addFunction("moveTo", &BotUtils::moveTo)
-    .addFunction("talkTo", &BotUtils::talkTo)
-    .addFunction("useWarp", &BotUtils::useWarp)
-    .addFunction("pressButton", &BotUtils::pressButton)
-    .addFunction("wait", &BotUtils::wait)
     .endNamespace()
 
     .beginNamespace("mem")
@@ -67,9 +63,31 @@ void            Lua::init()
     .addFunction("get16", &gbaMem<uint16_t>)
     .addFunction("get32", &gbaMem<uint32_t>)
     .endNamespace()
+
+    .beginNamespace("new")
+    .addFunction("moveTo", &Action::MoveTo::create)
+    .addFunction("talkTo", &Action::TalkTo::create)
+    .addFunction("useWarp", &Action::UseWarp::create)
+    .addFunction("pressButton", &Action::PressButton::create)
+    .addFunction("wait", &Action::Wait::create)
+    .addFunction("lua", &Action::LuaClass::create)
+    .endNamespace()
+
+    .beginNamespace("action")
+    .beginClass<AAction>("AAction")
+    .addFunction("queue", &AAction::queue)
+    .endClass()
+    .deriveClass<Action::MoveTo, AAction>("MoveTo").endClass()
+    .deriveClass<Action::TalkTo, AAction>("TalkTo").endClass()
+    .deriveClass<Action::UseWarp, AAction>("UseWarp").endClass()
+    .deriveClass<Action::PressButton, AAction>("PressButton").endClass()
+    .deriveClass<Action::Wait, AAction>("Wait").endClass()
+    .deriveClass<Action::LuaClass, AAction>("LuaClass").endClass()
+    .endNamespace()
     ;
 
   _initButtons();
+  _initStates();
   doFile("lua/main.lua");
 }
 
@@ -97,6 +115,23 @@ void            Lua::_initButtons()
   _pushvar("b", KEY_BUTTON_B);
   _pushvar("start", KEY_BUTTON_START);
   _pushvar("select", KEY_BUTTON_SELECT);
+
+  lua_settable(_state, -3);
+}
+
+void            Lua::_initStates()
+{
+  // Get global namespace
+  lua_getglobal(_state, "_G");
+  // Create "state" namespace
+  lua_pushstring(_state, "state");
+  lua_newtable(_state);
+
+  // Push variables
+  _pushvar("not_started", Action::NOT_STARTED);
+  _pushvar("running", Action::RUNNING);
+  _pushvar("finished", Action::FINISHED);
+  _pushvar("error", Action::ERROR);
 
   lua_settable(_state, -3);
 }

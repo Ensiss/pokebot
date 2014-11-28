@@ -17,6 +17,9 @@ namespace	Action
   class		TalkTo : public AAction
   {
   public:
+    static TalkTo       *create(uint8_t id) { return (new TalkTo(id)); }
+
+  public:
     TalkTo(uint8_t personId, VM::ChoicePts *choices = NULL);
     ~TalkTo();
 

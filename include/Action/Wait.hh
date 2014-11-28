@@ -12,6 +12,9 @@ namespace	Action
   class		Wait : public AAction
   {
   public:
+    static Wait *create(uint16_t frames) { return (new Wait(frames)); }
+
+  public:
     Wait(uint16_t frames);
     Wait(bool (*until)());
     ~Wait();

@@ -1,3 +1,5 @@
+require 'WalkLoop'
+
 function printMap()
    local p = data.player
    local map = data.world:getMap(p:getBank(), p:getMap())
@@ -17,11 +19,6 @@ function onEnterFrame()
 end
 
 function onInit()
-   local x = data.player:getX()
-   local y = data.player:getY()
-   bot.moveTo(x, y - 1)
-   bot.moveTo(x - 1, y - 1)
-   bot.moveTo(x - 1, y)
-   bot.moveTo(x, y)
-   bot.talkTo(0)
+   bot.queue(new.lua(WalkLoop(1)))
+   bot.queue(new.talkTo(0))
 end

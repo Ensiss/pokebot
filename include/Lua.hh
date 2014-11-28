@@ -4,6 +4,8 @@
 #include        "Data.hh"
 #include        "Bot.hh"
 #include        "BotUtils.hh"
+#include        "Action/AAction.hh"
+#include        "Action/LuaClass.hh"
 extern "C" {
 #include        "lua.h"
 #include        "lauxlib.h"
@@ -21,6 +23,7 @@ public:
 private:
   void          _error(int ret);
   void          _initButtons();
+  void          _initStates();
   void          _pushvar(const char *name, uint8_t val);
 
 public:
