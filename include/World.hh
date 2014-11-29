@@ -9,6 +9,14 @@
 #include	"../vbam/gba/Globals.h"
 #include	"PokemonUtils.hh"
 
+enum            WildType
+  {
+    WILD_GRASS,
+    WILD_WATER,
+    WILD_ROCK,
+    WILD_FISHING
+  };
+
 class		World
 {
 private:
@@ -63,6 +71,14 @@ private:
     uint32_t	warpsPtr;
     uint32_t	scriptsPtr;
     uint32_t	signsPtr;
+  };
+
+  struct	WildHeader
+  {
+    uint8_t	bank;
+    uint8_t	map;
+    uint16_t	padding;
+    uint32_t	entryPtr[4];
   };
 
 public:
@@ -167,19 +183,15 @@ public:
     uint8_t	getMap() const { return (map); }
   };
 
-  struct	WildHeader
-  {
-    uint8_t	bank;
-    uint8_t	map;
-    uint16_t	padding;
-    uint32_t	entryPtr[4];
-  };
-
   struct	WildEntry
   {
     uint8_t	minLvl;
     uint8_t	maxLvl;
     uint16_t	species;
+
+    uint8_t	getMinLevel() const { return (minLvl); }
+    uint8_t	getMaxLevel() const { return (maxLvl); }
+    uint16_t	getSpecies() const { return (species); }
   };
 
 public:
@@ -218,6 +230,10 @@ public:
       uint8_t	ratio;
       WildEntry	*entries;
       uint8_t	nbEntries;
+
+      uint8_t   getRatio() const { return (ratio); }
+      uint8_t   getNbEntries() const { return (nbEntries); }
+      const WildEntry   &getEntry(uint8_t id) const { return (entries[id]); }
     };
 
     enum
@@ -266,6 +282,7 @@ public:
     const ScriptEvt     &getScript(uint8_t id) const { return (scripts[id]); }
     const SignEvt       &getSign(uint8_t id) const { return (signs[id]); }
     const Connection    &getConnection(uint8_t id) const { return (connects[id]); }
+    const WildBattle    &getWildBattle(uint8_t id) const { return (wildBattles[id]); }
     const std::string&  getName() const { return (name); }
 
   public:

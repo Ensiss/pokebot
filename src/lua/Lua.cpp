@@ -47,6 +47,7 @@ void            Lua::init()
     .addFunction("getLabelId", &World::Map::getLabelId)
     .addFunction("getName", &World::Map::getName)
     .addFunction("getNode", &World::Map::getNode)
+    .addFunction("getWildBattle", &World::Map::getWildBattle)
     .endClass()
     .endNamespace()
 
@@ -104,6 +105,18 @@ void            Lua::init()
     .addFunction("getMap", &World::Connection::getMap)
     .endClass()
 
+    .beginClass<World::Map::WildBattle>("WildBattle")
+    .addFunction("getRatio", &World::Map::WildBattle::getRatio)
+    .addFunction("getNbEntries", &World::Map::WildBattle::getNbEntries)
+    .addFunction("getEntry", &World::Map::WildBattle::getEntry)
+    .endClass()
+
+    .beginClass<World::WildEntry>("WildEntry")
+    .addFunction("getMinLevel", &World::WildEntry::getMinLevel)
+    .addFunction("getMaxLevel", &World::WildEntry::getMaxLevel)
+    .addFunction("getSpecies", &World::WildEntry::getSpecies)
+    .endClass()
+
     .beginNamespace("bot")
     .addFunction("queue", &BotUtils::queue)
     .addFunction("clear", &BotUtils::clear)
@@ -141,6 +154,7 @@ void            Lua::init()
 
   _initButtons();
   _initStates();
+  _initWildTypes();
   doFile("lua/main.lua");
 }
 
@@ -185,6 +199,23 @@ void            Lua::_initStates()
   _pushvar("running", Action::RUNNING);
   _pushvar("finished", Action::FINISHED);
   _pushvar("error", Action::ERROR);
+
+  lua_settable(_state, -3);
+}
+
+void            Lua::_initWildTypes()
+{
+  // Get global namespace
+  lua_getglobal(_state, "_G");
+  // Create "wild" namespace
+  lua_pushstring(_state, "wild");
+  lua_newtable(_state);
+
+  // Push variables
+  _pushvar("grass", WILD_GRASS);
+  _pushvar("water", WILD_WATER);
+  _pushvar("rock", WILD_ROCK);
+  _pushvar("fishing", WILD_FISHING);
 
   lua_settable(_state, -3);
 }
