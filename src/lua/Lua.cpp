@@ -250,18 +250,17 @@ void            Lua::doFunc(const std::string &s)
 
 void            Lua::doREPL()
 {
-  std::string   in;
+  char          buff[256];
+  int           ret;
 
   std::cout << "Lua REPL for Pokebot. Hit ^D to exit" << std::endl;
   while (1)
     {
       std::cout << "> " << std::flush;
-      std::getline(std::cin, in);
-      if (!in.size())
-        {
-          std::cin.clear();
-          break;
-        }
-      doString(in);
+      if ((ret = read(0, buff, 256)) == 0)
+        break;
+      if (buff[ret - 1] == '\n')
+        buff[ret - 1] = '\0';
+      doString(buff);
     }
 }
