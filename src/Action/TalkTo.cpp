@@ -114,7 +114,7 @@ void            Action::TalkTo::_handleYesNo()
 
 void		Action::TalkTo::_update()
 {
-  if (!_getCounter())
+  if (!getCounter())
     {
       _turnToOW();
       queue(new Action::PressButton(KEY_BUTTON_A));

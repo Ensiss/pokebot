@@ -37,14 +37,12 @@ public:
   void		reset() { _state = Action::NOT_STARTED; }
   Action::State	getState() const { return (_state); }
   void		setState(Action::State st) { _state = st; }
+  uint32_t      getCounter() const { return (_counter); }
 
 public:
   void		emit(const std::string &signal);
   void		addListener(const std::string &signal, void (*listener)(AAction *));
   void		addListener(const std::string &signal, void (AAction::*listener)());
-
-protected:
-  uint32_t      _getCounter() const { return (_counter); }
 
 protected:
   Data			&_data;

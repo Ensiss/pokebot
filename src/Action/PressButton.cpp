@@ -22,13 +22,13 @@ void		Action::PressButton::_init()
 
 void		Action::PressButton::_update()
 {
-  if (!_getCounter())
+  if (!getCounter())
     {
       for (uint8_t i = KEY_LEFT; i <= KEY_BUTTON_AUTO_B; i++)
         if (i != KEY_BUTTON_SPEED)
           sdlSetButton((EKey) i, false);
     }
-  else if (_getCounter() == 1)
+  else if (getCounter() == 1)
     sdlSetButton(_key, true);
   else
     _state = Action::FINISHED;
