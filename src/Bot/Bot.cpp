@@ -1,5 +1,7 @@
 #include	"Bot.hh"
 
+Bot             bot;
+
 Bot::Bot()
   : _action(NULL), _battle(NULL), _battleState(false), _state(0)
 {
@@ -66,4 +68,13 @@ void		Bot::update()
 void		Bot::queue(AAction *action)
 {
   _queue.push_back(action);
+}
+
+void		Bot::clear()
+{
+  while (_queue.size())
+    {
+      delete _queue.front();
+      _queue.pop_front();
+    }
 }

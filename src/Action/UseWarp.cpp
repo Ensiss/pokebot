@@ -56,7 +56,7 @@ void		Action::UseWarp::_update()
   int           py = p.getY();
   EKey          key = (EKey) -1;
 
-  if (!_getCounter())
+  if (!getCounter())
     {
       if (px == tx && py == ty)
         {

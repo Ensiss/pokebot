@@ -16,6 +16,9 @@ namespace	Action
   class		UseWarp : public AAction
   {
   public:
+    static UseWarp      *create(uint8_t id) { return (new UseWarp(id)); }
+
+  public:
     UseWarp(uint8_t personId);
     ~UseWarp();
 

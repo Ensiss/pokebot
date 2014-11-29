@@ -69,6 +69,7 @@ if( ENABLE_LINK )
 endif( ENABLE_LINK )
 # set the standard libraries all ports use
 SET(VBAMCORE_LIBS
+    lua5.1
     -Llib
     vbamcore
     fex
@@ -192,6 +193,7 @@ SET(SRC_MAIN
     src/Data/BattleData.cpp
 
     src/Bot/Bot.cpp
+    src/Bot/Utils.cpp
     src/Bot/PathFinder.cpp
 
     src/Action/AAction.cpp
@@ -202,6 +204,7 @@ SET(SRC_MAIN
     src/Action/MoveCursor.cpp
     src/Action/PressButton.cpp
     src/Action/Wait.cpp
+    src/Action/LuaClass.cpp
 
     src/PokeScript/Script.cpp
     src/PokeScript/Readers.cpp
@@ -213,14 +216,18 @@ SET(SRC_MAIN
     src/Utils/ThumbDisas.cpp
     src/Utils/PokemonUtils.cpp
     src/Utils/PrintUtils.cpp
+
+    src/lua/Lua.cpp
 )
 
 INCLUDE_DIRECTORIES(
     include
+    include/LuaBridge
     ${ZLIB_INCLUDE_DIR}
     fex
     ${PNG_INCLUDE_DIR}
     ${SDL_INCLUDE_DIR}
+    /usr/include/lua5.1
 )
 
 IF( ENABLE_GTK )

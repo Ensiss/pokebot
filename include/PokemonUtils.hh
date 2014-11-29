@@ -23,4 +23,10 @@ bool            getFlag(uint16_t flag);
 uint16_t        getVar(uint16_t var);
 void		*gbaMem(uint32_t ptr);
 
+template <typename T>
+T               gbaMem(uint32_t ptr)
+{
+  return (*((T *) gbaMem(ptr)));
+}
+
 #endif

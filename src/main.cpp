@@ -15,17 +15,24 @@
 #include	"PrintUtils.hh"
 #include	"Bot.hh"
 #include        "VM.hh"
+#include        "Lua.hh"
 
 Data		*Action::data = NULL;
+extern Lua      L;
+extern Bot      bot;
 
 void		doLoop()
 {
   Data		&data = *Action::data;
-  Bot		bot;
   int		step = 0;
 
   while (emulating)
     {
+      if (paused)
+        {
+          L.doREPL();
+          paused = false;
+        }
       if (++step < 900)
 	{
 	  sdlSetButton(KEY_BUTTON_AUTO_A, step < 899);
@@ -36,12 +43,16 @@ void		doLoop()
 	  data.update();
 	  bot.update();
 	  if (step == 900)
-            bot.setBattleAction(new Action::Battle());
+            {
+              bot.setBattleAction(new Action::Battle());
+              L.doFunc("onInit");
+            }
 	  if (step % 20 == 0)
 	    {
 	      printf("\033[2J\033[0;0H");
 	      printTeam(data);
 	      printMap(data);
+              L.doFunc("onEnterFrame");
 	    }
 	}
 
@@ -60,6 +71,7 @@ int		main(int ac, char **av)
   initVBAM(ac, av);
   Action::data = new Data();
   Script::initStd();
+  L.init();
   doLoop();
   destroyVBAM();
   return (0);
