@@ -1,12 +1,8 @@
-WalkLoop = setmetatable({}, {
-      __index = WalkLoop,
-      __call = function(act, radius)
-         local action = {}
-         setmetatable(action, {__index = WalkLoop})
-         action.radius = radius
-         return action
-      end
-})
+require 'Action'
+
+WalkLoop = ActionClass(function(obj, radius)
+      obj.radius = radius
+end)
 
 function WalkLoop:init(master)
    local x = data.player:getX()
