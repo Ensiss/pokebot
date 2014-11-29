@@ -222,9 +222,11 @@ void            Lua::_initWildTypes()
 
 void            Lua::_error(int ret)
 {
-  if (ret)
+  const char    *str;
+
+  if (ret && (str = lua_tostring(_state, -1)))
     {
-      std::cerr << "ERR: " << lua_tostring(_state, ret) << std::endl;
+      std::cerr << "Error: " << str << std::endl;
       lua_pop(_state, 1);
     }
 }
