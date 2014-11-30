@@ -24,15 +24,15 @@ void		Action::Battle::_update()
 
 void		Action::Battle::_attack(uint8_t atk)
 {
-  queue(new Action::MoveCursor(2, 2, 0, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+  queue(new Action::MoveCursor(2, 2, 0, []() -> uint8_t { return (Data::data->battleMenu().getCursor()); }));
   queue(new Action::PressButton(KEY_BUTTON_A));
-  queue(new Action::MoveCursor(2, 2, atk, []() -> uint8_t { return (Action::data->battleMenu().getAttack()); }));
+  queue(new Action::MoveCursor(2, 2, atk, []() -> uint8_t { return (Data::data->battleMenu().getAttack()); }));
   queue(new Action::PressButton(KEY_BUTTON_A));
 }
 
 void		Action::Battle::_switch(uint8_t poke)
 {
-  queue(new Action::MoveCursor(2, 2, 2, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+  queue(new Action::MoveCursor(2, 2, 2, []() -> uint8_t { return (Data::data->battleMenu().getCursor()); }));
   queue(new Action::PressButton(KEY_BUTTON_A));
   queue(new Action::Wait(75));
   queue(new Action::PressButton(KEY_RIGHT));
@@ -44,7 +44,7 @@ void		Action::Battle::_switch(uint8_t poke)
 
 void		Action::Battle::_run()
 {
-  queue(new Action::MoveCursor(2, 2, 3, []() -> uint8_t { return (Action::data->battleMenu().getCursor()); }));
+  queue(new Action::MoveCursor(2, 2, 3, []() -> uint8_t { return (Data::data->battleMenu().getCursor()); }));
   queue(new Action::PressButton(KEY_BUTTON_A));
 }
 

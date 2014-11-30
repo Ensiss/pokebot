@@ -1,5 +1,7 @@
 #include	"Data.hh"
 
+Data            *Data::data = NULL;
+
 Data::Data()
   : _ows((OverWorld *) gbaMem(0x02036E38)),
     _mchoice((MultiChoice *) gbaMem(0x083E04B0)),

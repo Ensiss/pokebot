@@ -1,7 +1,7 @@
 #include	"PathFinder.hh"
 
 PathFinder::PathFinder(World::Map &m)
-  : _m(m), _ows(Action::data->overWorlds()), _data(*Action::data)
+  : _m(m), _ows(Data::data->overWorlds()), _data(*Data::data)
 {
   _walkableTiles = {0x0C, 0x00, 0x10};
   _hills = {

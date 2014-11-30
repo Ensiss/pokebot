@@ -3,7 +3,7 @@
 Script Script::_std[10];
 
 Script::Script()
-  : _data(*Action::data)
+  : _data(*Data::data)
 {
 }
 
@@ -177,7 +177,7 @@ void            Script::print()
 
 Script          *Script::getPerson(uint8_t bank, uint8_t map, uint8_t id)
 {
-  World::Map    &m = Action::data->world()[bank][map];
+  World::Map    &m = Data::data->world()[bank][map];
   Script        *sc = new Script();
 
 
@@ -192,13 +192,13 @@ Script          *Script::getPerson(uint8_t bank, uint8_t map, uint8_t id)
 
 Script          *Script::getPerson(uint8_t id)
 {
-  Player        &p = Action::data->player();
+  Player        &p = Data::data->player();
   return (getPerson(p.getBank(), p.getMap(), id));
 }
 
 Script          *Script::getSign(uint8_t bank, uint8_t map, uint8_t id)
 {
-  World::Map    &m = Action::data->world()[bank][map];
+  World::Map    &m = Data::data->world()[bank][map];
   Script        *sc = new Script();
 
   if (id < m.nbSigns)
@@ -212,13 +212,13 @@ Script          *Script::getSign(uint8_t bank, uint8_t map, uint8_t id)
 
 Script          *Script::getSign(uint8_t id)
 {
-  Player        &p = Action::data->player();
+  Player        &p = Data::data->player();
   return (getSign(p.getBank(), p.getMap(), id));
 }
 
 Script          *Script::getScript(uint8_t bank, uint8_t map, uint8_t id)
 {
-  World::Map    &m = Action::data->world()[bank][map];
+  World::Map    &m = Data::data->world()[bank][map];
   Script        *sc = new Script();
 
   if (id < m.nbScripts)
@@ -232,6 +232,6 @@ Script          *Script::getScript(uint8_t bank, uint8_t map, uint8_t id)
 
 Script          *Script::getScript(uint8_t id)
 {
-  Player        &p = Action::data->player();
+  Player        &p = Data::data->player();
   return (getScript(p.getBank(), p.getMap(), id));
 }

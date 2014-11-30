@@ -18,7 +18,6 @@ namespace	Action
       FINISHED,
       ERROR
     };
-  extern Data	*data;
 };
 
 class		AAction

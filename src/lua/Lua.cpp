@@ -17,18 +17,19 @@ void            Lua::init()
 {
   getGlobalNamespace(_state)
     .beginNamespace("data")
+
     .beginClass<Player>("Player")
     .addFunction("getX", &Player::getX)
     .addFunction("getY", &Player::getY)
     .addFunction("getBank", &Player::getBank)
     .addFunction("getMap", &Player::getMap)
     .endClass()
-    .addVariable("player", &Action::data->player())
+    .addVariable("player", &Data::data->player())
 
     .beginClass<World>("World")
     .addFunction("getMap", &World::getMap)
     .endClass()
-    .addVariable("world", &Action::data->world())
+    .addVariable("world", &Data::data->world())
 
     .beginClass<World::Map>("Map")
     .addFunction("getWidth", &World::Map::getWidth)

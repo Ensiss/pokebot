@@ -17,13 +17,12 @@
 #include        "VM.hh"
 #include        "Lua.hh"
 
-Data		*Action::data = NULL;
 extern Lua      L;
 extern Bot      bot;
 
 void		doLoop()
 {
-  Data		&data = *Action::data;
+  Data		&data = *Data::data;
   int		step = 0;
 
   while (emulating)
@@ -69,7 +68,7 @@ int		main(int ac, char **av)
       return (1);
     }
   initVBAM(ac, av);
-  Action::data = new Data();
+  Data::data = new Data();
   Script::initStd();
   L.init();
   doLoop();

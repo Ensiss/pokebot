@@ -96,6 +96,9 @@ private:
   Team		_pteam;
   Team		_eteam;
   BattleGroup	_battlers;
+
+public:
+  static Data   *data;
 };
 
 #endif

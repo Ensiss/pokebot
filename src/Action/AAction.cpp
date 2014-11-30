@@ -1,7 +1,7 @@
 #include	"Action/AAction.hh"
 
 AAction::AAction()
-  : _data(*Action::data), _state(Action::NOT_STARTED), _counter(0)
+  : _data(*Data::data), _state(Action::NOT_STARTED), _counter(0)
 {
   addListener("onInit", &AAction::_init);
   addListener("onUpdate", &AAction::_update);
