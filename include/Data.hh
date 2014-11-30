@@ -99,6 +99,9 @@ private:
 
 public:
   static const Species  &getSpeciesWrapper(uint16_t i) { return (data->species(i)); }
+  static const Move     &getMoveWrapper(uint16_t i) { return (data->move(i)); }
+  static const char     *getTypeWrapper(uint8_t i) { return (data->type(i)); }
+  static const char     *getAbilityNameWrapper(uint8_t i) { return (data->abilityName(i)); }
 
   static Data   *data;
 };
