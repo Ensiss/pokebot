@@ -98,6 +98,7 @@ private:
   BattleGroup	_battlers;
 
 public:
+  static const OverWorld        &getOverWorldWrapper(uint8_t i) { return (data->overWorld(i)); }
   static const Species  &getSpeciesWrapper(uint16_t i) { return (data->species(i)); }
   static const Move     &getMoveWrapper(uint16_t i) { return (data->move(i)); }
   static const char     *getTypeWrapper(uint8_t i) { return (data->type(i)); }
