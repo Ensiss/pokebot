@@ -3,9 +3,13 @@
 #include        <LuaBridge.h>
 #include        "Data.hh"
 #include        "Bot.hh"
-#include        "BotUtils.hh"
 #include        "Action/AAction.hh"
 #include        "Action/LuaClass.hh"
+#include        "Action/MoveTo.hh"
+#include        "Action/TalkTo.hh"
+#include        "Action/UseWarp.hh"
+#include        "Action/PressButton.hh"
+#include        "Action/Wait.hh"
 extern "C" {
 #include        "lua.h"
 #include        "lauxlib.h"

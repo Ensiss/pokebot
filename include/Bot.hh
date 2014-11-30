@@ -32,6 +32,13 @@ private:
   bool			_battleState;
   int			_state;
   uint16_t		_keyState;
+
+public:
+  static void           queueWrapper(AAction *act) { bot.queue(act); }
+  static void           clearWrapper() { bot.clear(); }
+
+public:
+  static Bot            bot;
 };
 
 #endif

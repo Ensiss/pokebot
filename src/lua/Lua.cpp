@@ -1,7 +1,6 @@
 #include        "Lua.hh"
 
 Lua             L;
-extern Bot      bot;
 
 Lua::Lua()
 {
@@ -119,8 +118,8 @@ void            Lua::init()
     .endClass()
 
     .beginNamespace("bot")
-    .addFunction("queue", &BotUtils::queue)
-    .addFunction("clear", &BotUtils::clear)
+    .addFunction("queue", &Bot::queueWrapper)
+    .addFunction("clear", &Bot::clearWrapper)
     .endNamespace()
 
     .beginNamespace("mem")

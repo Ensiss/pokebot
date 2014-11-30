@@ -1,6 +1,6 @@
 #include	"Bot.hh"
 
-Bot             bot;
+Bot             Bot::bot;
 
 Bot::Bot()
   : _action(NULL), _battle(NULL), _battleState(false), _state(0)

@@ -18,7 +18,6 @@
 #include        "Lua.hh"
 
 extern Lua      L;
-extern Bot      bot;
 
 void		doLoop()
 {
@@ -40,10 +39,10 @@ void		doLoop()
       else
 	{
 	  data.update();
-	  bot.update();
+          Bot::bot.update();
 	  if (step == 900)
             {
-              bot.setBattleAction(new Action::Battle());
+              Bot::bot.setBattleAction(new Action::Battle());
               L.doFunc("onInit");
             }
 	  if (step % 20 == 0)
@@ -56,7 +55,7 @@ void		doLoop()
 	}
 
       emulator.emuMain(emulator.emuCount);
-      sdlPollEvents(data, bot);
+      sdlPollEvents(data, Bot::bot);
     }
 }
 

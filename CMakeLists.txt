@@ -193,7 +193,6 @@ SET(SRC_MAIN
     src/Data/BattleData.cpp
 
     src/Bot/Bot.cpp
-    src/Bot/Utils.cpp
     src/Bot/PathFinder.cpp
 
     src/Action/AAction.cpp
