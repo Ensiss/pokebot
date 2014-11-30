@@ -98,6 +98,8 @@ private:
   BattleGroup	_battlers;
 
 public:
+  static const Species  &getSpeciesWrapper(uint16_t i) { return (data->species(i)); }
+
   static Data   *data;
 };
 
