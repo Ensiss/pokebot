@@ -98,6 +98,9 @@ private:
   BattleGroup	_battlers;
 
 public:
+  static const PokemonData      &getPlayerPokemonWrapper(uint8_t i) { return (data->playerTeam()[i]); }
+  static const PokemonData      &getEnemyPokemonWrapper(uint8_t i) { return (data->enemyTeam()[i]); }
+  static const BattleData       &getBattlerWrapper(uint8_t i) { return (data->battlers()[i]); }
   static const OverWorld        &getOverWorldWrapper(uint8_t i) { return (data->overWorld(i)); }
   static const Species  &getSpeciesWrapper(uint16_t i) { return (data->species(i)); }
   static const Move     &getMoveWrapper(uint16_t i) { return (data->move(i)); }
