@@ -25,7 +25,7 @@ class		AAction
 public:
   AAction();
   Action::State	update();
-  virtual	~AAction() {}
+  virtual	~AAction();
 
 private:
   virtual void	_update() = 0;

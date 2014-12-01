@@ -9,6 +9,7 @@ Bot::Bot()
 
 Bot::~Bot()
 {
+  clear();
 }
 
 void		Bot::_saveKeyState()
@@ -77,4 +78,8 @@ void		Bot::clear()
       delete _queue.front();
       _queue.pop_front();
     }
+  delete _action;
+  _action = NULL;
+  for (uint8_t i = KEY_LEFT; i < KEY_BUTTON_SPEED; i++)
+    sdlSetButton((EKey) i, false);
 }

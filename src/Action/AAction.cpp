@@ -7,6 +7,15 @@ AAction::AAction()
   addListener("onUpdate", &AAction::_update);
 }
 
+AAction::~AAction()
+{
+  while (_actions.size())
+    {
+      delete _actions.front();
+      _actions.pop();
+    }
+}
+
 Action::State	AAction::update()
 {
   if (_state == Action::NOT_STARTED)
