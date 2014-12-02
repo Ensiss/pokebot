@@ -146,6 +146,7 @@ public:
   static Script *getSign(uint8_t id) { return (_getScript(0, 0, id, SIGN)); }
   static Script *getScript(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SCRIPT)); }
   static Script *getScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
+  static Script *getGenericScript(uint8_t b, uint8_t m, uint8_t id, ScriptType t) { return (_getScript(b, m, id, t)); }
 
 public:
   uint8_t       getBank() const { return (_id.bank); }
