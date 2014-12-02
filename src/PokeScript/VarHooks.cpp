@@ -22,6 +22,10 @@ void            Script::_addHook(Instruction *instr)
     {
       if (it->second & (1 << i) &&
           (VM_IS_FLAG(instr->args[i]) || VM_IS_VAR(instr->args[i])))
-        _hookList[instr->args[i]].push_back(this);
+        {
+          std::vector<Script *> &list = _hookList[instr->args[i]];
+          if (std::find(list.begin(), list.end(), this) == list.end())
+            list.push_back(this);
+        }
     }
 }
