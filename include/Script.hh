@@ -108,6 +108,29 @@ public:
       NONE
     };
 
+  struct        Identifier
+  {
+    uint8_t     bank;
+    uint8_t     map;
+    uint8_t     id;
+    ScriptType  type;
+
+    Identifier(uint8_t bank = 0, uint8_t map = 0, uint8_t id = 0, ScriptType type = NONE)
+      : bank(bank), map(map), id(id), type(type)
+    {}
+
+    bool        operator<(const Identifier &o) const
+    {
+      if (bank != o.bank)
+        return (bank < o.bank);
+      if (map != o.map)
+        return (map < o.map);
+      if (id != o.id)
+        return (id < o.id);
+      return (type < o.type);
+    }
+  };
+
 public:
   Script(uint8_t bank = 0, uint8_t map = 0, uint8_t id = 0, ScriptType type = NONE);
   ~Script();
@@ -126,10 +149,10 @@ public:
   static Script  *getScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
 
 public:
-  uint8_t       getBank() const { return (_bank); }
-  uint8_t       getMap() const { return (_map); }
-  uint8_t       getId() const { return (_id); }
-  uint8_t       getType() const { return (_type); }
+  uint8_t       getBank() const { return (_id.bank); }
+  uint8_t       getMap() const { return (_id.map); }
+  uint8_t       getId() const { return (_id.id); }
+  uint8_t       getType() const { return (_id.type); }
 
 public:
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
@@ -157,10 +180,7 @@ private:
 
 private:
   Data			&_data;
-  uint8_t               _bank;
-  uint8_t               _map;
-  uint8_t               _id;
-  ScriptType            _type;
+  Identifier            _id;
   uint32_t		_offset;
   uint32_t		_start;
   uint8_t		*_ptr;
@@ -172,6 +192,7 @@ private:
 
   static Command	_cmds[0xD6];
   static Script         *_std[10];
+  static std::map<Identifier, Script *>         _cache;
   static std::map<std::string, ParamReader>     _readers;
   static std::map<uint8_t, uint8_t>             _cmdHooks;
   static std::map<uint16_t, std::vector<Script *> >     _hookList;

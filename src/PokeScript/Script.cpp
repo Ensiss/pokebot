@@ -1,9 +1,10 @@
 #include	"Script.hh"
 
+std::map<Script::Identifier, Script *>  Script::_cache;
 Script *Script::_std[10];
 
 Script::Script(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
-  : _data(*Data::data), _bank(bank), _map(map), _id(id), _type(type)
+  : _data(*Data::data), _id(bank, map, id, type)
 {
 }
 
@@ -189,6 +190,10 @@ Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, Scrip
 
   World::Map    &m = Data::data->world()[bank][map];
   Script        *sc = NULL;
+  std::map<Identifier, Script *>::iterator it = _cache.find(Identifier(bank, map, id, type));
+
+  if (it != _cache.end())
+    return (it->second);
 
   if ((type == PERSON && id < m.getNbPersons()) ||
       (type == SIGN && id < m.getNbSigns()) ||
@@ -199,8 +204,9 @@ Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, Scrip
                        m.getScript(id).getScript());
       sc = new Script(bank, map, id, type);
       sc->load(ptr);
+      _cache[Identifier(bank, map, id, type)] = sc;
       return (sc);
     }
-  fprintf(stderr, "Error: cannot find scriptable %d of type %d in map [%d, %d]", id, type, bank, map);
+  fprintf(stderr, "Error: cannot find scriptable %d of type %d in map [%d, %d]\n", id, type, bank, map);
   return (sc);
 }
