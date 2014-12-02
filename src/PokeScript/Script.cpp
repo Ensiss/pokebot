@@ -1,9 +1,9 @@
 #include	"Script.hh"
 
-Script Script::_std[10];
+Script *Script::_std[10];
 
-Script::Script()
-  : _data(*Data::data)
+Script::Script(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
+  : _data(*Data::data), _bank(bank), _map(map), _id(id), _type(type)
 {
 }
 
@@ -130,7 +130,10 @@ void            Script::initStd()
   static bool done = false;
 
   for (int i = 0; i < 10 && !done; i++)
-    _std[i].loadStd(i);
+    {
+      _std[i] = new Script(0, 0, i, STD);
+      _std[i]->loadStd(i);
+    }
   done = true;
 }
 
@@ -176,63 +179,28 @@ void            Script::print()
   std::cout << std::endl;
 }
 
-Script          *Script::getPerson(uint8_t bank, uint8_t map, uint8_t id)
+Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
 {
-  World::Map    &m = Data::data->world()[bank][map];
-  Script        *sc = new Script();
-
-
-  if (id < m.nbPersons)
+  if (!bank && !map)
     {
-      sc->load(m.persons[id].scriptPtr);
+      bank = Data::data->player().getBank();
+      map = Data::data->player().getMap();
+    }
+
+  World::Map    &m = Data::data->world()[bank][map];
+  Script        *sc = NULL;
+
+  if ((type == PERSON && id < m.getNbPersons()) ||
+      (type == SIGN && id < m.getNbSigns()) ||
+      (type == SCRIPT && id < m.getNbScripts()))
+    {
+      uint32_t  ptr = (type == PERSON ? m.getPerson(id).getScript() :
+                       type == SIGN ? m.getSign(id).getScript() :
+                       m.getScript(id).getScript());
+      sc = new Script(bank, map, id, type);
+      sc->load(ptr);
       return (sc);
     }
-  fprintf(stderr, "Error: cannot find person %d in map [%d, %d]", id, bank, map);
+  fprintf(stderr, "Error: cannot find scriptable %d of type %d in map [%d, %d]", id, type, bank, map);
   return (sc);
-}
-
-Script          *Script::getPerson(uint8_t id)
-{
-  Player        &p = Data::data->player();
-  return (getPerson(p.getBank(), p.getMap(), id));
-}
-
-Script          *Script::getSign(uint8_t bank, uint8_t map, uint8_t id)
-{
-  World::Map    &m = Data::data->world()[bank][map];
-  Script        *sc = new Script();
-
-  if (id < m.nbSigns)
-    {
-      sc->load(m.signs[id].scriptPtr);
-      return (sc);
-    }
-  fprintf(stderr, "Error: cannot find sign %d in map [%d, %d]", id, bank, map);
-  return (sc);
-}
-
-Script          *Script::getSign(uint8_t id)
-{
-  Player        &p = Data::data->player();
-  return (getSign(p.getBank(), p.getMap(), id));
-}
-
-Script          *Script::getScript(uint8_t bank, uint8_t map, uint8_t id)
-{
-  World::Map    &m = Data::data->world()[bank][map];
-  Script        *sc = new Script();
-
-  if (id < m.nbScripts)
-    {
-      sc->load(m.scripts[id].scriptPtr);
-      return (sc);
-    }
-  fprintf(stderr, "Error: cannot find script %d in map [%d, %d]", id, bank, map);
-  return (sc);
-}
-
-Script          *Script::getScript(uint8_t id)
-{
-  Player        &p = Data::data->player();
-  return (getScript(p.getBank(), p.getMap(), id));
 }

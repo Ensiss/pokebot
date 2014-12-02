@@ -99,22 +99,37 @@ public:
     void        (Script::*hook)(Instruction *);
   };
 
+  enum          ScriptType
+    {
+      PERSON,
+      SIGN,
+      SCRIPT,
+      STD,
+      NONE
+    };
+
 public:
-  Script();
+  Script(uint8_t bank = 0, uint8_t map = 0, uint8_t id = 0, ScriptType type = NONE);
   ~Script();
 
 public:
   Script	&load(uint32_t ptr);
   Script	&loadStd(uint8_t n);
   void		print();
-  static Script &getStd(uint8_t n) { return (_std[n * (n < 10)]); }
   static void   initStd();
-  static Script *getPerson(uint8_t bank, uint8_t map, uint8_t id);
-  static Script *getPerson(uint8_t id);
-  static Script *getSign(uint8_t bank, uint8_t map, uint8_t id);
-  static Script *getSign(uint8_t id);
-  static Script *getScript(uint8_t bank, uint8_t map, uint8_t id);
-  static Script *getScript(uint8_t id);
+  static Script *getStd(uint8_t n) { return (_std[n * (n < 10)]); }
+  static Script  *getPerson(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, PERSON)); }
+  static Script  *getPerson(uint8_t id) { return (_getScript(0, 0, id, PERSON)); }
+  static Script  *getSign(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SIGN)); }
+  static Script  *getSign(uint8_t id) { return (_getScript(0, 0, id, SIGN)); }
+  static Script  *getScript(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SCRIPT)); }
+  static Script  *getScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
+
+public:
+  uint8_t       getBank() const { return (_bank); }
+  uint8_t       getMap() const { return (_map); }
+  uint8_t       getId() const { return (_id); }
+  uint8_t       getType() const { return (_type); }
 
 public:
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
@@ -126,7 +141,7 @@ private:
   bool		_setupNextAddr();
   void          _getInstruction(Command &cmd);
   void          _addHook(Instruction *instr);
-
+  static Script *_getScript(uint8_t bank, uint8_t map, uint8_t id, ScriptType type);
 private:
   uint32_t	_readByte();
   uint32_t	_readWord();
@@ -142,6 +157,10 @@ private:
 
 private:
   Data			&_data;
+  uint8_t               _bank;
+  uint8_t               _map;
+  uint8_t               _id;
+  ScriptType            _type;
   uint32_t		_offset;
   uint32_t		_start;
   uint8_t		*_ptr;
@@ -152,7 +171,7 @@ private:
   std::map<int, Instruction *>  _instructions;
 
   static Command	_cmds[0xD6];
-  static Script         _std[10];
+  static Script         *_std[10];
   static std::map<std::string, ParamReader>     _readers;
   static std::map<uint8_t, uint8_t>             _cmdHooks;
   static std::map<uint16_t, std::vector<Script *> >     _hookList;

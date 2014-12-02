@@ -80,7 +80,7 @@ Script::Instruction     *Action::TalkTo::_getCurrentCmd()
   if ((instr = _searchCmd(_script->getInstructions(), next)))
     return (instr);
   for (int i = 0; i < 10; i++)
-    if ((instr = _searchCmd(Script::getStd(i).getInstructions(), next)))
+    if ((instr = _searchCmd(Script::getStd(i)->getInstructions(), next)))
       return (instr);
   return (NULL);
 }
