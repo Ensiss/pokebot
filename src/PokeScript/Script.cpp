@@ -87,6 +87,7 @@ void            Script::_getInstruction(Command &cmd)
   if (cmd.hook)
     (this->*cmd.hook)(instr);
   instr->setLength(_start + _pc - instr->offset);
+  _addHook(instr);
   _instructions[instr->offset] = instr;
 }
 
@@ -108,7 +109,7 @@ Script		&Script::load(uint32_t ptr)
 	  _oldpc = _pc;
 	  id = _ptr[_pc++];
 	  if (_cmds[id].format != "")
-	    _getInstruction(_cmds[id]);
+            _getInstruction(_cmds[id]);
 	  else
 	    printf("ERROR: Unknown opcode %#02x", id);
 	}

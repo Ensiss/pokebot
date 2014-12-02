@@ -18,6 +18,21 @@
 #include	"../vbam/gba/Globals.h"
 #include	"Data.hh"
 
+#define         VM_FLAGS        0x900
+#define         VM_VARS         0x100
+#define         VM_TEMP         0x1F
+#define         VM_BANKS        0x04
+#define         VM_BUFF         0x03
+#define         VM_VAR_OFFSET   0x4000
+#define         VM_TEMP_OFFSET  0x8000
+
+#define         VM_LASTRESULT   0x800D
+
+#define         VM_IS_FLAG(x)   ((x) < VM_FLAGS)
+#define         VM_IS_BANK(x)   ((x) < VM_BANKS)
+#define         VM_IS_VAR(x)    ((x) >= VM_VAR_OFFSET && (x) < VM_VAR_OFFSET + VM_VARS)
+#define         VM_IS_TEMP(x)   ((x) >= VM_TEMP_OFFSET && (x) < VM_TEMP_OFFSET + VM_TEMP)
+
 class		Script
 {
 private:
@@ -110,6 +125,7 @@ private:
   void		_reset();
   bool		_setupNextAddr();
   void          _getInstruction(Command &cmd);
+  void          _addHook(Instruction *instr);
 
 private:
   uint32_t	_readByte();
@@ -136,8 +152,10 @@ private:
   std::map<int, Instruction *>  _instructions;
 
   static Command	_cmds[0xD6];
-  static std::map<std::string, ParamReader>     _readers;
   static Script         _std[10];
+  static std::map<std::string, ParamReader>     _readers;
+  static std::map<uint8_t, uint8_t>             _cmdHooks;
+  static std::map<uint16_t, std::vector<Script *> >     _hookList;
 };
 
 #endif
