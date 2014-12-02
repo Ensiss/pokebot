@@ -139,14 +139,13 @@ public:
   Script	&load(uint32_t ptr);
   Script	&loadStd(uint8_t n);
   void		print();
-  static void   initStd();
-  static Script *getStd(uint8_t n) { return (_std[n * (n < 10)]); }
-  static Script  *getPerson(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, PERSON)); }
-  static Script  *getPerson(uint8_t id) { return (_getScript(0, 0, id, PERSON)); }
-  static Script  *getSign(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SIGN)); }
-  static Script  *getSign(uint8_t id) { return (_getScript(0, 0, id, SIGN)); }
-  static Script  *getScript(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SCRIPT)); }
-  static Script  *getScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
+  static Script *getStd(uint8_t n) { return (_getScript(0, 0, n, STD)); }
+  static Script *getPerson(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, PERSON)); }
+  static Script *getPerson(uint8_t id) { return (_getScript(0, 0, id, PERSON)); }
+  static Script *getSign(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SIGN)); }
+  static Script *getSign(uint8_t id) { return (_getScript(0, 0, id, SIGN)); }
+  static Script *getScript(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SCRIPT)); }
+  static Script *getScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
 
 public:
   uint8_t       getBank() const { return (_id.bank); }
@@ -191,7 +190,6 @@ private:
   std::map<int, Instruction *>  _instructions;
 
   static Command	_cmds[0xD6];
-  static Script         *_std[10];
   static std::map<Identifier, Script *>         _cache;
   static std::map<std::string, ParamReader>     _readers;
   static std::map<uint8_t, uint8_t>             _cmdHooks;

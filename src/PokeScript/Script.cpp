@@ -1,7 +1,6 @@
 #include	"Script.hh"
 
 std::map<Script::Identifier, Script *>  Script::_cache;
-Script *Script::_std[10];
 
 Script::Script(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
   : _data(*Data::data), _id(bank, map, id, type)
@@ -126,18 +125,6 @@ Script		&Script::loadStd(uint8_t n)
   return (*this);
 }
 
-void            Script::initStd()
-{
-  static bool done = false;
-
-  for (int i = 0; i < 10 && !done; i++)
-    {
-      _std[i] = new Script(0, 0, i, STD);
-      _std[i]->loadStd(i);
-    }
-  done = true;
-}
-
 void            Script::_subPrint(uint32_t ptr)
 {
   Instruction   *instr;
@@ -182,28 +169,38 @@ void            Script::print()
 
 Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
 {
-  if (!bank && !map)
+  std::map<Identifier, Script *>::iterator it;
+  Script        *sc = NULL;
+
+  if (type < STD && !bank && !map)
     {
       bank = Data::data->player().getBank();
       map = Data::data->player().getMap();
     }
-
-  World::Map    &m = Data::data->world()[bank][map];
-  Script        *sc = NULL;
-  std::map<Identifier, Script *>::iterator it = _cache.find(Identifier(bank, map, id, type));
-
+  it = _cache.find(Identifier(bank, map, id, type));
   if (it != _cache.end())
     return (it->second);
+
+  if (type == STD)
+    {
+      if (id > 9)
+        return (NULL);
+      sc = new Script(bank, map, id, type);
+      sc->loadStd(id);
+      _cache[Identifier(bank, map, id, type)] = sc;
+      return (sc);
+    }
+
+  World::Map    &m = Data::data->world()[bank][map];
 
   if ((type == PERSON && id < m.getNbPersons()) ||
       (type == SIGN && id < m.getNbSigns()) ||
       (type == SCRIPT && id < m.getNbScripts()))
     {
-      uint32_t  ptr = (type == PERSON ? m.getPerson(id).getScript() :
-                       type == SIGN ? m.getSign(id).getScript() :
-                       m.getScript(id).getScript());
       sc = new Script(bank, map, id, type);
-      sc->load(ptr);
+      sc->load(type == PERSON ? m.getPerson(id).getScript() :
+               type == SIGN ? m.getSign(id).getScript() :
+               m.getScript(id).getScript());
       _cache[Identifier(bank, map, id, type)] = sc;
       return (sc);
     }
