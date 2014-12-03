@@ -288,6 +288,13 @@ void            Lua::init()
     .addFunction("getType", &Script::getType)
     .endClass()
     .endNamespace()
+
+    .beginNamespace("config")
+    .addFunction("getString", &Config::getString)
+    .addFunction("setString", &Config::setString)
+    .addFunction("getNumber", &Config::getNumber)
+    .addFunction("setNumber", &Config::setNumber)
+    .endNamespace()
     ;
 
   _initButtons();

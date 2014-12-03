@@ -16,6 +16,7 @@
 #include	"Bot.hh"
 #include        "VM.hh"
 #include        "Lua.hh"
+#include        "Config.hh"
 
 extern Lua      L;
 
@@ -31,6 +32,7 @@ void		doLoop()
           L.doREPL();
           paused = false;
         }
+      L.doFunc("onEnterFrame");
       if (++step < 900)
 	{
 	  sdlSetButton(KEY_BUTTON_AUTO_A, step < 899);
@@ -45,12 +47,13 @@ void		doLoop()
               Bot::bot.setBattleAction(new Action::Battle());
               L.doFunc("onInit");
             }
-	  if (step % 20 == 0)
+	  if (step % Config::getNumber("refreshRate") == 0)
 	    {
-	      printf("\033[2J\033[0;0H");
+              if (Config::getNumber("clearOnRefresh"))
+                printf("\033[2J\033[0;0H");
 	      printTeam(data);
 	      printMap(data);
-              L.doFunc("onEnterFrame");
+              L.doFunc("onRefresh");
 	    }
 	}
 

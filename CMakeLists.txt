@@ -185,6 +185,7 @@ SET(SRC_SDL
 
 SET(SRC_MAIN
     src/main.cpp
+    src/Config.cpp
 
     src/Data/Data.cpp
     src/Data/World.cpp

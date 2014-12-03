@@ -11,7 +11,7 @@ function printMap()
    end
 end
 
-function onEnterFrame()
+function onRefresh()
    local p = data.player
    local map = data.world:getMap(p:getBank(), p:getMap())
    print("Player coordinates: (" .. p:getX() .. ", " .. p:getY() .. ")")
@@ -19,6 +19,7 @@ function onEnterFrame()
 end
 
 function onInit()
+   config.setNumber("clearOnRefresh", 0)
    bot.queue(new.lua(WalkLoop(1)))
    bot.queue(new.talkTo(0))
 end
