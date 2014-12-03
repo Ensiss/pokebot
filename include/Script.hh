@@ -140,13 +140,10 @@ public:
   Script	&loadStd(uint8_t n);
   void		print();
   static Script *getStd(uint8_t n) { return (_getScript(0, 0, n, STD)); }
-  static Script *getPerson(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, PERSON)); }
-  static Script *getPerson(uint8_t id) { return (_getScript(0, 0, id, PERSON)); }
-  static Script *getSign(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SIGN)); }
-  static Script *getSign(uint8_t id) { return (_getScript(0, 0, id, SIGN)); }
-  static Script *getScript(uint8_t bank, uint8_t map, uint8_t id) { return (_getScript(bank, map, id, SCRIPT)); }
-  static Script *getScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
-  static Script *getGenericScript(uint8_t b, uint8_t m, uint8_t id, ScriptType t) { return (_getScript(b, m, id, t)); }
+  static Script *getPerson(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, PERSON)); }
+  static Script *getSign(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SIGN)); }
+  static Script *getScript(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SCRIPT)); }
+  static Script *getGenericScript(uint8_t id, uint8_t b, uint8_t m, ScriptType t) { return (_getScript(b, m, id, t)); }
 
 public:
   uint8_t       getBank() const { return (_id.bank); }
