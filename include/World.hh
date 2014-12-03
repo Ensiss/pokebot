@@ -164,8 +164,8 @@ public:
     uint16_t	getX() const { return (x); }
     uint16_t	getY() const { return (y); }
     uint8_t	getLevel() const { return (level); }
-    uint8_t	getVarNb() const { return (varNb); }
-    uint8_t	getVarValue() const { return (varVal); }
+    uint16_t	getVarNb() const { return (varNb); }
+    uint16_t	getVarValue() const { return (varVal); }
     uint32_t	getScript() const { return (scriptPtr); }
   };
 
