@@ -17,8 +17,6 @@ Action::TalkTo::TalkTo(uint8_t personId, VM::ChoicePts *choices)
 
 Action::TalkTo::~TalkTo()
 {
-  if (_script)
-    delete _script;
 }
 
 void            Action::TalkTo::_turnToOW()
