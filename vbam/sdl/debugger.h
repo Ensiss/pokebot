@@ -20,3 +20,5 @@
 extern void debuggerMain();
 extern void debuggerOutput(const char *, u32);
 extern void debuggerSignal(int,int);
+extern void debuggerDoCommand(char *s);
+extern void debuggerDoString(const std::string &s);

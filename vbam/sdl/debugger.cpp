@@ -18,6 +18,7 @@
 
 // Parts adapted from VBA-H (VBA for Hackers) by LabMaster
 
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1056,25 +1057,6 @@ static void debuggerBreakArm(int n, char **args)
     printf("Added ARM breakpoint at %08x\n", address);
   } else
     debuggerUsage("ba");
-}
-
-/*extern*/ void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value,
-                                     int size, int t)
-{
-  const char *type = "write";
-  if(t == 2)
-    type = "change";
-
-  if(size == 2)
-    printf("Breakpoint (on %s) address %08x old:%08x new:%08x\n",
-           type, address, oldvalue, value);
-  else if(size == 1)
-    printf("Breakpoint (on %s) address %08x old:%04x new:%04x\n",
-           type, address, (u16)oldvalue,(u16)value);
-  else
-    printf("Breakpoint (on %s) address %08x old:%02x new:%02x\n",
-           type, address, (u8)oldvalue, (u8)value);
-  debugger = true;
 }
 
 static void debuggerBreakWriteClear(int n, char **args)
@@ -2630,11 +2612,44 @@ char* strqtok (char* string, const char* ctrl)
   };
 };
 
+void debuggerDoCommand(char *s)
+{
+  char *commands[10];
+  int commandCount = 0;
+
+  commands[0] = strqtok(s, " \t\n");
+  if(commands[0] == NULL)
+    return;
+  commandCount++;
+  while((s = strqtok(NULL, " \t\n"))) {
+    commands[commandCount++] = s;
+    if(commandCount == 10)
+      break;
+  }
+
+  for(int j = 0; ; j++) {
+    if(debuggerCommands[j].name == NULL) {
+      printf("Unrecognized command %s. Type h for help.\n", commands[0]);
+      break;
+    }
+    if(!strcmp(commands[0], debuggerCommands[j].name)) {
+      debuggerCommands[j].function(commandCount, commands);
+      break;
+    }
+  }
+}
+
+void debuggerDoString(const std::string &s)
+{
+  char buffer[1024];
+
+  strcpy(buffer, s.c_str());
+  debuggerDoCommand(buffer);
+}
+
 /*extern*/ void debuggerMain()
 {
   char buffer[1024];
-  char *commands[10];
-  int commandCount = 0;
 
   if(emulator.emuUpdateCPSR)
     emulator.emuUpdateCPSR();
@@ -2644,29 +2659,8 @@ char* strqtok (char* string, const char* ctrl)
     soundPause();
     debuggerDisableBreakpoints();
     printf("debugger> ");
-    commandCount = 0;
     char *s = fgets(buffer, 1024, stdin);
-
-    commands[0] = strqtok(s, " \t\n");
-    if(commands[0] == NULL)
-      continue;
-    commandCount++;
-    while((s = strqtok(NULL, " \t\n"))) {
-      commands[commandCount++] = s;
-      if(commandCount == 10)
-        break;
-    }
-
-    for(int j = 0; ; j++) {
-      if(debuggerCommands[j].name == NULL) {
-        printf("Unrecognized command %s. Type h for help.\n", commands[0]);
-        break;
-      }
-      if(!strcmp(commands[0], debuggerCommands[j].name)) {
-        debuggerCommands[j].function(commandCount, commands);
-        break;
-      }
-    }
+    debuggerDoCommand(s);
   }
 }
 

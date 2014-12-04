@@ -217,6 +217,7 @@ SET(SRC_MAIN
     src/Utils/ThumbDisas.cpp
     src/Utils/PokemonUtils.cpp
     src/Utils/PrintUtils.cpp
+    src/Utils/Breakpoint.cpp
 
     src/lua/Lua.cpp
 )

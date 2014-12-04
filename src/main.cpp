@@ -4,6 +4,7 @@
 #include	"../vbam/gba/Globals.h"
 #include	"../vbam/gba/armdis.h"
 #include	"../vbam/sdl/SDLGlobals.h"
+#include        "../vbam/sdl/debugger.h"
 #include	"Data.hh"
 #include	"Action/AAction.hh"
 #include	"Action/MoveTo.hh"
@@ -70,6 +71,8 @@ int		main(int ac, char **av)
       return (1);
     }
   initVBAM(ac, av);
+  // Break when script engine PC is modified
+  debuggerDoString("bpw 03000EB8 4");
   Data::data = new Data();
   L.init();
   doLoop();

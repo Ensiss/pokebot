@@ -19,7 +19,7 @@ function onRefresh()
 end
 
 function onInit()
-   config.setNumber("clearOnRefresh", 0)
+   config.setNumber("clearOnRefresh", 1)
    bot.queue(new.lua(WalkLoop(1)))
    bot.queue(new.talkTo(0))
 end
