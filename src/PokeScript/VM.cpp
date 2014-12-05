@@ -24,6 +24,27 @@ bool            VM::_restoreContext()
   return (true);
 }
 
+static void     _updateKeyScripts(Script *scr)
+{
+  Script::Identifier            &id = scr->getIdentifier();
+  std::vector<ChoicePts>        &ch = scr->getChoices();
+
+  for (std::vector<ChoicePts>::iterator it = ch.begin(); it != ch.end(); it++)
+    {
+      // This script can visit a new key point, add it to the
+      // "interesting scripts" list
+      if (it->pts)
+        {
+          printf("Adding script #%d@[%d %d]\n", id.id, id.bank, id.map);
+          Script::getKeyScripts()[id] = scr;
+          return;
+        }
+    }
+  // Nothing new, remove it from the list
+  printf("Removing script #%d@[%d %d]\n", id.id, id.bank, id.map);
+  Script::getKeyScripts().erase(id);
+}
+
 /**
    Counts how many key points would be visited if the script was executed
 
@@ -35,15 +56,15 @@ bool            VM::_restoreContext()
 
    @param script        The script to execute
  */
-void            VM::execCountNewVisits(Script &script)
+void            VM::execCountNewVisits(Script *script)
 {
-  std::map<int, Script::Instruction *>  &instMap = script.getInstructions();
-  std::vector<ChoicePts>                &cpts = script.getChoices();
+  std::map<int, Script::Instruction *>  &instMap = script->getInstructions();
+  std::vector<ChoicePts>                &cpts = script->getChoices();
   uint32_t      oldpc;
 
   cpts.clear();
   _ctx.update();
-  _ctx.pc = script.getStartOffset();
+  _ctx.pc = script->getStartOffset();
   do {
     while (_ctx.pc)
       {
@@ -59,4 +80,5 @@ void            VM::execCountNewVisits(Script &script)
       }
     cpts.push_back(_ctx.cpts);
   } while (_restoreContext());
+  _updateKeyScripts(script);
 }

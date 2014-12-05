@@ -1,6 +1,8 @@
 #include	"Script.hh"
+#include        "VM.hh"
 
 std::map<Script::Identifier, Script *>  Script::_cache;
+std::map<Script::Identifier, Script *>  Script::_keyScripts;
 
 Script::Script(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
   : _data(*Data::data), _id(bank, map, id, type)
@@ -116,6 +118,8 @@ Script		&Script::load(uint32_t ptr)
       while (id != 0x02 && id != 0x03 && _cmds[id].format != "");
       _ranges.push_back(Range(_start, _start + _pc));
     }
+  if (_id.type != STD)
+    VM::vm->execCountNewVisits(this);
   return (*this);
 }
 

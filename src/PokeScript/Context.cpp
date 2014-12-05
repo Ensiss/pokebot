@@ -45,7 +45,7 @@ static void     _updateScripts(uint16_t var)
   std::vector<Script *> &scripts = Script::getHooked(var);
 
   for (uint16_t i = 0; i < scripts.size(); i++)
-    VM::vm->execCountNewVisits(*(scripts[i]));
+    VM::vm->execCountNewVisits(scripts[i]);
 }
 
 void            VM::Context::updateAndCallback()

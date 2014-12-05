@@ -151,12 +151,14 @@ public:
   static Script *getScript(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SCRIPT)); }
   static Script *getGenericScript(uint8_t id, uint8_t b, uint8_t m, ScriptType t) { return (_getScript(b, m, id, t)); }
   static std::vector<Script *>  &getHooked(uint16_t var) { return (_hookList[var]); }
+  static std::map<Identifier, Script *> &getKeyScripts() { return (_keyScripts); }
 
 public:
   uint8_t       getBank() const { return (_id.bank); }
   uint8_t       getMap() const { return (_id.map); }
   uint8_t       getId() const { return (_id.id); }
   uint8_t       getType() const { return (_id.type); }
+  Identifier    &getIdentifier() { return (_id); }
 
 public:
   std::vector<ChoicePts>        &getChoices() { return (_choices); }
@@ -198,6 +200,7 @@ private:
 
   static Command	_cmds[0xD6];
   static std::map<Identifier, Script *>         _cache;
+  static std::map<Identifier, Script *>         _keyScripts;
   static std::map<std::string, ParamReader>     _readers;
   static std::map<uint8_t, uint8_t>             _cmdHooks;
   static std::map<uint16_t, std::vector<Script *> >     _hookList;

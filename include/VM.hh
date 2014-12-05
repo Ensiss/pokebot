@@ -56,7 +56,7 @@ public:
   ~VM();
 
 public:
-  void          execCountNewVisits(Script &script);
+  void          execCountNewVisits(Script *script);
 
 public:
   void          update() { _refCtx.update(); }
