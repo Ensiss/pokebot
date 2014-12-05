@@ -33,6 +33,12 @@
 #define         VM_IS_VAR(x)    ((x) >= VM_VAR_OFFSET && (x) < VM_VAR_OFFSET + VM_VARS)
 #define         VM_IS_TEMP(x)   ((x) >= VM_TEMP_OFFSET && (x) < VM_TEMP_OFFSET + VM_TEMP)
 
+struct        ChoicePts
+{
+  std::vector<uint8_t>  choices;
+  uint8_t               pts;
+};
+
 class		Script
 {
 private:
@@ -144,6 +150,7 @@ public:
   static Script *getSign(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SIGN)); }
   static Script *getScript(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SCRIPT)); }
   static Script *getGenericScript(uint8_t id, uint8_t b, uint8_t m, ScriptType t) { return (_getScript(b, m, id, t)); }
+  static std::vector<Script *>  &getHooked(uint16_t var) { return (_hookList[var]); }
 
 public:
   uint8_t       getBank() const { return (_id.bank); }
@@ -152,6 +159,7 @@ public:
   uint8_t       getType() const { return (_id.type); }
 
 public:
+  std::vector<ChoicePts>        &getChoices() { return (_choices); }
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
   uint32_t                      getStartOffset() { return (_offset); }
 
@@ -186,6 +194,7 @@ private:
   std::vector<Range>	_ranges;
   std::queue<uint32_t>	_addrs;
   std::map<int, Instruction *>  _instructions;
+  std::vector<ChoicePts>        _choices;
 
   static Command	_cmds[0xD6];
   static std::map<Identifier, Script *>         _cache;

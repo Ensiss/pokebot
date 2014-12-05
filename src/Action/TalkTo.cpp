@@ -10,7 +10,7 @@
    @param personId      Index of the person in the person array
    @param choices       List of answers (returned by VM::execCountNewVisits)
  */
-Action::TalkTo::TalkTo(uint8_t personId, VM::ChoicePts *choices)
+Action::TalkTo::TalkTo(uint8_t personId, ChoicePts *choices)
   : _pid(personId), _dir(0), _oldNext(0), _script(NULL), _choices(choices), _choiceId(0)
 {
 }

@@ -45,6 +45,7 @@ void		doLoop()
           Bot::bot.update();
 	  if (step == 900)
             {
+              VM::vm->update();
               Bot::bot.setBattleAction(new Action::Battle());
               L.doFunc("onInit");
             }
@@ -74,6 +75,7 @@ int		main(int ac, char **av)
   // Break when script engine PC is modified
   debuggerDoString("bpw 03000EB8 4");
   Data::data = new Data();
+  VM::vm = new VM();
   L.init();
   doLoop();
   destroyVBAM();

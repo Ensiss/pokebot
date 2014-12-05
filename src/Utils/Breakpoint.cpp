@@ -1,8 +1,15 @@
 #include	"Data.hh"
 #include	"Script.hh"
+#include        "VM.hh"
 
 void            debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, int size, int t)
 {
+  // End of script execution
+  if (oldvalue && !value)
+    {
+      VM::vm->updateAndCallback();
+      return;
+    }
   uint8_t       idx = gbaMem<uint8_t>(0x03005074);
   if (!idx)
     return;

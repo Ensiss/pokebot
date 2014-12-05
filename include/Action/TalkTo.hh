@@ -20,7 +20,7 @@ namespace	Action
     static TalkTo       *create(uint8_t id) { return (new TalkTo(id)); }
 
   public:
-    TalkTo(uint8_t personId, VM::ChoicePts *choices = NULL);
+    TalkTo(uint8_t personId, ChoicePts *choices = NULL);
     ~TalkTo();
 
   private:
@@ -38,8 +38,8 @@ namespace	Action
     uint8_t     _dir;
     uint32_t    _oldNext;
     Script      *_script;
-    VM::ChoicePts       *_choices;
-    uint8_t             _choiceId;
+    ChoicePts   *_choices;
+    uint8_t     _choiceId;
   };
 };
 

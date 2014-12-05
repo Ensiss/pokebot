@@ -40,6 +40,43 @@ void            VM::Context::update()
   clearStack();
 }
 
+static void     _updateScripts(uint16_t var)
+{
+  std::vector<Script *> &scripts = Script::getHooked(var);
+
+  for (uint16_t i = 0; i < scripts.size(); i++)
+    VM::vm->execCountNewVisits(*(scripts[i]));
+}
+
+void            VM::Context::updateAndCallback()
+{
+  uint32_t      ptr = *((uint32_t *) gbaMem(0x03005008));
+  uint8_t       *flags = (uint8_t *) gbaMem(ptr + 0xEE0);
+  uint16_t      *vars = (uint16_t *) gbaMem(ptr + 0x1000);
+
+  for (uint32_t i = 0; i < VM_VARS; i++)
+    {
+      if (_vars[i] != vars[i])
+        {
+          _vars[i] = vars[i];
+          _updateScripts(0x4000 + i);
+        }
+    }
+  for (uint32_t i = 0; i < VM_FLAGS; i++)
+    {
+      bool      real = flags[i >> 3] & (1 << (i % 8));
+
+      if (!!(_flags[i >> 3] & (1 << (i % 8))) != real)
+        {
+          setFlag(i, real);
+          _updateScripts(i);
+        }
+    }
+  cpts.pts = 0;
+  cpts.choices.clear();
+  clearStack();
+}
+
 bool            VM::Context::getFlag(uint16_t id) const
 {
   if (VM_IS_FLAG(id))

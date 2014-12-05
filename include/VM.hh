@@ -12,13 +12,6 @@
 
 class           VM
 {
-public:
-  struct        ChoicePts
-  {
-    std::vector<uint8_t> choices;
-    uint8_t     pts;
-  };
-
 private:
   class         Context
   {
@@ -29,6 +22,7 @@ private:
 
   public:
     void        update();
+    void        updateAndCallback();
     bool        getFlag(uint16_t flag) const;
     uint16_t    getVar(uint16_t var) const;
     uint32_t    getBank(uint8_t bank) const;
@@ -62,10 +56,11 @@ public:
   ~VM();
 
 public:
-  void          exec(Script &script);
-  std::vector<ChoicePts>        *execCountNewVisits(Script &script);
+  void          execCountNewVisits(Script &script);
 
 public:
+  void          update() { _refCtx.update(); }
+  void          updateAndCallback() { _refCtx.updateAndCallback(); }
   bool          getFlag(uint16_t flag) const { return (_ctx.getFlag(flag)); }
   uint16_t      getVar(uint16_t var) const { return (_ctx.getVar(var)); }
   uint32_t      getBank(uint8_t bank) const { return (_ctx.getBank(bank)); }
@@ -134,10 +129,14 @@ private:
 
 private:
   Context               _ctx;
+  Context               _refCtx;
   std::queue<Context *> _states;
 
   static Executer       _executers[0xD6];
   static std::function<bool(uint32_t, uint32_t)>  _cmpOp[6];
+
+public:
+  static VM             *vm;
 };
 
 #endif
