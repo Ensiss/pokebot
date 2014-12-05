@@ -185,7 +185,6 @@ SET(SRC_SDL
 
 SET(SRC_MAIN
     src/main.cpp
-    src/Config.cpp
 
     src/Data/Data.cpp
     src/Data/World.cpp
@@ -218,6 +217,7 @@ SET(SRC_MAIN
     src/Utils/PokemonUtils.cpp
     src/Utils/PrintUtils.cpp
     src/Utils/Breakpoint.cpp
+    src/Utils/Config.cpp
 
     src/lua/Lua.cpp
 )
