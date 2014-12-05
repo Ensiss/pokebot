@@ -33,7 +33,7 @@ static void     _updateKeyScripts(Script *scr)
     {
       // This script can visit a new key point, add it to the
       // "interesting scripts" list
-      if (it->pts)
+      if (!scr->wasExecuted() || it->pts)
         {
           printf("Adding script #%d@[%d %d]\n", id.id, id.bank, id.map);
           Script::getKeyScripts()[id] = scr;
@@ -78,7 +78,8 @@ void            VM::execCountNewVisits(Script *script)
               _ctx.cpts.pts++;
           }
       }
-    cpts.push_back(_ctx.cpts);
+    if (!script->wasExecuted() || _ctx.cpts.pts)
+      cpts.push_back(_ctx.cpts);
   } while (_restoreContext());
   _updateKeyScripts(script);
 }

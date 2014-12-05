@@ -154,6 +154,8 @@ public:
   static std::map<Identifier, Script *> &getKeyScripts() { return (_keyScripts); }
 
 public:
+  void          setExecuted() { _executed = true; }
+  bool          wasExecuted() const { return (_executed); }
   uint8_t       getBank() const { return (_id.bank); }
   uint8_t       getMap() const { return (_id.map); }
   uint8_t       getId() const { return (_id.id); }
@@ -188,6 +190,7 @@ private:
 private:
   Data			&_data;
   Identifier            _id;
+  bool                  _executed;
   uint32_t		_offset;
   uint32_t		_start;
   uint8_t		*_ptr;

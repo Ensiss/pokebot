@@ -5,7 +5,7 @@ std::map<Script::Identifier, Script *>  Script::_cache;
 std::map<Script::Identifier, Script *>  Script::_keyScripts;
 
 Script::Script(uint8_t bank, uint8_t map, uint8_t id, ScriptType type)
-  : _data(*Data::data), _id(bank, map, id, type)
+  : _data(*Data::data), _id(bank, map, id, type), _executed(false)
 {
 }
 

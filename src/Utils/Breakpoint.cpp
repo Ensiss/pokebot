@@ -25,6 +25,7 @@ void            debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, int s
     }
   if (!sc)
     return;
+  sc->setExecuted();
   std::map<int, Script::Instruction *> &map = sc->getInstructions();
 
   for (std::map<int, Script::Instruction *>::iterator it = map.begin(); it != map.end(); it++)
