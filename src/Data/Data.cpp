@@ -1,4 +1,5 @@
 #include	"Data.hh"
+#include        "Script.hh"
 
 Data            *Data::data = NULL;
 
@@ -30,10 +31,21 @@ Data::~Data()
 
 void		Data::update()
 {
+  static int    bank = 0;
+  static int    map = 0;
+
   _player.update();
   _pteam.update();
   _eteam.update();
   _battlers.update();
+  if (_player.getBank() != bank || _player.getMap() != map)
+    {
+      bank = _player.getBank();
+      map = _player.getMap();
+      World::Map &m = _world.getMap(bank, map);
+      for (uint8_t i = 0; i < m.getNbPersons(); i++)
+        Script::getPerson(i);
+    }
 }
 
 float		Data::typeEffectiveness(const Move &m, const Species &sp) const
