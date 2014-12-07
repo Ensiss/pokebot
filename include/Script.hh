@@ -152,6 +152,10 @@ public:
   static Script *getSign(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SIGN)); }
   static Script *getScript(uint8_t id, uint8_t bank = 0, uint8_t map = 0) { return (_getScript(bank, map, id, SCRIPT)); }
   static Script *getGenericScript(uint8_t id, uint8_t b, uint8_t m, ScriptType t) { return (_getScript(b, m, id, t)); }
+  static Script *getLocalPerson(uint8_t id) { return (_getScript(0, 0, id, PERSON)); }
+  static Script *getLocalSign(uint8_t id) { return (_getScript(0, 0, id, SIGN)); }
+  static Script *getLocalScript(uint8_t id) { return (_getScript(0, 0, id, SCRIPT)); }
+  static Script *getLocalGeneric(uint8_t id, ScriptType t) { return (_getScript(0, 0, id, t)); }
   static std::vector<Script *>  &getHooked(uint16_t var) { return (_hookList[var]); }
   static std::map<Identifier, Script *> &getKeyScripts() { return (_keyScripts); }
 
