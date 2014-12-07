@@ -33,10 +33,12 @@
 #define         VM_IS_VAR(x)    ((x) >= VM_VAR_OFFSET && (x) < VM_VAR_OFFSET + VM_VARS)
 #define         VM_IS_TEMP(x)   ((x) >= VM_TEMP_OFFSET && (x) < VM_TEMP_OFFSET + VM_TEMP)
 
-struct        ChoicePts
+struct          ChoicePts
 {
   std::vector<uint8_t>  choices;
   uint8_t               pts;
+
+  uint8_t               getNbPoints() const { return (pts); }
 };
 
 class		Script
@@ -163,6 +165,8 @@ public:
   Identifier    &getIdentifier() { return (_id); }
 
 public:
+  uint16_t                      getNbChoices() const { return (_choices.size()); }
+  ChoicePts                     &getChoice(uint16_t i) { return (_choices[i * (i < _choices.size())]); }
   std::vector<ChoicePts>        &getChoices() { return (_choices); }
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
   uint32_t                      getStartOffset() { return (_offset); }
