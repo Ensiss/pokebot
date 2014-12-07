@@ -1,8 +1,7 @@
 require 'WalkLoop'
 
 function printMap()
-   local p = data.player
-   local map = data.world:getMap(p:getBank(), p:getMap())
+   local map = data.getCurrentMap()
    for y = 0, map:getHeight() - 1 do
       for x = 0, map:getWidth() - 1 do
          io.write(string.format("%02x ", map:getNode(x, y):getStatus()))
@@ -13,7 +12,7 @@ end
 
 function onRefresh()
    local p = data.player
-   local map = data.world:getMap(p:getBank(), p:getMap())
+   local map = data.getCurrentMap()
    print("Player coordinates: (" .. p:getX() .. ", " .. p:getY() .. ")")
    print("Map [" .. map:getName() .. "]: " .. map:getWidth() .. "x" .. map:getHeight())
 end

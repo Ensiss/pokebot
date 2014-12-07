@@ -98,6 +98,8 @@ private:
   BattleGroup	_battlers;
 
 public:
+  static const World::Map       &getMap(uint8_t bank, uint8_t map) { return (data->world().getMap(bank, map)); }
+  static const World::Map       &getCurrentMap() { return (data->world().getMap(data->player().getBank(), data->player().getMap())); }
   static const PokemonData      &getPlayerPokemonWrapper(uint8_t i) { return (data->playerTeam()[i]); }
   static const PokemonData      &getEnemyPokemonWrapper(uint8_t i) { return (data->enemyTeam()[i]); }
   static const BattleData       &getBattlerWrapper(uint8_t i) { return (data->battlers()[i]); }
