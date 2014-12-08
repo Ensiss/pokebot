@@ -31,6 +31,7 @@ private:
   void          _initStates();
   void          _initWildTypes();
   void          _pushvar(const char *name, uint8_t val);
+  void          _printTop();
 
 public:
   void          init();
