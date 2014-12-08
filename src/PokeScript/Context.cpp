@@ -2,7 +2,6 @@
 
 VM::Context::Context()
 {
-  update();
 }
 
 VM::Context::Context(const Context &ctx)

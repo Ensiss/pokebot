@@ -46,10 +46,16 @@ void		World::_initWorld()
 	  map.warps = (WarpEvt *) gbaMem(evtPtr->warpsPtr);
 	  map.scripts = (ScriptEvt *) gbaMem(evtPtr->scriptsPtr);
 	  map.signs = (SignEvt *) gbaMem(evtPtr->signsPtr);
-	  map.nbConnects = ((uint32_t *) gbaMem(header->connectPtr))[0];
-          if (map.nbConnects > 5)
-            map.nbConnects = 0;
-	  map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
+          if (header->connectPtr != 0)
+            {
+              map.nbConnects = ((uint32_t *) gbaMem(header->connectPtr))[0];
+              map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
+            }
+          else
+            {
+              map.nbConnects = 0;
+              map.connects = NULL;
+            }
 	  map.scriptPtr = header->scriptPtr;
 	  map.data = new Map::Node*[map.height]();
           map.loadName(header->labelId);
