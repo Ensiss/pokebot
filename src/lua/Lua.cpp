@@ -444,6 +444,7 @@ void            Lua::doFunc(const std::string &s)
 
 void            Lua::doREPL()
 {
+  std::string   s;
   char          buff[256];
   int           ret;
 
@@ -451,10 +452,13 @@ void            Lua::doREPL()
   while (1)
     {
       std::cout << "> " << std::flush;
-      if ((ret = read(0, buff, 256)) == 0)
+      if ((ret = read(0, buff, 256)) <= 0)
         break;
       if (buff[ret - 1] == '\n')
         buff[ret - 1] = '\0';
-      doString(buff);
+      s = std::string(buff);
+      if (s[0] == '=')
+        s.replace(0, 1, "return ");
+      doString(s);
     }
 }
