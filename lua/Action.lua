@@ -8,7 +8,10 @@ function ActionClass(init)
       if init then
          init(obj, ...)
       end
-      return obj
+      local master = new.lua(obj)
+      obj.master = master
+      obj.queue = function(act) master:queue(act) end
+      return master
    end
    setmetatable(c, mt)
    return c
