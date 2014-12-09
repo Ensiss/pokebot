@@ -58,6 +58,7 @@ static void     _updateKeyScripts(Script *scr)
  */
 void            VM::execCountNewVisits(Script *script)
 {
+  std::map<int, bool>                   visited;
   std::map<int, Script::Instruction *>  &instMap = script->getInstructions();
   std::vector<ChoicePts>                &cpts = script->getChoices();
   uint32_t      oldpc;
@@ -66,9 +67,10 @@ void            VM::execCountNewVisits(Script *script)
   _ctx.update();
   _ctx.pc = script->getStartOffset();
   do {
-    while (_ctx.pc)
+    while (_ctx.pc && visited.find(_ctx.pc) == visited.end())
       {
         Script::Instruction *instr = instMap[_ctx.pc];
+        visited[_ctx.pc] = true;
         oldpc = _ctx.pc = instr->next;
         if (_executers[instr->cmd])
           (this->*_executers[instr->cmd])(instr);
