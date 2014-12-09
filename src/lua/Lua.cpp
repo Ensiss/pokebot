@@ -251,6 +251,7 @@ void            Lua::init()
     .addFunction("useWarp", &Action::UseWarp::create)
     .addFunction("pressButton", &Action::PressButton::create)
     .addFunction("wait", &Action::Wait::create)
+    .addFunction("waitUntil", &Action::Wait::createFunc)
     .addFunction("lua", &Action::LuaClass::create)
     .endNamespace()
 
