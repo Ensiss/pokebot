@@ -10,6 +10,7 @@
 #include        "Action/UseWarp.hh"
 #include        "Action/PressButton.hh"
 #include        "Action/Wait.hh"
+#include        "Action/MoveCursor.hh"
 #include        "Config.hh"
 extern "C" {
 #include        "lua.h"

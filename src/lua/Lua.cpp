@@ -253,6 +253,7 @@ void            Lua::init()
     .addFunction("wait", &Action::Wait::create)
     .addFunction("waitUntil", &Action::Wait::createFunc)
     .addFunction("lua", &Action::LuaClass::create)
+    .addFunction("moveCursor", &Action::MoveCursor::create)
     .endNamespace()
 
     .beginNamespace("action")
