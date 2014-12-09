@@ -1,5 +1,16 @@
 #include	"PokemonUtils.hh"
+#include        "Data.hh"
 #include	<cstdio>
+
+Range		potentialDamage(const BattleData &attacker, const BattleData &target, const Move &m)
+{
+  return (Data::data->potentialDamage(attacker, target, m));
+}
+
+float		chanceToHit(const BattleData &attacker, const BattleData &target, const Move &m)
+{
+  return (Data::data->chanceToHit(attacker, target, m));
+}
 
 static char	charsetSubset(uint8_t off, const char *set, uint8_t c)
 {

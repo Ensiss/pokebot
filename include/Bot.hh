@@ -36,6 +36,7 @@ private:
 public:
   static void           queueWrapper(AAction *act) { bot.queue(act); }
   static void           clearWrapper() { bot.clear(); }
+  static void           setBattleActionWrapper(AAction *act) { bot.setBattleAction(act); }
 
 public:
   static Bot            bot;

@@ -19,6 +19,8 @@
 struct		Range
 {
   Range(float a = 0, float b = 0) : min(a), max(b) {}
+  int           getMin() const { return (min); }
+  int           getMax() const { return (max); }
 
   int		min;
   int		max;

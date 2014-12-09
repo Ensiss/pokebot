@@ -18,6 +18,12 @@
 
 #define		POW(x)		((x) * (x))
 
+class           BattleData;
+class           Move;
+class           Range;
+
+Range		potentialDamage(const BattleData &attacker, const BattleData &target, const Move &m);
+float		chanceToHit(const BattleData &attacker, const BattleData &target, const Move &m);
 char		pokeCharsetToAscii(uint8_t c);
 bool            getFlag(uint16_t flag);
 uint16_t        getVar(uint16_t var);

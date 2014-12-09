@@ -12,7 +12,7 @@ namespace	Action
   class		PressButton : public AAction
   {
   public:
-    static PressButton  *create(EKey key) { return (new PressButton(key)); }
+    static PressButton  *create(uint8_t key) { return (new PressButton((EKey) key)); }
 
   public:
     PressButton(EKey key);

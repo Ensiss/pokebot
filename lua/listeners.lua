@@ -1,4 +1,5 @@
 require 'WalkLoop'
+require 'Battle'
 
 function printMap()
    local map = data.getCurrentMap()
@@ -19,6 +20,7 @@ end
 
 function onInit()
    config.setNumber("clearOnRefresh", 1)
+   bot.setBattle(Battle())
    bot.queue(WalkLoop(1))
    bot.queue(new.talkTo(0))
 end
