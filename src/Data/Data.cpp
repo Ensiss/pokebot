@@ -33,15 +33,18 @@ void		Data::update()
 {
   static int    bank = 0;
   static int    map = 0;
+  int           newb, newm;
 
   _player.update();
   _pteam.update();
   _eteam.update();
   _battlers.update();
-  if (_player.getBank() != bank || _player.getMap() != map)
+  newb = _player.getBank();
+  newm = _player.getMap();
+  if (newb != 255 && newm != 255 && (newb != bank || newm != map))
     {
-      bank = _player.getBank();
-      map = _player.getMap();
+      bank = newb;
+      map = newm;
       World::Map &m = _world.getMap(bank, map);
       for (uint8_t i = 0; i < m.getNbPersons(); i++)
         Script::getPerson(i);
