@@ -5,6 +5,7 @@
 #include	"Data.hh"
 #include	"AAction.hh"
 #include        "PressButton.hh"
+#include        "TurnDirection.hh"
 #include        "Wait.hh"
 #include        "MoveTo.hh"
 #include	"PokemonUtils.hh"

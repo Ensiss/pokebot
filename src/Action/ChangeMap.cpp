@@ -46,13 +46,11 @@ void		Action::ChangeMap::_init()
   ey = dy * m.getHeight();
   while (sx != ex || sy != ey)
     {
-      printf("Checking %d, %d\n", sx, sy);
       if (m.getNode(sx, sy).getStatus() == 0x0C)
         {
-          printf("Found exit at %d, %d\n", sx, sy);
           queue(new Action::MoveTo(sx, sy));
+          queue(new Action::TurnDirection(keys[_type - 1]));
           queue(new Action::PressButton(keys[_type - 1]));
-          // queue(new Action::PressButton(keys[_type - 1]));
           break;
         }
       sx += dx;
