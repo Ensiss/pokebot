@@ -17,6 +17,18 @@ enum            WildType
     WILD_FISHING
   };
 
+enum            ConnectType
+  {
+    CO_NONE,
+    CO_DOWN,
+    CO_UP,
+    CO_LEFT,
+    CO_RIGHT,
+    CO_DIVE,
+    CO_EMERGE,
+    CO_COUNT
+  };
+
 class		World
 {
 private:

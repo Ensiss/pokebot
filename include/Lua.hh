@@ -11,6 +11,7 @@
 #include        "Action/PressButton.hh"
 #include        "Action/Wait.hh"
 #include        "Action/MoveCursor.hh"
+#include        "Action/ChangeMap.hh"
 #include        "Config.hh"
 extern "C" {
 #include        "lua.h"
@@ -31,6 +32,7 @@ private:
   void          _initButtons();
   void          _initStates();
   void          _initWildTypes();
+  void          _initConnectionTypes();
   void          _pushvar(const char *name, uint8_t val);
   void          _printTop();
 

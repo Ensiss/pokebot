@@ -270,6 +270,7 @@ void            Lua::init()
     .addFunction("waitUntil", &Action::Wait::createFunc)
     .addFunction("lua", &Action::LuaClass::create)
     .addFunction("moveCursor", &Action::MoveCursor::create)
+    .addFunction("changeMap", &Action::ChangeMap::create)
     .endNamespace()
 
     .beginNamespace("action")
@@ -283,6 +284,7 @@ void            Lua::init()
     .deriveClass<Action::UseWarp, AAction>("UseWarp").endClass()
     .deriveClass<Action::PressButton, AAction>("PressButton").endClass()
     .deriveClass<Action::MoveCursor, AAction>("MoveCursor").endClass()
+    .deriveClass<Action::ChangeMap, AAction>("ChangeMap").endClass()
     .deriveClass<Action::Wait, AAction>("Wait").endClass()
     .deriveClass<Action::LuaClass, AAction>("LuaClass").endClass()
     .endNamespace()
@@ -327,6 +329,7 @@ void            Lua::init()
   _initButtons();
   _initStates();
   _initWildTypes();
+  _initConnectionTypes();
   doFile("lua/main.lua");
 }
 
@@ -388,6 +391,23 @@ void            Lua::_initWildTypes()
   _pushvar("water", WILD_WATER);
   _pushvar("rock", WILD_ROCK);
   _pushvar("fishing", WILD_FISHING);
+
+  lua_settable(_state, -3);
+}
+
+void            Lua::_initConnectionTypes()
+{
+  // Get global namespace
+  lua_getglobal(_state, "_G");
+  // Create "wild" namespace
+  lua_pushstring(_state, "connect");
+  lua_newtable(_state);
+
+  // Push variables
+  _pushvar("up", CO_UP);
+  _pushvar("down", CO_DOWN);
+  _pushvar("left", CO_LEFT);
+  _pushvar("right", CO_RIGHT);
 
   lua_settable(_state, -3);
 }
