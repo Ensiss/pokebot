@@ -137,7 +137,7 @@ void		Action::MoveTo::_update()
   const OverWorld       &ow = _data.overWorld(0);
   World::Map::Node      *end = (*_path)[_path->size() - 1];
   Player	&p = _data.player();
-  bool		moved = _oldx != p.getX() || _oldy != p.getY();
+  bool		moved = _oldx != ow.getDestX() || _oldy != ow.getDestY();
 
   if (_path && _pathi == _path->size() &&
       ow.getCurrX() == end->x && ow.getCurrY() == end->y)
@@ -149,8 +149,8 @@ void		Action::MoveTo::_update()
   else if (_path && _pathi < _path->size() && (_pathi == 1 || moved) &&
            (ow.getDestX() != end->x || ow.getDestY() != end->y))
     {
-      int	dx = (*_path)[_pathi]->x - p.getX();
-      int	dy = (*_path)[_pathi]->y - p.getY();
+      int	dx = (*_path)[_pathi]->x - ow.getDestX();
+      int	dy = (*_path)[_pathi]->y - ow.getDestY();
       EKey	k;
 
       _releaseKeys();
@@ -163,6 +163,6 @@ void		Action::MoveTo::_update()
     }
   if (ow.getDestX() == end->x && ow.getDestY() == end->y)
     _releaseKeys();
-  _oldx = p.getX();
-  _oldy = p.getY();
+  _oldx = ow.getDestX();
+  _oldy = ow.getDestY();
 }
