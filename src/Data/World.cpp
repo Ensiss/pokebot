@@ -26,15 +26,15 @@ void		World::_initWorld()
 	{
 	  maps.push_back(Map());
 	  Map		&map = maps.back();
-	  uint32_t	mapaddr = *((uint32_t *) gbaMem(mapi));
-	  Header	*header = (Header *) gbaMem(mapaddr);
-	  DataHeader	*dheader = (DataHeader *) gbaMem(header->mapPtr);
-	  TilesetHeader	*global = (TilesetHeader *) gbaMem(dheader->globalTileset);
-	  TilesetHeader	*local = (TilesetHeader *) gbaMem(dheader->localTileset);
-	  Map::TileAttr	*globPtr = (Map::TileAttr *) gbaMem(global->behaviorPtr);
-	  Map::TileAttr	*localPtr = (Map::TileAttr *) gbaMem(local->behaviorPtr);
-	  uint16_t	*d = (uint16_t *) gbaMem(dheader->data);
-	  Event		*evtPtr = (Event *) gbaMem(header->evtPtr);
+	  uint32_t	mapaddr = gbaMem<uint32_t>(mapi);
+	  Header	*header = gbaPtr<Header *>(mapaddr);
+	  DataHeader	*dheader = gbaPtr<DataHeader *>(header->mapPtr);
+	  TilesetHeader	*global = gbaPtr<TilesetHeader *>(dheader->globalTileset);
+	  TilesetHeader	*local = gbaPtr<TilesetHeader *>(dheader->localTileset);
+	  Map::TileAttr	*globPtr = gbaPtr<Map::TileAttr *>(global->behaviorPtr);
+	  Map::TileAttr	*localPtr = gbaPtr<Map::TileAttr *>(local->behaviorPtr);
+	  uint16_t	*d = gbaPtr<uint16_t *>(dheader->data);
+	  Event		*evtPtr = gbaPtr<Event *>(header->evtPtr);
 
 	  map.width = dheader->width;
 	  map.height = dheader->height;
@@ -42,14 +42,14 @@ void		World::_initWorld()
 	  map.nbWarps = evtPtr->nbWarps;
 	  map.nbScripts = evtPtr->nbScripts;
 	  map.nbSigns = evtPtr->nbSigns;
-	  map.persons = (PersonEvt *) gbaMem(evtPtr->personsPtr);
-	  map.warps = (WarpEvt *) gbaMem(evtPtr->warpsPtr);
-	  map.scripts = (ScriptEvt *) gbaMem(evtPtr->scriptsPtr);
-	  map.signs = (SignEvt *) gbaMem(evtPtr->signsPtr);
+	  map.persons = gbaPtr<PersonEvt *>(evtPtr->personsPtr);
+	  map.warps = gbaPtr<WarpEvt *>(evtPtr->warpsPtr);
+	  map.scripts = gbaPtr<ScriptEvt *>(evtPtr->scriptsPtr);
+	  map.signs = gbaPtr<SignEvt *>(evtPtr->signsPtr);
           if (header->connectPtr != 0)
             {
-              map.nbConnects = ((uint32_t *) gbaMem(header->connectPtr))[0];
-              map.connects = (Connection *) gbaMem(((uint32_t *) gbaMem(header->connectPtr))[1]);
+              map.nbConnects = gbaMem<uint32_t>(header->connectPtr);
+              map.connects = gbaPtr<Connection *>(gbaPtr<uint32_t *>(header->connectPtr)[1]);
             }
           else
             {
@@ -81,7 +81,7 @@ void		World::_initWorld()
 
 void		World::_initWildBattles()
 {
-  WildHeader	*wh = (WildHeader *) gbaMem(0x083c9cb8);
+  WildHeader	*wh = gbaPtr<WildHeader *>(0x083c9cb8);
 
   while (wh->bank != 0xFF || wh->map != 0xFF)
     {
@@ -92,9 +92,9 @@ void		World::_initWildBattles()
 	  map.wildBattles[i].ratio = 0;
 	  if (wh->entryPtr[i])
 	    {
-	      uint32_t	*eh = (uint32_t *) gbaMem(wh->entryPtr[i]);
+	      uint32_t	*eh = gbaPtr<uint32_t *>(wh->entryPtr[i]);
 	      map.wildBattles[i].ratio = eh[0];
-	      map.wildBattles[i].entries = (WildEntry *) gbaMem(eh[1]);
+	      map.wildBattles[i].entries = gbaPtr<WildEntry *>(eh[1]);
 	      map.wildBattles[i].nbEntries = (wh->entryPtr[i] - eh[1]) / 4;
 	    }
 	}
@@ -104,8 +104,8 @@ void		World::_initWildBattles()
 
 void            World::Map::loadName(uint8_t id)
 {
-  uint32_t      nameAddr = ((uint32_t *) gbaMem(0x083F1CAC))[id - 88];
-  uint8_t       *namePtr = (uint8_t *) gbaMem(nameAddr);
+  uint32_t      nameAddr = gbaPtr<uint32_t *>(0x083F1CAC)[id - 88];
+  uint8_t       *namePtr = gbaPtr<uint8_t *>(nameAddr);
 
   this->labelId = id;
   this->name = "";

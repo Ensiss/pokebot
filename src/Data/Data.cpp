@@ -4,8 +4,8 @@
 Data            *Data::data = NULL;
 
 Data::Data()
-  : _ows((OverWorld *) gbaMem(0x02036E38)),
-    _mchoice((MultiChoice *) gbaMem(0x083E04B0)),
+  : _ows(gbaPtr<OverWorld *>(0x02036E38)),
+    _mchoice(gbaPtr<MultiChoice *>(0x083E04B0)),
     _pteam(0x02024284),
     _eteam(0x0202402C),
     _battlers(0x02023BE4)
@@ -101,7 +101,7 @@ void		Data::_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, 
 
   for (id = 0; id >= 0; id++)
     {
-      ptr = (uint8_t *) gbaMem(addr) + id * len;
+      ptr = gbaPtr<uint8_t *>(addr) + id * len;
       dest.push_back(new char[len]());
       for (i = 0; i < delimsz; i++)
 	if ((uint8_t) (delim[i]) != ptr[i])
@@ -130,7 +130,7 @@ void		Data::_loadTypeEffectiveness()
   for (int j = 0; j < 18; j++)
     for (int i = 0; i < 18; i++)
       _typeChart[j][i] = 1.0;
-  for (uint8_t *ptr = (uint8_t *) gbaMem(0x0824F050); *ptr != 0xFF; ptr += 3)
+  for (uint8_t *ptr = gbaPtr<uint8_t *>(0x0824F050); *ptr != 0xFF; ptr += 3)
     {
       if (ptr[0] < 18)
 	{

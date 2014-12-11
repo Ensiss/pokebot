@@ -72,7 +72,7 @@ Script::Instruction     *Action::TalkTo::_searchCmd(std::map<int, Script::Instru
 
 Script::Instruction     *Action::TalkTo::_getCurrentCmd()
 {
-  uint32_t              next = *((uint32_t *) gbaMem(0x03000EB8));
+  uint32_t              next = gbaMem<uint32_t>(0x03000EB8);
   Script::Instruction   *instr;
 
   if ((instr = _searchCmd(_script->getInstructions(), next)))
@@ -121,7 +121,7 @@ void		Action::TalkTo::_update()
   else
     {
       // if no script is running
-      if (!*((uint8_t *) gbaMem(0x03000F9C)))
+      if (!gbaMem<uint8_t>(0x03000F9C))
         {
           _state = Action::FINISHED;
           return;
@@ -135,9 +135,9 @@ void		Action::TalkTo::_update()
           if (instr->cmd == 0x66) // waitmsg
             {
               // Pointer to remaining string to display
-              uint32_t      ptr = *((uint32_t *) gbaMem(0x02020034));
+              uint32_t      ptr = gbaMem<uint32_t>(0x02020034);
               // Last character displayed
-              uint8_t       chr = ((uint8_t *) gbaMem(ptr))[-1];
+              uint8_t       chr = gbaPtr<uint8_t *>(ptr)[-1];
               if (chr == 0xFA || chr == 0xFB)
                 queue(new Action::PressButton(KEY_BUTTON_A));
             }

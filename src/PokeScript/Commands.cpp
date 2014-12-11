@@ -231,7 +231,7 @@ static std::string      formatString(const char *s, ...)
 static std::string      readString(uint32_t ptr)
 {
   char		msg[1024];
-  uint8_t       *addr = (uint8_t *) gbaMem(ptr);
+  uint8_t       *addr = gbaPtr<uint8_t *>(ptr);
   int		i;
 
   for (i = 0; i < 1024 && addr[i] != 0xFF; i++)

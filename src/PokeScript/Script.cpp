@@ -36,7 +36,7 @@ bool		Script::_setupNextAddr()
 	  break;
       if (i == _ranges.size())
 	{
-	  _ptr = (uint8_t *) gbaMem(_start);
+	  _ptr = gbaPtr<uint8_t *>(_start);
 	  _pc = _oldpc = 0;
 	  return (true);
 	}
@@ -125,7 +125,7 @@ Script		&Script::load(uint32_t ptr)
 
 Script		&Script::loadStd(uint8_t n)
 {
-  load(((uint32_t *) gbaMem(0x08160450))[n]);
+  load(gbaPtr<uint32_t *>(0x08160450)[n]);
   return (*this);
 }
 

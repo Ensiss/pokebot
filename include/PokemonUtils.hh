@@ -1,6 +1,7 @@
 #ifndef		__POKEMONUTILS_HH__
 #define		__POKEMONUTILS_HH__
 
+#include        <type_traits>
 #include	<stdint.h>
 #include	"../vbam/gba/Globals.h"
 
@@ -30,9 +31,15 @@ uint16_t        getVar(uint16_t var);
 void		*gbaMem(uint32_t ptr);
 
 template <typename T>
+T               gbaPtr(uint32_t ptr)
+{
+  return ((T) gbaMem(ptr));
+}
+
+template <typename T>
 T               gbaMem(uint32_t ptr)
 {
-  return (*((T *) gbaMem(ptr)));
+  return (((T *) gbaMem(ptr))[0]);
 }
 
 #endif

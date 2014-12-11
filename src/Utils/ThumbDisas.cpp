@@ -42,7 +42,7 @@ void		ThumbDisas::print(uint32_t addr)
   uint32_t	jump;
   char		*ptr;
 
-  _offset = *((uint32_t *) gbaMem(addr)) & ~1;
+  _offset = gbaMem<uint32_t>(addr) & ~1;
   _reset();
   while (_setupNextAddr())
     {

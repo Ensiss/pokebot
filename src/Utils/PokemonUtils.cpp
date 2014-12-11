@@ -52,8 +52,8 @@ bool            getFlag(uint16_t flag)
   uint32_t	offset;
   uint8_t	byte;
 
-  offset = *((uint32_t *) gbaMem(0x03005008));
-  byte = ((uint8_t *) gbaMem(offset + 0xEE0))[flag >> 3];
+  offset = gbaMem<uint32_t>(0x03005008);
+  byte = gbaPtr<uint8_t *>(offset + 0xEE0)[flag >> 3];
   return (byte & (1 << (flag % 8)));
 }
 
@@ -61,8 +61,8 @@ uint16_t        getVar(uint16_t var)
 {
   uint32_t	offset;
 
-  offset = *((uint32_t *) gbaMem(0x03005008));
-  return (((uint16_t *) gbaMem(offset + 0x1000))[var - 0x4000]);
+  offset = gbaMem<uint32_t>(0x03005008);
+  return (gbaPtr<uint16_t *>(offset + 0x1000)[var - 0x4000]);
 }
 
 void		*gbaMem(uint32_t ptr)

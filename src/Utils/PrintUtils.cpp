@@ -94,7 +94,7 @@ void		printWildPokemons(Data &data)
 
 void		printMenu(Data &data)
 {
-  printf("Main menu: %d\n", *((uint8_t *) gbaMem(0x0203ADE6))); // or 0x020370F4
+  printf("Main menu: %d\n", gbaMem<uint8_t>(0x0203ADE6)); // or 0x020370F4
   if (data.battleMenu().isOpen())
     {
       uint8_t	menu = data.battleMenu().getMenu();
@@ -114,7 +114,7 @@ void		printMenu(Data &data)
 void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz)
 {
   static uint8_t	*old = new uint8_t[sz]();
-  uint8_t		*p = (uint8_t *) gbaMem(address);
+  uint8_t		*p = gbaPtr<uint8_t *>(address);
 
   for (uint32_t i = 0; i < sz; i++)
     {
@@ -133,7 +133,7 @@ void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz)
 
 void		printMessageBoxes(int offsetx, int offsety)
 {
-  uint8_t	*d = (uint8_t *) gbaMem(0x020204B4);
+  uint8_t	*d = gbaPtr<uint8_t *>(0x020204B4);
   for (int a = 0; a < 32 && d[12 * a] != 0xFF; a++)
     {
       int x = d[12 * a + 1];
@@ -151,7 +151,7 @@ void		printMessageBoxes(int offsetx, int offsety)
 
 void		printString(uint32_t addr, uint32_t size)
 {
-  uint8_t	*d = (uint8_t *) gbaMem(addr);
+  uint8_t	*d = gbaPtr<uint8_t *>(addr);
 
   printf("%#x: '", addr);
   for (uint32_t i = 0; d[i] != 0xFF && i < size; i++)
@@ -161,7 +161,7 @@ void		printString(uint32_t addr, uint32_t size)
 
 void		searchString(uint32_t start, uint32_t size, const char *m)
 {
-  uint8_t	*d = (uint8_t *) gbaMem(start);
+  uint8_t	*d = gbaPtr<uint8_t *>(start);
 
   for (uint32_t j = 0; j < size; j++)
     {
@@ -181,7 +181,7 @@ void            printMultiChoices(Data &data)
       printf("Choice #%d\n", mc);
       for (int stri = 0; stri < choice.getNbChoices(); stri++)
         {
-          uint8_t *d = (uint8_t *) gbaMem(choice.getChoicePtr(stri));
+          uint8_t *d = gbaPtr<uint8_t *>(choice.getChoicePtr(stri));
           printf("\t");
           for (uint32_t i = 0; d[i] != 0xFF; i++)
             printf("%c", pokeCharsetToAscii(d[i]));
@@ -197,7 +197,7 @@ void            printStdFunctions(Data &data)
   for (int i = 0; i < 10; i++)
     {
       printf("STD FUNCTION #%d @", i);
-      printf("0x%08x\n", ((uint32_t *) gbaMem(0x08160450))[i]);
+      printf("0x%08x\n", gbaPtr<uint32_t *>(0x08160450)[i]);
       sc.loadStd(i);
       sc.print();
     }

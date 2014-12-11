@@ -26,9 +26,9 @@ VM::Context     &VM::Context::operator=(const Context &ctx)
 
 void            VM::Context::update()
 {
-  uint32_t      ptr = *((uint32_t *) gbaMem(0x03005008));
-  uint8_t       *flags = (uint8_t *) gbaMem(ptr + 0xEE0);
-  uint16_t      *vars = (uint16_t *) gbaMem(ptr + 0x1000);
+  uint32_t      ptr = gbaMem<uint32_t>(0x03005008);
+  uint8_t       *flags = gbaPtr<uint8_t *>(ptr + 0xEE0);
+  uint16_t      *vars = gbaPtr<uint16_t *>(ptr + 0x1000);
 
   memcpy(_flags, flags, sizeof(_flags));
   memcpy(_vars, vars, sizeof(_vars));
@@ -49,9 +49,9 @@ static void     _updateScripts(uint16_t var)
 
 void            VM::Context::updateAndCallback()
 {
-  uint32_t      ptr = *((uint32_t *) gbaMem(0x03005008));
-  uint8_t       *flags = (uint8_t *) gbaMem(ptr + 0xEE0);
-  uint16_t      *vars = (uint16_t *) gbaMem(ptr + 0x1000);
+  uint32_t      ptr = gbaMem<uint32_t>(0x03005008);
+  uint8_t       *flags = gbaPtr<uint8_t *>(ptr + 0xEE0);
+  uint16_t      *vars = gbaPtr<uint16_t *>(ptr + 0x1000);
 
   for (uint32_t i = 0; i < VM_VARS; i++)
     {
