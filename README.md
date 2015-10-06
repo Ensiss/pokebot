@@ -27,7 +27,7 @@ $ mv lib /path/to/pokebot/root/directory/
 
 ##Pokemon Fire Red GBA ROM
 
-Found on [CoolRom](http://coolrom.com/roms/gba/14488/Pokemon_FireRed.php)
+You can find it easily on the internet.
 
 # Contribute
 
