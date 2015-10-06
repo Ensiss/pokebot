@@ -18,9 +18,12 @@ $ cd vbam/trunk
 $ cmake .
 $ make
 $ mkdir lib; mv *.a lib
+$ mv lib /path/to/pokebot/root/directory/
 ```
 
-Then move the `lib/` directory in the root directory of the pokebot
+##pokebot
+
+`liblua5.1-0-dev` is needed for the scripting interface of the pokebot.
 
 ##Pokemon Fire Red GBA ROM
 
