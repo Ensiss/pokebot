@@ -7,34 +7,41 @@ void		printTeam(Data &data)
   const BattleData	&pb = data.getBattlers()[0];
   const BattleData	&eb = data.getBattlers()[1];
 
-  for (int i = 0; i < 6; i++)
+  try
     {
-      const PokemonData	&p = pTeam[i];
-      const PokemonData	&e = eTeam[i];
-      const Species	&sp = data.getSpecies(p.getSpecies());
+      for (int i = 0; i < 6; i++)
+        {
+          const PokemonData	&p = pTeam[i];
+          const PokemonData	&e = eTeam[i];
+          const Species	&sp = data.getSpecies(p.getSpecies());
 
-      if (!p.getSpecies() && !e.getSpecies())
-	continue;
-      printf("%s's %s", p.getOtName(), sp.getName());
-      printf("(%s", data.getTypeName(sp.getType(0)));
-      if (sp.getType(1) != sp.getType(0))
-	printf("/%s", data.getTypeName(sp.getType(1)));
-      printf(")\tvs\t%s (%d/%d hp)\n", data.getSpecies(e.getSpecies()).getName(), e.getHP(), e.getMaxHP());
-      for (int m = 0; m < 4; m++)
-	{
-	  if (p.getMove(m))
-	    {
-	      const Move	&move = data.getMove(p.getMove(m));
-	      const IPokeData	&idata = i ? p : (const IPokeData &) pb;
-	      Range		dmg = data.potentialDamage(idata, eb, move);
-	      int		acc = data.chanceToHit(idata, eb, move);
+          if (!p.getSpecies() && !e.getSpecies())
+            continue;
+          printf("%s's %s", p.getOtName(), sp.getName());
+          printf("(%s", data.getTypeName(sp.getType(0)));
+          if (sp.getType(1) != sp.getType(0))
+            printf("/%s", data.getTypeName(sp.getType(1)));
+          printf(")\tvs\t%s (%d/%d hp)\n", data.getSpecies(e.getSpecies()).getName(), e.getHP(), e.getMaxHP());
+          for (int m = 0; m < 4; m++)
+            {
+              if (p.getMove(m))
+                {
+                  const Move	&move = data.getMove(p.getMove(m));
+                  const IPokeData	&idata = i ? p : (const IPokeData &) pb;
+                  Range		dmg = data.potentialDamage(idata, eb, move);
+                  int		acc = data.chanceToHit(idata, eb, move);
 
-	      printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.getTypeName(move.getType()));
-	      printf(" (Accuracy: %d%%, %d/%d PP",
-		     acc, p.getPP(m), move.getPP());
-	      printf(", Potential dmg: %d-%d)\n", dmg.min, dmg.max);
-	    }
-	}
+                  printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.getTypeName(move.getType()));
+                  printf(" (Accuracy: %d%%, %d/%d PP",
+                         acc, p.getPP(m), move.getPP());
+                  printf(", Potential dmg: %d-%d)\n", dmg.min, dmg.max);
+                }
+            }
+        }
+    }
+  catch (std::out_of_range &e)
+    {
+      std::cout << e.what() << std::endl;
     }
 }
 
