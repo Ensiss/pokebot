@@ -1,7 +1,7 @@
 #include	"PathFinder.hh"
 
 PathFinder::PathFinder(World::Map &m)
-  : _m(m), _ows(Data::data->overWorlds()), _data(*Data::data)
+  : _m(m), _ows(Data::data->getOverWorlds()), _data(*Data::data)
 {
   _walkableTiles = {0x0C, 0x00, 0x10};
   _hills = {
@@ -54,8 +54,8 @@ bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
   // Dynamic overworlds
   for (uint8_t i = 1; i < 16 && (_ows[i].getMap() || _ows[i].getBank()); i++)
     {
-      if (_ows[i].getBank() == _data.player().getBank() &&
-  	  _ows[i].getMap() == _data.player().getMap() &&
+      if (_ows[i].getBank() == _data.getPlayer().getBank() &&
+  	  _ows[i].getMap() == _data.getPlayer().getMap() &&
   	  _ows[i].getDestX() == x && _ows[i].getDestY() == y)
   	return (true);
     }

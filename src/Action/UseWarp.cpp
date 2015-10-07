@@ -29,8 +29,8 @@ Action::UseWarp::~UseWarp()
 
 void		Action::UseWarp::_init()
 {
-  Player        &p = _data.player();
-  World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+  Player        &p = _data.getPlayer();
+  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
 
   if (_id >= m.nbWarps)
     {
@@ -48,8 +48,8 @@ void		Action::UseWarp::_init()
 
 void		Action::UseWarp::_update()
 {
-  Player        &p = _data.player();
-  World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+  Player        &p = _data.getPlayer();
+  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
   int           tx = m.warps[_id].x;
   int           ty = m.warps[_id].y;
   int           px = p.getX();

@@ -7,7 +7,7 @@ static Script   *_getScript()
   uint8_t       idx = gbaMem<uint8_t>(0x03005074);
   if (!idx)
     return (NULL);
-  uint8_t       evt = Data::data->overWorld(idx).getEventNb();
+  uint8_t       evt = Data::data->getOverWorld(idx).getEventNb();
   return (Script::getPerson(evt - 1));
 }
 

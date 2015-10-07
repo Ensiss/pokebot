@@ -259,7 +259,7 @@ void            Script::_preparemsg(Instruction *instr)
 
 void            Script::_checkattack(Instruction *instr)
 {
-  instr->str = formatString("checkattack %s", _data.move(instr->args[0]).getName());
+  instr->str = formatString("checkattack %s", _data.getMove(instr->args[0]).getName());
 }
 
 void            Script::_if(Instruction *instr)

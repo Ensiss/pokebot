@@ -2,34 +2,34 @@
 
 void		printTeam(Data &data)
 {
-  Team		&pTeam = data.playerTeam();
-  Team		&eTeam = data.enemyTeam();
-  const BattleData	&pb = data.battlers()[0];
-  const BattleData	&eb = data.battlers()[1];
+  Team		&pTeam = data.getPlayerTeam();
+  Team		&eTeam = data.getEnemyTeam();
+  const BattleData	&pb = data.getBattlers()[0];
+  const BattleData	&eb = data.getBattlers()[1];
 
   for (int i = 0; i < 6; i++)
     {
       const PokemonData	&p = pTeam[i];
       const PokemonData	&e = eTeam[i];
-      const Species	&sp = data.species(p.getSpecies());
+      const Species	&sp = data.getSpecies(p.getSpecies());
 
       if (!p.getSpecies() && !e.getSpecies())
 	continue;
       printf("%s's %s", p.getOtName(), sp.getName());
-      printf("(%s", data.type(sp.getType(0)));
+      printf("(%s", data.getTypeName(sp.getType(0)));
       if (sp.getType(1) != sp.getType(0))
-	printf("/%s", data.type(sp.getType(1)));
-      printf(")\tvs\t%s (%d/%d hp)\n", data.species(e.getSpecies()).getName(), e.getHP(), e.getMaxHP());
+	printf("/%s", data.getTypeName(sp.getType(1)));
+      printf(")\tvs\t%s (%d/%d hp)\n", data.getSpecies(e.getSpecies()).getName(), e.getHP(), e.getMaxHP());
       for (int m = 0; m < 4; m++)
 	{
 	  if (p.getMove(m))
 	    {
-	      const Move	&move = data.move(p.getMove(m));
+	      const Move	&move = data.getMove(p.getMove(m));
 	      const IPokeData	&idata = i ? p : (const IPokeData &) pb;
 	      Range		dmg = data.potentialDamage(idata, eb, move);
 	      int		acc = data.chanceToHit(idata, eb, move);
 
-	      printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.type(move.getType()));
+	      printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.getTypeName(move.getType()));
 	      printf(" (Accuracy: %d%%, %d/%d PP",
 		     acc, p.getPP(m), move.getPP());
 	      printf(", Potential dmg: %d-%d)\n", dmg.min, dmg.max);
@@ -40,8 +40,8 @@ void		printTeam(Data &data)
 
 void		printMap(Data &data, uint8_t flags)
 {
-  Player	&p = data.player();
-  World::Map	&m = data.world()[p.getBank()][p.getMap()];
+  Player	&p = data.getPlayer();
+  World::Map	&m = data.getWorld()[p.getBank()][p.getMap()];
 
   if (!flags)
     flags = M_STATUS;
@@ -70,8 +70,8 @@ void		printMap(Data &data, uint8_t flags)
 
 void		printWildPokemons(Data &data)
 {
-  Player	&p = data.player();
-  World::Map	&m = data.world()[p.getBank()][p.getMap()];
+  Player	&p = data.getPlayer();
+  World::Map	&m = data.getWorld()[p.getBank()][p.getMap()];
 
   for (int i = 0; i < 4; i++)
     {
@@ -83,7 +83,7 @@ void		printWildPokemons(Data &data)
 	  printf(" -> %d/255 chances to encounter a pokemon (%d%%)\n", wb->ratio, 100 * wb->ratio / 255);
 	  for (int j = 0; j < wb->nbEntries; j++)
 	    {
-	      printf("\t%-10s lvl ", data.species(wb->entries[j].species).getName());
+	      printf("\t%-10s lvl ", data.getSpecies(wb->entries[j].species).getName());
 	      if (wb->entries[j].maxLvl != wb->entries[j].minLvl)
 		printf("%d-", wb->entries[j].minLvl);
 	      printf("%d\n", wb->entries[j].maxLvl);
@@ -95,20 +95,20 @@ void		printWildPokemons(Data &data)
 void		printMenu(Data &data)
 {
   printf("Main menu: %d\n", gbaMem<uint8_t>(0x0203ADE6)); // or 0x020370F4
-  if (data.battleMenu().isOpen())
+  if (data.getBattleMenu().isOpen())
     {
-      uint8_t	menu = data.battleMenu().getMenu();
+      uint8_t	menu = data.getBattleMenu().getMenu();
       if (menu == 0)
-	printf("Main battle menu, cursor on %d\n", data.battleMenu().getCursor());
+	printf("Main battle menu, cursor on %d\n", data.getBattleMenu().getCursor());
       else if (menu == 1)
-	printf("Attack menu, cursor on %d\n", data.battleMenu().getAttack());
+	printf("Attack menu, cursor on %d\n", data.getBattleMenu().getAttack());
       else if (menu == 2)
-	printf("Bag menu, pocket %d, item %d\n", data.bagMenu().getPocket(), data.bagMenu().getItem());
+	printf("Bag menu, pocket %d, item %d\n", data.getBagMenu().getPocket(), data.getBagMenu().getItem());
       else if (menu == 3)
 	printf("Pokemon switch menu\n");
     }
-  else if (data.bagMenu().isOpen())
-    printf("Bag pocket #%d open, cursor on item #%d\n", data.bagMenu().getPocket(), data.bagMenu().getItem());
+  else if (data.getBagMenu().isOpen())
+    printf("Bag pocket #%d open, cursor on item #%d\n", data.getBagMenu().getPocket(), data.getBagMenu().getItem());
 }
 
 void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz)
@@ -177,7 +177,7 @@ void            printMultiChoices(Data &data)
 {
   for (uint8_t mc = 0; mc <= 0x40; mc++)
     {
-      const MultiChoice &choice = data.multiChoice(mc);
+      const MultiChoice &choice = data.getMultiChoice(mc);
       printf("Choice #%d\n", mc);
       for (int stri = 0; stri < choice.getNbChoices(); stri++)
         {

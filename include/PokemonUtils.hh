@@ -3,6 +3,7 @@
 
 #include        <type_traits>
 #include	<stdint.h>
+#include        <stdexcept>
 #include	"../vbam/gba/Globals.h"
 
 #define		WRAM_OFFSET	0x2000000

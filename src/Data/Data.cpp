@@ -13,7 +13,7 @@ Data::Data()
   _loadStrings(_speciesNames, 0x8245EE0, 11, "\xAE\xFF", 2);
   _loadStrings(_moveNames, 0x8247094, 13, "\x00", 1);
   _loadStrings(_abilityNames, 0x824FC4D, 13, "\x00", 1);
-  _loadStrings(_types, 0x824F1A0, 7, "\x00", 1);
+  _loadStrings(_typeNames, 0x824F1A0, 7, "\x00", 1);
   _loadMoves();
   _loadSpecies();
   _loadTypeEffectiveness();
@@ -70,8 +70,8 @@ float		Data::sameTypeAttackBonus(const Move &m, const Species &s) const
 
 Range		Data::potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const
 {
-  const Species	&as = species(attacker.getSpecies());
-  const Species	&ts = species(target.getSpecies());
+  const Species	&as = getSpecies(attacker.getSpecies());
+  const Species	&ts = getSpecies(target.getSpecies());
   float		a = attacker.getLevel();
   float		b = isSpecial(m.getType()) ? attacker.getRealSpAtk() : attacker.getRealAtk();
   float		c = m.getPower();

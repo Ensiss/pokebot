@@ -36,12 +36,12 @@ void		Action::MoveTo::addListener(const std::string &signal, void (Action::MoveT
 
 void		Action::MoveTo::_checkNPCMovement()
 {
-  const OverWorld	*ows = _data.overWorlds();
+  const OverWorld	*ows = _data.getOverWorlds();
 
   for (int i = 1; _owInit && i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
     {
-      if (ows[i].getBank() == _data.player().getBank() &&	// If the overworld is in our map
-	  ows[i].getMap() == _data.player().getMap() &&
+      if (ows[i].getBank() == _data.getPlayer().getBank() &&	// If the overworld is in our map
+	  ows[i].getMap() == _data.getPlayer().getMap() &&
 	  (ows[i].getDestX() != _oldow[i].getDestX() ||		// If the overworld is moving
 	   ows[i].getDestY() != _oldow[i].getDestY() ||
 	   ows[i].getBank() != _oldow[i].getBank() ||		// Or if it's a new overworld
@@ -63,9 +63,9 @@ void            Action::MoveTo::_updateTargetPos()
   if (_tid == -1)
     return;
 
-  const OverWorld	*ows = _data.overWorlds();
-  Player	&p = _data.player();
-  World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+  const OverWorld	*ows = _data.getOverWorlds();
+  Player	&p = _data.getPlayer();
+  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
 
   _tx = m.persons[_tid].x;
   _ty = m.persons[_tid].y;
@@ -82,8 +82,8 @@ void            Action::MoveTo::_updateTargetPos()
 
 void            Action::MoveTo::_searchBehindBar()
 {
-  Player	&p = _data.player();
-  World::Map    &m = _data.world()[p.getBank()][p.getMap()];
+  Player	&p = _data.getPlayer();
+  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
 
   for (int i = 0; i < 4; i++)
     {
@@ -103,10 +103,10 @@ void            Action::MoveTo::_searchBehindBar()
 
 void		Action::MoveTo::_init()
 {
-  Player	&p = _data.player();
-  PathFinder	finder(_data.world()[p.getBank()][p.getMap()]);
+  Player	&p = _data.getPlayer();
+  PathFinder	finder(_data.getWorld()[p.getBank()][p.getMap()]);
 
-  if (_tid != -1 && _tid >= _data.world()[p.getBank()][p.getMap()].nbPersons)
+  if (_tid != -1 && _tid >= _data.getWorld()[p.getBank()][p.getMap()].nbPersons)
     {
       fprintf(stderr, "%d is not a valid person ID\n", _tid);
       _state = Action::ERROR;
@@ -134,9 +134,8 @@ void		Action::MoveTo::_init()
 
 void		Action::MoveTo::_update()
 {
-  const OverWorld       &ow = _data.overWorld(0);
+  const OverWorld       &ow = _data.getOverWorld(0);
   World::Map::Node      *end = (*_path)[_path->size() - 1];
-  Player	&p = _data.player();
   bool		moved = _oldx != ow.getDestX() || _oldy != ow.getDestY();
 
   if (_path && _pathi == _path->size() &&

@@ -178,8 +178,8 @@ Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, Scrip
 
   if (type < STD && !bank && !map)
     {
-      bank = Data::data->player().getBank();
-      map = Data::data->player().getMap();
+      bank = Data::data->getPlayer().getBank();
+      map = Data::data->getPlayer().getMap();
     }
   it = _cache.find(Identifier(bank, map, id, type));
   if (it != _cache.end())
@@ -195,7 +195,7 @@ Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, Scrip
       return (sc);
     }
 
-  World::Map    &m = Data::data->world()[bank][map];
+  World::Map    &m = Data::data->getWorld()[bank][map];
 
   if ((type == PERSON && id < m.getNbPersons()) ||
       (type == SIGN && id < m.getNbSigns()) ||

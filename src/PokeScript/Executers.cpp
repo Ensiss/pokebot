@@ -292,7 +292,7 @@ void            VM::_yesnobox(Script::Instruction *instr)
 void            VM::_multichoice(Script::Instruction *instr)
 {
   Data          &data = *Data::data;
-  uint8_t       nchoices = data.multiChoice(instr->args[2]).getNbChoices();
+  uint8_t       nchoices = data.getMultiChoice(instr->args[2]).getNbChoices();
 
   // Contexts for every other choice
   for (uint8_t i = 1; i < nchoices; i++)

@@ -36,26 +36,48 @@ public:
   void		update();
 
 public:
-  const std::vector<char *>	&speciesNames() const { return (_speciesNames); }
-  char		*speciesName(uint16_t i) const { return (i < _speciesNames.size() ? _speciesNames[i] : NULL); }
+  const std::vector<char *>	&getSpeciesNames() const { return _speciesNames; }
+  char		*getSpeciesName(uint16_t i) const {
+    if (i >= _speciesNames.size()) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.SpeciesName");
+    return _speciesNames[i];
+  }
 
-  const std::vector<Move>	&moves() const { return (_moves); }
-  const Move	&move(uint8_t i) const { return (_moves[(i < _moves.size()) * i]); }
-
-  const std::vector<char *>	&types() const { return (_types); }
-  const char	*type(uint8_t i) const { return (_types[(i < _types.size()) * i]); }
+  const std::vector<char *>	&getTypeNames() const { return _typeNames; }
+  const char	*getTypeName(uint8_t i) const {
+    if (i >= _typeNames.size()) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.TypeName");
+    return _typeNames[i];
+  }
   bool		isSpecial(uint8_t type) const { return (type > 9); };
 
-  const std::vector<Species>	&species() const { return (_species); }
-  const Species	&species(uint16_t i) const { return (_species[(i < _species.size()) * i]); }
+  const std::vector<char *>	&getAbilityNames() const { return _abilityNames; }
+  char		*getAbilityName(uint8_t i) const {
+    if (i >= _abilityNames.size()) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.AbilityName");
+    return _abilityNames[i];
+  }
 
-  const std::vector<char *>	&abilityNames() const { return (_abilityNames); }
-  char		*abilityName(uint8_t i) const { return (i < _abilityNames.size() ? _abilityNames[i] : NULL); }
+  const std::vector<Move>	&getMoves() const { return _moves; }
+  const Move	&getMove(uint8_t i) const {
+    if (i >= _moves.size()) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.Moves");
+    return _moves[i];
+  }
 
-  const OverWorld	*overWorlds() const { return (_ows); }
-  const OverWorld	&overWorld(uint8_t i) const { return (_ows[(i < 16) * i]); }
-  const MultiChoice	*multiChoices() const { return (_mchoice); }
-  const MultiChoice	&multiChoice(uint8_t i) const { return (_mchoice[(i <= 0x40) * i]); }
+  const std::vector<Species>	&getSpecies() const { return _species; }
+  const Species	&getSpecies(uint16_t i) const {
+    if (i >= _species.size()) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.Species");
+    return _species[i];
+  }
+
+  const OverWorld	*getOverWorlds() const { return _ows; }
+  const OverWorld	&getOverWorld(uint8_t i) const {
+    if (i >= 16) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.OverWorld");
+    return _ows[i];
+  }
+
+  const MultiChoice	*getMultiChoices() const { return _mchoice; }
+  const MultiChoice	&getMultiChoice(uint8_t i) const {
+    if (i > 0x40) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.MultiChoice");
+    return _mchoice[i];
+  }
 
   float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
   float		typeEffectiveness(const Move &m, const Species &s) const;
@@ -63,14 +85,14 @@ public:
   Range		potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const;
   float		chanceToHit(const IPokeData &attacker, const IPokeData &target, const Move &m) const;
 
-  Team		&playerTeam() { return (_pteam); }
-  Team		&enemyTeam() { return (_eteam); }
-  BattleGroup	&battlers() { return (_battlers); }
-  World		&world() { return (_world); }
-  Player	&player() { return (_player); }
-  BagMenu	&bagMenu() { return (_bagMenu); }
-  BattleMenu	&battleMenu() { return (_battleMenu); }
-  bool		inBattle() { return (*((uint32_t *) gbaMem(0x030030F0)) == 0x80123e5); }
+  Team		&getPlayerTeam() { return (_pteam); }
+  Team		&getEnemyTeam() { return (_eteam); }
+  BattleGroup	&getBattlers() { return (_battlers); }
+  World		&getWorld() { return (_world); }
+  Player	&getPlayer() { return (_player); }
+  BagMenu	&getBagMenu() { return (_bagMenu); }
+  BattleMenu	&getBattleMenu() { return (_battleMenu); }
+  bool		isInBattle() { return (*((uint32_t *) gbaMem(0x030030F0)) == 0x80123e5); }
 
 private:
   void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
@@ -83,7 +105,7 @@ private:
   std::vector<char*>	_speciesNames;
   std::vector<char*>	_moveNames;
   std::vector<char*>	_abilityNames;
-  std::vector<char*>	_types;
+  std::vector<char*>	_typeNames;
   std::vector<Move>	_moves;
   std::vector<Species>	_species;
   float			_typeChart[18][18];
@@ -100,16 +122,16 @@ private:
   BattleGroup	_battlers;
 
 public:
-  static const World::Map       &getMap(uint8_t bank, uint8_t map) { return (data->world().getMap(bank, map)); }
-  static const World::Map       &getCurrentMap() { return (data->world().getMap(data->player().getBank(), data->player().getMap())); }
-  static const PokemonData      &getPlayerPokemonWrapper(uint8_t i) { return (data->playerTeam()[i]); }
-  static const PokemonData      &getEnemyPokemonWrapper(uint8_t i) { return (data->enemyTeam()[i]); }
-  static const BattleData       &getBattlerWrapper(uint8_t i) { return (data->battlers()[i]); }
-  static const OverWorld        &getOverWorldWrapper(uint8_t i) { return (data->overWorld(i)); }
-  static const Species  &getSpeciesWrapper(uint16_t i) { return (data->species(i)); }
-  static const Move     &getMoveWrapper(uint16_t i) { return (data->move(i)); }
-  static const char     *getTypeWrapper(uint8_t i) { return (data->type(i)); }
-  static const char     *getAbilityNameWrapper(uint8_t i) { return (data->abilityName(i)); }
+  static const World::Map       &getMap(uint8_t bank, uint8_t map) { return (data->getWorld().getMap(bank, map)); }
+  static const World::Map       &getCurrentMap() { return (data->getWorld().getMap(data->getPlayer().getBank(), data->getPlayer().getMap())); }
+  static const PokemonData      &getPlayerPokemonWrapper(uint8_t i) { return (data->getPlayerTeam()[i]); }
+  static const PokemonData      &getEnemyPokemonWrapper(uint8_t i) { return (data->getEnemyTeam()[i]); }
+  static const BattleData       &getBattlerWrapper(uint8_t i) { return (data->getBattlers()[i]); }
+  static const OverWorld        &getOverWorldWrapper(uint8_t i) { return (data->getOverWorld(i)); }
+  static const Species  &getSpeciesWrapper(uint16_t i) { return (data->getSpecies(i)); }
+  static const Move     &getMoveWrapper(uint16_t i) { return (data->getMove(i)); }
+  static const char     *getTypeNameWrapper(uint8_t i) { return (data->getTypeName(i)); }
+  static const char     *getAbilityNameWrapper(uint8_t i) { return (data->getAbilityName(i)); }
 
   static Data   *data;
 };

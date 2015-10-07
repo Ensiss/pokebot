@@ -1282,8 +1282,8 @@ void sdlPollEvents(Data &data, Bot &bot)
       if (x < 0 || y < 0 || x > winW || y > winH)
 	break;
       // Coordinates in tiles size
-      x = x / (winW / 15) - 7 + data.player().getX();
-      y = y / (winH / 11) - 5 + data.player().getY();
+      x = x / (winW / 15) - 7 + data.getPlayer().getX();
+      y = y / (winH / 11) - 5 + data.getPlayer().getY();
       // Go !
       bot.queue(new Action::MoveTo(x, y));
       break;

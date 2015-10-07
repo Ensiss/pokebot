@@ -16,7 +16,7 @@ Action::TurnDirection::~TurnDirection()
 
 void		Action::TurnDirection::_init()
 {
-  int           dir = _data.overWorld(0).getDir();
+  int           dir = _data.getOverWorld(0).getDir();
   EKey          dirKey[4] = {KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT};
 
   if (dirKey[dir - 1] != _key)

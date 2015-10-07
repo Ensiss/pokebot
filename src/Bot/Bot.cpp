@@ -29,13 +29,13 @@ void		Bot::_loadKeyState()
 
 void		Bot::update()
 {
-  if (Data::data->inBattle() != _battleState)
+  if (Data::data->isInBattle() != _battleState)
     {
       (this->*(!_battleState ? &Bot::_saveKeyState : &Bot::_loadKeyState))();
       if (!_battleState && _battle)
 	_battle->reset();
     }
-  _battleState = Data::data->inBattle();
+  _battleState = Data::data->isInBattle();
   if (_battleState)
     {
       if (_battle)
