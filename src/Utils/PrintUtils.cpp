@@ -52,23 +52,23 @@ void		printMap(Data &data, uint8_t flags)
 
   if (!flags)
     flags = M_STATUS;
-  for (uint16_t y = 0; y < m.height; y++)
+  for (uint16_t y = 0; y < m.getHeight(); y++)
     {
-      for (uint16_t x = 0; x < m.width; x++)
+      for (uint16_t x = 0; x < m.getWidth(); x++)
 	{
 	  bool	node = false;
 	  bool	ppos = (y == p.getY() && x == p.getX());
-	  for (int a = 0; !node && a < m.nbWarps; a++)
-	    if (m.warps[a].x == x && m.warps[a].y == y)
+	  for (int a = 0; !node && a < m.getNbWarps(); a++)
+	    if (m.getWarp(a).getX() == x && m.getWarp(a).getY() == y)
 	      node = true;
 	  printf("\033[1;%d;%dm", node && !ppos ? 47 : 40,
-		 m.getMatterColor(m[y][x].status, ppos));
+		 m.getMatterColor(m.getNode(x, y).getStatus(), ppos));
 	  if (flags & M_STATUS)
-	    printf("%02x ", m[y][x].status);
+	    printf("%02x ", m.getNode(x, y).getStatus());
 	  if (flags & M_BEHAVIOR)
-	    printf("%02x ", m[y][x].attr->behavior);
+	    printf("%02x ", m.getNode(x, y).getBehavior());
 	  if (flags & M_BGROUND)
-	    printf("%02x ", m[y][x].attr->bg);
+	    printf("%02x ", m.getNode(x, y).getBackground());
 	  printf("\033[0m");
 	}
       printf("\n");
@@ -82,18 +82,19 @@ void		printWildPokemons(Data &data)
 
   for (int i = 0; i < 4; i++)
     {
-      World::Map::WildBattle	*wb = m.wildBattles + i;
+      const World::Map::WildBattle &wb = m.getWildBattle(i);
 
-      if (wb->nbEntries)
+      if (wb.getNbEntries())
 	{
 	  printf("Type: %s", "Grass\0    Water\0    RockSmash\0Fishing" + 10 * i);
-	  printf(" -> %d/255 chances to encounter a pokemon (%d%%)\n", wb->ratio, 100 * wb->ratio / 255);
-	  for (int j = 0; j < wb->nbEntries; j++)
+	  printf(" -> %d/255 chances to encounter a pokemon (%d%%)\n", wb.getRatio(), 100 * wb.getRatio() / 255);
+	  for (int j = 0; j < wb.getNbEntries(); j++)
 	    {
-	      printf("\t%-10s lvl ", data.getSpecies(wb->entries[j].species).getName());
-	      if (wb->entries[j].maxLvl != wb->entries[j].minLvl)
-		printf("%d-", wb->entries[j].minLvl);
-	      printf("%d\n", wb->entries[j].maxLvl);
+              const World::WildEntry &entry = wb.getEntry(j);
+	      printf("\t%-10s lvl ", data.getSpecies(entry.getSpecies()).getName());
+	      if (entry.getMaxLevel() != entry.getMinLevel())
+		printf("%d-", entry.getMinLevel());
+	      printf("%d\n", entry.getMaxLevel());
 	    }
 	}
     }

@@ -26,7 +26,7 @@ bool		PathFinder::_checkHills(int x, int y, World::Map::Node &next, World::Map::
   for (uint16_t i = 0; i < _hills.size(); i++)
     {
       if (x == _hills[i].x && y == _hills[i].y &&
-	  (_hills[i].behavior == next.attr->behavior || _hills[i].behavior == curr.attr->behavior))
+	  (_hills[i].behavior == next.getBehavior() || _hills[i].behavior == curr.getBehavior()))
 	return (true);
     }
   return (false);
@@ -37,18 +37,19 @@ bool		PathFinder::_checkWalkable(World::Map::Node &n)
   // Check walkable tiles (grass/tile near escalator, for now)
   return (std::find(_walkableTiles.begin(),
                     _walkableTiles.end(),
-                    n.status) != _walkableTiles.end() &&
+                    n.getStatus()) != _walkableTiles.end() &&
           // Check that it's not an escalator
-          n.attr->behavior != 0x6b && n.attr->behavior != 0x6a);
+          n.getBehavior() != 0x6b && n.getBehavior() != 0x6a);
 }
 
 bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
 {
   // Static overworlds
-  for (uint8_t i = 0; i < _m.nbPersons; i++)
+  for (uint8_t i = 0; i < _m.getNbPersons(); i++)
     {
-      if (_m.persons[i].x == x && _m.persons[i].y == y && _m.persons[i].isVisible() &&
-	  std::find(_notMoving.begin(), _notMoving.end(), _m.persons[i].mvtType) != _notMoving.end())
+      const World::PersonEvt &pers = _m.getPerson(i);
+      if (pers.getX() == x && pers.getY() == y && pers.isVisible() &&
+	  std::find(_notMoving.begin(), _notMoving.end(), pers.getMovementType()) != _notMoving.end())
 	return (true);
     }
   // Dynamic overworlds
@@ -66,7 +67,7 @@ uint8_t		PathFinder::_getMovementCost(World::Map::Node &next)
 {
   std::map<uint16_t, uint8_t>::iterator	it;
 
-  it = _movementCost.find(next.attr->behavior);
+  it = _movementCost.find(next.getBehavior());
   if (it != _movementCost.end())
     return (it->second);
   return (10);
@@ -84,7 +85,7 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
       int		i = _getNextIndex(&openset);
       World::Map::Node*	curr = openset[i];
       openset.erase(openset.begin() + i);
-      if (abs(curr->x - xe) + abs(curr->y - ye) == dist)
+      if (abs(curr->getX() - xe) + abs(curr->getY() - ye) == dist)
         return (_rebuildPath(new World::Path, curr));
       closedset.push_back(curr);
       for (int i = 0; i < 4; i++)
@@ -92,32 +93,32 @@ World::Path	*PathFinder::search(uint32_t xs, uint32_t ys, uint32_t xe, uint32_t 
           // Boundaries check
           int	dx = (i - 1) * !(i & 1);
           int	dy = (i - 2) * (i & 1);
-          int	x = curr->x + dx;
-          int	y = curr->y + dy;
-          if (x < 0 || x >= (int) _m.width || y < 0 || y >= (int) _m.height)
+          int	x = curr->getX() + dx;
+          int	y = curr->getY() + dy;
+          if (x < 0 || x >= (int) _m.getWidth() || y < 0 || y >= (int) _m.getHeight())
             continue;
 
           // Tile type check
-          World::Map::Node		*next = &(_m.data[y][x]);
+          World::Map::Node		*next = &_m.getNode(x, y);
           if (_checkOverWorld(x, y))
             continue;
-          if (!(_checkHills(dx, dy, *next, _m.data[curr->y][curr->x]) ||
+          if (!(_checkHills(dx, dy, *next, _m.getNode(curr->getX(), curr->getY())) ||
                 _checkWalkable(*next) ||
                 // Block access to hill from a lower level
-                next->attr->behavior == 0x32 ||
+                next->getBehavior() == 0x32 ||
                 // Check if escalator is the final tile
                 (!dy &&
-                 (next->attr->behavior == 0x6b || next->attr->behavior == 0x6a) &&
+                 (next->getBehavior() == 0x6b || next->getBehavior() == 0x6a) &&
                  x == (int) xe && y == (int) ye)))
             continue;
 
           World::Path::iterator	it = std::find(closedset.begin(), closedset.end(), next);
-          uint32_t	g = curr->g + _getMovementCost(*next);
-          if (it != closedset.end() && g >= next->g)
+          uint32_t	g = curr->getG() + _getMovementCost(*next);
+          if (it != closedset.end() && g >= next->getG())
             continue;
-          if (it == closedset.end() || g < next->g)
+          if (it == closedset.end() || g < next->getG())
             {
-              next->from = curr;
+              next->setFrom(curr);
               next->setG(g);
               next->setF(xe, ye);
               if (std::find(openset.begin(), openset.end(), next) == openset.end())
@@ -136,10 +137,10 @@ int		PathFinder::_getNextIndex(World::Path *set)
 
   for (World::Path::iterator it = set->begin(); it != set->end(); it++)
     {
-      if (i == -1 || (*it)->f < min)
+      if (i == -1 || (*it)->getF() < min)
 	{
 	  i = count;
-	  min = (*it)->f;
+	  min = (*it)->getF();
 	}
       count++;
     }
@@ -148,8 +149,8 @@ int		PathFinder::_getNextIndex(World::Path *set)
 
 World::Path	*PathFinder::_rebuildPath(World::Path *set, World::Map::Node *node)
 {
-  if (node->from)
-    _rebuildPath(set, node->from);
+  if (node->getFrom())
+    _rebuildPath(set, node->getFrom());
   set->push_back(node);
   return (set);
 }

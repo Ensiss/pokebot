@@ -66,12 +66,13 @@ void            Action::MoveTo::_updateTargetPos()
   const OverWorld	*ows = _data.getOverWorlds();
   Player	&p = _data.getPlayer();
   World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
+  const World::PersonEvt &pers = m.getPerson(_tid);
 
-  _tx = m.persons[_tid].x;
-  _ty = m.persons[_tid].y;
+  _tx = pers.getX();
+  _ty = pers.getY();
   for (int i = 1; i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
-      if (ows[i].getEventNb() == m.persons[_tid].evtNb)
+      if (ows[i].getEventNb() == pers.getEventNb())
         {
           _tx = ows[i].getDestX();
           _ty = ows[i].getDestY();
@@ -90,7 +91,7 @@ void            Action::MoveTo::_searchBehindBar()
       int       x = _tx + !(i & 1) * (i - 1);
       int       y = _ty + (i & 1) * (i - 2);
       // Person is behind a bar
-      if (m.data[y][x].attr->behavior == 0x80)
+      if (m.getNode(x, y).getBehavior() == 0x80)
         {
           _tx = x;
           _ty = y;
@@ -106,7 +107,7 @@ void		Action::MoveTo::_init()
   Player	&p = _data.getPlayer();
   PathFinder	finder(_data.getWorld()[p.getBankId()][p.getMapId()]);
 
-  if (_tid != -1 && _tid >= _data.getWorld()[p.getBankId()][p.getMapId()].nbPersons)
+  if (_tid != -1 && _tid >= _data.getWorld()[p.getBankId()][p.getMapId()].getNbPersons())
     {
       fprintf(stderr, "%d is not a valid person ID\n", _tid);
       _state = Action::ERROR;
@@ -139,17 +140,17 @@ void		Action::MoveTo::_update()
   bool		moved = _oldx != ow.getDestX() || _oldy != ow.getDestY();
 
   if (_path && _pathi == _path->size() &&
-      ow.getCurrX() == end->x && ow.getCurrY() == end->y)
+      ow.getCurrX() == end->getX() && ow.getCurrY() == end->getY())
     {
       _state = Action::FINISHED;
       delete _path;
       _path = NULL;
     }
   else if (_path && _pathi < _path->size() && (_pathi == 1 || moved) &&
-           (ow.getDestX() != end->x || ow.getDestY() != end->y))
+           (ow.getDestX() != end->getX() || ow.getDestY() != end->getY()))
     {
-      int	dx = (*_path)[_pathi]->x - ow.getDestX();
-      int	dy = (*_path)[_pathi]->y - ow.getDestY();
+      int	dx = (*_path)[_pathi]->getX() - ow.getDestX();
+      int	dy = (*_path)[_pathi]->getY() - ow.getDestY();
       EKey	k;
 
       _releaseKeys();
@@ -160,7 +161,7 @@ void		Action::MoveTo::_update()
       sdlSetButton(k, true);
       _pathi++;
     }
-  if (ow.getDestX() == end->x && ow.getDestY() == end->y)
+  if (ow.getDestX() == end->getX() && ow.getDestY() == end->getY())
     _releaseKeys();
   _oldx = ow.getDestX();
   _oldy = ow.getDestY();

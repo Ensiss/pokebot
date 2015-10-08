@@ -32,16 +32,17 @@ void		Action::UseWarp::_init()
   Player        &p = _data.getPlayer();
   World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
 
-  if (_id >= m.nbWarps)
+  if (_id >= m.getNbWarps())
     {
       fprintf(stderr, "%d is not a valid warp ID\n", _id);
       _state = Action::ERROR;
       return;
     }
 
-  int           x = m.warps[_id].x;
-  int           y = m.warps[_id].y;
-  int           status = m.data[y][x].status;
+  const World::WarpEvt &warp = m.getWarp(_id);
+  int           x = warp.getX();
+  int           y = warp.getY();
+  int           status = m.getNode(x, y).getStatus();
 
   queue(new Action::MoveTo(x, y, status == 0x01));
 }
@@ -50,8 +51,9 @@ void		Action::UseWarp::_update()
 {
   Player        &p = _data.getPlayer();
   World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
-  int           tx = m.warps[_id].x;
-  int           ty = m.warps[_id].y;
+  const World::WarpEvt &warp = m.getWarp(_id);
+  int           tx = warp.getX();
+  int           ty = warp.getY();
   int           px = p.getX();
   int           py = p.getY();
   EKey          key = (EKey) -1;
@@ -60,7 +62,7 @@ void		Action::UseWarp::_update()
     {
       if (px == tx && py == ty)
         {
-          std::map<uint16_t, EKey>::iterator    it = _behaviours.find(m.data[ty][tx].attr->behavior);
+          std::map<uint16_t, EKey>::iterator    it = _behaviours.find(m.getNode(tx, ty).getBehavior());
           if (it != _behaviours.end())
             key = (*it).second;
         }

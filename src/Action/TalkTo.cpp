@@ -26,12 +26,13 @@ void            Action::TalkTo::_turnToOW()
   Player	&p = _data.getPlayer();
   World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
   uint16_t      tx, ty, px, py;
+  const World::PersonEvt &pers = m.getPerson(_pid);
 
-  tx = m.persons[_pid].x;
-  ty = m.persons[_pid].y;
+  tx = pers.getX();
+  ty = pers.getY();
   for (int i = 1; i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
-      if (ows[i].getEventNb() == m.persons[_pid].evtNb)
+      if (ows[i].getEventNb() == pers.getEventNb())
         {
           tx = ows[i].getDestX();
           ty = ows[i].getDestY();
@@ -47,9 +48,10 @@ void            Action::TalkTo::_turnToOW()
 
 void		Action::TalkTo::_init()
 {
-  World::Map    &m = _data.getWorld()[_data.getPlayer().getBankId()][_data.getPlayer().getMapId()];
+  const Player  &p = _data.getPlayer();
+  World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
 
-  if (_pid >= m.nbPersons)
+  if (_pid >= m.getNbPersons())
     {
       fprintf(stderr, "%d is not a valid person ID\n", _pid);
       _state = Action::ERROR;

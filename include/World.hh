@@ -96,12 +96,14 @@ private:
 public:
   struct	SignEvt
   {
+  protected:
     uint16_t	x;
     uint16_t	y;
     uint8_t	level;
     uint8_t	type;
     uint32_t	scriptPtr;
 
+  public:
     uint16_t	getX() const { return (x); }
     uint16_t	getY() const { return (y); }
     uint8_t	getLevel() const { return (level); }
@@ -111,6 +113,7 @@ public:
 
   struct	WarpEvt
   {
+  protected:
     uint16_t	x;
     uint16_t	y;
     uint8_t	level;
@@ -118,6 +121,7 @@ public:
     uint8_t	destMap;
     uint8_t	destBank;
 
+  public:
     uint16_t	getX() const { return (x); }
     uint16_t	getY() const { return (y); }
     uint8_t	getLevel() const { return (level); }
@@ -128,6 +132,7 @@ public:
 
   struct	PersonEvt
   {
+  protected:
     uint8_t	evtNb;
     uint8_t	pictureNb;
     uint16_t	unknown;
@@ -144,6 +149,7 @@ public:
     uint16_t	id;
     uint16_t	unknown4;
 
+  public:
     bool	isVisible() const
     {
       if (!id)
@@ -164,6 +170,7 @@ public:
 
   struct	ScriptEvt
   {
+  protected:
     uint16_t	x;
     uint16_t	y;
     uint8_t	level;
@@ -173,6 +180,7 @@ public:
     uint16_t	unknown2;
     uint32_t	scriptPtr;
 
+  public:
     uint16_t	getX() const { return (x); }
     uint16_t	getY() const { return (y); }
     uint8_t	getLevel() const { return (level); }
@@ -183,12 +191,14 @@ public:
 
   struct	Connection
   {
+  protected:
     uint32_t	type;
     uint32_t	offset;
     uint8_t	bank;
     uint8_t	map;
     uint16_t	padding;
 
+  public:
     uint32_t	getType() const { return (type); }
     uint32_t	getOffset() const { return (offset); }
     uint8_t	getBank() const { return (bank); }
@@ -197,10 +207,12 @@ public:
 
   struct	WildEntry
   {
+  protected:
     uint8_t	minLvl;
     uint8_t	maxLvl;
     uint16_t	species;
 
+  public:
     uint8_t	getMinLevel() const { return (minLvl); }
     uint8_t	getMaxLevel() const { return (maxLvl); }
     uint16_t	getSpecies() const { return (species); }
@@ -209,14 +221,20 @@ public:
 public:
   struct	Map
   {
+    friend      class World;
+
+  protected:
     struct	TileAttr
     {
       uint16_t	behavior;
       uint16_t	bg;
     };
 
+  public:
     struct	Node
     {
+      friend    class World;
+    protected:
       uint8_t	status;
       uint16_t	tile;
       TileAttr	*attr;
@@ -226,23 +244,33 @@ public:
       uint32_t	x;
       uint32_t	y;
 
+    public:
       Node(uint32_t px = 0, uint32_t py = 0) : status(0), from(NULL), g(0), f(0), x(px), y(py) {}
+      void	setFrom(Node *node) { from = node; }
       void	setG(uint32_t pg) { g = pg; }
       void	setF(uint32_t xe, uint32_t ye) { f = g + 10 * sqrt(POW(xe - x) + POW(ye - y)); }
 
-      uint8_t   getStatus() const { return (status); }
-      uint16_t  getBehavior() const { return (attr->behavior); }
-      uint16_t  getBackground() const { return (attr->bg); }
-      uint32_t  getX() const { return (x); }
-      uint32_t  getY() const { return (y); }
+      Node      *getFrom() const { return from; }
+      uint16_t  getTile() const { return tile; }
+      uint8_t   getStatus() const { return status; }
+      uint16_t  getBehavior() const { return attr->behavior; }
+      uint16_t  getBackground() const { return attr->bg; }
+      uint32_t  getX() const { return x; }
+      uint32_t  getY() const { return y; }
+      uint32_t  getF() const { return f; }
+      uint32_t  getG() const { return g; }
     };
 
     struct	WildBattle
     {
+      friend    class World;
+
+    protected:
       uint8_t	ratio;
       WildEntry	*entries;
       uint8_t	nbEntries;
 
+    public:
       uint8_t   getRatio() const { return (ratio); }
       uint8_t   getNbEntries() const { return (nbEntries); }
       const WildEntry   &getEntry(uint8_t id) const {
@@ -262,6 +290,7 @@ public:
 	PLAYER = 31
       };
 
+  protected:
     uint64_t	width;
     uint64_t	height;
     Node	**data;
@@ -284,17 +313,17 @@ public:
     // Getters
     uint64_t    getWidth() const { return (width); }
     uint64_t    getHeight() const { return (height); }
-    const Node  *getNodeRow(uint8_t y) const {
+    Node        *getNodeRow(uint8_t y) const {
       if (y >= getHeight()) throw std::out_of_range("Index " + std::to_string(y) + " out of bounds for World.Map.NodeRow");
       return data[y];
     }
-    const Node  &getNode(uint8_t x, uint8_t y) const {
-      const Node *row = getNodeRow(y);
+    Node        &getNode(uint8_t x, uint8_t y) const {
+      Node      *row = getNodeRow(y);
 
       if (x >= getWidth()) throw std::out_of_range("Index " + std::to_string(x) + " out of bounds for World.Map.Node");
       return row[x];
     }
-    const Node	*operator[](uint8_t y) const { return getNodeRow(y); }
+    Node	*operator[](uint8_t y) const { return getNodeRow(y); }
     uint8_t     getNbPersons() const { return (nbPersons); }
     uint8_t     getNbWarps() const { return (nbWarps); }
     uint8_t     getNbScripts() const { return (nbScripts); }
