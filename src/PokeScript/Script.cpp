@@ -178,8 +178,8 @@ Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, Scrip
 
   if (type < STD && !bank && !map)
     {
-      bank = Data::data->getPlayer().getBank();
-      map = Data::data->getPlayer().getMap();
+      bank = Data::data->getPlayer().getBankId();
+      map = Data::data->getPlayer().getMapId();
     }
   it = _cache.find(Identifier(bank, map, id, type));
   if (it != _cache.end())

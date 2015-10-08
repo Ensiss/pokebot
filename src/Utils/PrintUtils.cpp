@@ -48,7 +48,7 @@ void		printTeam(Data &data)
 void		printMap(Data &data, uint8_t flags)
 {
   Player	&p = data.getPlayer();
-  World::Map	&m = data.getWorld()[p.getBank()][p.getMap()];
+  World::Map	&m = data.getWorld()[p.getBankId()][p.getMapId()];
 
   if (!flags)
     flags = M_STATUS;
@@ -78,7 +78,7 @@ void		printMap(Data &data, uint8_t flags)
 void		printWildPokemons(Data &data)
 {
   Player	&p = data.getPlayer();
-  World::Map	&m = data.getWorld()[p.getBank()][p.getMap()];
+  World::Map	&m = data.getWorld()[p.getBankId()][p.getMapId()];
 
   for (int i = 0; i < 4; i++)
     {

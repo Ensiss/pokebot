@@ -39,8 +39,8 @@ void		Data::update()
   _pteam.update();
   _eteam.update();
   _battlers.update();
-  newb = _player.getBank();
-  newm = _player.getMap();
+  newb = _player.getBankId();
+  newm = _player.getMapId();
   if (newb != 255 && newm != 255 && (newb != bank || newm != map))
     {
       bank = newb;

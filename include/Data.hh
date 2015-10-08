@@ -123,7 +123,7 @@ private:
 
 public:
   static const World::Map       &getMap(uint8_t bank, uint8_t map) { return (data->getWorld().getMap(bank, map)); }
-  static const World::Map       &getCurrentMap() { return (data->getWorld().getMap(data->getPlayer().getBank(), data->getPlayer().getMap())); }
+  static const World::Map       &getCurrentMap() { return (data->getWorld().getMap(data->getPlayer().getBankId(), data->getPlayer().getMapId())); }
   static const PokemonData      &getPlayerPokemonWrapper(uint8_t i) { return (data->getPlayerTeam()[i]); }
   static const PokemonData      &getEnemyPokemonWrapper(uint8_t i) { return (data->getEnemyTeam()[i]); }
   static const BattleData       &getBattlerWrapper(uint8_t i) { return (data->getBattlers()[i]); }

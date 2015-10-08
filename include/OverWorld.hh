@@ -18,8 +18,8 @@ public:
   uint16_t	getDir() const { return (_dir); }
   uint8_t	getFlags() const { return (_flags); }
   uint8_t	getEventNb() const { return (_evtNb); }
-  uint8_t	getMap() const { return (_map); }
-  uint8_t	getBank() const { return (_bank); }
+  uint8_t	getMapId() const { return (_mapId); }
+  uint8_t	getBankId() const { return (_bankId); }
   uint16_t	getSpawnX() const { return (_spawnX); }
   uint16_t	getSpawnY() const { return (_spawnY); }
 
@@ -35,8 +35,8 @@ private:
   uint16_t	_mvtType;
 
   uint8_t	_evtNb;
-  uint8_t	_map;		// Updated by warps for the player
-  uint8_t	_bank;		// Updated by warps for the player
+  uint8_t	_mapId;		// Updated by warps for the player
+  uint8_t	_bankId;	// Updated by warps for the player
   uint8_t	_jump;		// Unknown. Set to 0x30 when jumping, 0x33 otherwise
 
   uint16_t	_spawnX;

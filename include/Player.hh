@@ -11,8 +11,8 @@ private:
   {
     uint16_t	x;
     uint16_t	y;
-    uint8_t	bank;
-    uint8_t	map;
+    uint8_t	bankId;
+    uint8_t	mapId;
   };
 
   struct	Internal
@@ -36,8 +36,8 @@ public:
   uint16_t	getTrainerID() const { return (_data->trainerID); }
   uint16_t	getX() const { return (_loc->x); }
   uint16_t	getY() const { return (_loc->y); }
-  uint8_t	getBank() const { return (_loc->bank); }
-  uint8_t	getMap() const { return (_loc->map); }
+  uint8_t	getBankId() const { return (_loc->bankId); }
+  uint8_t	getMapId() const { return (_loc->mapId); }
   bool		isValid() const { return (_valid); }
 
 private:

@@ -24,12 +24,12 @@ void            Action::TalkTo::_turnToOW()
   const OverWorld	*ows = _data.getOverWorlds();
   EKey          dirKey[4] = {KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT};
   Player	&p = _data.getPlayer();
-  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
+  World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
   uint16_t      tx, ty, px, py;
 
   tx = m.persons[_pid].x;
   ty = m.persons[_pid].y;
-  for (int i = 1; i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
+  for (int i = 1; i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
       if (ows[i].getEventNb() == m.persons[_pid].evtNb)
         {
@@ -47,7 +47,7 @@ void            Action::TalkTo::_turnToOW()
 
 void		Action::TalkTo::_init()
 {
-  World::Map    &m = _data.getWorld()[_data.getPlayer().getBank()][_data.getPlayer().getMap()];
+  World::Map    &m = _data.getWorld()[_data.getPlayer().getBankId()][_data.getPlayer().getMapId()];
 
   if (_pid >= m.nbPersons)
     {

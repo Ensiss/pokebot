@@ -52,10 +52,10 @@ bool		PathFinder::_checkOverWorld(uint16_t x, uint16_t y)
 	return (true);
     }
   // Dynamic overworlds
-  for (uint8_t i = 1; i < 16 && (_ows[i].getMap() || _ows[i].getBank()); i++)
+  for (uint8_t i = 1; i < 16 && (_ows[i].getMapId() || _ows[i].getBankId()); i++)
     {
-      if (_ows[i].getBank() == _data.getPlayer().getBank() &&
-  	  _ows[i].getMap() == _data.getPlayer().getMap() &&
+      if (_ows[i].getBankId() == _data.getPlayer().getBankId() &&
+  	  _ows[i].getMapId() == _data.getPlayer().getMapId() &&
   	  _ows[i].getDestX() == x && _ows[i].getDestY() == y)
   	return (true);
     }

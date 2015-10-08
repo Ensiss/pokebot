@@ -38,14 +38,14 @@ void		Action::MoveTo::_checkNPCMovement()
 {
   const OverWorld	*ows = _data.getOverWorlds();
 
-  for (int i = 1; _owInit && i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
+  for (int i = 1; _owInit && i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
-      if (ows[i].getBank() == _data.getPlayer().getBank() &&	// If the overworld is in our map
-	  ows[i].getMap() == _data.getPlayer().getMap() &&
+      if (ows[i].getBankId() == _data.getPlayer().getBankId() &&// If the overworld is in our map
+	  ows[i].getMapId() == _data.getPlayer().getMapId() &&
 	  (ows[i].getDestX() != _oldow[i].getDestX() ||		// If the overworld is moving
 	   ows[i].getDestY() != _oldow[i].getDestY() ||
-	   ows[i].getBank() != _oldow[i].getBank() ||		// Or if it's a new overworld
-	   ows[i].getMap() != _oldow[i].getMap()))
+	   ows[i].getBankId() != _oldow[i].getBankId() ||		// Or if it's a new overworld
+	   ows[i].getMapId() != _oldow[i].getMapId()))
 	emit("onInit");
     }
   memcpy((void *) (_oldow + 1), (void *) (ows + 1), 15 * sizeof(OverWorld));
@@ -65,11 +65,11 @@ void            Action::MoveTo::_updateTargetPos()
 
   const OverWorld	*ows = _data.getOverWorlds();
   Player	&p = _data.getPlayer();
-  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
+  World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
 
   _tx = m.persons[_tid].x;
   _ty = m.persons[_tid].y;
-  for (int i = 1; i < 16 && (ows[i].getMap() || ows[i].getBank()); i++)
+  for (int i = 1; i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
       if (ows[i].getEventNb() == m.persons[_tid].evtNb)
         {
@@ -83,7 +83,7 @@ void            Action::MoveTo::_updateTargetPos()
 void            Action::MoveTo::_searchBehindBar()
 {
   Player	&p = _data.getPlayer();
-  World::Map    &m = _data.getWorld()[p.getBank()][p.getMap()];
+  World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
 
   for (int i = 0; i < 4; i++)
     {
@@ -104,9 +104,9 @@ void            Action::MoveTo::_searchBehindBar()
 void		Action::MoveTo::_init()
 {
   Player	&p = _data.getPlayer();
-  PathFinder	finder(_data.getWorld()[p.getBank()][p.getMap()]);
+  PathFinder	finder(_data.getWorld()[p.getBankId()][p.getMapId()]);
 
-  if (_tid != -1 && _tid >= _data.getWorld()[p.getBank()][p.getMap()].nbPersons)
+  if (_tid != -1 && _tid >= _data.getWorld()[p.getBankId()][p.getMapId()].nbPersons)
     {
       fprintf(stderr, "%d is not a valid person ID\n", _tid);
       _state = Action::ERROR;
