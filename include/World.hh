@@ -245,7 +245,10 @@ public:
 
       uint8_t   getRatio() const { return (ratio); }
       uint8_t   getNbEntries() const { return (nbEntries); }
-      const WildEntry   &getEntry(uint8_t id) const { return (entries[id]); }
+      const WildEntry   &getEntry(uint8_t id) const {
+        if (id >= getNbEntries()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.WildBattle.Entry");
+        return entries[id];
+      }
     };
 
     enum
@@ -281,7 +284,17 @@ public:
     // Getters
     uint64_t    getWidth() const { return (width); }
     uint64_t    getHeight() const { return (height); }
-    const Node  &getNode(uint8_t x, uint8_t y) const { return (data[y][x]); }
+    const Node  *getNodeRow(uint8_t y) const {
+      if (y >= getHeight()) throw std::out_of_range("Index " + std::to_string(y) + " out of bounds for World.Map.NodeRow");
+      return data[y];
+    }
+    const Node  &getNode(uint8_t x, uint8_t y) const {
+      const Node *row = getNodeRow(y);
+
+      if (x >= getWidth()) throw std::out_of_range("Index " + std::to_string(x) + " out of bounds for World.Map.Node");
+      return row[x];
+    }
+    const Node	*operator[](uint8_t y) const { return getNodeRow(y); }
     uint8_t     getNbPersons() const { return (nbPersons); }
     uint8_t     getNbWarps() const { return (nbWarps); }
     uint8_t     getNbScripts() const { return (nbScripts); }
@@ -289,17 +302,34 @@ public:
     uint32_t    getNbConnections() const { return (nbConnects); }
     uint32_t    getScripPtr() const { return (scriptPtr); }
     uint8_t     getLabelId() const { return (labelId); }
-    const PersonEvt     &getPerson(uint8_t id) const { return (persons[id]); }
-    const WarpEvt       &getWarp(uint8_t id) const { return (warps[id]); }
-    const ScriptEvt     &getScript(uint8_t id) const { return (scripts[id]); }
-    const SignEvt       &getSign(uint8_t id) const { return (signs[id]); }
-    const Connection    &getConnection(uint8_t id) const { return (connects[id]); }
-    const WildBattle    &getWildBattle(uint8_t id) const { return (wildBattles[id]); }
+    const PersonEvt     &getPerson(uint8_t id) const {
+      if (id >= getNbPersons()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Person");
+      return persons[id];
+    }
+    const WarpEvt       &getWarp(uint8_t id) const {
+      if (id >= getNbWarps()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Warp");
+      return warps[id];
+    }
+    const ScriptEvt     &getScript(uint8_t id) const {
+      if (id >= getNbScripts()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Script");
+      return scripts[id];
+    }
+    const SignEvt       &getSign(uint8_t id) const {
+      if (id >= getNbSigns()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Sign");
+      return signs[id];
+    }
+    const Connection    &getConnection(uint8_t id) const {
+      if (id >= getNbConnections()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Connection");
+      return connects[id];
+    }
+    const WildBattle    &getWildBattle(uint8_t id) const {
+      if (id >= 4) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.WildBattle");
+      return wildBattles[id];
+    }
     const std::string&  getName() const { return (name); }
 
   public:
     void                loadName(uint8_t id);
-    Node		*operator[](uint8_t y) { return (data[y]); }
     inline uint8_t	getMatterColor(uint8_t matter, bool pos) {
       return (pos ? PLAYER:
 	      !matter ? LADDER :
@@ -321,10 +351,18 @@ private:
   void		_initWildBattles();
 
 public:
-  std::vector<Map>	&operator[](uint8_t bank) { return (_banks[(bank < _banks.size()) * bank]); }
-  Map                   &getMap(uint8_t bank, uint8_t map) { return ((*this)[bank][(map < (*this)[bank].size()) * map]); }
+  std::vector<Map>      &getBank(uint8_t bankId) {
+    if (bankId >= _banks.size()) throw std::out_of_range("Index " + std::to_string(bankId) + " out of bounds for World.Bank");
+    return _banks[bankId];
+  }
+  Map                   &getMap(uint8_t bankId, uint8_t mapId) {
+    std::vector<Map>    &bank = getBank(bankId);
+    if (mapId >= bank.size()) throw std::out_of_range("Index " + std::to_string(mapId) + " out of bounds for World.Bank.Map");
+    return bank[mapId];
+  }
+  std::vector<Map>	&operator[](uint8_t bankId) { return getBank(bankId); }
 
-public:
+protected:
   std::vector<std::vector<Map> >	_banks;
 };
 
