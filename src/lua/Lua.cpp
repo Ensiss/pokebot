@@ -241,7 +241,7 @@ void            Lua::init()
     .beginClass<World::WildEntry>("WildEntry")
     .addFunction("getMinLevel", &World::WildEntry::getMinLevel)
     .addFunction("getMaxLevel", &World::WildEntry::getMaxLevel)
-    .addFunction("getSpecies", &World::WildEntry::getSpecies)
+    .addFunction("getSpeciesId", &World::WildEntry::getSpeciesId)
     .endClass()
 
     .beginClass<Range>("Range")

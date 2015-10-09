@@ -79,7 +79,11 @@ public:
     return _mchoice[i];
   }
 
-  float		typeEffectiveness(uint8_t atk, uint8_t def) const { return (_typeChart[atk][def]); }
+  float		typeEffectiveness(uint8_t atk, uint8_t def) const {
+    if (atk >= 18) throw std::out_of_range("Index " + std::to_string(atk) + " out of bounds for Data.TypeEffectiveness.Attack");
+    if (def >= 18) throw std::out_of_range("Index " + std::to_string(def) + " out of bounds for Data.TypeEffectiveness.Defense");
+    return _typeChart[atk][def];
+  }
   float		typeEffectiveness(const Move &m, const Species &s) const;
   float		sameTypeAttackBonus(const Move &m, const Species &s) const;
   Range		potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const;

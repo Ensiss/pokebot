@@ -215,7 +215,7 @@ public:
   public:
     uint8_t	getMinLevel() const { return (minLvl); }
     uint8_t	getMaxLevel() const { return (maxLvl); }
-    uint16_t	getSpecies() const { return (species); }
+    uint16_t	getSpeciesId() const { return (species); }
   };
 
 public:

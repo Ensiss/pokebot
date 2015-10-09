@@ -91,7 +91,7 @@ void		printWildPokemons(Data &data)
 	  for (int j = 0; j < wb.getNbEntries(); j++)
 	    {
               const World::WildEntry &entry = wb.getEntry(j);
-	      printf("\t%-10s lvl ", data.getSpecies(entry.getSpecies()).getName());
+	      printf("\t%-10s lvl ", data.getSpecies(entry.getSpeciesId()).getName());
 	      if (entry.getMaxLevel() != entry.getMinLevel())
 		printf("%d-", entry.getMinLevel());
 	      printf("%d\n", entry.getMaxLevel());

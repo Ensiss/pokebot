@@ -53,10 +53,10 @@ void		Data::update()
 
 float		Data::typeEffectiveness(const Move &m, const Species &sp) const
 {
-  float		eff = _typeChart[m.getTypeId()][sp.getTypeId(0)];
+  float		eff = typeEffectiveness(m.getTypeId(), sp.getTypeId(0));
 
   if (sp.getTypeId(0) != sp.getTypeId(1))
-    eff *= _typeChart[m.getTypeId()][sp.getTypeId(1)];
+    eff *= typeEffectiveness(m.getTypeId(), sp.getTypeId(1));
   return (eff);
 }
 
