@@ -14,9 +14,10 @@ public:
   }
 
 public:
-  BattleData	&operator[](uint8_t i)
+  const BattleData	&operator[](uint8_t i)
   {
-    return (list[(i >= 0 && i < 4) * i]);
+    if (i >= 4) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for BattleGroup");
+    return list[i];
   }
 
 public:
@@ -26,7 +27,7 @@ public:
       list[i].update();
   }
 
-public:
+protected:
   BattleData	list[4];
 };
 

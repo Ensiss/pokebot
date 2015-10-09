@@ -14,9 +14,10 @@ public:
   }
 
 public:
-  PokemonData	&operator[](uint8_t i)
+  const PokemonData	&operator[](uint8_t i)
   {
-    return (list[(i >= 0 && i < 6) * i]);
+    if (i >= 6) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Team");
+    return list[i];
   }
 
 public:
@@ -26,7 +27,7 @@ public:
       list[i].update();
   }
 
-public:
+protected:
   PokemonData	list[6];
 };
 
