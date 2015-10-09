@@ -1,6 +1,8 @@
 #ifndef		__IPOKEDATA_HH__
 #define		__IPOKEDATA_HH__
 
+#include        <stdexcept>
+
 class		IPokeData
 {
 protected:
@@ -42,13 +44,19 @@ public:
   bool			isParalysed() const { return (getStatus(ST_PARALYSIS)); }
   bool			isBadlyPoisoned() const { return (getStatus(ST_BAD_POISON)); }
 
-  uint16_t		getMove(uint8_t i) const { return (getMoves()[i]); }
-  uint8_t		getPP(uint8_t i) const { return (getPPs()[i]); }
+  uint16_t		getMoveId(uint8_t i) const {
+    if (i >= 4) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for IPokeData.MoveId");
+    return (getMovesId()[i]);
+  }
+  uint8_t		getPP(uint8_t i) const {
+    if (i >= 4) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for IPokeData.PPId");
+    return (getPPs()[i]);
+  }
 
 public:
   virtual int		getStatus(Status s) const = 0;
   virtual uint8_t	getLevel() const = 0;
-  virtual uint16_t	getSpecies() const = 0;
+  virtual uint16_t	getSpeciesId() const = 0;
 
   virtual uint16_t	getHP() const = 0;
   virtual uint16_t	getMaxHP() const = 0;
@@ -66,7 +74,7 @@ public:
   virtual int		getAccuracyBuff() const = 0;
   virtual int		getEvasionBuff() const = 0;
 
-  virtual uint16_t	*getMoves() const = 0;
+  virtual uint16_t	*getMovesId() const = 0;
   virtual uint8_t	*getPPs() const = 0;
 
 protected:

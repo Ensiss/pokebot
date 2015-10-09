@@ -22,7 +22,10 @@ public:
 public:
   uint16_t	isOpen() const { return (_data->open); }
   uint16_t	getPocket() const { return (_data->pocket); }
-  uint16_t	getItem() const { return (_data->items[_data->pocket]); }
+  uint16_t	getItem() const {
+    if (_data->pocket >= 3) throw std::out_of_range("Index " + std::to_string(_data->pocket) + " out of bounds for BagMenu.Item");
+    return _data->items[_data->pocket];
+  }
 
 private:
   Internal	*_data;

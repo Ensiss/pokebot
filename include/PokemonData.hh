@@ -103,8 +103,8 @@ public:
   int		getAccuracyBuff() const { return (0); }
   int		getEvasionBuff() const { return (0); }
 
-  uint16_t	getSpecies() const { return (_growth->species); }
-  uint16_t	getItem() const { return (_growth->item); }
+  uint16_t	getSpeciesId() const { return (_growth->species); }
+  uint16_t	getItemId() const { return (_growth->item); }
   uint32_t	getXP() const { return (_growth->xp); }
 
   uint8_t	getHPEV() const { return (_evs->hp); }
@@ -114,7 +114,7 @@ public:
   uint8_t	getSpAtkEV() const { return (_evs->spatk); }
   uint8_t	getSpDefEV() const { return (_evs->spdef); }
 
-  uint16_t	*getMoves() const { return ((uint16_t *) &(_attacks->move1)); }
+  uint16_t	*getMovesId() const { return ((uint16_t *) &(_attacks->move1)); }
   uint8_t	*getPPs() const { return ((uint8_t *) &(_attacks->pp1)); }
 
 private:

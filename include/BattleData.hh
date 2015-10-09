@@ -57,7 +57,7 @@ public:
 public:
   int		getStatus(Status s) const;
   uint8_t	getLevel() const { return (_data->level); }
-  uint16_t	getSpecies() const { return (_data->species); }
+  uint16_t	getSpeciesId() const { return (_data->species); }
 
   uint16_t	getHP() const { return (_data->currHP); }
   uint16_t	getMaxHP() const { return (_data->maxHP); }
@@ -76,7 +76,7 @@ public:
   int		getAccuracyBuff() const { return (_data->accuracyBuff - 6); }
   int		getEvasionBuff() const { return (_data->evasionBuff - 6); }
 
-  uint16_t	*getMoves() const { return (_data->moves); }
+  uint16_t	*getMovesId() const { return (_data->moves); }
   uint8_t	*getPPs() const { return (_data->PPs); }
 
 private:

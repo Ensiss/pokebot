@@ -13,25 +13,25 @@ void		printTeam(Data &data)
         {
           const PokemonData	&p = pTeam[i];
           const PokemonData	&e = eTeam[i];
-          const Species	&sp = data.getSpecies(p.getSpecies());
+          const Species	&sp = data.getSpecies(p.getSpeciesId());
 
-          if (!p.getSpecies() && !e.getSpecies())
+          if (!p.getSpeciesId() && !e.getSpeciesId())
             continue;
           printf("%s's %s", p.getOtName(), sp.getName());
-          printf("(%s", data.getTypeName(sp.getType(0)));
-          if (sp.getType(1) != sp.getType(0))
-            printf("/%s", data.getTypeName(sp.getType(1)));
-          printf(")\tvs\t%s (%d/%d hp)\n", data.getSpecies(e.getSpecies()).getName(), e.getHP(), e.getMaxHP());
+          printf("(%s", data.getTypeName(sp.getTypeId(0)));
+          if (sp.getTypeId(1) != sp.getTypeId(0))
+            printf("/%s", data.getTypeName(sp.getTypeId(1)));
+          printf(")\tvs\t%s (%d/%d hp)\n", data.getSpecies(e.getSpeciesId()).getName(), e.getHP(), e.getMaxHP());
           for (int m = 0; m < 4; m++)
             {
-              if (p.getMove(m))
+              if (p.getMoveId(m))
                 {
-                  const Move	&move = data.getMove(p.getMove(m));
+                  const Move	&move = data.getMove(p.getMoveId(m));
                   const IPokeData	&idata = i ? p : (const IPokeData &) pb;
                   Range		dmg = data.potentialDamage(idata, eb, move);
                   int		acc = data.chanceToHit(idata, eb, move);
 
-                  printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.getTypeName(move.getType()));
+                  printf("\tMove %d: %s(%s) -> ", m, move.getName(), data.getTypeName(move.getTypeId()));
                   printf(" (Accuracy: %d%%, %d/%d PP",
                          acc, p.getPP(m), move.getPP());
                   printf(", Potential dmg: %d-%d)\n", dmg.min, dmg.max);

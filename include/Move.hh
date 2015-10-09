@@ -28,11 +28,11 @@ public:
 
 public:
   uint8_t	getPower() const { return (_data->power); }
-  uint8_t	getType() const { return (_data->type); }
+  uint8_t	getTypeId() const { return (_data->type); }
   uint8_t	getAccuracy() const { return (_data->accuracy); }
   uint8_t	getPP() const { return (_data->pp); }
   uint8_t	getEffectAccuracy() const { return (_data->effectAccuracy); }
-  uint8_t	getTarget() const { return (_data->target); }
+  uint8_t	getTargetId() const { return (_data->target); }
   uint8_t	getPriority() const { return (_data->priority); }
   uint8_t	getFlags() const { return (_data->flags); }
   const char	*getName() const { return (_name); }

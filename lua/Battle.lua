@@ -41,8 +41,8 @@ function Battle:_getBestMove()
    local min = 0
 
    for m = 0, 3 do
-      if p:getMove(m) ~= 0 and p:getPP(m) > 0 then
-         local move = data.getMove(p:getMove(m))
+      if p:getMoveId(m) ~= 0 and p:getPP(m) > 0 then
+         local move = data.getMove(p:getMoveId(m))
          local dmg = data.getDamage(p, e, move)
 
          if (min < e:getHP() and dmg:getMin() > min) or
@@ -52,6 +52,6 @@ function Battle:_getBestMove()
          end
       end
    end
-   print("Best: " .. data.getMove(p:getMove(best)):getName())
+   print("Best: " .. data.getMove(p:getMoveId(best)):getName())
    return best
 end

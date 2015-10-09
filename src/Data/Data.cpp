@@ -53,34 +53,34 @@ void		Data::update()
 
 float		Data::typeEffectiveness(const Move &m, const Species &sp) const
 {
-  float		eff = _typeChart[m.getType()][sp.getType(0)];
+  float		eff = _typeChart[m.getTypeId()][sp.getTypeId(0)];
 
-  if (sp.getType(0) != sp.getType(1))
-    eff *= _typeChart[m.getType()][sp.getType(1)];
+  if (sp.getTypeId(0) != sp.getTypeId(1))
+    eff *= _typeChart[m.getTypeId()][sp.getTypeId(1)];
   return (eff);
 }
 
 float		Data::sameTypeAttackBonus(const Move &m, const Species &s) const
 {
-  uint8_t	mt = m.getType();
-  uint8_t	*st = s.getTypes();
+  uint8_t	mt = m.getTypeId();
+  uint8_t	*st = s.getTypesId();
 
   return (1 + 0.5 * (st[0] == mt || st[1] == mt));
 }
 
 Range		Data::potentialDamage(const IPokeData &attacker, const IPokeData &target, const Move &m) const
 {
-  const Species	&as = getSpecies(attacker.getSpecies());
-  const Species	&ts = getSpecies(target.getSpecies());
+  const Species	&as = getSpecies(attacker.getSpeciesId());
+  const Species	&ts = getSpecies(target.getSpeciesId());
   float		a = attacker.getLevel();
-  float		b = isSpecial(m.getType()) ? attacker.getRealSpAtk() : attacker.getRealAtk();
+  float		b = isSpecial(m.getTypeId()) ? attacker.getRealSpAtk() : attacker.getRealAtk();
   float		c = m.getPower();
-  float		d = isSpecial(m.getType()) ? target.getRealSpDef() : target.getRealDef();
+  float		d = isSpecial(m.getTypeId()) ? target.getRealSpDef() : target.getRealDef();
   float		x = sameTypeAttackBonus(m, as);
   float		y = typeEffectiveness(m, ts);
   int		dmg;
 
-  if (!target.getSpecies() || !attacker.getSpecies() || !m.getPower())
+  if (!target.getSpeciesId() || !attacker.getSpeciesId() || !m.getPower())
     return (Range());
   dmg = 2.0 * a / 5.0 + 2;
   dmg = (dmg * b * c) / d;
