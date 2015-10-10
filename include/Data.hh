@@ -133,6 +133,7 @@ public:
   static const BattleData       &getBattlerWrapper(uint8_t i) { return (data->getBattlers()[i]); }
   static const OverWorld        &getOverWorldWrapper(uint8_t i) { return (data->getOverWorld(i)); }
   static const BattleMenu       &getBattleMenuWrapper() { return data->_battleMenu; }
+  static const BagMenu          &getBagMenuWrapper() { return data->_bagMenu; }
   static const Player           &getPlayerWrapper() { return data->_player; }
   static const Species  &getSpeciesWrapper(uint16_t i) { return (data->getSpecies(i)); }
   static const Move     &getMoveWrapper(uint16_t i) { return (data->getMove(i)); }

@@ -45,6 +45,12 @@ void            Lua::init()
     .addFunction("getCursor", &BattleMenu::getCursor)
     .endClass()
 
+    .beginClass<BagMenu>("BagMenu")
+    .addFunction("isOpen", &BagMenu::isOpen)
+    .addFunction("getPocket", &BagMenu::getPocket)
+    .addFunction("getItem", &BagMenu::getItem)
+    .endClass()
+
     .beginClass<World::Map>("Map")
     .addFunction("getWidth", &World::Map::getWidth)
     .addFunction("getHeight", &World::Map::getHeight)
