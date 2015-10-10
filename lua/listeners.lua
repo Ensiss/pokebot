@@ -2,7 +2,7 @@ require 'WalkLoop'
 require 'Battle'
 
 function printMap()
-   local map = data.getCurrentMap()
+   local map = pb.getCurrentMap()
    for y = 0, map:getHeight() - 1 do
       for x = 0, map:getWidth() - 1 do
          io.write(string.format("%02x ", map:getNode(x, y):getStatus()))
@@ -12,8 +12,8 @@ function printMap()
 end
 
 function onRefresh()
-   local p = data.player
-   local map = data.getCurrentMap()
+   local p = pb.getPlayer()
+   local map = pb.getCurrentMap()
    print("Player coordinates: (" .. p:getX() .. ", " .. p:getY() .. ")")
    print("Map [" .. map:getName() .. "]: " .. map:getWidth() .. "x" .. map:getHeight())
 end

@@ -6,7 +6,8 @@ function Battle:init()
 end
 
 function Battle:update()
-   if data.battleMenu:isOpen() ~= 0 and data.battleMenu:getMenu() == 0 then
+   bm = pb.getBattleMenu()
+   if bm:isOpen() ~= 0 and bm:getMenu() == 0 then
       self:_attack(self:_getBestMove())
    else
       self.queue(new.pressButton(btn.a))
@@ -14,14 +15,14 @@ function Battle:update()
 end
 
 function Battle:_attack(atk)
-   self.queue(new.moveCursor(2, 2, 0, function() return data.battleMenu:getCursor() end))
+   self.queue(new.moveCursor(2, 2, 0, function() return pb.getBattleMenu():getCursor() end))
    self.queue(new.pressButton(btn.a))
-   self.queue(new.moveCursor(2, 2, atk, function() return data.battleMenu:getAttack() end))
+   self.queue(new.moveCursor(2, 2, atk, function() return pb.getBattleMenu():getAttack() end))
    self.queue(new.pressButton(btn.a))
 end
 
 function Battle:_switch(poke)
-   self.queue(new.moveCursor(2, 2, 2, function() return data.battleMenu:getCursor() end))
+   self.queue(new.moveCursor(2, 2, 2, function() return pb.getBattleMenu:getCursor() end))
    self.queue(new.pressButton(btn.a))
    self.queue(new.wait(75))
    self.queue(new.pressButton(btn.right))
@@ -30,20 +31,20 @@ function Battle:_switch(poke)
 end
 
 function Battle:_run()
-   self.queue(new.moveCursor(2, 2, 3, function() return data.battleMenu:getCursor() end))
+   self.queue(new.moveCursor(2, 2, 3, function() return pb.getBattleMenu:getCursor() end))
    self.queue(new.pressButton(btn.a))
 end
 
 function Battle:_getBestMove()
-   local p = data.getBattler(0)
-   local e = data.getBattler(1)
+   local p = pb.getBattler(0)
+   local e = pb.getBattler(1)
    local best = 0
    local min = 0
 
    for m = 0, 3 do
       if p:getMoveId(m) ~= 0 and p:getPP(m) > 0 then
-         local move = data.getMove(p:getMoveId(m))
-         local dmg = data.getDamage(p, e, move)
+         local move = pb.getMove(p:getMoveId(m))
+         local dmg = pb.getDamage(p, e, move)
 
          if (min < e:getHP() and dmg:getMin() > min) or
             (dmg:getMin() > e:getHP() and dmg:getMin() < min) then
@@ -52,6 +53,6 @@ function Battle:_getBestMove()
          end
       end
    end
-   print("Best: " .. data.getMove(p:getMoveId(best)):getName())
+   print("Best: " .. pb.getMove(p:getMoveId(best)):getName())
    return best
 end
