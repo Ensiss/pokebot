@@ -7,7 +7,7 @@ extern Lua      L;
    Moves the cursor to a specific position in a box
 
    @param w     Width of the box
-   @param h     Height of the bow
+   @param h     Height of the box
    @param dest  Index of destination position
    @param f     Function that returns the current cursor position
  */
@@ -20,7 +20,7 @@ Action::MoveCursor::MoveCursor(uint8_t w, uint8_t h, uint8_t dest, uint8_t (*f)(
    Moves the cursor to a specific position in a box
 
    @param w     Width of the box
-   @param h     Height of the bow
+   @param h     Height of the box
    @param dest  Index of destination position
    @param f     Lua function that returns the current cursor position
  */

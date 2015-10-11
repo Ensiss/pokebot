@@ -3,7 +3,7 @@
 /**
    Press a key
 
-   This action releases all keys, and the presses the specifies key
+   This action releases all keys, and then presses the specified key
 
    @param key   The key to press
  */
