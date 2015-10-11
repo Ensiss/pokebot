@@ -31,7 +31,7 @@ void		Action::MoveTo::addListener(const std::string &signal, void (Action::MoveT
 {
   std::function<void (AAction *)> l = [listener](AAction *that){(static_cast<Action::MoveTo *>(that)->*listener)();};
 
-  _listeners[signal].push_back(l);
+  _listeners[signal]._cppListeners.push_back(l);
 }
 
 void		Action::MoveTo::_checkNPCMovement()

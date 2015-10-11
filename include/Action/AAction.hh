@@ -6,8 +6,13 @@
 #include	<vector>
 #include	<string>
 #include	<functional>
+#include        <LuaBridge.h>
 #include	"Data.hh"
 #include	"../vbam/sdl/SDLGlobals.h"
+
+using namespace luabridge;
+
+class           AAction;
 
 namespace	Action
 {
@@ -18,6 +23,12 @@ namespace	Action
       FINISHED,
       ERROR
     };
+
+  struct        Listeners
+  {
+    std::vector<std::function<void (AAction *)> > _cppListeners;
+    std::vector<LuaRef *> _luaListeners;
+  };
 };
 
 class		AAction
@@ -47,7 +58,7 @@ protected:
   Data			&_data;
   Action::State		_state;
   std::queue<AAction *>	_actions;
-  std::map<std::string, std::vector<std::function<void (AAction *)> > >	_listeners;
+  std::map<std::string, Action::Listeners>      _listeners;
 private:
   uint32_t              _counter;
 };

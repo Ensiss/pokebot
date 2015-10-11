@@ -53,22 +53,22 @@ Action::State	AAction::update()
 
 void		AAction::emit(const std::string &signal)
 {
-  std::map<std::string, std::vector<std::function<void(AAction *)> > >::iterator	it;
+  const auto          &it = _listeners.find(signal);
 
-  if ((it = _listeners.find(signal)) == _listeners.end())
+  if (it == _listeners.end())
     return;
-  for (uint16_t i = 0; i < it->second.size(); i++)
-    (it->second[i])(this);
+  for (uint16_t i = 0; i < it->second._cppListeners.size(); i++)
+    (it->second._cppListeners[i])(this);
 }
 
 void		AAction::addListener(const std::string &signal, void (*listener)(AAction *))
 {
-  _listeners[signal].push_back(listener);
+  _listeners[signal]._cppListeners.push_back(listener);
 }
 
 void		AAction::addListener(const std::string &signal, void (AAction::*listener)())
 {
   std::function<void (AAction *)> l = [listener](AAction *that){(that->*listener)();};
 
-  _listeners[signal].push_back(l);
+  _listeners[signal]._cppListeners.push_back(l);
 }
