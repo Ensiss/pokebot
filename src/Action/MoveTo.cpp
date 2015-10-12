@@ -36,8 +36,10 @@ void		Action::MoveTo::addListener(const std::string &signal, void (Action::MoveT
 
 void		Action::MoveTo::_checkNPCMovement()
 {
+  const OverWorld       &p = _data.getOverWorld(0);
   const OverWorld	*ows = _data.getOverWorlds();
 
+  // If a npc moved on the screen, recompute the path to avoid it
   for (int i = 1; _owInit && i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
       if (ows[i].getBankId() == _data.getPlayer().getBankId() &&// If the overworld is in our map
@@ -50,6 +52,10 @@ void		Action::MoveTo::_checkNPCMovement()
     }
   memcpy((void *) (_oldow + 1), (void *) (ows + 1), 15 * sizeof(OverWorld));
   _owInit = true;
+
+  // If the bot was un-synchronized for some reason, reset it
+  if (_path && _pathi > 0 && (abs(p.getDestX() - (*_path)[_pathi - 1]->getX()) > 0 && abs(p.getDestY() - (*_path)[_pathi - 1]->getY()) > 0))
+      emit("onInit");
 }
 
 void		Action::MoveTo::_releaseKeys()
