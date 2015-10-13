@@ -94,10 +94,10 @@ void            Action::MoveTo::_searchBehindBar()
 
   for (int i = 0; i < 4; i++)
     {
-      int       x = _tx + !(i & 1) * (i - 1);
-      int       y = _ty + (i & 1) * (i - 2);
+      uint32_t  x = _tx + !(i & 1) * (i - 1);
+      uint32_t  y = _ty + (i & 1) * (i - 2);
       // Person is behind a bar
-      if (m.getNode(x, y).getBehavior() == 0x80)
+      if (x >= 0 && y >= 0 && x < m.getWidth() && y < m.getHeight() && m.getNode(x, y).getBehavior() == 0x80)
         {
           _tx = x;
           _ty = y;
