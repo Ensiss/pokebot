@@ -56,9 +56,14 @@ void		Action::UseConnection::_init()
 void		Action::UseConnection::_update()
 {
   Player        &p = _data.getPlayer();
+  const OverWorld       &ow = _data.getOverWorld(0);
 
   if (p.getBankId() != _origBank || p.getMapId() != _origMap)
-    _state = Action::FINISHED;
+    {
+      if (p.getX() == ow.getX() && p.getX() == ow.getDestX() &&
+          p.getY() == ow.getY() && p.getY() == ow.getDestY())
+        _state = Action::FINISHED;
+    }
   else if (p.getX() != _tx || p.getY() != _ty)
     emit("onInit");
   else
