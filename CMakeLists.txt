@@ -199,6 +199,7 @@ SET(SRC_MAIN
     src/Action/MoveTo.cpp
     src/Action/TalkTo.cpp
     src/Action/UseWarp.cpp
+    src/Action/UseConnection.cpp
     src/Action/Battle.cpp
     src/Action/MoveCursor.cpp
     src/Action/TurnDirection.cpp

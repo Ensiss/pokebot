@@ -8,6 +8,7 @@
 #include        "Action/MoveTo.hh"
 #include        "Action/TalkTo.hh"
 #include        "Action/UseWarp.hh"
+#include        "Action/UseConnection.hh"
 #include        "Action/PressButton.hh"
 #include        "Action/Wait.hh"
 #include        "Action/MoveCursor.hh"
