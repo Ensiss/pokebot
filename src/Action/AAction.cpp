@@ -59,6 +59,19 @@ void		AAction::emit(const std::string &signal)
     return;
   for (uint16_t i = 0; i < it->second._cppListeners.size(); i++)
     (it->second._cppListeners[i])(this);
+  for (uint16_t i = 0; i < it->second._luaListeners.size(); i++)
+    (it->second._luaListeners[i])(this);
+}
+
+void		AAction::addListener(const std::string &signal, LuaRef func)
+{
+  printf("Hell owold\n");
+  if (func.isNil() || !func.isFunction())
+    {
+      fprintf(stderr, "Error: couldn't add listener to signal `%s'", signal.c_str());
+      return;
+    }
+  _listeners[signal]._luaListeners.push_back(func);
 }
 
 void		AAction::addListener(const std::string &signal, void (*listener)(AAction *))

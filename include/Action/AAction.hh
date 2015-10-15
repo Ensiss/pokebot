@@ -27,7 +27,7 @@ namespace	Action
   struct        Listeners
   {
     std::vector<std::function<void (AAction *)> > _cppListeners;
-    std::vector<LuaRef *> _luaListeners;
+    std::vector<LuaRef> _luaListeners;
   };
 };
 
@@ -53,6 +53,7 @@ public:
   void		emit(const std::string &signal);
   void		addListener(const std::string &signal, void (*listener)(AAction *));
   void		addListener(const std::string &signal, void (AAction::*listener)());
+  void		addListener(const std::string &signal, LuaRef func);
 
 protected:
   Data			&_data;
