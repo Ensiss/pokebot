@@ -68,7 +68,6 @@ void		AAction::emit(const std::string &signal)
 
 void		AAction::addListener(const std::string &signal, LuaRef func)
 {
-  printf("Hell owold\n");
   if (func.isNil() || !func.isFunction())
     {
       fprintf(stderr, "Error: couldn't add listener to signal `%s'", signal.c_str());
