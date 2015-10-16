@@ -43,11 +43,12 @@ private:
   virtual void	_init() = 0;
 
 public:
-  void		queue(AAction *act) { _actions.push(act); }
+  uint32_t      queue(AAction *act) { _actions.push(act); return act->getId(); }
   void		reset() { _state = Action::NOT_STARTED; }
   Action::State	getState() const { return (_state); }
   void		setState(Action::State st) { _state = st; }
-  uint32_t      getCounter() const { return (_counter); }
+  uint32_t      getCounter() const { return _counter; }
+  uint32_t      getId() const { return _id; }
   AAction       *getFinishedChild() const { return _finishedChild; }
 
 public:
@@ -64,6 +65,9 @@ protected:
   std::map<std::string, Action::Listeners>      _listeners;
 private:
   uint32_t              _counter;
+  uint32_t              _id;
+
+  static uint32_t       _idCounter;
 };
 
 #endif

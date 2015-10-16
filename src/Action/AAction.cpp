@@ -1,7 +1,9 @@
 #include	"Action/AAction.hh"
 
+uint32_t        AAction::_idCounter = 0;
+
 AAction::AAction()
-  : _data(*Data::data), _state(Action::NOT_STARTED), _finishedChild(NULL), _counter(0)
+  : _data(*Data::data), _state(Action::NOT_STARTED), _finishedChild(NULL), _counter(0), _id(_idCounter++)
 {
   addListener("onInit", &AAction::_init);
   addListener("onUpdate", &AAction::_update);

@@ -10,7 +10,8 @@ function ActionClass(init)
       end
       local master = new.lua(obj)
       obj.master = master
-      obj.queue = function(act) master:queue(act) end
+      obj.queue = function(act) return master:queue(act) end
+      obj.getId = function() return master:getId() end
       obj.getState = function() return master:getState() end
       obj.getCounter = function() return master:getCounter() end
       obj.getFinishedChild = function() return master:getFinishedChild() end
