@@ -1,7 +1,7 @@
 #include	"Action/AAction.hh"
 
 AAction::AAction()
-  : _data(*Data::data), _state(Action::NOT_STARTED), _counter(0)
+  : _data(*Data::data), _state(Action::NOT_STARTED), _finishedChild(NULL), _counter(0)
 {
   addListener("onInit", &AAction::_init);
   addListener("onUpdate", &AAction::_update);
@@ -42,6 +42,9 @@ Action::State	AAction::update()
 	{
           for (uint8_t i = KEY_LEFT; i < KEY_BUTTON_SPEED; i++)
             sdlSetButton((EKey) i, false);
+          _finishedChild = _actions.front();
+          emit("onChildFinished");
+          _finishedChild = NULL;
 	  delete _actions.front();
 	  _actions.pop();
 	  if (!_actions.size())

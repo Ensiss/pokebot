@@ -48,6 +48,7 @@ public:
   Action::State	getState() const { return (_state); }
   void		setState(Action::State st) { _state = st; }
   uint32_t      getCounter() const { return (_counter); }
+  AAction       *getFinishedChild() const { return _finishedChild; }
 
 public:
   void		emit(const std::string &signal);
@@ -59,6 +60,7 @@ protected:
   Data			&_data;
   Action::State		_state;
   std::queue<AAction *>	_actions;
+  AAction               *_finishedChild;
   std::map<std::string, Action::Listeners>      _listeners;
 private:
   uint32_t              _counter;

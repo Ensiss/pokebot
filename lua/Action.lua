@@ -13,6 +13,7 @@ function ActionClass(init)
       obj.queue = function(act) master:queue(act) end
       obj.getState = function() return master:getState() end
       obj.getCounter = function() return master:getCounter() end
+      obj.getFinishedChild = function() return master:getFinishedChild() end
       obj.addListener = function(signal, func) master:addListener(signal, func) end
       return master
    end
