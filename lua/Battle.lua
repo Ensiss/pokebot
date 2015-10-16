@@ -10,29 +10,29 @@ function Battle:update()
    if bm:isOpen() ~= 0 and bm:getMenu() == 0 then
       self:_attack(self:_getBestMove())
    else
-      self.queue(new.pressButton(btn.a))
+      self:queue(new.pressButton(btn.a))
    end
 end
 
 function Battle:_attack(atk)
-   self.queue(new.moveCursor(2, 2, 0, function() return pb.getBattleMenu():getCursor() end))
-   self.queue(new.pressButton(btn.a))
-   self.queue(new.moveCursor(2, 2, atk, function() return pb.getBattleMenu():getAttack() end))
-   self.queue(new.pressButton(btn.a))
+   self:queue(new.moveCursor(2, 2, 0, function() return pb.getBattleMenu():getCursor() end))
+   self:queue(new.pressButton(btn.a))
+   self:queue(new.moveCursor(2, 2, atk, function() return pb.getBattleMenu():getAttack() end))
+   self:queue(new.pressButton(btn.a))
 end
 
 function Battle:_switch(poke)
-   self.queue(new.moveCursor(2, 2, 2, function() return pb.getBattleMenu:getCursor() end))
-   self.queue(new.pressButton(btn.a))
-   self.queue(new.wait(75))
-   self.queue(new.pressButton(btn.right))
-   for i = 0, poke - 1 do self.queue(new.pressButton(btn.down)) end
-   for i = 0, 1 do self.queue(new.pressButton(btn.a)) end
+   self:queue(new.moveCursor(2, 2, 2, function() return pb.getBattleMenu:getCursor() end))
+   self:queue(new.pressButton(btn.a))
+   self:queue(new.wait(75))
+   self:queue(new.pressButton(btn.right))
+   for i = 0, poke - 1 do self:queue(new.pressButton(btn.down)) end
+   for i = 0, 1 do self:queue(new.pressButton(btn.a)) end
 end
 
 function Battle:_run()
-   self.queue(new.moveCursor(2, 2, 3, function() return pb.getBattleMenu:getCursor() end))
-   self.queue(new.pressButton(btn.a))
+   self:queue(new.moveCursor(2, 2, 3, function() return pb.getBattleMenu:getCursor() end))
+   self:queue(new.pressButton(btn.a))
 end
 
 function Battle:_getBestMove()

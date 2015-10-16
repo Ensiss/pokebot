@@ -19,8 +19,10 @@ function onRefresh()
 end
 
 function onInit()
+   local bot = pb.getBot()
+
    config.setNumber("clearOnRefresh", 1)
-   bot.setBattle(Battle())
-   bot.queue(WalkLoop(1))
-   bot.queue(new.talkTo(0))
+   bot:setBattle(Battle())
+   bot:queue(WalkLoop(1))
+   bot:queue(new.talkTo(0))
 end

@@ -10,12 +10,12 @@ function ActionClass(init)
       end
       local master = new.lua(obj)
       obj.master = master
-      obj.queue = function(act) return master:queue(act) end
-      obj.getId = function() return master:getId() end
-      obj.getState = function() return master:getState() end
-      obj.getCounter = function() return master:getCounter() end
-      obj.getFinishedChild = function() return master:getFinishedChild() end
-      obj.addListener = function(signal, func) master:addListener(signal, func) end
+      obj.queue = function(self, act) return master:queue(act) end
+      obj.getId = function(self) return master:getId() end
+      obj.getState = function(self) return master:getState() end
+      obj.getCounter = function(self) return master:getCounter() end
+      obj.getFinishedChild = function(self) return master:getFinishedChild() end
+      obj.addListener = function(self, signal, func) master:addListener(signal, func) end
       return master
    end
    setmetatable(c, mt)

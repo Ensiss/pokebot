@@ -34,9 +34,7 @@ private:
   uint16_t		_keyState;
 
 public:
-  static void           queueWrapper(AAction *act) { bot.queue(act); }
-  static void           clearWrapper() { bot.clear(); }
-  static void           setBattleActionWrapper(AAction *act) { bot.setBattleAction(act); }
+  static Bot            *getBotWrapper() { return &bot; }
 
 public:
   static Bot            bot;
