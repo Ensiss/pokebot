@@ -74,17 +74,20 @@ void            Action::MoveTo::_updateTargetPos()
   World::Map    &m = _data.getWorld()[p.getBankId()][p.getMapId()];
   const World::PersonEvt &pers = m.getPerson(_tid);
 
-  _tx = pers.getX();
-  _ty = pers.getY();
+  // Check loaded NPCs to get the target's position
   for (int i = 1; i < 16 && (ows[i].getMapId() || ows[i].getBankId()); i++)
     {
-      if (ows[i].getEventNb() == pers.getEventNb())
+      if (ows[i].getMapId() == p.getMapId() && ows[i].getBankId() == p.getBankId() &&
+          ows[i].getEventNb() == pers.getEventNb())
         {
           _tx = ows[i].getDestX();
           _ty = ows[i].getDestY();
           return;
         }
     }
+  // Default location of the NPC
+  _tx = pers.getX();
+  _ty = pers.getY();
 }
 
 void            Action::MoveTo::_searchBehindBar()
