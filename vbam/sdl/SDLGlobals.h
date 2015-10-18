@@ -7,6 +7,8 @@
 class	Bot;
 
 void	sdlSetButton(EKey key, bool state);
+void    sdlPressButton(EKey key);
+void	sdlReleaseButton(EKey key);
 bool	sdlGetButton(EKey key);
 void	initVBAM(int argc, char **argv);
 void	destroyVBAM();

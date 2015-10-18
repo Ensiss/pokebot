@@ -126,6 +126,16 @@ void		sdlSetButton(EKey key, bool state)
   sdlButtons[PAD_MAIN][key] = state;
 }
 
+void		sdlPressButton(EKey key)
+{
+  sdlSetButton(key, true);
+}
+
+void		sdlReleaseButton(EKey key)
+{
+  sdlSetButton(key, false);
+}
+
 bool		sdlGetButton(EKey key)
 {
   return (sdlButtons[PAD_MAIN][key]);
