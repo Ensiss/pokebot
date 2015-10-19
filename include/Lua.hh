@@ -12,7 +12,7 @@
 #include        "Action/PressButton.hh"
 #include        "Action/Wait.hh"
 #include        "Action/MoveCursor.hh"
-#include        "Action/ChangeMap.hh"
+#include        "Action/TurnDirection.hh"
 #include        "Config.hh"
 extern "C" {
 #include        "lua.h"

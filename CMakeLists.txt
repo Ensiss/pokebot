@@ -204,7 +204,6 @@ SET(SRC_MAIN
     src/Action/MoveCursor.cpp
     src/Action/TurnDirection.cpp
     src/Action/PressButton.cpp
-    src/Action/ChangeMap.cpp
     src/Action/Wait.cpp
     src/Action/LuaClass.cpp
 

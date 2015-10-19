@@ -22,15 +22,14 @@ void		Action::UseConnection::_init()
 
   if (_dir == CO_NONE || _dir > CO_RIGHT)
     {
-      fprintf(stderr, "Only _directions Up, Down, Left and Right are currently suported\n");
+      fprintf(stderr, "Only directions Up, Down, Left and Right are currently suported\n");
       _state = Action::ERROR;
       return;
     }
-  bool          vtcl = _dir == CO_UP || _dir == CO_DOWN;
-  uint32_t      x = (_dir == CO_RIGHT ? m.getWidth() - 1 : 0);
-  uint32_t      y = (_dir == CO_DOWN ? m.getHeight() - 1 : 0);
-  int           xstep = vtcl;
-  int           ystep = !vtcl;
+  uint32_t      x = (_dir == CO_RIGHT) * (m.getWidth() - 1);
+  uint32_t      y = (_dir == CO_DOWN) * (m.getHeight() - 1);
+  int           xstep = _dir == CO_UP || _dir == CO_DOWN;
+  int           ystep = !xstep;
 
   while (x < m.getWidth() && y < m.getHeight())
     {
