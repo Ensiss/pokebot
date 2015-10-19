@@ -39,8 +39,6 @@ void            Lua::init()
     .beginClass<Bot>("Bot")
     .addFunction("queue", &Bot::queue)
     .addFunction("clear", &Bot::clear)
-    .addFunction("getState", &Bot::getState)
-    .addFunction("setBattle", &Bot::setBattleAction)
     .endClass()
 
     .beginClass<Player>("Player")

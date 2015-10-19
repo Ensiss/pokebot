@@ -1,5 +1,4 @@
-require 'WalkLoop'
-require 'Battle'
+require 'Action/Movement'
 
 function printMap()
    local map = pb.getCurrentMap()
@@ -18,11 +17,39 @@ function onRefresh()
    print("Map [" .. map:getName() .. "]: " .. map:getWidth() .. "x" .. map:getHeight())
 end
 
+-- Creates a function callable by the bot
+-- It will resume the coroutine when called
+-- Returns -1 when there's an error or the coroutine is dead
+-- Returns 0 otherwise
+function wrap(func)
+   co = coroutine.create(func)
+
+   return function()
+      local code, res = coroutine.resume(co)
+
+      if code == false or coroutine.status(co) == 'dead' then
+         print("Action dead")
+         return -1
+      end
+      return 0
+   end
+end
+
 function onInit()
    local bot = pb.getBot()
 
    config.setNumber("clearOnRefresh", 1)
-   bot:setBattle(Battle())
-   bot:queue(WalkLoop(1))
-   bot:queue(new.talkTo(0))
+
+   -- Main script for the bot, called every frame to continue execution
+   local botScript = wrap(function()
+         moveDirection(btn.left)
+         while true do
+            moveLoop(btn.left)
+            moveLoop(btn.up)
+            moveLoop(btn.right)
+            moveLoop(btn.down)
+         end
+   end)
+
+   bot:queue(botScript)
 end

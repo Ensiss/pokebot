@@ -1285,7 +1285,7 @@ void sdlPollEvents(Data &data, Bot &bot)
       x = x / (winW / 15) - 7 + data.getPlayer().getX();
       y = y / (winH / 11) - 5 + data.getPlayer().getY();
       // Go !
-      bot.queue(new Action::MoveTo(x, y));
+      // bot.queue(new Action::MoveTo(x, y));
       break;
     case SDL_KEYDOWN:
       inputProcessSDLEvent(event);
