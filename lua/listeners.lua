@@ -1,4 +1,6 @@
 require 'Action/Movement'
+require 'Action/Battle'
+require 'Action/Misc'
 
 function printMap()
    local map = pb.getCurrentMap()
@@ -21,17 +23,32 @@ end
 -- It will resume the coroutine when called
 -- Returns -1 when there's an error or the coroutine is dead
 -- Returns 0 otherwise
-function wrap(func)
-   co = coroutine.create(func)
+function wrap(script, battleScript)
+   local co = coroutine.create(script)
+   local coBattle = nil
+   if battleScript then
+      coBattle = coroutine.create(battleScript)
+   end
 
    return function()
-      local code, msg = coroutine.resume(co)
+      local currCo
+      if pb.isInBattle() then
+         currCo = coBattle
+      else
+         currCo = co
+      end
 
-      if code == false or coroutine.status(co) == 'dead' then
-         if code == false then
-            print("Lua error:", msg)
+      if currCo then
+         local code, msg = coroutine.resume(currCo)
+
+         if code == false or coroutine.status(currCo) == 'dead' then
+            if code == false then
+               print("Lua error:", msg)
+            end
+            return -1
          end
-         return -1
+      else
+         print("No coroutine to resume")
       end
       return 0
    end
@@ -47,13 +64,14 @@ function onInit()
          moveTo(3, 3)
          moveTo(0)
          moveTo(3, 3)
+         useConnection(connect.up)
          repeat
-            moveLoop(btn.left)
+            -- moveLoop(btn.left)
             moveLoop(btn.up)
-            moveLoop(btn.right)
-            moveLoop(btn.down)
-         until true
-   end)
+            -- moveLoop(btn.right)
+            -- moveLoop(btn.down)
+         until false
+   end, naiveBattleAI)
 
    bot:queue(botScript)
 end
