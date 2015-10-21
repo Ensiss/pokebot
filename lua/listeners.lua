@@ -25,10 +25,12 @@ function wrap(func)
    co = coroutine.create(func)
 
    return function()
-      local code, res = coroutine.resume(co)
+      local code, msg = coroutine.resume(co)
 
       if code == false or coroutine.status(co) == 'dead' then
-         print("Action dead")
+         if code == false then
+            print("Lua error:", msg)
+         end
          return -1
       end
       return 0
@@ -42,7 +44,7 @@ function onInit()
 
    -- Main script for the bot, called every frame to continue execution
    local botScript = wrap(function()
-         moveDirection(btn.left)
+         moveTo(3, 3)
          while true do
             moveLoop(btn.left)
             moveLoop(btn.up)

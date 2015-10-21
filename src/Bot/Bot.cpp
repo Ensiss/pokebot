@@ -15,8 +15,15 @@ void		Bot::update()
 {
   if (_queue.size())
     {
-      if (_queue.front()() == -1)
-        _queue.pop_front();
+      try
+        {
+          if (_queue.front()() == -1)
+            _queue.pop_front();
+        }
+      catch (const LuaException &e)
+        {
+          fprintf(stderr, "%s", e.what());
+        }
     }
 }
 

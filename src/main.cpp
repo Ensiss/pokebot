@@ -46,7 +46,6 @@ void		doLoop()
 	  if (step == 900)
             {
               VM::vm->update();
-              Bot::bot.setBattleAction(new Action::Battle());
               L.doFunc("onInit");
             }
 	  if (step % Config::getNumber("refreshRate") == 0)

@@ -1,3 +1,5 @@
+require 'Utils/Pathfinding'
+
 -- Move one step in a given direction
 function moveDirection(button)
    if button > btn.down then
@@ -71,4 +73,74 @@ function moveLoop(init_dir, size, order)
          end
       end
    end
+end
+
+-- Finds a path and moves to a point in the current map
+function moveTo(x, y, maxDist)
+   maxDist = maxDist or 0
+
+   local _initOldOWs = function(oldows)
+      for i = 1, 15 do
+         local ow = pb.getOverWorld(i)
+         table.insert(oldows, {destX = ow:getDestX(), destY = ow:getDestY(), bankId = ow:getBankId(), mapId = ow:getMapId()})
+      end
+   end
+
+   local _hasNPCMoved = function(oldows)
+      local p = pb.getPlayer()
+      local owp = pb.getOverWorld(0)
+      local ret = false
+
+      for i, oldow in ipairs(oldows) do
+         local ow = pb.getOverWorld(i)
+
+         -- Check if something changed
+         if not ret and ow:getBankId() == p:getBankId() and ow:getMapId() == p:getMapId() and
+            (ow:getDestX() ~= oldow.destX or ow:getDestY() ~= oldow.destY or
+             ow:getBankId() ~= oldow.bankId or ow:getMapId() ~= oldow.mapId) then
+               ret = true
+         end
+
+         -- Update the infos for next time
+         oldow.destX = ow:getDestX()
+         oldow.destY = ow:getDestY()
+         oldow.bankId = ow:getBankId()
+         oldow.mapId = ow:getMapId()
+      end
+      return ret
+   end
+
+   local p = pb.getPlayer()
+   local m = pb.getCurrentMap()
+   local oldows = {}
+
+   _initOldOWs(oldows)
+
+   -- Repeat so a path can be recomputed if something fails
+   repeat
+      local path = Pathfinding.AStar(m, {x = p:getX(), y = p:getY()}, {x = x, y = y}, maxDist)
+      if not path then
+         print("No Path found :(")
+         return -1
+      end
+
+      for i, node in ipairs(path) do
+         local dx = node:getX() - p:getX()
+         local dy = node:getY() - p:getY()
+         local ret
+
+         -- move towards the next node
+         if dx == 0 then ret = moveDirection(dy < 0 and btn.up or btn.down)
+         else ret = moveDirection(dx < 0 and btn.left or btn.right) end
+
+         -- We were blocked, recompute the path
+         if ret == -1 then break end
+
+         -- Someone moved, recompute the path
+         if _hasNPCMoved(oldows) then break end
+      end
+
+      -- Destination in range, return
+      if math.abs(p:getX() - x) <= maxDist and math.abs(p:getY() - y) <= maxDist then return 0 end
+   until false
 end
