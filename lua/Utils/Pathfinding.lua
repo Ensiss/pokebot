@@ -5,7 +5,15 @@ Pathfinding = {}
 -- Returns a path from src to dest usting the A* algorithm
 -- dist is the maximum acceptable distance from the target
 function Pathfinding.AStar(map, src, dest, dist)
+   local _hills = {
+      {x =  0, y = 1, behavior = 0x3B},
+      {x =  1, y = 0, behavior = 0x38},
+      {x = -1, y = 0, behavior = 0x39},
+   }
    local _walkableTiles = {0x0c, 0x00, 0x10}
+   local _notMoving = {0, 1, 7, 8, 9, 10}
+   for i = 13, 24 do table.insert(_notMoving, i) end
+   for i = 64, 79 do table.insert(_notMoving, i) end
 
    -- Rebuilds the complete path from destination to source, based on the node's parent member
    -- /!\ Separate definition and declaration is needed for recursive local functions
@@ -22,9 +30,44 @@ function Pathfinding.AStar(map, src, dest, dist)
       return set
    end
 
+   local _checkHills = function(dx, dy, nextnode, curr)
+      for i, hill in ipairs(_hills) do
+         local b = hill.behavior
+         if hill.x == x and hill.y == y and (b == nextnode:getBehavior() or b == curr:getBehavior()) then
+            return true
+         end
+      end
+      return false
+   end
+
    local _checkWalkable = function(node)
       return (table.find(_walkableTiles, node:getStatus()) ~= nil and
                  node:getBehavior() ~= 0x6b and node:getBehavior() ~= 0x6a)
+   end
+
+   local _checkOverWorld = function(m, x, y)
+      local p = pb.getPlayer()
+
+      -- Static overworlds
+      for i = 0, m:getNbPersons() - 1 do
+         local pers = m:getPerson(i)
+         if (pers:getX() == x and pers:getY() == y and pers:isVisible() and
+             table.find(_notMoving, pers:getMovementType())) then
+            return true
+         end
+      end
+      -- Dynamic overworlds
+      for i = 1, 15 do
+         local ow = pb.getOverWorld(i)
+
+         if ow:getMapId() == 0 and ow:getBankId() == 0 then break end
+
+         if (ow:getMapId() == p:getMapId() and ow:getBankId() == p:getBankId() and
+             ow:getDestX() == x and ow:getDestY() == y) then
+            return true
+         end
+      end
+      return false
    end
 
    local _getNodeValue = function(node)
@@ -75,14 +118,14 @@ function Pathfinding.AStar(map, src, dest, dist)
             local nextbehavior = nextnode:getBehavior()
 
             -- avoid occupied (by NPCs) nodes
-            -- if _checkOverWorld(x, y) then break end
+            if _checkOverWorld(map, x, y) then break end
 
             -- tile type check
-            if not(--_checkHills(dx, dy, nextnode, curr) or
+            if not(_checkHills(dx, dy, nextnode, curr) or
                       _checkWalkable(nextnode) or
                       -- Block access to hill from a lower level
                       nextbehavior == 0x32 or
-                      -- Check is escalator is the final tile
+                      -- Check if escalator is the final tile
                       (dy == 0 and (nextbehavior == 0x6b or nextbehavior == 0x6a) and x == dest.x and y == dest.y))
             then break end
 

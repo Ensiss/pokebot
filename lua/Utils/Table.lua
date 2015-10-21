@@ -34,7 +34,7 @@ end
 function table.find(t, tofind, getValue)
    getValue = getValue or function(x) return x end
 
-   tofind = getValue(tofind)
+   if type(tofind) ~= 'number' then tofind = getValue(tofind) end
    for i, val in ipairs(t) do
       if getValue(val) == tofind then
          return i
