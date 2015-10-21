@@ -45,6 +45,8 @@ function onInit()
    -- Main script for the bot, called every frame to continue execution
    local botScript = wrap(function()
          moveTo(3, 3)
+         moveTo(0)
+         moveTo(3, 3)
          while true do
             moveLoop(btn.left)
             moveLoop(btn.up)

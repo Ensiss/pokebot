@@ -75,9 +75,13 @@ function moveLoop(init_dir, size, order)
    end
 end
 
--- Finds a path and moves to a point in the current map
+-- moveTo(x, y[, maxDist])      Moves to a node in the current map
+-- moveTo(id)                   Moves to a person defined by its id
 function moveTo(x, y, maxDist)
    maxDist = maxDist or 0
+
+   -- if y is nil, x is a person id so we have to stop 1 tile away from the target
+   if not y then maxDist = 1 end
 
    local _initOldOWs = function(oldows)
       for i = 1, 15 do
@@ -110,15 +114,44 @@ function moveTo(x, y, maxDist)
       return ret
    end
 
+   local _getTargetPos = function(x, y)
+      -- coordinates are specified, return them
+      if y then return {x = x, y = y} end
+
+      local p = pb.getPlayer()
+      local m = pb.getCurrentMap()
+      local pers = m:getPerson(x)
+
+      for i = 1,15 do
+         local ow = pb.getOverWorld(i)
+
+         -- last loaded overworld reached, we can stop
+         if ow:getMapId() == 0 and ow:getBankId() == 0 then break end
+
+         -- if the person we are looking for is loaded, return its location
+         if ow:getMapId() == p:getMapId() and ow:getBankId() == p:getBankId() and ow:getEventNb() == pers:getEventNb() then
+            return {x = ow:getDestX(), y = ow:getDestY()}
+         end
+      end
+
+      -- if the person is not loaded yet, return its default location
+      return {x = pers:getX(), y = pers:getY()}
+   end
+
    local p = pb.getPlayer()
    local m = pb.getCurrentMap()
    local oldows = {}
 
+   if not y and (x < 0 or x >= m:getNbPersons()) then
+      print(string.format("moveTo error: invalid person id: %d in map [%d, %d]", x, p:getBankId(), p:getMapId()))
+      return -1
+   end
    _initOldOWs(oldows)
 
    -- Repeat so a path can be recomputed if something fails
    repeat
-      local path = Pathfinding.AStar(m, {x = p:getX(), y = p:getY()}, {x = x, y = y}, maxDist)
+      local target = _getTargetPos(x, y)
+      local path = Pathfinding.AStar(m, {x = p:getX(), y = p:getY()}, target, maxDist)
       if not path then
          print("No Path found :(")
          return -1
@@ -141,6 +174,6 @@ function moveTo(x, y, maxDist)
       end
 
       -- Destination in range, return
-      if math.abs(p:getX() - x) <= maxDist and math.abs(p:getY() - y) <= maxDist then return 0 end
+      if math.abs(p:getX() - target.x) <= maxDist and math.abs(p:getY() - target.y) <= maxDist then return 0 end
    until false
 end
