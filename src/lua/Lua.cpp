@@ -222,8 +222,8 @@ void            Lua::init()
     .addFunction("getY", &World::WarpEvt::getY)
     .addFunction("getLevel", &World::WarpEvt::getLevel)
     .addFunction("getWarp", &World::WarpEvt::getWarp)
-    .addFunction("getMap", &World::WarpEvt::getMap)
-    .addFunction("getBank", &World::WarpEvt::getBank)
+    .addFunction("getMapId", &World::WarpEvt::getMapId)
+    .addFunction("getBankId", &World::WarpEvt::getBankId)
     .endClass()
 
     .beginClass<World::PersonEvt>("Person")
@@ -252,8 +252,8 @@ void            Lua::init()
     .beginClass<World::Connection>("Connection")
     .addFunction("getType", &World::Connection::getType)
     .addFunction("getOffset", &World::Connection::getOffset)
-    .addFunction("getBank", &World::Connection::getBank)
-    .addFunction("getMap", &World::Connection::getMap)
+    .addFunction("getBankId", &World::Connection::getBankId)
+    .addFunction("getMapId", &World::Connection::getMapId)
     .endClass()
 
     .beginClass<World::Map::WildBattle>("WildBattle")
@@ -427,10 +427,13 @@ void            Lua::_initConnectionTypes()
   lua_newtable(_state);
 
   // Push variables
+  _pushvar("none", CO_NONE);
   _pushvar("up", CO_UP);
   _pushvar("down", CO_DOWN);
   _pushvar("left", CO_LEFT);
   _pushvar("right", CO_RIGHT);
+  _pushvar("dive", CO_DIVE);
+  _pushvar("emerge", CO_EMERGE);
 
   lua_settable(_state, -3);
 }

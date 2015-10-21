@@ -126,8 +126,8 @@ public:
     uint16_t	getY() const { return (y); }
     uint8_t	getLevel() const { return (level); }
     uint8_t	getWarp() const { return (destWarp); }
-    uint8_t	getMap() const { return (destMap); }
-    uint8_t	getBank() const { return (destBank); }
+    uint8_t	getMapId() const { return (destMap); }
+    uint8_t	getBankId() const { return (destBank); }
   };
 
   struct	PersonEvt
@@ -201,8 +201,8 @@ public:
   public:
     uint32_t	getType() const { return (type); }
     uint32_t	getOffset() const { return (offset); }
-    uint8_t	getBank() const { return (bank); }
-    uint8_t	getMap() const { return (map); }
+    uint8_t	getBankId() const { return (bank); }
+    uint8_t	getMapId() const { return (map); }
   };
 
   struct	WildEntry
