@@ -22,7 +22,7 @@ void		Bot::update()
         }
       catch (const LuaException &e)
         {
-          fprintf(stderr, "%s", e.what());
+          fprintf(stderr, "%s\n", e.what());
         }
     }
 }

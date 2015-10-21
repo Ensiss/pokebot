@@ -1,6 +1,7 @@
 require 'Action/Movement'
 require 'Action/Battle'
 require 'Action/Misc'
+require 'Wrapper'
 
 function printMap()
    local map = pb.getCurrentMap()
@@ -17,41 +18,6 @@ function onRefresh()
    local map = pb.getCurrentMap()
    print("Player coordinates: (" .. p:getX() .. ", " .. p:getY() .. ")")
    print("Map [" .. map:getName() .. "]: " .. map:getWidth() .. "x" .. map:getHeight())
-end
-
--- Creates a function callable by the bot
--- It will resume the coroutine when called
--- Returns -1 when there's an error or the coroutine is dead
--- Returns 0 otherwise
-function wrap(script, battleScript)
-   local co = coroutine.create(script)
-   local coBattle = nil
-   if battleScript then
-      coBattle = coroutine.create(battleScript)
-   end
-
-   return function()
-      local currCo
-      if pb.isInBattle() then
-         currCo = coBattle
-      else
-         currCo = co
-      end
-
-      if currCo then
-         local code, msg = coroutine.resume(currCo)
-
-         if code == false or coroutine.status(currCo) == 'dead' then
-            if code == false then
-               print("Lua error:", msg)
-            end
-            return -1
-         end
-      else
-         print("No coroutine to resume")
-      end
-      return 0
-   end
 end
 
 function onInit()
