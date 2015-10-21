@@ -31,6 +31,7 @@ void            Lua::init()
     .addFunction("getPlayer", &Data::getPlayerWrapper)
     .addFunction("getBattleMenu", &Data::getBattleMenuWrapper)
     .addFunction("getBot", &Bot::getBotWrapper)
+    .addFunction("isInBattle", &Data::isInBattleWrapper)
     .addFunction("setButton", (void (*)(int, bool)) &sdlSetButton)
     .addFunction("pressButton", (void (*)(int)) &sdlPressButton)
     .addFunction("releaseButton", (void (*)(int)) &sdlReleaseButton)
@@ -380,6 +381,9 @@ void            Lua::_initButtons()
   _pushvar("b", KEY_BUTTON_B);
   _pushvar("start", KEY_BUTTON_START);
   _pushvar("select", KEY_BUTTON_SELECT);
+  _pushvar("l", KEY_BUTTON_L);
+  _pushvar("r", KEY_BUTTON_R);
+  _pushvar("count", KEY_BUTTON_R + 1);
 
   lua_settable(_state, -3);
 }

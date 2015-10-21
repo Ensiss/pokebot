@@ -139,6 +139,7 @@ public:
   static const Move     &getMoveWrapper(uint16_t i) { return (data->getMove(i)); }
   static const char     *getTypeNameWrapper(uint8_t i) { return (data->getTypeName(i)); }
   static const char     *getAbilityNameWrapper(uint8_t i) { return (data->getAbilityName(i)); }
+  static bool           isInBattleWrapper() { return data->isInBattle(); }
 
   static Data   *data;
 };
