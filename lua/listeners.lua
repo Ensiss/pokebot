@@ -47,12 +47,12 @@ function onInit()
          moveTo(3, 3)
          moveTo(0)
          moveTo(3, 3)
-         while true do
+         repeat
             moveLoop(btn.left)
             moveLoop(btn.up)
             moveLoop(btn.right)
             moveLoop(btn.down)
-         end
+         until true
    end)
 
    bot:queue(botScript)
