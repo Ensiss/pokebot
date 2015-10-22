@@ -59,19 +59,26 @@ function moveDirection(button)
       return -1
    end
 
-   -- try moving until all three coordinates have changed
-   while ((p:getX() == xstart and p:getY() == ystart) or
-         (ow:getX() == xstart and ow:getY() == ystart) or
-         (ow:getDestX() == xstart and ow:getDestY() == ystart))
-   do
+   for i = 0, btn.count - 1 do
+      pb.releaseButton(i)
+   end
+
+   -- press the direction until we start moving
+   while ow:getDestX() == xstart and ow:getDestY() == ystart do
       pb.setButton(button, math.mod(counter, 2) == 0)
       coroutine.yield()
       counter = counter + 1
    end
 
    -- if the direction key is still down, release it
-   if pb.getButton(button) then
-      pb.releaseButton(button)
+   pb.releaseButton(button)
+
+   -- wait until all three coordinates have changed
+   while ((p:getX() == xstart and p:getY() == ystart) or
+         (ow:getX() == xstart and ow:getY() == ystart) or
+         (ow:getDestX() == xstart and ow:getDestY() == ystart))
+   do
+      coroutine.yield()
    end
 
    return 0
