@@ -24,7 +24,7 @@ function wrap(script, battleScript)
    local timer = 0
    -- Time of the fade out animation after battle
    -- /!\ NOT perfectly accurate, but it probably doesn't need to be
-   local waitAfterBattle = 43
+   local waitAfterBattle = 30
    local endBattleTimer = -waitAfterBattle
    local keysState = {}
    local wasInBattle = false

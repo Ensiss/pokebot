@@ -1,5 +1,6 @@
 #include	"Data.hh"
 #include        "Script.hh"
+#include        "PrintUtils.hh"
 
 Data            *Data::data = NULL;
 
@@ -41,16 +42,18 @@ void		Data::update()
   _battlers.update();
   newb = _player.getBankId();
   newm = _player.getMapId();
+  if (!_player.isValid())
+    return;
   if (newb != 255 && newm != 255 && (newb != bank || newm != map))
     {
       // Try to detect if player data is corrupted
       // This is NOT safe and needs to be changed to something better
-      const std::vector<std::vector<World::Map> > _banks;
-      if (newb > _banks.size() || newm > _banks[newb].size())
+      const std::vector<std::vector<World::Map> > _banks = _world.getBanks();
+      if (newb >= _banks.size() || newm >= _banks[newb].size())
         return;
-      World::Map &m = _world.getMap(bank, map);
-      if (_player.getX() > m.getWidth() || _player.getY() > m.getHeight())
-          return;
+      World::Map &m = _world.getMap(newb, newm);
+      if (_player.getX() >= m.getWidth() || _player.getY() >= m.getHeight())
+        return;
       // --------------------------------------------------
 
       bank = newb;

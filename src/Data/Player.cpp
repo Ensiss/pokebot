@@ -14,6 +14,12 @@ void		Player::update()
   _valid = true;
   _loc = (MapLoc *) (workRAM + offset - WRAM_OFFSET);
   _data = (Internal *) (workRAM + doffset - WRAM_OFFSET);
+  if (_loc->unknown != 0xFF)
+    {
+      printf("Error found while reloading\n");
+      _valid = false;
+      return;
+    }
   for (int i = 0; i < 9; i++)
     _name[i] = (i < 8 && _data->name[i] != 0xFF) * pokeCharsetToAscii(_data->name[i]);
 }
