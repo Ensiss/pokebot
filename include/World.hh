@@ -380,6 +380,10 @@ private:
   void		_initWildBattles();
 
 public:
+  const std::vector<std::vector<Map> > getBanks() {
+    return _banks;
+  }
+
   std::vector<Map>      &getBank(uint8_t bankId) {
     if (bankId >= _banks.size()) throw std::out_of_range("Index " + std::to_string(bankId) + " out of bounds for World.Bank");
     return _banks[bankId];

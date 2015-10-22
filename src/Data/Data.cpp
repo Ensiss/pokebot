@@ -33,7 +33,7 @@ void		Data::update()
 {
   static int    bank = 0;
   static int    map = 0;
-  int           newb, newm;
+  uint8_t       newb, newm;
 
   _player.update();
   _pteam.update();
@@ -43,9 +43,18 @@ void		Data::update()
   newm = _player.getMapId();
   if (newb != 255 && newm != 255 && (newb != bank || newm != map))
     {
+      // Try to detect if player data is corrupted
+      // This is NOT safe and needs to be changed to something better
+      const std::vector<std::vector<World::Map> > _banks;
+      if (newb > _banks.size() || newm > _banks[newb].size())
+        return;
+      World::Map &m = _world.getMap(bank, map);
+      if (_player.getX() > m.getWidth() || _player.getY() > m.getHeight())
+          return;
+      // --------------------------------------------------
+
       bank = newb;
       map = newm;
-      World::Map &m = _world.getMap(bank, map);
       for (uint8_t i = 0; i < m.getNbPersons(); i++)
         Script::getPerson(i);
     }
