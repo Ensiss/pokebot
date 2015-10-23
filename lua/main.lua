@@ -1,7 +1,35 @@
 package.path = "lua/?.lua;" .. package.path
+require 'Action/Misc'
+require 'Action/Battle'
+require 'Action/Movement'
+require 'Utils/Wrapper'
 
-require 'listeners'
+require 'Custom/World/SimpleWorldAI'
+require 'Custom/Battle/SimpleBattleAI'
 
--- This seems to fix a weird segfault with luabridge objects
--- I don't know why though
--- collectgarbage("setstepmul", 0)
+function printMap()
+   local map = pb.getCurrentMap()
+   for y = 0, map:getHeight() - 1 do
+      for x = 0, map:getWidth() - 1 do
+         io.write(string.format("%02x ", map:getNode(x, y):getStatus()))
+      end
+      io.write("\n")
+   end
+end
+
+function onRefresh()
+   local p = pb.getPlayer()
+   local map = pb.getCurrentMap()
+   print("Player coordinates: (" .. p:getX() .. ", " .. p:getY() .. ")")
+   print("Map [" .. map:getName() .. "]: " .. map:getWidth() .. "x" .. map:getHeight())
+end
+
+function onInit()
+   local bot = pb.getBot()
+   config.setNumber("clearOnRefresh", 1)
+
+   -- Main script for the bot, called every frame to continue execution
+   -- You need an AI for the outside world and another to handle battles
+   local botScript = wrap(SimpleWorldAI, SimpleBattleAI)
+   bot:queue(botScript)
+end
