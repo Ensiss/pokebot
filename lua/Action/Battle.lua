@@ -1,42 +1,9 @@
+battle = {}
+
 require('Action/Misc')
-
--- Attempt to flee the battle
-local function _run()
-   local bm = pb.getBattleMenu()
-
-   moveCursor(2, 2, 3, function() return bm:getCursor() end)
-   while bm:getMenu() == 0 do
-      pressButton(btn.a)
-   end
-end
-
--- Switch to the specified pokemon from the ones not already in battle, numbered from 0
-local function _switch(poke)
-   local bm = pb.getBattleMenu()
-
-   moveCursor(2, 2, 2, function() return bm:getCursor() end)
-   while bm:getMenu() == 0 do
-      pressButton(btn.a)
-   end
-   for i = 1, 75 do coroutine.yield() end
-   pressButton(btn.right)
-   for i = 0, poke - 1 do pressButton(btn.down) end
-   for i = 0, 1 do pressButton(btn.a) end
-end
-
--- Attacks using the specified attack, starting at index 0
-local function _attack(atk)
-   local bm = pb.getBattleMenu()
-
-   moveCursor(2, 2, 0, function() return bm:getCursor() end)
-   while bm:getMenu() == 0 do
-      pressButton(btn.a)
-   end
-   moveCursor(2, 2, atk, function() return bm:getAttack() end)
-   while bm:isOpen() == 1 do
-      pressButton(btn.a)
-   end
-end
+require('Action/Battle/Run')
+require('Action/Battle/Switch')
+require('Action/Battle/Attack')
 
 local function _getBestMove()
    local p = pb.getBattler(0)
@@ -66,7 +33,7 @@ function naiveBattleAI()
 
    repeat
       if bm:isOpen() ~= 0 and bm:getMenu() == 0 then
-         _attack(_getBestMove())
+         battle.attack(_getBestMove())
       else
          pressButton(btn.a)
       end
