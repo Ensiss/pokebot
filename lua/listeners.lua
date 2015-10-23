@@ -33,7 +33,7 @@ function onInit()
          useConnection(connect.up)
          repeat
             -- moveLoop(btn.left)
-            moveLoop(btn.up)
+            if moveLoop(btn.up) == -1 then coroutine.yield() end
             -- moveLoop(btn.right)
             -- moveLoop(btn.down)
          until false

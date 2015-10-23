@@ -215,8 +215,60 @@ function moveTo(x, y, maxDist)
       end
 
       -- Destination in range, return
-      if math.abs(p:getX() - target.x) <= maxDist and math.abs(p:getY() - target.y) <= maxDist then return 0 end
+      if math.abs(p:getX() - target.x) + math.abs(p:getY() - target.y) <= maxDist then return 0 end
    until false
+end
+
+--
+function useWarp(warpId)
+   local _behaviors = {}
+   _behaviors[0x62] = btn.right    -- Warp to block right
+   _behaviors[0x63] = btn.left     -- Warp to block left
+   _behaviors[0x64] = btn.up       -- Warp to block up
+   _behaviors[0x65] = btn.down     -- Warp to block down
+   _behaviors[0x6A] = btn.left     -- Pokecenter stairs up
+   _behaviors[0x6B] = btn.right    -- Pokecenter stairs down
+   _behaviors[0x6C] = btn.right    -- Stairs up right
+   _behaviors[0x6D] = btn.right    -- Stairs down right
+   _behaviors[0x6E] = btn.left     -- Stairs up left
+   _behaviors[0x6F] = btn.left     -- Stairs down left
+
+   local p = pb.getPlayer()
+   local m = pb.getCurrentMap()
+
+   if warpId < 0 or warpId >= m:getNbWarps() then
+      print(string.format("useWarp error: %d is not a valid warp id in map [%d, %d]", warpId, p:getBankId(), p:getMapId()))
+      return -1
+   end
+
+   local warp = m:getWarp(warpId)
+   local tx = warp:getX()
+   local ty = warp:getY()
+   local node = m:getNode(tx, ty)
+
+   if moveTo(tx, ty, node:getStatus() == 0x01 and 1 or 0) == -1 then return -1 end
+
+   local px = p:getX()
+   local py = p:getY()
+   local key = nil
+
+   if px == tx and py == ty then
+      key = _behaviors[node:getBehavior()]
+   else
+      if py < ty then key = btn.down
+      elseif py > ty then key = btn.up
+      elseif px > tx then key = btn.left
+      else key = btn.right end
+   end
+
+   if key == nil then return -1 end
+
+   -- TODO: change moveDirection script to allow going through doors
+   pressButton(key)
+   pressButton(key)
+   -- Wait until screen fade out is done
+   -- Fucking animations making my life hard and my code ugly
+   for i = 0, 150 do coroutine.yield() end
 end
 
 --

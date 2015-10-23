@@ -11,7 +11,7 @@ local function _run()
 end
 
 -- Switch to the specified pokemon from the ones not already in battle, numbered from 0
-function _switch(poke)
+local function _switch(poke)
    local bm = pb.getBattleMenu()
 
    moveCursor(2, 2, 2, function() return bm:getCursor() end)
