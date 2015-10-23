@@ -13,7 +13,6 @@ private:
     uint16_t	y;
     uint8_t	bankId;
     uint8_t	mapId;
-    uint8_t     unknown; // 0xFF when valid ?
   };
 
   struct	Internal

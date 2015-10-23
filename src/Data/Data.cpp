@@ -32,6 +32,8 @@ Data::~Data()
 
 void		Data::update()
 {
+  uint8_t memb = gbaMem<uint8_t>(0x02031DBC);
+  uint8_t memm = gbaMem<uint8_t>(0x02031DBD);
   static int    bank = 0;
   static int    map = 0;
   uint8_t       newb, newm;
@@ -42,9 +44,9 @@ void		Data::update()
   _battlers.update();
   newb = _player.getBankId();
   newm = _player.getMapId();
-  if (!_player.isValid())
+  if (!_player.isValid() || (bank && map && (memb != newb || memm != newm)))
     return;
-  if (newb != 255 && newm != 255 && (newb != bank || newm != map))
+  if (newb != 255 && newm != 255 && (newb != bank || newm != map || (!bank && !map)))
     {
       // Try to detect if player data is corrupted
       // This is NOT safe and needs to be changed to something better
