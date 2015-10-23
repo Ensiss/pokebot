@@ -27,15 +27,23 @@ function onInit()
 
    -- Main script for the bot, called every frame to continue execution
    local botScript = wrap(function()
-         moveTo(3, 3)
-         moveTo(0)
-         moveTo(3, 3)
-         useConnection(connect.up)
+         for i = 1, 3 do
+            move.turn(btn.right)
+            move.turn(btn.down)
+            move.turn(btn.left)
+            move.turn(btn.up)
+         end
+
+         move.warp(0)
+         move.to(3, 3)
+         move.warp(1)
+
+         move.to(3, 3)
+         move.to(0)
+         move.to(3, 3)
+         move.connection(connect.up)
          repeat
-            -- moveLoop(btn.left)
-            if moveLoop(btn.up) == -1 then coroutine.yield() end
-            -- moveLoop(btn.right)
-            -- moveLoop(btn.down)
+            if move.loop(btn.up) == -1 then coroutine.yield() end
          until false
    end, naiveBattleAI)
 
