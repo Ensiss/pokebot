@@ -13,20 +13,20 @@ function move.turn(button)
    --             1 if turning
    --             2 if walking
    while mem.get8(0x0203707A) ~= 0 do
-      coroutine.yield()
+      misc.nextFrame()
    end
 
    if dir2key[ow:getDir()] ~= button then
       repeat
          pb.setButton(button, math.mod(counter, 2) == 0)
-         coroutine.yield()
+         misc.nextFrame()
          counter = counter + 1
       until mem.get8(0x0203707A) == 1
    end
 
    pb.releaseButton(button)
    while mem.get8(0x0203707A) == 1 do
-      coroutine.yield()
+      misc.nextFrame()
    end
 
    return 0

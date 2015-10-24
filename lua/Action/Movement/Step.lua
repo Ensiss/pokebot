@@ -30,7 +30,7 @@ function move.step(button)
    -- press the direction until we start moving
    while ow:getDestX() == xstart and ow:getDestY() == ystart do
       pb.setButton(button, math.mod(counter, 2) == 0)
-      coroutine.yield()
+      misc.nextFrame()
       counter = counter + 1
    end
 
@@ -42,7 +42,7 @@ function move.step(button)
          (ow:getX() == xstart and ow:getY() == ystart) or
          (ow:getDestX() == xstart and ow:getDestY() == ystart))
    do
-      coroutine.yield()
+      misc.nextFrame()
    end
 
    return 0

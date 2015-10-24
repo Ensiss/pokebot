@@ -9,11 +9,11 @@ function misc.pressButton(button)
    for i = 0, btn.count - 1 do
       pb.releaseButton(i)
    end
-   coroutine.yield()
+   misc.nextFrame()
 
    -- Press the one we want
    pb.pressButton(button)
-   coroutine.yield()
+   misc.nextFrame()
 
    pb.releaseButton(button)
    return 0

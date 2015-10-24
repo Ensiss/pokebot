@@ -7,7 +7,7 @@ function SimpleWorldAI()
       print('If you want to test it anyway just comment out the check in lua/Custom/World/SimpleWorldAI.lua')
       print("The Battle script will work even without doing anything")
       repeat
-         coroutine.yield()
+         misc.nextFrame()
       until false
    end
 
@@ -27,6 +27,6 @@ function SimpleWorldAI()
    move.to(3, 3)
    move.connection(connect.up)
    repeat
-      if move.loop(btn.up) == -1 then coroutine.yield() end
+      if move.loop(btn.up) == -1 then misc.nextFrame() end
    until false
 end

@@ -21,9 +21,9 @@ function misc.moveCursor(w, h, dest, func)
       if not button then return 0 end
 
       pb.pressButton(button)
-      coroutine.yield()
+      misc.nextFrame()
       pb.releaseButton(button)
-      coroutine.yield()
+      misc.nextFrame()
    end
    return 0
 end
