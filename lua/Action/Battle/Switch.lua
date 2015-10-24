@@ -9,7 +9,7 @@ function battle.switch(poke)
    while bm:getMenu() == 0 do
       misc.pressButton(btn.a)
    end
-   for i = 1, 75 do misc.nextFrame() end
+   misc.wait(75)
    misc.pressButton(btn.right)
    for i = 0, poke - 1 do misc.pressButton(btn.down) end
    for i = 0, 1 do misc.pressButton(btn.a) end

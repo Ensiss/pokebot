@@ -52,5 +52,5 @@ function move.warp(warpId)
 
    -- Wait until screen fade out is done
    -- Fucking animations making my life hard and my code ugly
-   for i = 0, 150 do misc.nextFrame() end
+   misc.wait(150)
 end
