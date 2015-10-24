@@ -47,7 +47,7 @@ function move.warp(warpId)
    local owy = ow:getDestY()
    -- TODO: change moveDirection script to allow going through doors
    repeat
-      pressButton(key)
+      misc.pressButton(key)
    until ow:getDestX() ~= owx or ow:getDestY() ~= owy
 
    -- Wait until screen fade out is done

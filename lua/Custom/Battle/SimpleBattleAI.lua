@@ -28,7 +28,7 @@ function SimpleBattleAI()
       if bm:isOpen() ~= 0 and bm:getMenu() == 0 then
          battle.attack(_getBestMove())
       else
-         pressButton(btn.a)
+         misc.pressButton(btn.a)
       end
    until false
    return 0
