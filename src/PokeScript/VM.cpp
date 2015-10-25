@@ -76,7 +76,7 @@ void            VM::execCountNewVisits(Script *script)
           (this->*_executers[instr->cmd])(instr);
         if (instr->cmd == 0x06 || instr->cmd == 0x07)
           {
-            if (instr->notVisited(oldpc != _ctx.pc))
+            if (!instr->isVisited(oldpc != _ctx.pc))
               _ctx.cpts.pts++;
           }
       }

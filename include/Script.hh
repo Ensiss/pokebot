@@ -73,7 +73,7 @@ public:
       : offset(p_off), bytecode(p_mem + p_off), length(1), cmd(*bytecode), str(""),
         toVisit((cmd == 0x06 || cmd == 0x07) * 3)
     {}
-    bool        notVisited(bool result)
+    bool        isVisited(bool result)
     { return (toVisit & (1 << result)); }
     void        visit(bool result)
     { toVisit &= ~(1 << result); }
@@ -89,6 +89,11 @@ public:
       length = len;
       next = (cmd == 0x02 || cmd == 0x03 ? 0 : offset + length);
     }
+
+  public:
+    uint8_t     getOffset() const { return offset; }
+    uint32_t    getNext() const { return next; }
+    uint8_t     getCommand() const { return cmd; }
   };
 
   struct        Command
@@ -173,6 +178,12 @@ public:
   ChoicePts                     &getChoice(uint16_t i) { return (_choices[i * (i < _choices.size())]); }
   std::vector<ChoicePts>        &getChoices() { return (_choices); }
   std::map<int, Instruction *>  &getInstructions() { return (_instructions); }
+  const Instruction             *getInstruction(int offset) {
+    const auto &it = _instructions.find(offset);
+
+    if (it == _instructions.end()) return NULL;
+    return it->second;
+  }
   uint32_t                      getStartOffset() { return (_offset); }
 
 private:

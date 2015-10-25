@@ -37,7 +37,7 @@ void            debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, int s
           if (instr->cmd != 0x06 && instr->cmd != 0x07)
             break;
           bool res = instr->args[1] == value;
-          if (instr->notVisited(res))
+          if (!instr->isVisited(res))
             instr->visit(res);
           break;
         }
