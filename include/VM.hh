@@ -6,7 +6,6 @@
 #include        <cstring>
 #include        <functional>
 #include        "Script.hh"
-#include        "Action/AAction.hh"
 
 #define         VM_BOUNDS_ERR(x)        ("Warning: " x " 0x%x out of bounds\n")
 

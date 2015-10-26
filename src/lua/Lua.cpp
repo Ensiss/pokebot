@@ -280,39 +280,6 @@ void            Lua::init()
     .addFunction("get32", &gbaMem<uint32_t>)
     .endNamespace()
 
-    .beginNamespace("new")
-    .addFunction("moveTo", &Action::MoveTo::create)
-    .addFunction("talkTo", &Action::TalkTo::create)
-    .addFunction("useWarp", &Action::UseWarp::create)
-    .addFunction("useConnection", &Action::UseConnection::create)
-    .addFunction("pressButton", &Action::PressButton::create)
-    .addFunction("turnDirection", &Action::TurnDirection::create)
-    .addFunction("wait", &Action::Wait::create)
-    .addFunction("waitUntil", &Action::Wait::createFunc)
-    .addFunction("lua", &Action::LuaClass::create)
-    .addFunction("moveCursor", &Action::MoveCursor::create)
-    .endNamespace()
-
-    .beginNamespace("action")
-    .beginClass<AAction>("AAction")
-    .addFunction("queue", &AAction::queue)
-    .addFunction("getId", &AAction::getId)
-    .addFunction("getState", (int (AAction::*)()) &AAction::getState)
-    .addFunction("getCounter", &AAction::getCounter)
-    .addFunction("getFinishedChild", &AAction::getFinishedChild)
-    .addFunction("addListener", (void (AAction::*)(const std::string &, LuaRef)) &AAction::addListener)
-    .endClass()
-    .deriveClass<Action::MoveTo, AAction>("MoveTo").endClass()
-    .deriveClass<Action::TalkTo, AAction>("TalkTo").endClass()
-    .deriveClass<Action::UseWarp, AAction>("UseWarp").endClass()
-    .deriveClass<Action::UseConnection, AAction>("UseConnection").endClass()
-    .deriveClass<Action::PressButton, AAction>("PressButton").endClass()
-    .deriveClass<Action::TurnDirection, AAction>("TurnDirection").endClass()
-    .deriveClass<Action::MoveCursor, AAction>("MoveCursor").endClass()
-    .deriveClass<Action::Wait, AAction>("Wait").endClass()
-    .deriveClass<Action::LuaClass, AAction>("LuaClass").endClass()
-    .endNamespace()
-
     .beginNamespace("script")
     .addFunction("getStd", &Script::getStd)
     .addFunction("getPerson", &Script::getPerson)
@@ -360,7 +327,6 @@ void            Lua::init()
     ;
 
   _initButtons();
-  _initStates();
   _initWildTypes();
   _initConnectionTypes();
   doFile("lua/main.lua");
@@ -393,23 +359,6 @@ void            Lua::_initButtons()
   _pushvar("l", KEY_BUTTON_L);
   _pushvar("r", KEY_BUTTON_R);
   _pushvar("count", KEY_BUTTON_R + 1);
-
-  lua_settable(_state, -3);
-}
-
-void            Lua::_initStates()
-{
-  // Get global namespace
-  lua_getglobal(_state, "_G");
-  // Create "state" namespace
-  lua_pushstring(_state, "state");
-  lua_newtable(_state);
-
-  // Push variables
-  _pushvar("not_started", Action::NOT_STARTED);
-  _pushvar("running", Action::RUNNING);
-  _pushvar("finished", Action::FINISHED);
-  _pushvar("error", Action::ERROR);
 
   lua_settable(_state, -3);
 }

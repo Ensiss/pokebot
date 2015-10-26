@@ -195,18 +195,6 @@ SET(SRC_MAIN
     src/Bot/Bot.cpp
     src/Bot/PathFinder.cpp
 
-    src/Action/AAction.cpp
-    src/Action/MoveTo.cpp
-    src/Action/TalkTo.cpp
-    src/Action/UseWarp.cpp
-    src/Action/UseConnection.cpp
-    src/Action/Battle.cpp
-    src/Action/MoveCursor.cpp
-    src/Action/TurnDirection.cpp
-    src/Action/PressButton.cpp
-    src/Action/Wait.cpp
-    src/Action/LuaClass.cpp
-
     src/PokeScript/Script.cpp
     src/PokeScript/Readers.cpp
     src/PokeScript/Commands.cpp

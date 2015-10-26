@@ -3,7 +3,6 @@
 
 #include	<deque>
 #include	"Data.hh"
-#include	"Action/AAction.hh"
 #include	"../vbam/sdl/SDLGlobals.h"
 #include        <LuaBridge.h>
 

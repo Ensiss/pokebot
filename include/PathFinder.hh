@@ -4,8 +4,8 @@
 #include	<map>
 #include	<vector>
 #include	<algorithm>
-#include	"Action/AAction.hh"
 #include	"World.hh"
+#include        "Data.hh"
 
 class		PathFinder
 {

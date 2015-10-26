@@ -52,7 +52,6 @@
 
 #include "Data.hh"
 #include "Bot.hh"
-#include "Action/MoveTo.hh"
 
 #include "debugger.h"
 #include "filters.h"

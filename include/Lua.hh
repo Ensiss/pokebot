@@ -3,16 +3,7 @@
 #include        <LuaBridge.h>
 #include        "Data.hh"
 #include        "Bot.hh"
-#include        "Action/AAction.hh"
-#include        "Action/LuaClass.hh"
-#include        "Action/MoveTo.hh"
-#include        "Action/TalkTo.hh"
-#include        "Action/UseWarp.hh"
-#include        "Action/UseConnection.hh"
-#include        "Action/PressButton.hh"
-#include        "Action/Wait.hh"
-#include        "Action/MoveCursor.hh"
-#include        "Action/TurnDirection.hh"
+#include        "Script.hh"
 #include        "Config.hh"
 extern "C" {
 #include        "lua.h"
@@ -31,7 +22,6 @@ public:
 private:
   void          _error(int ret);
   void          _initButtons();
-  void          _initStates();
   void          _initWildTypes();
   void          _initConnectionTypes();
   void          _pushvar(const char *name, uint8_t val);

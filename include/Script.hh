@@ -13,7 +13,6 @@
 #include	<queue>
 #include        <map>
 
-#include	"Action/AAction.hh"
 #include	"PokemonUtils.hh"
 #include	"../vbam/gba/Globals.h"
 #include	"Data.hh"
