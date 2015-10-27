@@ -12,9 +12,7 @@ function move.turn(button)
    -- 0x0203707A: 0 if static
    --             1 if turning
    --             2 if walking
-   while mem.get8(0x0203707A) ~= 0 do
-      misc.nextFrame()
-   end
+   misc.waitWhile(function() return mem.get8(0x0203707A) ~= 0 end)
 
    if dir2key[ow:getDir()] ~= button then
       repeat
@@ -25,9 +23,7 @@ function move.turn(button)
    end
 
    pb.releaseButton(button)
-   while mem.get8(0x0203707A) == 1 do
-      misc.nextFrame()
-   end
+   misc.waitWhile(function() return mem.get8(0x0203707A) == 1 end)
 
    return 0
 end

@@ -38,12 +38,10 @@ function move.step(button)
    pb.releaseButton(button)
 
    -- wait until all three coordinates have changed
-   while ((p:getX() == xstart and p:getY() == ystart) or
-         (ow:getX() == xstart and ow:getY() == ystart) or
-         (ow:getDestX() == xstart and ow:getDestY() == ystart))
-   do
-      misc.nextFrame()
-   end
+   misc.waitWhile(function() return (
+            p:getX() == xstart and p:getY() == ystart) or
+            (ow:getX() == xstart and ow:getY() == ystart) or
+            (ow:getDestX() == xstart and ow:getDestY() == ystart) end)
 
    return 0
 end

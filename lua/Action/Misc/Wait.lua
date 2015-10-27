@@ -4,3 +4,17 @@ function misc.wait(nbFrames)
       misc.nextFrame()
    end
 end
+
+-- Suspends execution until a condition is met
+-- The condition parameter is a function returning the value
+function misc.waitUntil(condition)
+   repeat
+      misc.nextFrame()
+   until condition()
+end
+
+function misc.waitWhile(condition)
+   while condition() do
+      misc.nextFrame()
+   end
+end
