@@ -17,6 +17,7 @@ Data::Data()
   _loadStrings(_typeNames, 0x824F1A0, 7, "\x00", 1);
   _loadMoves();
   _loadSpecies();
+  _loadItems();
   _loadTypeEffectiveness();
 }
 
@@ -137,6 +138,12 @@ void		Data::_loadSpecies()
 {
   for (uint16_t i = 0; i < _speciesNames.size(); i++)
     _species.push_back(Species(0x08254784 + i * 28, _speciesNames[i]));
+}
+
+void		Data::_loadItems()
+{
+  for (uint16_t i = 0; i < 375; i++)
+    _items.push_back(Item(0x083DB028 + i * 44));
 }
 
 void		Data::_loadTypeEffectiveness()

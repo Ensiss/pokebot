@@ -10,6 +10,7 @@
 #include	"Player.hh"
 #include	"Move.hh"
 #include	"Species.hh"
+#include	"Item.hh"
 #include	"BagMenu.hh"
 #include	"BattleMenu.hh"
 #include	"OverWorld.hh"
@@ -67,6 +68,12 @@ public:
     return _species[i];
   }
 
+  const std::vector<Item>	&getItems() const { return _items; }
+  const Item	&getItem(uint16_t i) const {
+    if (i >= _items.size()) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.Item");
+    return _items[i];
+  }
+
   const OverWorld	*getOverWorlds() const { return _ows; }
   const OverWorld	&getOverWorld(uint8_t i) const {
     if (i >= 16) throw std::out_of_range("Index " + std::to_string(i) + " out of bounds for Data.OverWorld");
@@ -102,6 +109,7 @@ private:
   void		_loadStrings(std::vector<char *> &dest, uint32_t addr, uint8_t len, const char* delim, uint8_t delimsz);
   void		_loadMoves();
   void		_loadSpecies();
+  void		_loadItems();
   void		_loadTypeEffectiveness();
 
 private:
@@ -112,6 +120,7 @@ private:
   std::vector<char*>	_typeNames;
   std::vector<Move>	_moves;
   std::vector<Species>	_species;
+  std::vector<Item>     _items;
   float			_typeChart[18][18];
   World			_world;
   // Dynamic
@@ -136,6 +145,7 @@ public:
   static const BagMenu          &getBagMenuWrapper() { return data->_bagMenu; }
   static const Player           &getPlayerWrapper() { return data->_player; }
   static const Species  &getSpeciesWrapper(uint16_t i) { return (data->getSpecies(i)); }
+  static const Item     &getItemWrapper(uint16_t i) { return (data->getItem(i)); }
   static const Move     &getMoveWrapper(uint16_t i) { return (data->getMove(i)); }
   static const char     *getTypeNameWrapper(uint8_t i) { return (data->getTypeName(i)); }
   static const char     *getAbilityNameWrapper(uint8_t i) { return (data->getAbilityName(i)); }
