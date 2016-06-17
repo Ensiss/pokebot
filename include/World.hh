@@ -193,14 +193,14 @@ public:
   {
   protected:
     uint32_t	type;
-    uint32_t	offset;
+    int32_t	offset;
     uint8_t	bank;
     uint8_t	map;
     uint16_t	padding;
 
   public:
     uint32_t	getType() const { return (type); }
-    uint32_t	getOffset() const { return (offset); }
+    int32_t	getOffset() const { return (offset); }
     uint8_t	getBankId() const { return (bank); }
     uint8_t	getMapId() const { return (map); }
   };

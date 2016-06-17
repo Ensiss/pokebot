@@ -71,7 +71,8 @@ function Pathfinding.AStar(map, src, dest, dist)
    end
 
    local _getNodeValue = function(node)
-      return node:getX() + (1 / node:getY())
+     -- Inverse of y + 1 to avoid dividing by 0
+     return node:getX() + (1 / (node:getY() + 1))
    end
 
    -- optionnal variables
@@ -144,6 +145,5 @@ function Pathfinding.AStar(map, src, dest, dist)
          until true
       end
    end
-   print("Returning nil")
    return nil
 end
