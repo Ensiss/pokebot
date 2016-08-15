@@ -4,6 +4,7 @@ require 'Action/Battle'
 require 'Action/Movement'
 require 'Action/Interaction'
 require 'Utils/Wrapper'
+require 'Utils/Bag'
 
 require 'Custom/World/SimpleWorldAI'
 require 'Custom/Battle/SimpleBattleAI'

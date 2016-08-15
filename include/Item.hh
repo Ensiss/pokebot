@@ -38,7 +38,7 @@ public:
   uint8_t       getHoldEffect() const { return _data->holdEffect; }
   uint8_t       getParameter() const { return _data->parameter; }
   uint16_t      getMysteryValue() const { return _data->mysteryValue; }
-  uint8_t       getPocket() const { return _data->pocket; }
+  uint8_t       getPocket() const { return _data->pocket - 1; }
   uint8_t       getType() const { return _data->type; }
   uint32_t      getBattleUsage() const { return _data->battleUsage; }
   uint32_t      getExtraParameter() const { return _data->extraParameter; }
