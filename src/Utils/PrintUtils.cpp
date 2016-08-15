@@ -107,16 +107,16 @@ void		printMenu(Data &data)
     {
       uint8_t	menu = data.getBattleMenu().getMenu();
       if (menu == 0)
-	printf("Main battle menu, cursor on %d\n", data.getBattleMenu().getCursor());
+        printf("Main battle menu, cursor on %d\n", data.getBattleMenu().getCursor());
       else if (menu == 1)
-	printf("Attack menu, cursor on %d\n", data.getBattleMenu().getAttack());
+        printf("Attack menu, cursor on %d\n", data.getBattleMenu().getAttack());
       else if (menu == 2)
-	printf("Bag menu, pocket %d, item %d\n", data.getBagMenu().getPocket(), data.getBagMenu().getItem());
+        printf("Bag menu, pocket %d, item %d\n", data.getBagMenu().getPocket(), data.getBagMenu().getCursor());
       else if (menu == 3)
-	printf("Pokemon switch menu\n");
+        printf("Pokemon switch menu\n");
     }
   else if (data.getBagMenu().isOpen())
-    printf("Bag pocket #%d open, cursor on item #%d\n", data.getBagMenu().getPocket(), data.getBagMenu().getItem());
+    printf("Bag pocket #%d open, cursor on item #%d\n", data.getBagMenu().getPocket(), data.getBagMenu().getCursor());
 }
 
 void		printRAM(Data &data, uint32_t address, uint32_t sz, int linesz)

@@ -23,7 +23,7 @@ public:
   {}
 
 public:
-  uint16_t	isOpen() const { return (*_open == 1 || *_open == 8); }
+  bool      isOpen() const { return (*_open == 1 || *_open == 8); }
   uint16_t	getMenu() const { return (_data->submenu == 1 ? 0 : (*_cursor) + 1); }
   uint32_t	getAttack() const { return (*_attack); }
   uint32_t	getCursor() const { return (*_cursor); }
