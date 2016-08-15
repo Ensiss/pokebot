@@ -11,10 +11,11 @@
 #include	"Move.hh"
 #include	"Species.hh"
 #include	"Item.hh"
+#include	"Bag.hh"
 #include	"BagMenu.hh"
 #include	"BattleMenu.hh"
 #include	"OverWorld.hh"
-#include        "MultiChoice.hh"
+#include  "MultiChoice.hh"
 #include	"IPokeData.hh"
 
 struct		Range
@@ -102,6 +103,7 @@ public:
   World		&getWorld() { return (_world); }
   Player	&getPlayer() { return (_player); }
   BagMenu	&getBagMenu() { return (_bagMenu); }
+  Bag     &getBag() { return (_bag); }
   BattleMenu	&getBattleMenu() { return (_battleMenu); }
   bool		isInBattle() { return (*((uint32_t *) gbaMem(0x030030F0)) == 0x80123e5); }
 
@@ -125,6 +127,7 @@ private:
   World			_world;
   // Dynamic
   BagMenu		_bagMenu;
+  Bag       _bag;
   BattleMenu		_battleMenu;
   OverWorld		*_ows;
   MultiChoice           *_mchoice;
@@ -143,6 +146,7 @@ public:
   static const OverWorld        &getOverWorldWrapper(uint8_t i) { return (data->getOverWorld(i)); }
   static const BattleMenu       &getBattleMenuWrapper() { return data->_battleMenu; }
   static const BagMenu          &getBagMenuWrapper() { return data->_bagMenu; }
+  static const Bag              &getBagWrapper() { return data->_bag; }
   static const Player           &getPlayerWrapper() { return data->_player; }
   static const Species  &getSpeciesWrapper(uint16_t i) { return (data->getSpecies(i)); }
   static const Item     &getItemWrapper(uint16_t i) { return (data->getItem(i)); }

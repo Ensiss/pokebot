@@ -24,6 +24,7 @@ private:
   void          _initButtons();
   void          _initWildTypes();
   void          _initConnectionTypes();
+  void          _initPocketTypes();
   void          _pushvar(const char *name, uint8_t val);
   void          _printTop();
 

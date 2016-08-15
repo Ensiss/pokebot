@@ -32,6 +32,7 @@ void            Lua::init()
     .addFunction("getPlayer", &Data::getPlayerWrapper)
     .addFunction("getBattleMenu", &Data::getBattleMenuWrapper)
     .addFunction("getBagMenu", &Data::getBagMenuWrapper)
+    .addFunction("getBag", &Data::getBagWrapper)
     .addFunction("getBot", &Bot::getBotWrapper)
     .addFunction("isInBattle", &Data::isInBattleWrapper)
     .addFunction("setButton", (void (*)(int, bool)) &sdlSetButton)
@@ -62,6 +63,20 @@ void            Lua::init()
     .addFunction("isOpen", &BagMenu::isOpen)
     .addFunction("getPocket", &BagMenu::getPocket)
     .addFunction("getCursor", &BagMenu::getCursor)
+    .endClass()
+
+    .beginClass<Bag>("Bag")
+    .addFunction("getPocket", &Bag::getPocket)
+    .endClass()
+
+    .beginClass<BagPocket>("BagPocket")
+    .addFunction("getCapacity", &BagPocket::getCapacity)
+    .addFunction("getItem", &BagPocket::getItem)
+    .endClass()
+
+    .beginClass<BagItem>("BagItem")
+    .addFunction("getQuantity", &BagItem::getQuantity)
+    .addFunction("getId", &BagItem::getId)
     .endClass()
 
     .beginClass<World::Map>("Map")
@@ -344,6 +359,7 @@ void            Lua::init()
   _initButtons();
   _initWildTypes();
   _initConnectionTypes();
+  _initPocketTypes();
   doFile("lua/main.lua");
 }
 
@@ -411,6 +427,24 @@ void            Lua::_initConnectionTypes()
   _pushvar("right", CO_RIGHT);
   _pushvar("dive", CO_DIVE);
   _pushvar("emerge", CO_EMERGE);
+
+  lua_settable(_state, -3);
+}
+
+void            Lua::_initPocketTypes()
+{
+  // Get global namespace
+  lua_getglobal(_state, "_G");
+  // Create "wild" namespace
+  lua_pushstring(_state, "pocketType");
+  lua_newtable(_state);
+
+  // Push variables
+  _pushvar("main", POCKET_MAIN);
+  _pushvar("keyItems", POCKET_KEY_ITEMS);
+  _pushvar("balls", POCKET_BALLS);
+  _pushvar("HMCase", POCKET_HM_CASE);
+  _pushvar("berryPouch", POCKET_BERRY_POUCH);
 
   lua_settable(_state, -3);
 }
