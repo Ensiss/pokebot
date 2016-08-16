@@ -1,5 +1,6 @@
 package.path = "lua/?.lua;" .. package.path
 require 'Action/Misc'
+require 'Action/Menu'
 require 'Action/Battle'
 require 'Action/Movement'
 require 'Action/Interaction'
