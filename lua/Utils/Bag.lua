@@ -5,14 +5,20 @@ function BagUtils.hasItem(id)
 end
 
 function BagUtils.getQuantity(id)
+  local pocketId, itemId = BagUtils.getLocation(id)
+  if pocketId == nil then return 0 end
+  return pb.getBag():getPocket(pocketId):getItem(itemId):getQuantity()
+end
+
+function BagUtils.getLocation(id)
   local reqItem = pb.getItem(id)
   local pocket = pb.getBag():getPocket(reqItem:getPocket())
   for itemId = 0, pocket:getCapacity() - 1 do
     local item = pocket:getItem(itemId)
     if item:getId() == 0 then break end
-    if item:getId() == id then return item:getQuantity() end
+    if item:getId() == id then return reqItem:getPocket(), itemId end
   end
-  return 0
+  return nil, nil
 end
 
 function BagUtils.printContents()
