@@ -12,6 +12,7 @@ private:
     uint8_t	open;
     uint16_t	pocket;
     uint16_t	cursors[3];
+    uint16_t  scrolls[3];
   };
 
 public:
@@ -25,6 +26,10 @@ public:
   uint16_t	getCursor() const {
     if (_data->pocket >= 3) throw std::out_of_range("Index " + std::to_string(_data->pocket) + " out of bounds for BagMenu.Cursor");
     return _data->cursors[_data->pocket];
+  }
+  uint16_t	getScroll() const {
+    if (_data->pocket >= 3) throw std::out_of_range("Index " + std::to_string(_data->pocket) + " out of bounds for BagMenu.Scroll");
+    return _data->scrolls[_data->pocket];
   }
 
 private:

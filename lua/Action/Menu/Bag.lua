@@ -29,7 +29,7 @@ function menu.bag.selectItem(itemId)
     end
 
     -- Move to the right item
-    misc.moveCursor(1, pocket:getCapacity(), itemLoc, function() return bagMenu:getCursor() end)
+    misc.moveCursor(1, pocket:getCapacity(), itemLoc, function() return bagMenu:getCursor() + bagMenu:getScroll() end)
     misc.wait(10)
   elseif pocketLoc == 3 then
     menu.bag.selectItem(ITEM.TMCASE)

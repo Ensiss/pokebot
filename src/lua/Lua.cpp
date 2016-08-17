@@ -64,6 +64,7 @@ void            Lua::init()
     .addFunction("isOpen", &BagMenu::isOpen)
     .addFunction("getPocket", &BagMenu::getPocket)
     .addFunction("getCursor", &BagMenu::getCursor)
+    .addFunction("getScroll", &BagMenu::getScroll)
     .endClass()
 
     .beginClass<StartMenu>("StartMenu")
