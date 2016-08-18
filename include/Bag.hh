@@ -7,7 +7,7 @@ enum PocketType
     POCKET_MAIN,
     POCKET_KEY_ITEMS,
     POCKET_BALLS,
-    POCKET_HM_CASE,
+    POCKET_TM_CASE,
     POCKET_BERRY_POUCH
   };
 

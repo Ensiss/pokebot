@@ -17,23 +17,20 @@ private:
 
 public:
   BagMenu()
-    : _data((Internal *) gbaMem(0x0203AD00))
+    : _data((Internal *) gbaMem(0x0203AD00)), _cursor((uint16_t *) gbaMem(0x030050d8))
   {}
 
 public:
   bool      isOpen() const { return !!_data->open; }
   uint16_t	getPocket() const { return _data->pocket; }
-  uint16_t	getCursor() const {
-    if (_data->pocket >= 3) throw std::out_of_range("Index " + std::to_string(_data->pocket) + " out of bounds for BagMenu.Cursor");
-    return _data->cursors[_data->pocket];
-  }
-  uint16_t	getScroll() const {
-    if (_data->pocket >= 3) throw std::out_of_range("Index " + std::to_string(_data->pocket) + " out of bounds for BagMenu.Scroll");
-    return _data->scrolls[_data->pocket];
-  }
+  uint16_t	getCursor() const { return _cursor[1]; }
+  uint16_t	getScroll() const { return _cursor[0]; }
 
 private:
+  // General bag data
   Internal	*_data;
+  // Universal cursor and scroll pocket values that work for all five pockets
+  uint16_t  *_cursor;
 };
 
 #endif
