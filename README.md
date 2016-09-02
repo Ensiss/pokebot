@@ -13,7 +13,7 @@ Everything under the **vbam** directory is taken from the original vbam source c
 You will need to have `libgtkmm-2.4-dev`, `libgtkglextmm-x11-1.2-dev`, and `libsdl1.2-dev` installed first
 
 ```
-$ git clone git@github.com:mirror/vbam.git
+$ git clone https://github.com/mirror/vbam.git
 $ cd vbam/trunk
 $ cmake .
 $ make
