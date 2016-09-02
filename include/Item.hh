@@ -33,7 +33,7 @@ public:
 
 public:
   const char    *getName() const { return _name; }
-  uint16_t      getIndex() const { return _data->index; }
+  uint16_t      getId() const { return _data->index; }
   uint16_t      getPrice() const { return _data->price; }
   uint8_t       getHoldEffect() const { return _data->holdEffect; }
   uint8_t       getParameter() const { return _data->parameter; }

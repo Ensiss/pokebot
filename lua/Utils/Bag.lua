@@ -13,10 +13,28 @@ end
 function BagUtils.getLocation(id)
   local reqItem = pb.getItem(id)
   local pocket = pb.getBag():getPocket(reqItem:getPocket())
-  for itemId = 0, pocket:getCapacity() - 1 do
-    local item = pocket:getItem(itemId)
-    if item:getId() == 0 then break end
-    if item:getId() == id then return reqItem:getPocket(), itemId end
+
+  -- Berry pouch is sorted, so do that
+  if reqItem:getPocket() == pocketType.berryPouch then
+    local berries = {}
+    for itemId = 0, pocket:getCapacity() - 1 do
+      local item = pocket:getItem(itemId)
+      if item:getId() == 0 then break end
+      table.insert(berries, pb.getItem(item:getId()))
+    end
+    table.sort(berries, function(a, b) return a:getId() < b:getId() end)
+
+    for i = 1, #berries do
+      if berries[i]:getId() == id then return reqItem:getPocket(), i - 1 end
+    end
+
+  -- Normal lookup for other pockets
+  else
+    for itemId = 0, pocket:getCapacity() - 1 do
+      local item = pocket:getItem(itemId)
+      if item:getId() == 0 then break end
+      if item:getId() == id then return reqItem:getPocket(), itemId end
+    end
   end
   return nil, nil
 end

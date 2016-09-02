@@ -1,6 +1,8 @@
 menu.bag = {}
 
 function menu.bag.open()
+  if pb.getBagMenu():isOpen() then return 0 end
+
   local start = pb.getStartMenu()
   menu.open()
   misc.moveCursor(1, start:getNbItems(), menu.getItemPosition(MENUITEM.BAG), function() return start:getCursor() end)
@@ -27,19 +29,17 @@ function menu.bag.selectItem(itemId)
     for i = 0, math.abs(diff) - 1 do
       misc.pressButton(diff > 0 and btn.right or btn.left)
     end
-
-    -- Move to the right item
-    misc.moveCursor(1, pocket:getCapacity(), itemLoc, function() return bagMenu:getCursor() + bagMenu:getScroll() end)
-    misc.wait(10)
-  elseif pocketLoc == 3 then
-    menu.bag.selectItem(ITEM.TMCASE)
-    -- TODO: select item inside TM Case
   else
-    menu.bag.selectItem(ITEM.BERRYPOUCH)
-    -- TODO: select item inside Berry Pouch
+    menu.bag.selectItem(pocketLoc == pocketType.TMCase and ITEM.TMCASE or ITEM.BERRYPOUCH)
+    misc.pressButton(btn.a)
+    misc.wait(75)
   end
+
+  -- Move to the right item
+  misc.moveCursor(1, pocket:getCapacity(), itemLoc, function() return bagMenu:getCursor() + bagMenu:getScroll() end)
+  misc.wait(50)
   misc.pressButton(btn.a)
-  misc.wait(10)
+  misc.wait(50)
 end
 
 function menu.bag.use(itemId, target)

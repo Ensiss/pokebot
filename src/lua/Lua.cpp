@@ -224,7 +224,7 @@ void            Lua::init()
 
     .beginClass<Item>("Item")
     .addFunction("getName", &Item::getName)
-    .addFunction("getIndex", &Item::getIndex)
+    .addFunction("getId", &Item::getId)
     .addFunction("getPrice", &Item::getPrice)
     .addFunction("getHoldEffect", &Item::getHoldEffect)
     .addFunction("getParameter", &Item::getParameter)
@@ -455,7 +455,7 @@ void            Lua::_initPocketTypes()
   _pushvar("main", POCKET_MAIN);
   _pushvar("keyItems", POCKET_KEY_ITEMS);
   _pushvar("balls", POCKET_BALLS);
-  _pushvar("HMCase", POCKET_HM_CASE);
+  _pushvar("TMCase", POCKET_TM_CASE);
   _pushvar("berryPouch", POCKET_BERRY_POUCH);
 
   lua_settable(_state, -3);
