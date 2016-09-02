@@ -25,9 +25,11 @@ $ mv lib /path/to/pokebot/root/directory/
 
 `liblua5.1-0-dev` is needed for the scripting interface of the pokebot.
 
-##Pokemon Fire Red GBA ROM
+##Pokemon Fire Red GBA ROM (U) (V1.0)
 
-You can find it easily on the internet.
+You can find it easily on the internet. Remember to get the V1.0 and **not** V1.1 as using this version causes the program to crash.
+
+The md5sum of the right file is `e26ee0d44e809351c8ce2d73c7400cdd`
 
 # Contribute
 
