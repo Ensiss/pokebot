@@ -23,29 +23,29 @@ void		World::_initWorld()
       std::vector<Map>	&maps = _banks.back();
 
       for (uint32_t mapi = rel; mapi < next; mapi += 4)
-	{
-	  maps.push_back(Map());
-	  Map		&map = maps.back();
-	  uint32_t	mapaddr = gbaMem<uint32_t>(mapi);
-	  Header	*header = gbaPtr<Header *>(mapaddr);
-	  DataHeader	*dheader = gbaPtr<DataHeader *>(header->mapPtr);
-	  TilesetHeader	*global = gbaPtr<TilesetHeader *>(dheader->globalTileset);
-	  TilesetHeader	*local = gbaPtr<TilesetHeader *>(dheader->localTileset);
-	  Map::TileAttr	*globPtr = gbaPtr<Map::TileAttr *>(global->behaviorPtr);
-	  Map::TileAttr	*localPtr = gbaPtr<Map::TileAttr *>(local->behaviorPtr);
-	  uint16_t	*d = gbaPtr<uint16_t *>(dheader->data);
-	  Event		*evtPtr = gbaPtr<Event *>(header->evtPtr);
+        {
+          maps.push_back(Map());
+          Map		&map = maps.back();
+          uint32_t	mapaddr = gbaMem<uint32_t>(mapi);
+          Header	*header = gbaPtr<Header *>(mapaddr);
+          DataHeader	*dheader = gbaPtr<DataHeader *>(header->mapPtr);
+          TilesetHeader	*global = gbaPtr<TilesetHeader *>(dheader->globalTileset);
+          TilesetHeader	*local = gbaPtr<TilesetHeader *>(dheader->localTileset);
+          Map::TileAttr	*globPtr = gbaPtr<Map::TileAttr *>(global->behaviorPtr);
+          Map::TileAttr	*localPtr = gbaPtr<Map::TileAttr *>(local->behaviorPtr);
+          uint16_t	*d = gbaPtr<uint16_t *>(dheader->data);
+          Event		*evtPtr = gbaPtr<Event *>(header->evtPtr);
 
-	  map.width = dheader->width;
-	  map.height = dheader->height;
-	  map.nbPersons = evtPtr->nbPersons;
-	  map.nbWarps = evtPtr->nbWarps;
-	  map.nbScripts = evtPtr->nbScripts;
-	  map.nbSigns = evtPtr->nbSigns;
-	  map.persons = gbaPtr<PersonEvt *>(evtPtr->personsPtr);
-	  map.warps = gbaPtr<WarpEvt *>(evtPtr->warpsPtr);
-	  map.scripts = gbaPtr<ScriptEvt *>(evtPtr->scriptsPtr);
-	  map.signs = gbaPtr<SignEvt *>(evtPtr->signsPtr);
+          map.width = dheader->width;
+          map.height = dheader->height;
+          map.nbPersons = evtPtr->nbPersons;
+          map.nbWarps = evtPtr->nbWarps;
+          map.nbScripts = evtPtr->nbScripts;
+          map.nbSigns = evtPtr->nbSigns;
+          map.persons = gbaPtr<PersonEvt *>(evtPtr->personsPtr);
+          map.warps = gbaPtr<WarpEvt *>(evtPtr->warpsPtr);
+          map.scripts = gbaPtr<ScriptEvt *>(evtPtr->scriptsPtr);
+          map.signs = gbaPtr<SignEvt *>(evtPtr->signsPtr);
           if (header->connectPtr != 0)
             {
               map.nbConnects = gbaMem<uint32_t>(header->connectPtr);
@@ -56,23 +56,28 @@ void		World::_initWorld()
               map.nbConnects = 0;
               map.connects = NULL;
             }
-	  map.scriptPtr = header->scriptPtr;
-	  map.data = new Map::Node*[map.height]();
-          map.loadName(header->labelId);
-	  for (uint16_t y = 0; y < map.height; y++)
-	    {
-	      map.data[y] = new Map::Node[map.width]();
-	      for (uint16_t x = 0; x < map.width; x++)
-		{
-		  uint16_t	t = d[y * map.width + x] & ((1 << 10) - 1);
 
-		  map.data[y][x] = Map::Node(x, y);
-		  map.data[y][x].status = d[y * map.width + x] >> 10;
-		  map.data[y][x].tile = t;
-		  map.data[y][x].attr = t < 0x280 ? globPtr + t : localPtr + t - 0x280;
-		}
-	    }
-	}
+          // Load map scripts
+          MapScriptHeader *msHeaders = gbaPtr<MapScriptHeader *>(header->scriptPtr);
+          for (int i = 0; msHeaders[i].type; i++)
+              map.mapScripts.push_back(MapScript(msHeaders[i]));
+
+          map.data = new Map::Node*[map.height]();
+          map.loadName(header->labelId);
+          for (uint16_t y = 0; y < map.height; y++)
+            {
+              map.data[y] = new Map::Node[map.width]();
+              for (uint16_t x = 0; x < map.width; x++)
+                {
+                  uint16_t	t = d[y * map.width + x] & ((1 << 10) - 1);
+
+                  map.data[y][x] = Map::Node(x, y);
+                  map.data[y][x].status = d[y * map.width + x] >> 10;
+                  map.data[y][x].tile = t;
+                  map.data[y][x].attr = t < 0x280 ? globPtr + t : localPtr + t - 0x280;
+                }
+            }
+        }
       banki++;
       rel = next;
       next = bankptr[banki + 1];
@@ -87,17 +92,17 @@ void		World::_initWildBattles()
     {
       Map	&map = getMap(wh->bank, wh->map);
       for (int i = 0; i < 4; i++)
-	{
-	  map.wildBattles[i].nbEntries = 0;
-	  map.wildBattles[i].ratio = 0;
-	  if (wh->entryPtr[i])
-	    {
-	      uint32_t	*eh = gbaPtr<uint32_t *>(wh->entryPtr[i]);
-	      map.wildBattles[i].ratio = eh[0];
-	      map.wildBattles[i].entries = gbaPtr<WildEntry *>(eh[1]);
-	      map.wildBattles[i].nbEntries = (wh->entryPtr[i] - eh[1]) / 4;
-	    }
-	}
+        {
+          map.wildBattles[i].nbEntries = 0;
+          map.wildBattles[i].ratio = 0;
+          if (wh->entryPtr[i])
+            {
+              uint32_t	*eh = gbaPtr<uint32_t *>(wh->entryPtr[i]);
+              map.wildBattles[i].ratio = eh[0];
+              map.wildBattles[i].entries = gbaPtr<WildEntry *>(eh[1]);
+              map.wildBattles[i].nbEntries = (wh->entryPtr[i] - eh[1]) / 4;
+            }
+        }
       wh++;
     }
 }

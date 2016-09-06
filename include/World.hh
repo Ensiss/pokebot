@@ -29,9 +29,27 @@ enum            ConnectType
     CO_COUNT
   };
 
+enum            MapScriptType
+  {
+    MST_NONE,
+    MST_SETMAPTILE,
+    MST_VALIDATE_LOAD_1,
+    MST_ENTER_NO_MENU,
+    MST_VALIDATE_LOAD_2,
+    MST_ENTER_MENU_1,
+    MST_UNKNOWN,
+    MST_ENTER_MENU_2
+  };
+
 class		World
 {
 private:
+  struct __attribute__((packed)) MapScriptHeader
+  {
+    uint8_t   type;
+    uint32_t  scriptPtr;
+  };
+
   struct	Header
   {
     uint32_t	mapPtr;
@@ -94,6 +112,32 @@ private:
   };
 
 public:
+  struct  MapScript
+  {
+  protected:
+    uint32_t  scriptPtr;
+    uint8_t   type;
+    uint16_t  var;
+    uint16_t  value;
+
+  public:
+    MapScript(const MapScriptHeader &hdr)
+      : scriptPtr(hdr.scriptPtr), type(hdr.type), var(0), value(0)
+    {
+      if (checksValue())
+        {
+          var = gbaPtr<uint16_t *>(scriptPtr)[0];
+          value = gbaPtr<uint16_t *>(scriptPtr)[1];
+          scriptPtr = gbaPtr<uint32_t *>(scriptPtr)[1];
+        }
+    }
+    uint32_t  getScript() const { return scriptPtr; }
+    uint8_t   getType() const { return type; }
+    uint16_t  getVar() const { return var; }
+    uint16_t  getValue() const { return value; }
+    bool      checksValue() const { return type == MST_VALIDATE_LOAD_1 || type == MST_VALIDATE_LOAD_2; }
+  };
+
   struct	SignEvt
   {
   protected:
@@ -153,7 +197,7 @@ public:
     bool	isVisible() const
     {
       if (!id)
-	return (true);
+        return (true);
       return (!getFlag(id));
     }
     uint8_t     getEventNb() const { return (evtNb); }
@@ -281,13 +325,13 @@ public:
 
     enum
       {
-	ROCK = 35,
-	HILL = 35,
-	LADDER = 34,
-	WATER = 36,
-	ROAD = 32,
-	WALL = 30,
-	PLAYER = 31
+        ROCK = 35,
+        HILL = 35,
+        LADDER = 34,
+        WATER = 36,
+        ROAD = 32,
+        WALL = 30,
+        PLAYER = 31
       };
 
   protected:
@@ -304,7 +348,7 @@ public:
     SignEvt	*signs;
     uint32_t	nbConnects;
     Connection	*connects;
-    uint32_t	scriptPtr;
+    std::vector<MapScript> mapScripts;
     WildBattle	wildBattles[4];
     uint8_t     labelId;
     std::string name;
@@ -328,8 +372,8 @@ public:
     uint8_t     getNbWarps() const { return (nbWarps); }
     uint8_t     getNbScripts() const { return (nbScripts); }
     uint8_t     getNbSigns() const { return (nbSigns); }
+    uint8_t     getNbMapScripts() const { return mapScripts.size(); }
     uint32_t    getNbConnections() const { return (nbConnects); }
-    uint32_t    getScripPtr() const { return (scriptPtr); }
     uint8_t     getLabelId() const { return (labelId); }
     const PersonEvt     &getPerson(uint8_t id) const {
       if (id >= getNbPersons()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Person");
@@ -351,6 +395,10 @@ public:
       if (id >= getNbConnections()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.Connection");
       return connects[id];
     }
+    const MapScript    &getMapScript(uint8_t id) const {
+      if (id >= getNbMapScripts()) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.MapScript");
+      return mapScripts[id];
+    }
     const WildBattle    &getWildBattle(uint8_t id) const {
       if (id >= 4) throw std::out_of_range("Index " + std::to_string(id) + " out of bounds for World.Map.WildBattle");
       return wildBattles[id];
@@ -361,12 +409,12 @@ public:
     void                loadName(uint8_t id);
     inline uint8_t	getMatterColor(uint8_t matter, bool pos) {
       return (pos ? PLAYER:
-	      !matter ? LADDER :
-	      matter == 1 ? WALL :
-	      matter == 4 ? WATER :
-	      matter == 12 ? ROAD :
-	      matter == 13 ? HILL :
-	      matter == 16 ? LADDER : 0);
+              !matter ? LADDER :
+              matter == 1 ? WALL :
+              matter == 4 ? WATER :
+              matter == 12 ? ROAD :
+              matter == 13 ? HILL :
+              matter == 16 ? LADDER : 0);
     }
   };
   typedef	std::vector<Map::Node*>	Path;
