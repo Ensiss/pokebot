@@ -68,9 +68,9 @@ if( ENABLE_LINK )
     FIND_PACKAGE ( SFML REQUIRED )
 endif( ENABLE_LINK )
 # set the standard libraries all ports use
+link_directories(${PROJECT_SOURCE_DIR}/lib)
 SET(VBAMCORE_LIBS
     lua5.1
-    -Llib
     vbamcore
     fex
     ${SDL_LIBRARY}
