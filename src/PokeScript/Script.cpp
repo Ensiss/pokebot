@@ -199,12 +199,14 @@ Script          *Script::_getScript(uint8_t bank, uint8_t map, uint8_t id, Scrip
 
   if ((type == PERSON && id < m.getNbPersons()) ||
       (type == SIGN && id < m.getNbSigns()) ||
-      (type == SCRIPT && id < m.getNbScripts()))
+      (type == SCRIPT && id < m.getNbScripts()) ||
+      (type == MAPSCRIPT && id < m.getNbMapScripts()))
     {
       sc = new Script(bank, map, id, type);
       sc->load(type == PERSON ? m.getPerson(id).getScript() :
                type == SIGN ? m.getSign(id).getScript() :
-               m.getScript(id).getScript());
+               type == SCRIPT ? m.getScript(id).getScript() :
+               m.getMapScript(id).getScript());
       _cache[Identifier(bank, map, id, type)] = sc;
       return (sc);
     }
