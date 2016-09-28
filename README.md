@@ -35,4 +35,4 @@ The md5sum of the right file is `e26ee0d44e809351c8ce2d73c7400cdd`
 
 If you want to contribute you can send [pull requests](https://github.com/Ensiss/pokebot/pulls) or report [issues](https://github.com/Ensiss/pokebot/issues).
 
-To learn how the project works, some ressources are available in the [wiki](https://github.com/Ensiss/pokebot/wiki).
+To learn how the project works, some resources are available in the [wiki](https://github.com/Ensiss/pokebot/wiki).
