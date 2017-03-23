@@ -6,9 +6,9 @@ pokebot
 Everything under the **vbam** directory is taken from the original vbam source code.
 
 
-#Dependecies
+# Dependecies
 
-##vbam
+## vbam
 
 You will need to have `libgtkmm-2.4-dev`, `libgtkglextmm-x11-1.2-dev`, and `libsdl1.2-dev` installed first
 
@@ -21,11 +21,11 @@ $ mkdir lib; mv *.a lib
 $ mv lib /path/to/pokebot/root/directory/
 ```
 
-##pokebot
+## pokebot
 
 `liblua5.1-0-dev` is needed for the scripting interface of the pokebot.
 
-##Pokemon Fire Red GBA ROM (U) (V1.0)
+## Pokemon Fire Red GBA ROM (U) (V1.0)
 
 You can find it easily on the internet. Remember to get the V1.0 and **not** V1.1 as using this version causes the program to crash.
 
